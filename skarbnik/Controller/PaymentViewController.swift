@@ -10,28 +10,33 @@ import UIKit
 import Material
 
 class PaymentViewController: UIViewController {
-    let userModel = UserModel()
     let cellController = CellController()
     let paymentModel = PaymentModel()
+    let classPickViewController = ClassPickViewController()
+    var userModel: UserModel?
     
-    private var documentObserver: NSObjectProtocol?
+    private var userInfoObserver: NSObjectProtocol?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        documentObserver = NotificationCenter.default.addObserver(
+        userInfoObserver = NotificationCenter.default.addObserver(
             forName: .UserInfoDidChange,
             object: nil,
             queue: OperationQueue.main,
             using: { (notification) in
-                print("User info refreshed!")
-                (self.view as! PaymentView).shouldReloadHeader(for: self.userModel.user!.name)
+                //(self.view as! PaymentView).shouldReloadHeader(for: self.userModel!.user!.name)
+                var classesArr = [String]()
+                for child in self.userModel!.children! {
+                    classesArr.append(child.class_field.name)
+                }
+                self.classPickViewController.shouldReload(classesArr)
         })
+        userModel = UserModel()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     override func loadView() {
         view = PaymentView(frame: UIScreen.main.bounds)
@@ -42,15 +47,15 @@ class PaymentViewController: UIViewController {
         
         (self.view as! PaymentView).tableView.delegate = self
         (self.view as! PaymentView).tableView.dataSource = self
-        userModel.reload()
         
+        classPickViewController.modalPresentationStyle = .overCurrentContext
+        self.present(classPickViewController, animated: false) {
+        }
         
-
         cellController.loadCells { (paymentsArr) in
             DispatchQueue.main.async(execute: {
                 self.paymentModel.paymentsArr = paymentsArr
                 (self.view as! PaymentView).tableView.reloadData()
-                print("loaded cells!")
             })
         }
     }

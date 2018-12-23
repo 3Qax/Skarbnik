@@ -12,6 +12,10 @@ class LoginViewController: UIViewController {
         view = LoginView(frame: UIScreen.main.bounds)
     }
     
+    func loginSuccessfull() {
+        self.navigationController?.pushViewController(self.paymentViewController, animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,7 +29,7 @@ class LoginViewController: UIViewController {
                 (self.view as! LoginView).showUI()
                 return
             }
-            self.navigationController?.pushViewController(self.paymentViewController, animated: true)
+            self.loginSuccessfull()
         }
     }    
 }
@@ -36,8 +40,9 @@ extension LoginViewController: LoginViewProtocol {
         loginController.login(login: login, password: pass, completition: { succeed in
             guard succeed else {
                 (self.view as! LoginView).stopLoginAnimation()
-                return }
-            self.navigationController?.pushViewController(self.paymentViewController, animated: true)
+                return
+            }
+            self.loginSuccessfull()
         })
     }
 }

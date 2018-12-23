@@ -28,7 +28,6 @@ class CellController {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         //decoder.dateDecodingStrategy = .iso8601
         let payment = try! decoder.decode([Payment].self, from: data)
-        print("\tLoaded cells : \(payment)")
         completion(payment)
     }
     

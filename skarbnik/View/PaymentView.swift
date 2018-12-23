@@ -22,7 +22,7 @@ class PaymentView: UIView {
             var label = UILabel()
             
             label.text = "4Ti1"
-            label.fontSize = 22.0
+            label.font = UIFont(name: "HelveticaNeue-Light", size: 29.0)
             label.textColor = Color.blue.base
             label.textAlignment = .right
             return label
@@ -74,7 +74,7 @@ class PaymentView: UIView {
     
     func shouldReloadHeader(for name: String) {
         let tmp = NSMutableAttributedString()
-        tmp.append(NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 20.0)!]))
+        tmp.append(NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
         headerNameLabel.attributedText = tmp
     }
 }
