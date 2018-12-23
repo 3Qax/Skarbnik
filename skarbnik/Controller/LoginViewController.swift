@@ -1,11 +1,10 @@
 import Foundation
 import UIKit
 
-
+var userModel: UserModel?
 
 class LoginViewController: UIViewController {
     
-    let loginController = LoginController()
     lazy var paymentViewController = PaymentViewController()
     
     override func loadView() {
@@ -19,30 +18,39 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        (self.view as! LoginView).delegate = self
-        
-        //should start with trying to log in with localy stored JWT
-        //while still acting like launch screen is being shown
-        loginController.login { (succeed) in
+        userModel = UserModel(completion: { (succeed) in
             guard succeed else {
-                //if log in attempt fails show UI so a user can log in
-                (self.view as! LoginView).showUI()
+                print("login unsuccessfull dupa321")
+                DispatchQueue.main.async {
+                    (self.view as! LoginView).showUI()
+                }
                 return
             }
-            self.loginSuccessfull()
-        }
-    }    
+            print("login successfull dupa123")
+            DispatchQueue.main.async {
+                self.loginSuccessfull()
+            }
+        })
+        
+        (self.view as! LoginView).delegate = self
+    }
 }
 
 extension LoginViewController: LoginViewProtocol {
     func tryToLoginWith(login: String?, pass: String?) {
+        
         (self.view as! LoginView).startLoginAnimation()
-        loginController.login(login: login, password: pass, completition: { succeed in
+        
+        userModel = UserModel(login: login, password: pass, completion: { succeed in
             guard succeed else {
-                (self.view as! LoginView).stopLoginAnimation()
+                DispatchQueue.main.async {
+                    (self.view as! LoginView).stopLoginAnimation()
+                }
                 return
             }
-            self.loginSuccessfull()
+            DispatchQueue.main.async {
+                self.loginSuccessfull()
+            }
         })
     }
 }

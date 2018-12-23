@@ -8,13 +8,7 @@
 
 import Foundation
 
-struct LoginPacket: Codable {
-    var username: String
-    var password: String
-}
-struct Token: Codable {
-    var token: String
-}
+
 struct LoginResponse: Codable {
     var JWT: String?
 }

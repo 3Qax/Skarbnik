@@ -13,30 +13,28 @@ class PaymentViewController: UIViewController {
     let cellController = CellController()
     let paymentModel = PaymentModel()
     let classPickViewController = ClassPickViewController()
-    var userModel: UserModel?
     
     private var userInfoObserver: NSObjectProtocol?
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        userInfoObserver = NotificationCenter.default.addObserver(
-            forName: .UserInfoDidChange,
-            object: nil,
-            queue: OperationQueue.main,
-            using: { (notification) in
-                //(self.view as! PaymentView).shouldReloadHeader(for: self.userModel!.user!.name)
-                var classesArr = [String]()
-                for child in self.userModel!.children! {
-                    classesArr.append(child.class_field.name)
-                }
-                self.classPickViewController.shouldReload(classesArr)
-        })
-        userModel = UserModel()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+//        userInfoObserver = NotificationCenter.default.addObserver(
+//            forName: .UserInfoDidChange,
+//            object: nil,
+//            queue: OperationQueue.main,
+//            using: { (notification) in
+//                //(self.view as! PaymentView).shouldReloadHeader(for: self.userModel!.user!.name)
+//                var classesArr = [String]()
+//                for child in self.userModel!.children! {
+//                    classesArr.append(child.class_field.name)
+//                }
+//                self.classPickViewController.shouldReload(classesArr)
+//        })
+//    }
+//    
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     override func loadView() {
         view = PaymentView(frame: UIScreen.main.bounds)

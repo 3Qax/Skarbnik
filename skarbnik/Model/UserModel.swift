@@ -27,15 +27,45 @@ struct Child: Codable {
     let name: String
 }
 
-extension Notification.Name {
-    static let UserInfoDidChange = Notification.Name(rawValue: "UserInfoDidChange")
-}
-
-//user class represents a parent
 class UserModel {
-    var user: User?
-    var children:[Child]?
+    private var token: String? = {
+        return UserDefaults.standard.string(forKey: "JWT")
+    }()//token required to authorize self
+    var user: User? //user object represents a parent
+    var children:[Child]? //children array represents parent's children
+    var didLoginSuccessfully = false
     
+    private let decoder = JSONDecoder()
+    private var session: URLSession = {
+        var configuration: URLSessionConfiguration! = {
+            let config = URLSessionConfiguration.ephemeral
+            config.allowsCellularAccess = true
+            config.waitsForConnectivity = true
+            return config
+        }()
+        return URLSession(configuration: configuration)
+    }()
+    
+    private let userLoginWithCredentialsEndpoint: URLComponents = {
+        var url = URLComponents()
+        
+        url.scheme = "https"
+        url.host = "quiet-caverns-69534.herokuapp.com"
+        url.port = 443
+        url.path = "/api/users/login"
+        
+        return url
+    }()
+    private let userLoginWithTokenEndpoint: URLComponents = {
+        var url = URLComponents()
+        
+        url.scheme = "https"
+        url.host = "quiet-caverns-69534.herokuapp.com"
+        url.port = 443
+        url.path = "/api/users/refresh/"
+        
+        return url
+    }()
     private let userInfoEndpoint: URLComponents = {
         var url = URLComponents()
         
@@ -46,6 +76,9 @@ class UserModel {
         
         return url
     }()
+    //This endpoint have to specify user_id which relie on
+    //  getting user object successfully so it should be
+    //  initialized after successfully reciving it
     private lazy var childrenInfoEndpoint: URLComponents = {
         var url = URLComponents()
         
@@ -53,75 +86,211 @@ class UserModel {
         url.host = "quiet-caverns-69534.herokuapp.com"
         url.port = 443
         url.path = "/api/student/"
+        guard user != nil else {
+            fatalError("A user object have to initialized befeore creating endpoint for getting his/her children")
+        }
         url.queryItems = [URLQueryItem(name: "user", value: String(user!.id_field))]
         
         return url
     }()
     
-    private var task: URLSessionDataTask?
-    private var session: URLSession = {
-        var configuration: URLSessionConfiguration! = {
-            let config = URLSessionConfiguration.default
-            config.allowsCellularAccess = false
-            config.waitsForConnectivity = true
-            return config
-        }()
-        let session = URLSession(configuration: configuration)
-        return session
-    }()
     
-    private let decoder = JSONDecoder()
     
-    init() {
-        //tworzenie URLRequest bazująze na URL
-        let userRequest:URLRequest! = {
-            var request = URLRequest(url: userInfoEndpoint.url!)
-            request.httpMethod = "GET"
-            request.addValue("Basic" + " " + UserDefaults.standard.string(forKey: "JWT")!, forHTTPHeaderField: "Authorization")
-            return request
-        }()
-        
-        func getChildrenInfo() {
-            let childrenRequest:URLRequest! = {
-                var request = URLRequest(url: childrenInfoEndpoint.url!)
+    init(completion: @escaping (Bool) -> ()) {
+        login { (succeed) in
+            guard succeed else {
+                completion(false)
+                return
+            }
+            
+            let userInfoRequest:URLRequest! = {
+                var request = URLRequest(url: self.userInfoEndpoint.url!)
                 request.httpMethod = "GET"
-                request.addValue("Basic" + " " + UserDefaults.standard.string(forKey: "JWT")!, forHTTPHeaderField: "Authorization")
+                request.addValue("Basic" + " " + self.token!, forHTTPHeaderField: "Authorization")
                 return request
             }()
-            
-            let getChildrenInfoTask = session.dataTask(with: childrenRequest) { (data, response, error) in
+            let getUserInfoTask = self.session.dataTask(with: userInfoRequest) { (data, response, error) in
                 if let error = error {
                     print(error.localizedDescription)
                 } else {
                     if let data = data, let response = response as? HTTPURLResponse {
                         if response.statusCode == 200 {
-                            //print(String(data: data, encoding: .utf8))
-                            self.children = try! self.decoder.decode([Child].self, from: data)
-                            print(self.children)
-                            NotificationCenter.default.post(name: .UserInfoDidChange, object: self)
+                            self.user = try! self.decoder.decode(User.self, from: data)
+                            getChildrenInfo()
                         } else {
                             print("\(response.statusCode) while trying to get user data")
                         }
                     }
                 }
             }
-            getChildrenInfoTask.resume()
+            getUserInfoTask.resume()
+            func getChildrenInfo() {
+                let childrenRequest:URLRequest! = {
+                    var request = URLRequest(url: self.childrenInfoEndpoint.url!)
+                    request.httpMethod = "GET"
+                    request.addValue("Basic" + " " + self.token!, forHTTPHeaderField: "Authorization")
+                    return request
+                }()
+                
+                let getChildrenInfoTask = self.session.dataTask(with: childrenRequest) { (data, response, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        if let data = data, let response = response as? HTTPURLResponse {
+                            if response.statusCode == 200 {
+                                //print(String(data: data, encoding: .utf8))
+                                self.children = try! self.decoder.decode([Child].self, from: data)
+                            } else {
+                                print("\(response.statusCode) while trying to get user's children data")
+                            }
+                        }
+                    }
+                }
+                getChildrenInfoTask.resume()
+            }
+            
+            self.didLoginSuccessfully = true
+            completion(true)
+        }
+    }
+    
+    init(login: String?, password: String?, completion: @escaping (Bool) -> ()) {
+        self.login(login: login, password: password) { (succeed) in
+            guard succeed else {
+                completion(false)
+                return
+            }
+            
+            let userInfoRequest:URLRequest! = {
+                var request = URLRequest(url: self.userInfoEndpoint.url!)
+                request.httpMethod = "GET"
+                request.addValue("Basic" + " " + self.token!, forHTTPHeaderField: "Authorization")
+                return request
+            }()
+            let getUserInfoTask = self.session.dataTask(with: userInfoRequest) { (data, response, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    if let data = data, let response = response as? HTTPURLResponse {
+                        if response.statusCode == 200 {
+                            self.user = try! self.decoder.decode(User.self, from: data)
+                            getChildrenInfo()
+                        } else {
+                            print("\(response.statusCode) while trying to get user data")
+                        }
+                    }
+                }
+            }
+            getUserInfoTask.resume()
+            func getChildrenInfo() {
+                let childrenRequest:URLRequest! = {
+                    var request = URLRequest(url: self.childrenInfoEndpoint.url!)
+                    request.httpMethod = "GET"
+                    request.addValue("Basic" + " " + self.token!, forHTTPHeaderField: "Authorization")
+                    return request
+                }()
+                
+                let getChildrenInfoTask = self.session.dataTask(with: childrenRequest) { (data, response, error) in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    } else {
+                        if let data = data, let response = response as? HTTPURLResponse {
+                            if response.statusCode == 200 {
+                                //print(String(data: data, encoding: .utf8))
+                                self.children = try! self.decoder.decode([Child].self, from: data)
+                            } else {
+                                print("\(response.statusCode) while trying to get user's children data")
+                            }
+                        }
+                    }
+                }
+                getChildrenInfoTask.resume()
+            }
+            
+            self.didLoginSuccessfully = true
+            completion(true)
+        }
+    }
+    
+    func handleLoginResponse(response: HTTPURLResponse, data: Data, completion: @escaping (Bool) -> ()){
+        
+        struct ResponsePacket: Codable {
+            let token: String
         }
         
-        let getUserInfoTask = session.dataTask(with: userRequest) { (data, response, error) in
+        switch response.statusCode {
+        case 200:
+            let responseData: ResponsePacket = try! JSONDecoder().decode(ResponsePacket.self, from: data)
+            UserDefaults.standard.set(responseData.token, forKey: "JWT")
+            completion(true)
+        default:
+            print("HTTP Error: \(response.statusCode)")
+            completion(false)
+        }
+    }
+    
+    func login(login: String?, password: String?, completion: @escaping (Bool) -> ()) {
+        if let login = login, let password = password, login != "", password != ""{
+            
+            struct LoginPacket: Codable {
+                let username: String
+                let password: String
+            }
+            
+            let loginData = LoginPacket(username: login, password: password)
+            
+            let loginWithCredentialsRequest: URLRequest! = {
+                //print(userLoginWithCredentialsEndpoint.url!)
+                var request = URLRequest(url: userLoginWithCredentialsEndpoint.url!)
+                request.httpMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpBody = try! JSONEncoder().encode(loginData)
+                //print(String(data: try! JSONEncoder().encode(loginData), encoding: .utf8)!)
+                return request
+            }()
+            
+            let loginTask = session.dataTask(with: loginWithCredentialsRequest) { (data, response, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    if let data = data, let response = response as? HTTPURLResponse {
+                            self.handleLoginResponse(response: response, data: data, completion: completion)
+                        }
+                    }
+                }
+            loginTask.resume()
+        }
+    }
+    
+    func login(completion: @escaping (Bool) -> ()) {
+        
+        guard token != nil else {
+            completion(false)
+            return
+        }
+        
+        struct LoginPacket: Codable {
+            let token: String
+        }
+
+        let loginWithTokenRequest: URLRequest! = {
+                var request = URLRequest(url: userLoginWithTokenEndpoint.url!)
+                request.httpMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpBody = try! JSONEncoder().encode(LoginPacket(token: token!))
+                return request
+        }()
+            
+        let loginTask = session.dataTask(with: loginWithTokenRequest) { (data, response, error) in
             if let error = error {
                 print(error.localizedDescription)
             } else {
                 if let data = data, let response = response as? HTTPURLResponse {
-                    if response.statusCode == 200 {
-                        self.user = try! self.decoder.decode(User.self, from: data)
-                        getChildrenInfo()
-                    } else {
-                        print("\(response.statusCode) while trying to get user data")
-                    }
+                    self.handleLoginResponse(response: response, data: data, completion: completion)
                 }
             }
         }
-        getUserInfoTask.resume()
+        loginTask.resume()
     }
+    
 }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1904C22F21A9F99300477024 /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1904C22E21A9F99300477024 /* PaymentModel.swift */; };
 		1904C23121A9FA6A00477024 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1904C23021A9FA6A00477024 /* PaymentCellView.swift */; };
-		1938EFCF21CC60DE00A3CA40 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1938EFCD21CC60DE00A3CA40 /* LoginController.swift */; };
 		1938EFD021CC60DE00A3CA40 /* CellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1938EFCE21CC60DE00A3CA40 /* CellController.swift */; };
 		1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528B21A96A8300D0A7A3 /* AppDelegate.swift */; };
 		1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528D21A96A8300D0A7A3 /* LoginViewController.swift */; };
@@ -20,7 +19,6 @@
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
 		19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5E21CAE272009059B0 /* UserModel.swift */; };
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
-		19FC745921A990670019F1A5 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745821A990670019F1A5 /* LoginModel.swift */; };
 		19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */; };
 		19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */; };
 		BE696A9220E8CF489971B093 /* Pods_skarbnik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5EBE3878ECED711E1D7895 /* Pods_skarbnik.framework */; };
@@ -30,7 +28,6 @@
 		037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
 		1904C22E21A9F99300477024 /* PaymentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		1904C23021A9FA6A00477024 /* PaymentCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentCellView.swift; path = ../../../../PaymentCellView.swift; sourceTree = "<group>"; };
-		1938EFCD21CC60DE00A3CA40 /* LoginController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		1938EFCE21CC60DE00A3CA40 /* CellController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellController.swift; sourceTree = "<group>"; };
 		1941528821A96A8300D0A7A3 /* skarbnik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skarbnik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1941528B21A96A8300D0A7A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -43,7 +40,6 @@
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		19CA3D5E21CAE272009059B0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
-		19FC745821A990670019F1A5 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewProtocol.swift; sourceTree = "<group>"; };
 		19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		1C5EBE3878ECED711E1D7895 /* Pods_skarbnik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_skarbnik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,7 +95,6 @@
 			isa = PBXGroup;
 			children = (
 				1904C22E21A9F99300477024 /* PaymentModel.swift */,
-				19FC745821A990670019F1A5 /* LoginModel.swift */,
 				19CA3D5E21CAE272009059B0 /* UserModel.swift */,
 			);
 			path = Model;
@@ -120,7 +115,6 @@
 			isa = PBXGroup;
 			children = (
 				1938EFCE21CC60DE00A3CA40 /* CellController.swift */,
-				1938EFCD21CC60DE00A3CA40 /* LoginController.swift */,
 				1941528D21A96A8300D0A7A3 /* LoginViewController.swift */,
 				19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */,
 				19549A0121CD3284009C994C /* ClassPickViewController.swift */,
@@ -278,7 +272,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1938EFCF21CC60DE00A3CA40 /* LoginController.swift in Sources */,
 				19549A0021CD3273009C994C /* ClassPickView.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
 				19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */,
@@ -291,7 +284,6 @@
 				1904C22F21A9F99300477024 /* PaymentModel.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
 				1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */,
-				19FC745921A990670019F1A5 /* LoginModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
