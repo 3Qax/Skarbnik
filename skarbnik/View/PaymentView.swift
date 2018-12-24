@@ -29,8 +29,7 @@ class PaymentView: UIView {
         }()
     var tableView = UITableView()
     
-    var delegate: UITableViewDelegate?
-    var dataSource: UITableViewDataSource?
+    var delegate: PaymentViewProtocol?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +50,9 @@ class PaymentView: UIView {
         }
         
         headerView.addSubview(headerClassLabel)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedHeaderClassLabel(sender:)))
+        headerClassLabel.isUserInteractionEnabled = true
+        headerClassLabel.addGestureRecognizer(tapGestureRecognizer)
         headerClassLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().offset(-15)
@@ -70,6 +72,11 @@ class PaymentView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func didTappedHeaderClassLabel(sender: UITapGestureRecognizer) {
+        print("dupa1")
+        delegate?.didTappedClass()
     }
     
     func viewForUser(name: String, className: String) {

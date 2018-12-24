@@ -24,19 +24,27 @@ class PaymentViewController: UIViewController {
         
         classPickViewController.delegate = self
         classPickViewController.modalPresentationStyle = .overCurrentContext
-        self.present(classPickViewController, animated: true)
+        self.present(classPickViewController, animated: false)
         
         (self.view as! PaymentView).tableView.delegate = self
         (self.view as! PaymentView).tableView.dataSource = self
+        (self.view as! PaymentView).delegate = self
+    }
+}
+
+extension PaymentViewController: PaymentViewProtocol {
+    func didTappedClass() {
+        self.present(classPickViewController, animated: false)
     }
 }
 
 extension PaymentViewController: PickerProtocol {
-    func didChoose(at: Int) {
+    func didChoose(at: Int, completion: @escaping () -> ()) {
         (self.view as! PaymentView).viewForUser(name: userModel!.children![at].name, className: userModel!.children![at].class_field.name)
         paymentModel = PaymentModel(forClassId: userModel!.children![at].class_field.id_field, completion: {
             DispatchQueue.main.async {
                 (self.view as! PaymentView).tableView.reloadData()
+                completion()
             }
         })
     }

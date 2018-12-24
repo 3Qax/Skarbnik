@@ -9,10 +9,10 @@
 import UIKit
 
 struct Payment: Codable {
-    var name, description: String
-    var amount: String
-    var creationDate: String?
-    var startDate, expirationDate: String?
+    let id_field: Int
+    let name, description: String
+    let amount: String
+    let creation_date, start_date, end_date: String
     //var isPaid: Bool
 }
 
@@ -37,8 +37,9 @@ class PaymentModel {
     
     
     func parseResponse(data: Data, completion: () -> ()) {
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        //decoder.dateDecodingStrategy = .iso8601
+        //decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+        print(String(data: data, encoding: .utf8))
         paymentsArr = try! decoder.decode([Payment].self, from: data)
         completion()
     }

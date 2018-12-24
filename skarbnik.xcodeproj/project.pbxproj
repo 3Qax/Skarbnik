@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1904C22F21A9F99300477024 /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1904C22E21A9F99300477024 /* PaymentModel.swift */; };
 		1904C23121A9FA6A00477024 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1904C23021A9FA6A00477024 /* PaymentCellView.swift */; };
+		1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */; };
 		1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528B21A96A8300D0A7A3 /* AppDelegate.swift */; };
 		1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528D21A96A8300D0A7A3 /* LoginViewController.swift */; };
 		1941529321A96A8400D0A7A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1941529221A96A8400D0A7A3 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
 		1904C22E21A9F99300477024 /* PaymentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		1904C23021A9FA6A00477024 /* PaymentCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentCellView.swift; path = ../../../../PaymentCellView.swift; sourceTree = "<group>"; };
+		1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewProtocol.swift; sourceTree = "<group>"; };
 		1941528821A96A8300D0A7A3 /* skarbnik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skarbnik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1941528B21A96A8300D0A7A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1941528D21A96A8300D0A7A3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */,
 				197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */,
 				197F583721D049750098F17B /* PickerProtocol.swift */,
+				1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19549A0021CD3273009C994C /* ClassPickView.swift in Sources */,
+				1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
 				19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,

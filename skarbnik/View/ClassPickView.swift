@@ -25,12 +25,22 @@ class PickableButton: UIButton {
 
 class ClassPickView: UIView {
     
+    let blurredBackgroundView = UIVisualEffectView()
     let picker: UIView = {
         var view = UIView()
         
         view.backgroundColor = Color.grey.lighten4
         
         return view
+    }()
+    let loadingLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = UIFont(name: "PingFangTC-Semibold", size: 20.0)
+        label.text = "Chwileczkę..."
+        label.textColor = Color.white
+        
+        return label
     }()
     let stackView: UIStackView = {
         let stack = UIStackView()
@@ -58,13 +68,21 @@ class ClassPickView: UIView {
         
         //Blur the background
         self.backgroundColor = Color.clear
-        let blurredBackgroundView = UIVisualEffectView()
-        blurredBackgroundView.frame = self.frame
+        
+        let outsideTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedOutside(sender:)))
+        blurredBackgroundView.alpha = 0.0
+        //blurredBackgroundView.frame = self.frame
         blurredBackgroundView.effect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         self.addSubview(blurredBackgroundView)
+        blurredBackgroundView.snp.makeConstraints { (make) in
+            make.top.left.right.bottom.equalToSuperview()
+        }
+        blurredBackgroundView.isUserInteractionEnabled = true
+        blurredBackgroundView.addGestureRecognizer(outsideTapGestureRecognizer)
 
         //Show picker
         self.addSubview(picker)
+        picker.alpha = 0.0
         picker.snp.makeConstraints { (make) in
             make.width.equalTo(self.snp.width).multipliedBy(0.5)
             make.center.equalToSuperview()
@@ -80,15 +98,50 @@ class ClassPickView: UIView {
         
         //Add content to stackView
         stackView.addArrangedSubview(stackViewHeaderLabel)
+        
+        loadingLabel.isHidden = true
+        picker.addSubview(loadingLabel)
+        loadingLabel.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
+        }
     }
     
-    @objc func didTapped(sender: PickableButton) {
-        delegate?.didChooseClass(at: sender.index)
+    @objc func didPicked(sender: PickableButton) {
+        blurredBackgroundView.animate([.delay(0), .duration(0.75), .fadeOut, .timingFunction(.easeIn)])
+        stackView.animate([.delay(0), .duration(0.5), .fadeOut])
+        self.delegate?.didChooseClass(at: sender.index)
+    }
+    @objc func didTappedOutside(sender: UIView) {
+        self.delegate?.didTappedOutside()
+    }
+    
+    func show() {
+        print("show!")
+        blurredBackgroundView.animate([.delay(0), .duration(0.5), .fadeIn, .timingFunction(.easeOut)])
+        stackView.animate([.delay(0), .duration(0.25), .fadeIn])
+        picker.backgroundColor = Color.grey.lighten4
+        picker.animate([.delay(0), .duration(0.25), .fadeIn])
+    }
+    
+    func startWaitingAnimation() {
+        UIView.animate(withDuration: 0, delay: 0.5, animations: {
+        }) { (tmp) in
+            self.picker.backgroundColor = UIColor(rgb: 0x78c1e5)
+            self.loadingLabel.isHidden = false
+            UIView.animate(withDuration: 0.5, delay: 0.5, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
+                self.picker.backgroundColor = UIColor(rgb: 0xFA3CB1)
+            })
+        }
+    }
+
+    func removeAnimations() {
+        self.loadingLabel.isHidden = true
+        self.picker.layer.removeAllAnimations()
     }
     
     func shouldAdd(_ classToAdd: String!) {
         let btn = PickableButton(index: currIndex)
-        btn.addTarget(self, action: #selector(didTapped(sender:)), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(didPicked(sender:)), for: .touchUpInside)
         btn.fontSize = 24.0
         btn.setTitleColor(Color.blue.base, for: .normal)
         btn.setTitle(classToAdd, for: .normal)

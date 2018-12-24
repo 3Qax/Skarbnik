@@ -9,5 +9,5 @@
 import Foundation
 
 protocol PickerProtocol {
-    func didChoose(at: Int)
+    func didChoose(at: Int, completion: @escaping () -> ())
 }
