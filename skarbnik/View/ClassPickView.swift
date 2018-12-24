@@ -10,6 +10,19 @@ import Foundation
 import UIKit
 import Material
 
+class PickableButton: UIButton {
+    var index: Int
+    
+    required init(index: Int = 0) {
+        self.index = index
+        super.init(frame: .zero)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class ClassPickView: UIView {
     
     let picker: UIView = {
@@ -37,6 +50,8 @@ class ClassPickView: UIView {
         
         return label
     }()
+    var delegate: ClassPickViewProtocol?
+    var currIndex: Int = 0
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,13 +82,18 @@ class ClassPickView: UIView {
         stackView.addArrangedSubview(stackViewHeaderLabel)
     }
     
+    @objc func didTapped(sender: PickableButton) {
+        delegate?.didChooseClass(at: sender.index)
+    }
+    
     func shouldAdd(_ classToAdd: String!) {
-        let btn = UIButton()
-        btn.setTitle("4a", for: .normal)
+        let btn = PickableButton(index: currIndex)
+        btn.addTarget(self, action: #selector(didTapped(sender:)), for: .touchUpInside)
         btn.fontSize = 24.0
         btn.setTitleColor(Color.blue.base, for: .normal)
         btn.setTitle(classToAdd, for: .normal)
         stackView.addArrangedSubview(btn)
+        currIndex += 1
     }
     
     required init?(coder aDecoder: NSCoder) {

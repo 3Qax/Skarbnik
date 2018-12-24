@@ -21,7 +21,7 @@ class PaymentView: UIView {
         var headerClassLabel: UILabel = {
             var label = UILabel()
             
-            label.text = "4Ti1"
+            label.text = ""
             label.font = UIFont(name: "HelveticaNeue-Light", size: 29.0)
             label.textColor = Color.blue.base
             label.textAlignment = .right
@@ -72,9 +72,17 @@ class PaymentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func viewForUser(name: String, className: String) {
+        let tmpName = NSMutableAttributedString()
+        tmpName.append(NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
+        headerNameLabel.attributedText = tmpName
+        
+        let tmpClassName = NSMutableAttributedString()
+        tmpClassName.append(NSAttributedString(string: className, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 29.0)!]))
+        headerClassLabel.attributedText = tmpClassName
+    }
+    
     func shouldReloadHeader(for name: String) {
-        let tmp = NSMutableAttributedString()
-        tmp.append(NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
-        headerNameLabel.attributedText = tmp
+
     }
 }

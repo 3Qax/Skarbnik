@@ -28,11 +28,13 @@ struct Child: Codable {
 }
 
 class UserModel {
-    private var token: String? = {
-        return UserDefaults.standard.string(forKey: "JWT")
-    }()//token required to authorize self
+    private var token: String? = UserDefaults.standard.string(forKey: "JWT") {
+        didSet {
+            UserDefaults.standard.set(token, forKey: "JWT")
+        }
+    }//token required to authorize self
     var user: User? //user object represents a parent
-    var children:[Child]? //children array represents parent's children
+    var children: [Child]? //children array represents parent's children
     var didLoginSuccessfully = false
     
     private let decoder = JSONDecoder()
@@ -62,7 +64,7 @@ class UserModel {
         url.scheme = "https"
         url.host = "quiet-caverns-69534.herokuapp.com"
         url.port = 443
-        url.path = "/api/users/refresh/"
+        url.path = "/api/users/refresh"
         
         return url
     }()
@@ -138,8 +140,9 @@ class UserModel {
                     } else {
                         if let data = data, let response = response as? HTTPURLResponse {
                             if response.statusCode == 200 {
-                                //print(String(data: data, encoding: .utf8))
+                                print(String(data: data, encoding: .utf8)!)
                                 self.children = try! self.decoder.decode([Child].self, from: data)
+                                completion(true)
                             } else {
                                 print("\(response.statusCode) while trying to get user's children data")
                             }
@@ -148,16 +151,14 @@ class UserModel {
                 }
                 getChildrenInfoTask.resume()
             }
-            
             self.didLoginSuccessfully = true
-            completion(true)
         }
     }
     
-    init(login: String?, password: String?, completion: @escaping (Bool) -> ()) {
+    init(login: String?, password: String?, initCompletion: @escaping (Bool) -> ()) {
         self.login(login: login, password: password) { (succeed) in
             guard succeed else {
-                completion(false)
+                initCompletion(false)
                 return
             }
             
@@ -173,6 +174,7 @@ class UserModel {
                 } else {
                     if let data = data, let response = response as? HTTPURLResponse {
                         if response.statusCode == 200 {
+                            print("Got user info")
                             self.user = try! self.decoder.decode(User.self, from: data)
                             getChildrenInfo()
                         } else {
@@ -196,8 +198,9 @@ class UserModel {
                     } else {
                         if let data = data, let response = response as? HTTPURLResponse {
                             if response.statusCode == 200 {
-                                //print(String(data: data, encoding: .utf8))
+                                print(String(data: data, encoding: .utf8)!)
                                 self.children = try! self.decoder.decode([Child].self, from: data)
+                                initCompletion(true)
                             } else {
                                 print("\(response.statusCode) while trying to get user's children data")
                             }
@@ -206,9 +209,7 @@ class UserModel {
                 }
                 getChildrenInfoTask.resume()
             }
-            
             self.didLoginSuccessfully = true
-            completion(true)
         }
     }
     
@@ -220,12 +221,14 @@ class UserModel {
         
         switch response.statusCode {
         case 200:
+            print("Loged in successfully")
             let responseData: ResponsePacket = try! JSONDecoder().decode(ResponsePacket.self, from: data)
-            UserDefaults.standard.set(responseData.token, forKey: "JWT")
+            self.token = responseData.token
             completion(true)
         default:
             print("HTTP Error: \(response.statusCode)")
             completion(false)
+            return
         }
     }
     
@@ -268,6 +271,8 @@ class UserModel {
             completion(false)
             return
         }
+        
+        print("Found token: \(String(describing: token))")
         
         struct LoginPacket: Codable {
             let token: String

@@ -20,13 +20,11 @@ class LoginViewController: UIViewController {
         
         userModel = UserModel(completion: { (succeed) in
             guard succeed else {
-                print("login unsuccessfull dupa321")
                 DispatchQueue.main.async {
                     (self.view as! LoginView).showUI()
                 }
                 return
             }
-            print("login successfull dupa123")
             DispatchQueue.main.async {
                 self.loginSuccessfull()
             }
@@ -41,7 +39,7 @@ extension LoginViewController: LoginViewProtocol {
         
         (self.view as! LoginView).startLoginAnimation()
         
-        userModel = UserModel(login: login, password: pass, completion: { succeed in
+        userModel = UserModel(login: login, password: pass, initCompletion: { succeed in
             guard succeed else {
                 DispatchQueue.main.async {
                     (self.view as! LoginView).stopLoginAnimation()

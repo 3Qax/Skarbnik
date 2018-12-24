@@ -11,17 +11,23 @@ import UIKit
 
 class ClassPickViewController: UIViewController {
     
-    func shouldReload(_ classesArr: [String]) {
-        for c in classesArr {
-            (view as! ClassPickView).shouldAdd(c)
-        }
-    }
+    var delegate: PickerProtocol?
     
     override func loadView() {
         view = ClassPickView(frame: UIScreen.main.bounds)
     }
     
     override func viewDidLoad() {
+        for child in userModel!.children! {
+            (view as! ClassPickView).shouldAdd(child.class_field.name)
+        }
+        (view as! ClassPickView).delegate = self
+    }
+}
 
+extension ClassPickViewController: ClassPickViewProtocol {
+    func didChooseClass(at: Int) {
+        delegate?.didChoose(at: at)
+        self.dismiss(animated: true, completion: nil)
     }
 }

@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		1904C22F21A9F99300477024 /* PaymentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1904C22E21A9F99300477024 /* PaymentModel.swift */; };
 		1904C23121A9FA6A00477024 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1904C23021A9FA6A00477024 /* PaymentCellView.swift */; };
-		1938EFD021CC60DE00A3CA40 /* CellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1938EFCE21CC60DE00A3CA40 /* CellController.swift */; };
 		1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528B21A96A8300D0A7A3 /* AppDelegate.swift */; };
 		1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528D21A96A8300D0A7A3 /* LoginViewController.swift */; };
 		1941529321A96A8400D0A7A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1941529221A96A8400D0A7A3 /* Assets.xcassets */; };
 		1941529621A96A8400D0A7A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1941529421A96A8400D0A7A3 /* LaunchScreen.storyboard */; };
 		19549A0021CD3273009C994C /* ClassPickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195499FF21CD3273009C994C /* ClassPickView.swift */; };
 		19549A0221CD3284009C994C /* ClassPickViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19549A0121CD3284009C994C /* ClassPickViewController.swift */; };
+		197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */; };
+		197F583821D049750098F17B /* PickerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583721D049750098F17B /* PickerProtocol.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
 		19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5E21CAE272009059B0 /* UserModel.swift */; };
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
@@ -28,7 +29,6 @@
 		037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
 		1904C22E21A9F99300477024 /* PaymentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		1904C23021A9FA6A00477024 /* PaymentCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PaymentCellView.swift; path = ../../../../PaymentCellView.swift; sourceTree = "<group>"; };
-		1938EFCE21CC60DE00A3CA40 /* CellController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellController.swift; sourceTree = "<group>"; };
 		1941528821A96A8300D0A7A3 /* skarbnik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skarbnik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1941528B21A96A8300D0A7A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1941528D21A96A8300D0A7A3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +37,8 @@
 		1941529721A96A8400D0A7A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		195499FF21CD3273009C994C /* ClassPickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickView.swift; sourceTree = "<group>"; };
 		19549A0121CD3284009C994C /* ClassPickViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewController.swift; sourceTree = "<group>"; };
+		197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewProtocol.swift; sourceTree = "<group>"; };
+		197F583721D049750098F17B /* PickerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerProtocol.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		19CA3D5E21CAE272009059B0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
@@ -114,7 +116,6 @@
 		1941529F21A96CEC00D0A7A3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				1938EFCE21CC60DE00A3CA40 /* CellController.swift */,
 				1941528D21A96A8300D0A7A3 /* LoginViewController.swift */,
 				19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */,
 				19549A0121CD3284009C994C /* ClassPickViewController.swift */,
@@ -126,6 +127,8 @@
 			isa = PBXGroup;
 			children = (
 				19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */,
+				197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */,
+				197F583721D049750098F17B /* PickerProtocol.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -275,13 +278,14 @@
 				19549A0021CD3273009C994C /* ClassPickView.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
 				19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */,
+				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,
 				19549A0221CD3284009C994C /* ClassPickViewController.swift in Sources */,
-				1938EFD021CC60DE00A3CA40 /* CellController.swift in Sources */,
 				1904C23121A9FA6A00477024 /* PaymentCellView.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
 				19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
 				1904C22F21A9F99300477024 /* PaymentModel.swift in Sources */,
+				197F583821D049750098F17B /* PickerProtocol.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
 				1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */,
 			);
