@@ -8,12 +8,33 @@
 
 import UIKit
 
-struct Payment: Codable {
+struct PaymentPacket: Codable {
     let id_field: Int
     let name, description: String
     let amount: String
     let creation_date, start_date, end_date: String
-    //var isPaid: Bool
+}
+
+struct Payment: Codable {
+    let id_field: Int
+    let name, description: String
+    let amount: Float
+    let creation_date, start_date, end_date: Date
+    
+    init(data: PaymentPacket) {
+        self.id_field = data.id_field
+        self.name = data.name
+        self.description = data.description
+        self.amount = Float(data.amount)!
+        
+        let longDateFormatter = ISO8601DateFormatter()
+        self.creation_date = longDateFormatter.date(from: data.creation_date)!
+        
+        let shortDateFormater = DateFormatter()
+        shortDateFormater.dateFormat = "yyyy-MM-dd"
+        self.start_date = shortDateFormater.date(from: data.start_date)!
+        self.end_date = shortDateFormater.date(from: data.end_date)!
+    }
 }
 
 class PaymentModel {
@@ -37,10 +58,9 @@ class PaymentModel {
     
     
     func parseResponse(data: Data, completion: () -> ()) {
-        //decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
-        print(String(data: data, encoding: .utf8))
-        paymentsArr = try! decoder.decode([Payment].self, from: data)
+        for paymentData in try! decoder.decode([PaymentPacket].self, from: data) {
+            paymentsArr.append(Payment(data: paymentData))
+        }
         completion()
     }
     
