@@ -75,7 +75,6 @@ class PaymentView: UIView {
     }
     
     @objc func didTappedHeaderClassLabel(sender: UITapGestureRecognizer) {
-        print("dupa1")
         delegate?.didTappedClass()
     }
     

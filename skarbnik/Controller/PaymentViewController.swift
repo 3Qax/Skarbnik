@@ -42,9 +42,6 @@ extension PaymentViewController: PickerProtocol {
     func didChoose(at: Int, completion: @escaping () -> ()) {
         (self.view as! PaymentView).viewForUser(name: userModel!.children![at].name, className: userModel!.children![at].class_field.name)
         paymentModel = PaymentModel(forClassId: userModel!.children![at].class_field.id_field, completion: {
-            self.paymentModel?.paymentsArr.sort(by: { (payment1, payment2) -> Bool in
-                return payment1.start_date.compare(payment2.start_date) == .orderedDescending
-            })
             DispatchQueue.main.async {
                 (self.view as! PaymentView).tableView.reloadData()
                 completion()

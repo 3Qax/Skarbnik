@@ -117,6 +117,7 @@ class UserModel {
                 } else {
                     if let data = data, let response = response as? HTTPURLResponse {
                         if response.statusCode == 200 {
+                            print("Got user info")
                             self.user = try! self.decoder.decode(User.self, from: data)
                             getChildrenInfo()
                         } else {
@@ -140,7 +141,8 @@ class UserModel {
                     } else {
                         if let data = data, let response = response as? HTTPURLResponse {
                             if response.statusCode == 200 {
-                                print(String(data: data, encoding: .utf8)!)
+                                //print(String(data: data, encoding: .utf8)!)
+                                print("Got user's children info")
                                 self.children = try! self.decoder.decode([Child].self, from: data)
                                 completion(true)
                             } else {
@@ -198,7 +200,8 @@ class UserModel {
                     } else {
                         if let data = data, let response = response as? HTTPURLResponse {
                             if response.statusCode == 200 {
-                                print(String(data: data, encoding: .utf8)!)
+                                //print(String(data: data, encoding: .utf8)!)
+                                print("Got user's children info")
                                 self.children = try! self.decoder.decode([Child].self, from: data)
                                 initCompletion(true)
                             } else {

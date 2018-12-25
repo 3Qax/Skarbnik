@@ -61,6 +61,9 @@ class PaymentModel {
         for paymentData in try! decoder.decode([PaymentPacket].self, from: data) {
             paymentsArr.append(Payment(data: paymentData))
         }
+        paymentsArr.sort(by: { (payment1, payment2) -> Bool in
+            return payment1.start_date.compare(payment2.start_date) == .orderedDescending
+        })
         completion()
     }
     

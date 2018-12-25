@@ -116,7 +116,6 @@ class ClassPickView: UIView {
     }
     
     func show() {
-        print("show!")
         blurredBackgroundView.animate([.delay(0), .duration(0.5), .fadeIn, .timingFunction(.easeOut)])
         stackView.animate([.delay(0), .duration(0.25), .fadeIn])
         picker.backgroundColor = Color.grey.lighten4

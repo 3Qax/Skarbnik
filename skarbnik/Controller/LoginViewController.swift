@@ -31,12 +31,19 @@ class LoginViewController: UIViewController {
         })
         
         (self.view as! LoginView).delegate = self
+        (self.view as! LoginView).loginInput.delegate = self
+        (self.view as! LoginView).passwordInput.delegate = self
     }
 }
 
 extension LoginViewController: LoginViewProtocol {
+    
+    func didTappedOutside() {
+        (self.view as! LoginView).shouldResignAnyResponder()
+    }
+    
     func tryToLoginWith(login: String?, pass: String?) {
-        
+        (self.view as! LoginView).shouldResignAnyResponder()
         (self.view as! LoginView).startLoginAnimation()
         
         userModel = UserModel(login: login, password: pass, initCompletion: { succeed in
@@ -51,12 +58,17 @@ extension LoginViewController: LoginViewProtocol {
             }
         })
     }
+    
 }
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+        if textField == (self.view as! LoginView).loginInput as UITextField {
+            _ = (self.view as! LoginView).passwordInput.becomeFirstResponder()
+            return false
+        }
+        (self.view as! LoginView).loginButton.sendActions(for: .touchUpInside)
+        return false
     }
 }
 

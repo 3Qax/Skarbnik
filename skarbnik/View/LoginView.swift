@@ -19,6 +19,7 @@ class LoginView: UIView {
     var loginInput: TextField! = {
         var input = TextField()
         input.autocapitalizationType = UITextAutocapitalizationType.none
+        input.returnKeyType = .next
         input.isPlaceholderUppercasedWhenEditing = true
         input.placeholder = "login"
         input.placeholderAnimation = .hidden
@@ -39,6 +40,7 @@ class LoginView: UIView {
     var passwordInput: TextField! = {
         var input = TextField()
         input.autocapitalizationType = UITextAutocapitalizationType.none
+        input.returnKeyType = UIReturnKeyType.done
         input.isSecureTextEntry = true
         input.isPlaceholderUppercasedWhenEditing = true
         input.placeholder = "hasło"
@@ -70,10 +72,16 @@ class LoginView: UIView {
         delegate?.tryToLoginWith(login: loginInput.text, pass: passwordInput.text)
     }
     
+    @objc func outsideTapped(sender: Any?)  {
+        delegate?.didTappedOutside()
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        let outsideTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(outsideTapped(sender:)))
         self.backgroundColor = Color.grey.lighten4
+        self.addGestureRecognizer(outsideTapGestureRecognizer)
         
         //UI will be presented after unsuccessfull login with token
         //So we need to set UI's alpha value to 0
@@ -130,14 +138,14 @@ class LoginView: UIView {
             self.loginButton.animate([.delay(0.25), .duration(0.5), .fadeIn])
         })
     }
+    func shouldResignAnyResponder() {
+        loginInput.resignFirstResponder()
+        passwordInput.resignFirstResponder()
+    }
     
     func startLoginAnimation() {
-        loginInput.animate([.delay(0.0), .duration(0.5), .fadeOut, .completion {
-            self.loginInput.resignFirstResponder()
-        }])
-        passwordInput.animate([.delay(0.0), .duration(0.5), .fadeOut, .completion {
-            self.passwordInput.resignFirstResponder()
-        }])
+        loginInput.animate([.delay(0.0), .duration(0.5), .fadeOut])
+        passwordInput.animate([.delay(0.0), .duration(0.5), .fadeOut])
 
         UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseOut, animations: {
             self.layoutIfNeeded()
@@ -148,7 +156,6 @@ class LoginView: UIView {
             }, completion: nil)
         })
     }
-    
     func stopLoginAnimation() {
         self.loginInput.animate([.delay(0.0), .duration(0.5), .fadeIn])
         self.passwordInput.animate([.delay(0.0), .duration(0.5), .fadeIn])

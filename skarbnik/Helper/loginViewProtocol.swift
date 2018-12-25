@@ -10,4 +10,5 @@ import Foundation
 
 @objc protocol LoginViewProtocol {
     @objc func tryToLoginWith(login: String?, pass: String?) -> Void
+    func didTappedOutside() -> Void
 }
