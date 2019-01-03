@@ -39,14 +39,17 @@ extension PaymentViewController: PaymentViewProtocol {
 }
 
 extension PaymentViewController: PickerProtocol {
-    func didChoose(at: Int, completion: @escaping () -> ()) {
-        (self.view as! PaymentView).viewForUser(name: userModel!.children![at].name, className: userModel!.children![at].class_field.name)
-        paymentModel = PaymentModel(forClassId: userModel!.children![at].class_field.id_field, completion: {
+    func didChoose(_ index: Int, completion: @escaping () -> ()) {
+        
+        (self.view as! PaymentView).viewFor(child: userModel!.children![index])
+        
+        paymentModel = PaymentModel(for: userModel!.children![index], completion: {
             DispatchQueue.main.async {
                 (self.view as! PaymentView).tableView.reloadData()
                 completion()
             }
         })
+        
     }
 }
 

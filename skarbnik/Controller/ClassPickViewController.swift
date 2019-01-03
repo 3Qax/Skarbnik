@@ -37,7 +37,7 @@ class ClassPickViewController: UIViewController {
 
 extension ClassPickViewController: ClassPickViewProtocol {
     func didTappedOutside() {
-        if self.isClassChoosen {
+        if isClassChoosen {
             self.dismiss(animated: false, completion: nil)
         }
     }
@@ -45,7 +45,7 @@ extension ClassPickViewController: ClassPickViewProtocol {
     func didChooseClass(at: Int) {
         isClassChoosen = true
         (view as! ClassPickView).startWaitingAnimation()
-        delegate?.didChoose(at: at, completion: {
+        delegate?.didChoose(at, completion: {
             self.dismiss(animated: false, completion: nil)
         })
     }

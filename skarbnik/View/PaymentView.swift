@@ -78,13 +78,13 @@ class PaymentView: UIView {
         delegate?.didTappedClass()
     }
     
-    func viewForUser(name: String, className: String) {
+    func viewFor(child: Child) {
         let tmpName = NSMutableAttributedString()
-        tmpName.append(NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
+        tmpName.append(NSAttributedString(string: child.name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
         headerNameLabel.attributedText = tmpName
         
         let tmpClassName = NSMutableAttributedString()
-        tmpClassName.append(NSAttributedString(string: className, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 29.0)!]))
+        tmpClassName.append(NSAttributedString(string: child.class_field.name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 29.0)!]))
         headerClassLabel.attributedText = tmpClassName
     }
     

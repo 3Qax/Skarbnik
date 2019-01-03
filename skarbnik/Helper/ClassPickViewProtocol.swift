@@ -9,6 +9,6 @@
 import Foundation
 
 protocol ClassPickViewProtocol {
-    func didChooseClass(at: Int)
+    func didChooseClass(at index: Int)
     func didTappedOutside()
 }

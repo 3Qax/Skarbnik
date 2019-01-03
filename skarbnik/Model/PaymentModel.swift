@@ -20,6 +20,7 @@ struct Payment: Codable {
     let name, description: String
     let amount: Float
     let creation_date, start_date, end_date: Date
+    var contribution: [Float]?
     
     init(data: PaymentPacket) {
         self.id_field = data.id_field
@@ -39,6 +40,7 @@ struct Payment: Codable {
 
 class PaymentModel {
     
+    var child: Child?
     var paymentsArr: [Payment] = [Payment]()
     
     let decoder = JSONDecoder()
@@ -55,19 +57,10 @@ class PaymentModel {
     return session
     }()
     
+
     
-    
-    func parseResponse(data: Data, completion: () -> ()) {
-        for paymentData in try! decoder.decode([PaymentPacket].self, from: data) {
-            paymentsArr.append(Payment(data: paymentData))
-        }
-        paymentsArr.sort(by: { (payment1, payment2) -> Bool in
-            return payment1.start_date.compare(payment2.start_date) == .orderedDescending
-        })
-        completion()
-    }
-    
-    init(forClassId: Int, completion: @escaping () -> ()) {
+    init(for child: Child, completion: @escaping () -> ()) {
+        self.child = child
         
         let paymentEndpoint: URLComponents = {
             var url = URLComponents()
@@ -76,12 +69,11 @@ class PaymentModel {
             url.host = "quiet-caverns-69534.herokuapp.com"
             url.port = 443
             url.path = "/api/payment/"
-            url.queryItems = [URLQueryItem(name: "class_field", value: String(forClassId))]
+            url.queryItems = [URLQueryItem(name: "class_field", value: String(child.class_field.id_field))]
             
             return url
         }()
-        
-        let getClassPaymentsRequest:URLRequest! = {
+        let getClassPaymentsRequest: URLRequest! = {
             var request = URLRequest(url: paymentEndpoint.url!)
             
             request.httpMethod = "GET"
@@ -96,7 +88,74 @@ class PaymentModel {
                 if let data = data, let response = response as? HTTPURLResponse {
                     if response.statusCode==200 {
                         print("Response 200 OK")
-                        self.parseResponse(data: data, completion: completion)
+                        
+                        for paymentData in try! self.decoder.decode([PaymentPacket].self, from: data) {
+                            self.paymentsArr.append(Payment(data: paymentData))
+                        }
+                        
+                        self.paymentsArr.sort(by: { (payment1, payment2) -> Bool in
+                            return payment1.start_date.compare(payment2.start_date) == .orderedDescending
+                        })
+                        
+                        //get more info about contributions
+                        class PaymentDetail: Codable {
+                            let amount_paid: String
+                        }
+                        
+                        for var payment in self.paymentsArr {
+                            let paymentDetailEndpoint: URLComponents = {
+                                var url = URLComponents()
+                                
+                                url.scheme = "https"
+                                url.host = "quiet-caverns-69534.herokuapp.com"
+                                url.port = 443
+                                url.path = "/api/paymentdetail/"
+                                url.queryItems = [  URLQueryItem(name: "payment", value: String(payment.id_field)),
+                                                    URLQueryItem(name: "student", value: String(child.id_field))]
+                                
+                                return url
+                            }()
+                            let getPaymentDetailRequest: URLRequest! = {
+                                var request = URLRequest(url: paymentDetailEndpoint.url!)
+                                
+                                request.httpMethod = "GET"
+                                request.addValue("Basic" + " " + UserDefaults.standard.string(forKey: "JWT")!, forHTTPHeaderField: "Authorization")
+                                
+                                return request
+                            }()
+                            
+                            let getPaymentDetailTask = self.session.dataTask(with: getPaymentDetailRequest, completionHandler: { (data, response, error) in
+                                if let error = error {
+                                    print(error.localizedDescription)
+                                } else {
+                                    if let data = data, let response = response {
+                                        do {
+                                            let paymentDetailArr = try self.decoder.decode([PaymentDetail].self, from: data)
+                                            
+                                            for  paymentDetail in paymentDetailArr {
+                                                if payment.contribution == nil {
+                                                    payment.contribution = [Float(paymentDetail.amount_paid)!]
+                                                } else {
+                                                    payment.contribution?.append(Float(paymentDetail.amount_paid)!)
+                                                }
+                                            }
+                                            //print(payment.contribution)
+                                        } catch {
+                                            print(error)
+                                        }
+                                        
+                                        
+                                    }
+                                }
+                            })
+                            getPaymentDetailTask.resume()
+                        }
+                        
+                        
+                        
+                        
+                        completion()
+                        
                     } else {
                         print("HTTP Code: \(response.statusCode) while trying to fetch payment data")
                     }
@@ -110,27 +169,18 @@ class PaymentModel {
     
     
 
-//class Payment: Codable {
-//    var title, description, daysLeftText: String
-//    var amount: Float
-//    var creationDate, startDate, expirationDate: Date
-//    var isPaid: Bool
-//
-//    init(title: String, description: String, amount: Float, creationDate: Date, startDate: Date, expirationDate: Date, isPaid: Bool) {
-//        self.title = title
-//        self.description = description
-//        self.amount = amount
+
+
 //        self.creationDate = creationDate
 //        self.startDate = startDate
 //        self.expirationDate = expirationDate
-//        self.isPaid = isPaid
 //        let daysLeft: Int? = Calendar.current.dateComponents([.day], from: Calendar.current.startOfDay(for: Date()), to: Calendar.current.startOfDay(for: self.expirationDate)).day
 //        if let daysLeft = daysLeft {
 //            if daysLeft > 0{
 //                self.daysLeftText = String(daysLeft) + " dni pozostało"
-//            }else if daysLeft==0{
+//            } else if daysLeft == 0 {
 //                self.daysLeftText = "do jutra"
-//            }else{
+//            } else {
 //                self.daysLeftText = "zakończono"
 //            }
 //        } else {
