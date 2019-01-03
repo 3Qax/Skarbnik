@@ -18,7 +18,8 @@ class LoginView: UIView {
     }()
     var loginInput: TextField! = {
         var input = TextField()
-        input.autocapitalizationType = UITextAutocapitalizationType.none
+        input.autocapitalizationType = .none
+        input.autocorrectionType = .no
         input.returnKeyType = .next
         input.isPlaceholderUppercasedWhenEditing = true
         input.placeholder = "login"
@@ -39,8 +40,9 @@ class LoginView: UIView {
     }()
     var passwordInput: TextField! = {
         var input = TextField()
-        input.autocapitalizationType = UITextAutocapitalizationType.none
-        input.returnKeyType = UIReturnKeyType.done
+        input.autocapitalizationType = .none
+        input.autocorrectionType = .no
+        input.returnKeyType = .done
         input.isSecureTextEntry = true
         input.isPlaceholderUppercasedWhenEditing = true
         input.placeholder = "hasło"
