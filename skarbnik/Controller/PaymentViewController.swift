@@ -58,12 +58,37 @@ extension PaymentViewController: UITableViewDelegate {
 }
 
 extension PaymentViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return paymentModel?.paymentsArr.count ?? 0
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Pending"
+        } else if section == 1 {
+            return "Paid"
+        }
+        return "Wuut"
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let paymentModel = self.paymentModel {
+            if section == 0 {
+                return paymentModel.pendingPayments.count
+            } else if section == 1 {
+                return paymentModel.paidPayments.count
+            }
+        }
+        return 0
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "payment") as! PaymentCell
-        cell.setup(forPayment: (paymentModel?.paymentsArr[indexPath.row])!)
+        if indexPath.section == 0 {
+            cell.setup(forPayment: (paymentModel?.pendingPayments[indexPath.row])!)
+        } else if indexPath.section == 1 {
+            cell.setup(forPayment: (paymentModel?.paidPayments[indexPath.row])!)
+        }
         return cell
     }
 }

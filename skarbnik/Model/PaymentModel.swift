@@ -41,7 +41,8 @@ struct Payment: Codable {
 class PaymentModel {
     
     var child: Child?
-    var paymentsArr: [Payment] = [Payment]()
+    var pendingPayments: [Payment] = [Payment]()
+    var paidPayments: [Payment] = [Payment]()
     
     let decoder = JSONDecoder()
     let session: URLSession = {
@@ -87,22 +88,19 @@ class PaymentModel {
             } else {
                 if let data = data, let response = response as? HTTPURLResponse {
                     if response.statusCode==200 {
-                        print("Response 200 OK")
                         
+                        //Create array of payments from data recived
+                        var recivedPayments: [Payment] = [Payment]()
                         for paymentData in try! self.decoder.decode([PaymentPacket].self, from: data) {
-                            self.paymentsArr.append(Payment(data: paymentData))
+                            recivedPayments.append(Payment(data: paymentData))
                         }
                         
-                        self.paymentsArr.sort(by: { (payment1, payment2) -> Bool in
-                            return payment1.start_date.compare(payment2.start_date) == .orderedDescending
-                        })
-                        
-                        //get more info about contributions
+                        //For every payment make a network call for contributions
+                        let dispatchGroup = DispatchGroup()
                         class PaymentDetail: Codable {
                             let amount_paid: String
                         }
-                        
-                        for var payment in self.paymentsArr {
+                        for index in 0..<recivedPayments.count {
                             let paymentDetailEndpoint: URLComponents = {
                                 var url = URLComponents()
                                 
@@ -110,7 +108,7 @@ class PaymentModel {
                                 url.host = "quiet-caverns-69534.herokuapp.com"
                                 url.port = 443
                                 url.path = "/api/paymentdetail/"
-                                url.queryItems = [  URLQueryItem(name: "payment", value: String(payment.id_field)),
+                                url.queryItems = [  URLQueryItem(name: "payment", value: String(recivedPayments[index].id_field)),
                                                     URLQueryItem(name: "student", value: String(child.id_field))]
                                 
                                 return url
@@ -124,37 +122,69 @@ class PaymentModel {
                                 return request
                             }()
                             
+                            dispatchGroup.enter()
                             let getPaymentDetailTask = self.session.dataTask(with: getPaymentDetailRequest, completionHandler: { (data, response, error) in
                                 if let error = error {
                                     print(error.localizedDescription)
                                 } else {
-                                    if let data = data, let response = response {
-                                        do {
-                                            let paymentDetailArr = try self.decoder.decode([PaymentDetail].self, from: data)
-                                            
-                                            for  paymentDetail in paymentDetailArr {
-                                                if payment.contribution == nil {
-                                                    payment.contribution = [Float(paymentDetail.amount_paid)!]
-                                                } else {
-                                                    payment.contribution?.append(Float(paymentDetail.amount_paid)!)
+                                    if let data = data, let response = response as? HTTPURLResponse {
+                                        if response.statusCode == 200 {
+                                            do {
+                                                let paymentDetailArr = try self.decoder.decode([PaymentDetail].self, from: data)
+                                                
+                                                for  paymentDetail in paymentDetailArr {
+                                                    if recivedPayments[index].contribution == nil {
+                                                        recivedPayments[index].contribution = [Float(paymentDetail.amount_paid)!]
+                                                    } else {
+                                                        recivedPayments[index].contribution?.append(Float(paymentDetail.amount_paid)!)
+                                                    }
                                                 }
+                                                //print("Payment: \(recivedPayments[index].id_field) fetched contributions: \(String(describing: recivedPayments[index].contribution)) - \(response.statusCode)")
+                                                dispatchGroup.leave()
+                                            } catch {
+                                                print(error)
                                             }
-                                            //print(payment.contribution)
-                                        } catch {
-                                            print(error)
+                                        } else {
+                                            print("\(response.statusCode) while trying to get details of payment \(recivedPayments[index].id_field)")
                                         }
-                                        
-                                        
                                     }
                                 }
                             })
                             getPaymentDetailTask.resume()
                         }
                         
-                        
-                        
-                        
-                        completion()
+                        //After every call ends sort recivedPayments into pending and paid payments
+                        //  based on contributions
+                        dispatchGroup.notify(queue: .main, execute: {
+                            for recivedPayment in recivedPayments {
+                                let amountPaid: Float = {
+                                    var sum: Float = 0.0
+                                    
+                                    if let contributions = recivedPayment.contribution {
+                                        for contribution in contributions {
+                                            sum += contribution
+                                        }
+                                    }
+                                    
+                                    return sum
+                                }()
+                                print("Amont paid of \(recivedPayment.id_field) = \(amountPaid)/\(recivedPayment.amount)")
+                                if amountPaid == recivedPayment.amount {
+                                    self.paidPayments.append(recivedPayment)
+                                } else {
+                                    self.pendingPayments.append(recivedPayment)
+                                }
+                                
+                                
+                                self.paidPayments.sort(by: { (payment1, payment2) -> Bool in
+                                    return payment1.start_date.compare(payment2.start_date) == .orderedDescending
+                                })
+                                self.pendingPayments.sort(by: { (payment1, payment2) -> Bool in
+                                    return payment1.start_date.compare(payment2.start_date) == .orderedDescending
+                                })
+                            }
+                            completion()
+                        })
                         
                     } else {
                         print("HTTP Code: \(response.statusCode) while trying to fetch payment data")
