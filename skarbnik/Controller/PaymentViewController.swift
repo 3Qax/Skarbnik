@@ -64,11 +64,9 @@ extension PaymentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Pending"
-        } else if section == 1 {
-            return "Paid"
+            return "Oczekujące"
         }
-        return "Wuut"
+        return "Zapłacone"
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -83,12 +81,20 @@ extension PaymentViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "payment") as! PaymentCell
-        if indexPath.section == 0 {
-            cell.setup(forPayment: (paymentModel?.pendingPayments[indexPath.row])!)
-        } else if indexPath.section == 1 {
-            cell.setup(forPayment: (paymentModel?.paidPayments[indexPath.row])!)
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
+            let data = paymentModel!.pendingPayments[indexPath.row]
+            cell.setup(data.name, data.description, data.amount)
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
+            let data = paymentModel!.pendingPayments[indexPath.row]
+            cell.setup(data.name, data.description, data.amount)
+            return cell
+        default:
+            fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
-        return cell
+        
     }
 }
