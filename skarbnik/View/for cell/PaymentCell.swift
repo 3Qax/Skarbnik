@@ -35,7 +35,6 @@ class PaymentCell: UITableViewCell {
 
     func setupBasicViews(withContent: () -> ()) {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
         contentView.addSubview(amountLabel)
         
         //Title
@@ -53,13 +52,6 @@ class PaymentCell: UITableViewCell {
             make.right.equalToSuperview().offset(-self.separatorInset.left)
         }
         
-        //Description
-        self.descriptionLabel.snp.makeConstraints({ (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalTo(self.amountLabel)
-        })
-
         //self.wrapper.setNeedsLayout()
         
         withContent()

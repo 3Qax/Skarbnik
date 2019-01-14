@@ -8,9 +8,11 @@
 
 import UIKit
 import Material
+import EventKit
 
 class PaymentViewController: UIViewController {
     var paymentModel: PaymentModel?
+    let eventStore = EKEventStore()
     let classPickViewController = ClassPickViewController()
     
     
@@ -86,15 +88,46 @@ extension PaymentViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
             let data = paymentModel!.pendingPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
+            cell.delegate = self
+            cell.index = indexPath.row
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
-            let data = paymentModel!.pendingPayments[indexPath.row]
+            let data = paymentModel!.paidPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
             return cell
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
         
+    }
+}
+
+extension PaymentViewController: PendingPaymentCellProtocool {
+    func didTappedRemindButton(sender: PendingPaymentCellView) {
+        
+        switch EKEventStore.authorizationStatus(for: .reminder) {
+        case .notDetermined:
+            eventStore.requestAccess(to: .reminder) { (succed, error: Error?) in
+                guard succed else { return }
+                self.didTappedRemindButton(sender: sender)
+            }
+        case .authorized:
+            let reminder = EKReminder(eventStore: eventStore)
+            reminder.title = "Zapłacić za \(paymentModel!.pendingPayments[sender.index!].name)"
+            let alarm = EKAlarm(absoluteDate: Calendar.current.date(byAdding: .day, value: -1, to: paymentModel!.pendingPayments[sender.index!].end_date)!)
+            reminder.addAlarm(alarm)
+            let calendars = eventStore.calendars(for: .reminder)
+            reminder.calendar = calendars.first
+            do {
+                try eventStore.save(reminder, commit: true)
+            } catch {
+                print(error.localizedDescription)
+            }
+        case .restricted:
+            print("restricted")
+        case .denied:
+            print("denied")
+        }
     }
 }

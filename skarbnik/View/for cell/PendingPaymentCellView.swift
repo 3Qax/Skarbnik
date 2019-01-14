@@ -10,6 +10,8 @@ import UIKit
 import Material
 
 class PendingPaymentCellView: PaymentCell {
+    var index: Int?
+    var delegate: PendingPaymentCellProtocool?
     var remindButton: IconButton = {
         let btn = IconButton(title: "PRZYPOMNIJ", titleColor: UIColor.init(rgb: 0xFA3CB1))
         
@@ -38,8 +40,21 @@ class PendingPaymentCellView: PaymentCell {
         return btn
     }()
     
+    @objc func remindButtonTapped(sender: Any) {
+        delegate?.didTappedRemindButton(sender: self)
+    }
+    
     func setup(_ title: String, _ description: String, _ amount: Float) {
         setupBasicViews(withContent: {
+            contentView.addSubview(descriptionLabel)
+            
+            //Description
+            self.descriptionLabel.snp.makeConstraints({ (make) in
+                make.top.equalTo(titleLabel.snp.bottom)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalTo(self.amountLabel)
+            })
+            
             self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
             self.titleLabel.text = title.capitalizingFirstLetter()
             titleLabel.sizeToFit()
@@ -50,6 +65,7 @@ class PendingPaymentCellView: PaymentCell {
         contentView.addSubview(remindButton)
         contentView.addSubview(payButton)
         
+        remindButton.addTarget(self, action: #selector(remindButtonTapped(sender:)), for: .touchUpInside)
         remindButton.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
             make.left.right.equalTo(descriptionLabel)
