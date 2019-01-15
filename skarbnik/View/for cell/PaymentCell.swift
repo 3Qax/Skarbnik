@@ -38,21 +38,20 @@ class PaymentCell: UITableViewCell {
         contentView.addSubview(amountLabel)
         
         //Title
-        self.titleLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .vertical)
+        self.titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(5)
             make.left.equalToSuperview().offset(20)
-            make.right.equalTo(amountLabel.snp.left).offset(10)
         }
         
         //Amount
-        self.amountLabel.setContentCompressionResistancePriority(UILayoutPriority.required, for: .horizontal)
+        self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         amountLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(5)
+            make.top.equalTo(titleLabel)
             make.right.equalToSuperview().offset(-self.separatorInset.left)
+            make.left.equalTo(titleLabel.snp.right).offset(10)
         }
-        
-        //self.wrapper.setNeedsLayout()
         
         withContent()
     }

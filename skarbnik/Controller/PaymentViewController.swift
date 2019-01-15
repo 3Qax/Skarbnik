@@ -95,11 +95,16 @@ extension PaymentViewController: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
             let data = paymentModel!.paidPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
+            cell.delegate = self
             return cell
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("section: \(indexPath.section) row: \(indexPath.row)")
     }
 }
 
@@ -130,4 +135,11 @@ extension PaymentViewController: PendingPaymentCellProtocool {
             print("denied")
         }
     }
+}
+
+extension PaymentViewController: PaidPaymentCellProtocool {
+    func didTapped(sender: PaidPaymentCellView) {
+        sender.toggle()
+    }
+    
 }

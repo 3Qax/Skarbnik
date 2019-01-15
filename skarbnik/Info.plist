@@ -26,7 +26,7 @@
 		<true/>
 	</dict>
 	<key>NSRemindersUsageDescription</key>
-	<string>We need acces to your reminders in order to set up the reminder about fund for you.</string>
+	<string>Potrzebujemy dostępu do przypomnień, aby móc dodać przypomnienie o zapłacie  zbiórki.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>

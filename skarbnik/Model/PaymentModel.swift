@@ -168,7 +168,7 @@ class PaymentModel {
                                     
                                     return sum
                                 }()
-                                print("Amont paid of \(recivedPayment.id_field) = \(amountPaid)/\(recivedPayment.amount)")
+//                                print("Amont paid of \(recivedPayment.id_field) = \(amountPaid)/\(recivedPayment.amount)")
                                 if amountPaid == recivedPayment.amount {
                                     self.paidPayments.append(recivedPayment)
                                 } else {

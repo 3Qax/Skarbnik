@@ -57,9 +57,7 @@ class PendingPaymentCellView: PaymentCell {
             
             self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
             self.titleLabel.text = title.capitalizingFirstLetter()
-            titleLabel.sizeToFit()
             self.descriptionLabel.text = description.capitalizingFirstLetter()
-            descriptionLabel.sizeToFit()
         })
         
         contentView.addSubview(remindButton)

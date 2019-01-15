@@ -11,6 +11,8 @@ import Material
 import SnapKit
 
 class PaidPaymentCellView: PaymentCell {
+    var delegate: PaidPaymentCellProtocool?
+    private var isExpanded = false
     
     var showPhotosButton: IconButton = {
         let btn = IconButton(title: "POKAŻ ZDJĘCIA", titleColor: UIColor.init(rgb: 0xFA3CB1))
@@ -27,36 +29,52 @@ class PaidPaymentCellView: PaymentCell {
         return btn
     }()
     
+    @objc func gotTapped(sender: Any) {
+        delegate?.didTapped(sender: self)
+    }
+    
     func setup(_ title: String, _ description: String, _ amount: Float) {
+        let tapGestureRecoginzer = UITapGestureRecognizer(target: self, action: #selector(gotTapped(sender:)))
+        contentView.isUserInteractionEnabled = true
+        contentView.addGestureRecognizer(tapGestureRecoginzer)
 
         setupBasicViews(withContent: {
             self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
             self.amountLabel.textColor = Color.grey.base
-            
-            self.amountLabel.snp.makeConstraints({ (make) in
-                make.bottom.equalToSuperview().offset(-5)
-            })
             self.titleLabel.text = title.capitalizingFirstLetter()
-            titleLabel.sizeToFit()
             self.descriptionLabel.text = description.capitalizingFirstLetter()
-            descriptionLabel.sizeToFit()
         })
         
-//        contentView.addSubview(showPhotosButton)
-//        showPhotosButton.snp.makeConstraints { (make) in
-//            make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
-//            make.left.right.equalTo(descriptionLabel)
-//            make.height.equalTo(30)
-//            make.bottom.equalToSuperview().offset(-5)
-//        }
-        
-        //descriptionLabel.isHidden = true
-        //showPhotosButton.isHidden = true
-        
-        self.contentMode = .redraw
-        //self.descriptionLabel.sizeToFit()
-        self.contentView.sizeToFit()
-        self.setNeedsLayout()
+        self.amountLabel.snp.makeConstraints({ (make) in
+            make.bottom.equalToSuperview().offset(-5)
+        })
+    }
+    
+    func toggle() {
+        if isExpanded {
+            
+            isExpanded = false
+        } else {
+            contentView.addSubview(showPhotosButton)
+            contentView.addSubview(descriptionLabel)
+            amountLabel.snp.remakeConstraints { (make) in
+                make.top.equalToSuperview().offset(5)
+                make.right.equalToSuperview().offset(-self.separatorInset.left)
+            }
+            descriptionLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(titleLabel.snp.bottom)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalTo(self.amountLabel)
+            }
+            showPhotosButton.snp.makeConstraints { (make) in
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
+                make.left.right.equalTo(descriptionLabel)
+                make.height.equalTo(30)
+                make.bottom.equalToSuperview().offset(-5)
+            }
+            contentView.sizeToFit()
+            isExpanded = true
+        }
     }
     
 }

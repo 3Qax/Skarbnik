@@ -9,6 +9,12 @@
 import UIKit
 
 
+extension UIApplication {
+    var server_url: String? {
+        let dictionary = ProcessInfo.processInfo.environment
+        return dictionary["SERVER_URL"]
+    }
+}
 
 extension DateFormatter {
     static let iso8601Full: DateFormatter = {
