@@ -15,8 +15,6 @@ class PaymentViewController: UIViewController {
     let eventStore = EKEventStore()
     let classPickViewController = ClassPickViewController()
     
-    
-    
     override func loadView() {
         view = PaymentView(frame: UIScreen.main.bounds)
     }
@@ -34,12 +32,14 @@ class PaymentViewController: UIViewController {
     }
 }
 
+//MARK:
 extension PaymentViewController: PaymentViewProtocol {
     func didTappedClass() {
         self.present(classPickViewController, animated: false)
     }
 }
 
+//MARK:
 extension PaymentViewController: PickerProtocol {
     func didChoose(_ index: Int, completion: @escaping () -> ()) {
         
@@ -55,10 +55,14 @@ extension PaymentViewController: PickerProtocol {
     }
 }
 
+//MARK:
 extension PaymentViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("section: \(indexPath.section) row: \(indexPath.row)")
+    }
 }
 
+//MARK:
 extension PaymentViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -101,45 +105,6 @@ extension PaymentViewController: UITableViewDataSource {
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
         
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("section: \(indexPath.section) row: \(indexPath.row)")
-    }
-}
-
-extension PaymentViewController: PendingPaymentCellProtocool {
-    func didTappedRemindButton(sender: PendingPaymentCellView) {
-        
-        switch EKEventStore.authorizationStatus(for: .reminder) {
-        case .notDetermined:
-            eventStore.requestAccess(to: .reminder) { (succed, error: Error?) in
-                guard succed else { return }
-                self.didTappedRemindButton(sender: sender)
-            }
-        case .authorized:
-            let reminder = EKReminder(eventStore: eventStore)
-            reminder.title = "Zapłacić za \(paymentModel!.pendingPayments[sender.index!].name)"
-            let alarm = EKAlarm(absoluteDate: Calendar.current.date(byAdding: .day, value: -1, to: paymentModel!.pendingPayments[sender.index!].end_date)!)
-            reminder.addAlarm(alarm)
-            let calendars = eventStore.calendars(for: .reminder)
-            reminder.calendar = calendars.first
-            do {
-                try eventStore.save(reminder, commit: true)
-            } catch {
-                print(error.localizedDescription)
-            }
-        case .restricted:
-            print("restricted")
-        case .denied:
-            print("denied")
-        }
-    }
-}
-
-extension PaymentViewController: PaidPaymentCellProtocool {
-    func didTapped(sender: PaidPaymentCellView) {
-        sender.toggle()
     }
     
 }

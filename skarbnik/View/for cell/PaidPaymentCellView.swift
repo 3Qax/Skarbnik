@@ -12,6 +12,7 @@ import SnapKit
 
 class PaidPaymentCellView: PaymentCell {
     var delegate: PaidPaymentCellProtocool?
+    var contentViewBottomConstraint: Constraint?
     private var isExpanded = false
     
     var showPhotosButton: IconButton = {
@@ -34,10 +35,6 @@ class PaidPaymentCellView: PaymentCell {
     }
     
     func setup(_ title: String, _ description: String, _ amount: Float) {
-        let tapGestureRecoginzer = UITapGestureRecognizer(target: self, action: #selector(gotTapped(sender:)))
-        contentView.isUserInteractionEnabled = true
-        contentView.addGestureRecognizer(tapGestureRecoginzer)
-
         setupBasicViews(withContent: {
             self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
             self.amountLabel.textColor = Color.grey.base
@@ -48,31 +45,45 @@ class PaidPaymentCellView: PaymentCell {
         self.amountLabel.snp.makeConstraints({ (make) in
             make.bottom.equalToSuperview().offset(-5)
         })
+        
+        tapFunc = toggle
     }
     
     func toggle() {
         if isExpanded {
+            
+            showPhotosButton.removeFromSuperview()
+            descriptionLabel.removeFromSuperview()
+            
+            self.amountLabel.snp.remakeConstraints({ (make) in
+                make.top.equalToSuperview().offset(5)
+                make.right.equalToSuperview().offset(-self.separatorInset.left)
+                make.bottom.equalToSuperview().offset(-5)
+            })
             
             isExpanded = false
         } else {
             contentView.addSubview(showPhotosButton)
             contentView.addSubview(descriptionLabel)
             amountLabel.snp.remakeConstraints { (make) in
-                make.top.equalToSuperview().offset(5)
+                make.top.equalTo(titleLabel).priority(.required)
                 make.right.equalToSuperview().offset(-self.separatorInset.left)
+                make.left.equalTo(titleLabel.snp.right).offset(10)
             }
+            self.descriptionLabel.setContentCompressionResistancePriority(.required, for: .vertical)
             descriptionLabel.snp.remakeConstraints { (make) in
-                make.top.equalTo(titleLabel.snp.bottom)
-                make.left.equalToSuperview().offset(20)
-                make.right.equalTo(self.amountLabel)
+                make.top.equalTo(titleLabel.snp.bottom).priority(.required).labeled("Top of description to the bottom of title")
+                make.left.equalToSuperview().offset(20).labeled("Left offset of description")
+                make.right.equalTo(self.amountLabel).labeled("Right of description equal to amountLabel")
             }
+            self.showPhotosButton.setContentCompressionResistancePriority(.required, for: .vertical)
             showPhotosButton.snp.makeConstraints { (make) in
-                make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(5).priority(.required).labeled("Top of showPhotosButton to description bottom")
                 make.left.right.equalTo(descriptionLabel)
-                make.height.equalTo(30)
-                make.bottom.equalToSuperview().offset(-5)
+                make.height.equalTo(30).priority(999)
+                make.bottom.equalTo(contentView).priority(1000)
             }
-            contentView.sizeToFit()
+            
             isExpanded = true
         }
     }

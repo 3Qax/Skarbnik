@@ -64,8 +64,8 @@ class PaymentView: UIView {
             make.top.equalTo(headerView.snp.bottom)
         }
 
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 150
+//        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
         
         tableView.register(PendingPaymentCellView.self, forCellReuseIdentifier: "PendingCell")
         tableView.register(PaidPaymentCellView.self, forCellReuseIdentifier: "PaidCell")

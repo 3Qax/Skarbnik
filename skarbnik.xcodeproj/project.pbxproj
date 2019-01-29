@@ -22,6 +22,8 @@
 		197F583821D049750098F17B /* PickerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583721D049750098F17B /* PickerProtocol.swift */; };
 		198E731D21ED4AC600053994 /* PaidPaymentCellProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198E731C21ED4AC600053994 /* PaidPaymentCellProtocool.swift */; };
 		19A4ADEB21E62AF100CC2E42 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCell.swift */; };
+		19A7403321EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */; };
+		19A7403521EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
 		19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5E21CAE272009059B0 /* UserModel.swift */; };
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
@@ -49,6 +51,8 @@
 		197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewProtocol.swift; sourceTree = "<group>"; };
 		197F583721D049750098F17B /* PickerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerProtocol.swift; sourceTree = "<group>"; };
 		198E731C21ED4AC600053994 /* PaidPaymentCellProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidPaymentCellProtocool.swift; sourceTree = "<group>"; };
+		19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewPaidPaymentCellController.swift; sourceTree = "<group>"; };
+		19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewPendingPaymentCellController.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		19CA3D5E21CAE272009059B0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 			children = (
 				1941528D21A96A8300D0A7A3 /* LoginViewController.swift */,
 				19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */,
+				19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */,
+				19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */,
 				19549A0121CD3284009C994C /* ClassPickViewController.swift */,
 			);
 			path = Controller;
@@ -310,7 +316,9 @@
 				19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCell.swift in Sources */,
+				19A7403521EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift in Sources */,
 				1943527C21E546A800F84F41 /* PaidPaymentCellView.swift in Sources */,
+				19A7403321EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift in Sources */,
 				19642BD321EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift in Sources */,
 				1904C22F21A9F99300477024 /* PaymentModel.swift in Sources */,
 				197F583821D049750098F17B /* PickerProtocol.swift in Sources */,

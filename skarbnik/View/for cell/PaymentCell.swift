@@ -13,13 +13,13 @@ class PaymentCell: UITableViewCell {
     
     var titleLabel: UILabel! = {
     let label = UILabel()
-    label.numberOfLines = 0 //odpowiada za zawijanie tekstu w obrębie UILabel
+    label.numberOfLines = 0
     label.font = UIFont(name: "HelveticaNeue", size: 22.0)
     return label
-}()
+    }()
     var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0 //odpowiada za zawijanie tekstu w obrębie UILabel
+        label.numberOfLines = 0
         label.font = UIFont(name: "HelveticaNeue-Light", size: 18.0)
         label.textColor = UIColor(rgb: 0x78C0E5)
         return label
@@ -27,20 +27,33 @@ class PaymentCell: UITableViewCell {
     var amountLabel: UILabel! = {
         let label = UILabel()
         label.textAlignment = .right
-        label.numberOfLines = 0 //odpowiada za zawijanie tekstu w obrębie UILabel
         label.font = UIFont(name: "HelveticaNeue-Light", size: 22.0)
         label.textColor = UIColor(rgb: 0xFA3CB1)
         return label
     }()
+    var tapFunc: (() -> ())?
+    
+    @objc func handleTap() {
+        if let tapFunc = tapFunc {
+            tapFunc()
+        } else {
+            print("Tapped")
+        }
+    }
 
     func setupBasicViews(withContent: () -> ()) {
+        
+        let tapGestureRecoginzer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        contentView.isUserInteractionEnabled = true
+        contentView.addGestureRecognizer(tapGestureRecoginzer)
+        
         contentView.addSubview(titleLabel)
         contentView.addSubview(amountLabel)
         
         //Title
         self.titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(5)
+            make.top.equalToSuperview().offset(5).priority(.required)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -48,7 +61,7 @@ class PaymentCell: UITableViewCell {
         self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         amountLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel)
+            make.top.equalTo(titleLabel).priority(.required)
             make.right.equalToSuperview().offset(-self.separatorInset.left)
             make.left.equalTo(titleLabel.snp.right).offset(10)
         }
