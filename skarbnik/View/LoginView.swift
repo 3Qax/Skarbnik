@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Material
 import SnapKit
 
 class LoginView: UIView {
@@ -16,58 +15,10 @@ class LoginView: UIView {
         img.contentMode = .scaleAspectFit
         return img
     }()
-    var loginInput: TextField! = {
-        var input = TextField()
-        input.autocapitalizationType = .none
-        input.autocorrectionType = .no
-        input.returnKeyType = .next
-        input.isPlaceholderUppercasedWhenEditing = true
-        input.placeholder = "login"
-        input.placeholderAnimation = .hidden
-        input.leftViewActiveColor = UIColor(rgb: 0x00CEE6)
-        input.dividerActiveColor = UIColor(rgb: 0x00CEE6)
-        input.tintColor = UIColor(rgb: 0x00CEE6)
-        
-        input.leftView = {
-            let img = UIImageView()
-            img.image = UIImage(named: "person")
-            img.contentMode = .scaleAspectFit
-            return img
-        }()
-        input.leftView!.contentMode = .center
-        
-        return input
-    }()
-    var passwordInput: TextField! = {
-        var input = TextField()
-        input.autocapitalizationType = .none
-        input.autocorrectionType = .no
-        input.returnKeyType = .done
-        input.isSecureTextEntry = true
-        input.isPlaceholderUppercasedWhenEditing = true
-        input.placeholder = "hasło"
-        input.placeholderAnimation = .hidden
-        input.leftViewActiveColor = UIColor(rgb: 0x00CEE6)
-        input.dividerActiveColor = UIColor(rgb: 0x00CEE6)
-        input.tintColor = UIColor(rgb: 0x00CEE6)
-        
-        input.leftView = {
-            let img = UIImageView()
-            img.image = UIImage(named: "lock")
-            img.contentMode = .scaleAspectFit
-            return img
-        }()
-        input.leftView!.contentMode = .center
-        
-        return input
-    }()
-    var loginButton: RaisedButton! = {
-        var btn = RaisedButton(title: "Zaloguj", titleColor: Color.white)
-        btn.pulseColor = Color.white
-        btn.backgroundColor = UIColor.init(rgb: 0xFA3CB1)
-        btn.titleLabel?.font = UIFont(name: "PingFangTC-Semibold", size: 20.0)
-        return btn
-    }()
+    var loginInput = LightTextField(placeholder: "login",  UIImage(named: "user"), returnKeyType: .next)
+    var passwordInput = LightTextField(placeholder: "hasło",  UIImage(named: "key"), returnKeyType: .done, hideContent: true)
+    
+    var loginButton = RaisedButton(title: "Zaloguj...")
     @objc var delegate: LoginViewProtocol?
     
     @objc func loginTapped(sender: Any?)  {
@@ -82,7 +33,7 @@ class LoginView: UIView {
         super.init(frame: frame)
         
         let outsideTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(outsideTapped(sender:)))
-        self.backgroundColor = Color.grey.lighten4
+        self.backgroundColor = UIColor(rgb: 0xF5F5F5)
         self.addGestureRecognizer(outsideTapGestureRecognizer)
         
         //UI will be presented after unsuccessfull login with token
@@ -93,9 +44,9 @@ class LoginView: UIView {
         
         self.addSubview(passwordInput)
         passwordInput.snp.makeConstraints { (make) in
-            make.centerY.equalTo(self).labeled("passwordInputCenterConstraint")
-            make.left.equalTo(self).offset(20).labeled("passwordInputLeftConstraint")
-            make.right.equalTo(self).offset(-25).labeled("passwordInputRightConstraint")
+            make.centerY.equalTo(self)
+            make.left.equalTo(self).offset(20+(40/2)/2)
+            make.right.equalTo(self).offset(-25)
         }
         
         self.addSubview(loginButton)
@@ -103,14 +54,13 @@ class LoginView: UIView {
             make.top.equalTo(passwordInput.snp.bottom).offset(20)
             make.left.equalTo(self).offset(20)
             make.right.equalTo(self).offset(-20)
-            make.height.equalTo(45)
         }
         loginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
         
         self.addSubview(loginInput)
         loginInput.snp.makeConstraints { (make) in
             make.bottom.equalTo(passwordInput.snp.top).offset(-20)
-            make.left.equalTo(self).offset(20)
+            make.left.equalTo(self).offset(20+(40/2)/2)
             make.right.equalTo(self).offset(-25)
         }
         
@@ -134,10 +84,16 @@ class LoginView: UIView {
         }
         UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseOut, animations: {
             self.layoutIfNeeded()
-        }, completion: { (didEnded) in
-            self.loginInput.animate([.delay(0.0), .duration(0.5), .fadeIn])
-            self.passwordInput.animate([.delay(0.125), .duration(0.5), .fadeIn])
-            self.loginButton.animate([.delay(0.25), .duration(0.5), .fadeIn])
+        }, completion: { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0, animations: {
+                self.loginInput.alpha = 1.0
+            })
+            UIView.animate(withDuration: 0.5, delay: 0.125, animations: {
+               self.passwordInput.alpha = 1.0
+            })
+            UIView.animate(withDuration: 0.5, delay: 0.25, animations: {
+              self.loginButton.alpha  = 1.0
+            })
         })
     }
     func shouldResignAnyResponder() {
@@ -146,23 +102,19 @@ class LoginView: UIView {
     }
     
     func startLoginAnimation() {
-        loginInput.animate([.delay(0.0), .duration(0.5), .fadeOut])
-        passwordInput.animate([.delay(0.0), .duration(0.5), .fadeOut])
+        UIView.animate(withDuration: 0.5, animations: {
+            self.loginInput.alpha = 0.0
+            self.passwordInput.alpha = 0.0
+        })
 
-        UIView.animate(withDuration: 0.5, delay: 0.5, options: .curveEaseOut, animations: {
-            self.layoutIfNeeded()
-            self.loginButton.title! = "Logowanie..."
-        }, completion: { (didEnded) in
-            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
-                self.loginButton.backgroundColor = UIColor(rgb: 0x78c1e5)
-            }, completion: nil)
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
+            self.loginButton.backgroundColor = UIColor(rgb: 0x78c1e5)
         })
     }
     func stopLoginAnimation() {
         self.loginInput.animate([.delay(0.0), .duration(0.5), .fadeIn])
         self.passwordInput.animate([.delay(0.0), .duration(0.5), .fadeIn])
         loginButton.layer.removeAllAnimations()
-        self.loginButton.title! = "Zaloguj"
         loginButton.backgroundColor = UIColor.init(rgb: 0xFA3CB1)
     }
     

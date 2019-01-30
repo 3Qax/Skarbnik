@@ -43,8 +43,8 @@ extension LoginViewController: LoginViewProtocol {
     }
     
     func tryToLoginWith(login: String?, pass: String?) {
-        (self.view as! LoginView).shouldResignAnyResponder()
         (self.view as! LoginView).startLoginAnimation()
+        (self.view as! LoginView).shouldResignAnyResponder()
         
         userModel = UserModel(login: login, password: pass, initCompletion: { succeed in
             guard succeed else {

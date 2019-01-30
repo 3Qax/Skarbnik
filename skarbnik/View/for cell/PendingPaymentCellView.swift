@@ -26,19 +26,7 @@ class PendingPaymentCellView: PaymentCell {
         
         return btn
     }()
-    var payButton: IconButton = {
-        let btn = IconButton(title: "ZAPŁAĆ", titleColor: UIColor.white)
-        
-        btn.pulseColor = UIColor.white
-        btn.backgroundColor = UIColor.init(rgb: 0xFA3CB1)
-        btn.borderColor = UIColor.init(rgb: 0xFA3CB1)
-        
-        btn.cornerRadiusPreset = .cornerRadius4
-        
-        btn.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18.0)
-        
-        return btn
-    }()
+    var payButton = RaisedButton(title: "Zapłać", hight: 30.0)
     
     @objc func remindButtonTapped(sender: Any) {
         delegate?.didTappedRemindButton(sender: self)
@@ -73,7 +61,7 @@ class PendingPaymentCellView: PaymentCell {
         payButton.snp.makeConstraints { (make) in
             make.top.equalTo(remindButton.snp.bottom).offset(5)
             make.left.right.equalTo(descriptionLabel)
-            make.height.equalTo(30)
+//            make.height.equalTo(30)
             make.bottom.equalToSuperview().offset(-5)
         }
     }

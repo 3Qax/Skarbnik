@@ -24,6 +24,8 @@
 		19A4ADEB21E62AF100CC2E42 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCell.swift */; };
 		19A7403321EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */; };
 		19A7403521EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */; };
+		19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A6F2200DF890095D991 /* RaisedButton.swift */; };
+		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
 		19CA3D5F21CAE272009059B0 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5E21CAE272009059B0 /* UserModel.swift */; };
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
@@ -53,6 +55,8 @@
 		198E731C21ED4AC600053994 /* PaidPaymentCellProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidPaymentCellProtocool.swift; sourceTree = "<group>"; };
 		19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewPaidPaymentCellController.swift; sourceTree = "<group>"; };
 		19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewPendingPaymentCellController.swift; sourceTree = "<group>"; };
+		19BA4A6F2200DF890095D991 /* RaisedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaisedButton.swift; sourceTree = "<group>"; };
+		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		19CA3D5E21CAE272009059B0 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 		1941528A21A96A8300D0A7A3 /* skarbnik */ = {
 			isa = PBXGroup;
 			children = (
+				19BA4A6E2200DF490095D991 /* Controlls */,
 				19FC745C21A992170019F1A5 /* Helper */,
 				1941529D21A96CDC00D0A7A3 /* Model */,
 				1941529E21A96CE200D0A7A3 /* View */,
@@ -147,6 +152,15 @@
 				1943527D21E546C000F84F41 /* PendingPaymentCellView.swift */,
 			);
 			path = "for cell";
+			sourceTree = "<group>";
+		};
+		19BA4A6E2200DF490095D991 /* Controlls */ = {
+			isa = PBXGroup;
+			children = (
+				19BA4A6F2200DF890095D991 /* RaisedButton.swift */,
+				19BA4A732201013F0095D991 /* LightTextField.swift */,
+			);
+			path = Controlls;
 			sourceTree = "<group>";
 		};
 		19FC745C21A992170019F1A5 /* Helper */ = {
@@ -312,9 +326,11 @@
 				1943527E21E546C000F84F41 /* PendingPaymentCellView.swift in Sources */,
 				198E731D21ED4AC600053994 /* PaidPaymentCellProtocool.swift in Sources */,
 				19549A0221CD3284009C994C /* ClassPickViewController.swift in Sources */,
+				19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
 				19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
+				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCell.swift in Sources */,
 				19A7403521EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift in Sources */,
 				1943527C21E546A800F84F41 /* PaidPaymentCellView.swift in Sources */,
