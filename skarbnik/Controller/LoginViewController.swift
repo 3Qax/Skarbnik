@@ -2,10 +2,16 @@ import Foundation
 import UIKit
 
 var userModel: UserModel?
+let feedbackGenerator = UINotificationFeedbackGenerator()
 
 class LoginViewController: UIViewController {
     
     lazy var paymentViewController = PaymentViewController()
+    let incorrectCredentialsAlert: UIAlertController = {
+        var alert = UIAlertController(title: "Nieprawidłowe dane", message: "Wprowadzone login i hasło są niepoprawne. Sprawdź je i spróbuj ponownie.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
+        return alert
+    }()
     
     override func loadView() {
         view = LoginView(frame: UIScreen.main.bounds)
@@ -43,6 +49,7 @@ extension LoginViewController: LoginViewProtocol {
     }
     
     func tryToLoginWith(login: String?, pass: String?) {
+        feedbackGenerator.prepare()
         (self.view as! LoginView).startLoginAnimation()
         (self.view as! LoginView).shouldResignAnyResponder()
         
@@ -50,10 +57,13 @@ extension LoginViewController: LoginViewProtocol {
             guard succeed else {
                 DispatchQueue.main.async {
                     (self.view as! LoginView).stopLoginAnimation()
+                    self.present(self.incorrectCredentialsAlert, animated: true)
+                    feedbackGenerator.notificationOccurred(.error)
                 }
                 return
             }
             DispatchQueue.main.async {
+                feedbackGenerator.notificationOccurred(.success)
                 self.loginSuccessfull()
             }
         })

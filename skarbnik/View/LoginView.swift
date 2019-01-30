@@ -17,8 +17,8 @@ class LoginView: UIView {
     }()
     var loginInput = LightTextField(placeholder: "login",  UIImage(named: "user"), returnKeyType: .next)
     var passwordInput = LightTextField(placeholder: "hasło",  UIImage(named: "key"), returnKeyType: .done, hideContent: true)
-    
     var loginButton = RaisedButton(title: "Zaloguj...")
+    
     @objc var delegate: LoginViewProtocol?
     
     @objc func loginTapped(sender: Any?)  {
@@ -106,16 +106,17 @@ class LoginView: UIView {
             self.loginInput.alpha = 0.0
             self.passwordInput.alpha = 0.0
         })
-
         UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
             self.loginButton.backgroundColor = UIColor(rgb: 0x78c1e5)
         })
     }
     func stopLoginAnimation() {
-        self.loginInput.animate([.delay(0.0), .duration(0.5), .fadeIn])
-        self.passwordInput.animate([.delay(0.0), .duration(0.5), .fadeIn])
+        UIView.animate(withDuration: 0.5, animations: {
+            self.loginInput.alpha = 1.0
+            self.passwordInput.alpha = 1.0
+        })
         loginButton.layer.removeAllAnimations()
-        loginButton.backgroundColor = UIColor.init(rgb: 0xFA3CB1)
+        loginButton.backgroundColor = UIColor(rgb: 0xFA3CB1)
     }
     
     required init?(coder aDecoder: NSCoder) {

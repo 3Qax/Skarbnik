@@ -36,6 +36,7 @@ class LightTextField: UITextField {
         
         if hideContent {
             self.isSecureTextEntry = true
+            self.clearsOnBeginEditing = true
         }
         
         self.tintColor = UIColor(rgb: 0x00CEE6)
