@@ -7,28 +7,17 @@
 //
 
 import UIKit
-import Material
 import SnapKit
 
 class PaidPaymentCellView: PaymentCell {
+    //reference to tableView so that cell could notify
+    //it when performing updates
+    weak var tableView: UITableView?
     var delegate: PaidPaymentCellProtocool?
-    var contentViewBottomConstraint: Constraint?
-    private var isExpanded = false
+    let showPhotosButton = OptionButton(title: "Pokaż zdjęcia", height: 30)
     
-    var showPhotosButton: IconButton = {
-        let btn = IconButton(title: "POKAŻ ZDJĘCIA", titleColor: UIColor.init(rgb: 0xFA3CB1))
-        
-        btn.pulseColor = UIColor.init(rgb: 0xFA3CB1)
-        btn.backgroundColor = Color.clear
-        btn.borderColor = UIColor.init(rgb: 0xFA3CB1)
-        
-        btn.borderWidthPreset = .border2
-        btn.cornerRadiusPreset = .cornerRadius4
-        
-        btn.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18.0)
-        
-        return btn
-    }()
+    
+    private var isExpanded = false
     
     @objc func gotTapped(sender: Any) {
         delegate?.didTapped(sender: self)
@@ -51,7 +40,7 @@ class PaidPaymentCellView: PaymentCell {
     
     func toggle() {
         if isExpanded {
-            
+            tableView?.beginUpdates()
             showPhotosButton.removeFromSuperview()
             descriptionLabel.removeFromSuperview()
             
@@ -60,9 +49,10 @@ class PaidPaymentCellView: PaymentCell {
                 make.right.equalToSuperview().offset(-self.separatorInset.left)
                 make.bottom.equalToSuperview().offset(-5)
             })
-            
+            tableView?.endUpdates()
             isExpanded = false
         } else {
+            tableView?.beginUpdates()
             contentView.addSubview(showPhotosButton)
             contentView.addSubview(descriptionLabel)
             amountLabel.snp.remakeConstraints { (make) in
@@ -80,12 +70,12 @@ class PaidPaymentCellView: PaymentCell {
             showPhotosButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5).priority(.required).labeled("Top of showPhotosButton to description bottom")
                 make.left.right.equalTo(descriptionLabel)
-                make.height.equalTo(30).priority(999)
-                make.bottom.equalTo(contentView).priority(1000)
+                make.bottom.equalToSuperview().offset(-5).priority(999)
             }
-            
+            tableView?.endUpdates()
             isExpanded = true
         }
+        //TODO: make sure that newly expanded cell is fully shown
     }
     
 }

@@ -106,6 +106,7 @@ extension PaymentViewController: UITableViewDataSource {
             let data = paymentModel!.paidPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
             cell.delegate = self
+            cell.tableView = (self.view as! PaymentView).tableView
             return cell
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")

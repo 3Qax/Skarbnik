@@ -7,12 +7,11 @@
 //
 
 import UIKit
-import Material
 
 class PendingPaymentCellView: PaymentCell {
     var index: Int?
     var delegate: PendingPaymentCellProtocool?
-    var remindButton = OptionButton(title: "Przypomnij", hight: 30.0)
+    var remindButton = OptionButton(title: "Przypomnij", height: 30.0)
     var payButton = RaisedButton(title: "Zapłać", hight: 30.0)
     
     @objc func remindButtonTapped(sender: Any) {

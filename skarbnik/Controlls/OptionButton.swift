@@ -10,7 +10,7 @@ import UIKit
 
 class OptionButton: UIButton {
 
-    init(title: String = "Button", hight: CGFloat = 40.0) {
+    init(title: String = "Button", height: CGFloat = 40.0) {
         super.init(frame: .zero)
         
         setTitle(title.capitalizingFirstLetter(), for: .normal)
@@ -19,12 +19,12 @@ class OptionButton: UIButton {
         
         backgroundColor = UIColor.clear//(rgb: 0xFA3CB1)
         
-        layer.cornerRadius = hight / 2.0
+        layer.cornerRadius = height / 2.0
         layer.borderColor = UIColor(rgb: 0xFA3CB1).cgColor
         layer.borderWidth = 1.0
         
         snp.makeConstraints { (make) in
-            make.height.equalTo(hight)
+            make.height.equalTo(height)
         }
     }
     

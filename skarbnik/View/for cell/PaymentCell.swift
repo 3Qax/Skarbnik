@@ -6,7 +6,6 @@
 //  Copyright © 2018 Jakub Towarek. All rights reserved.
 //
 import UIKit
-import Material
 import SnapKit
 
 class PaymentCell: UITableViewCell {
@@ -60,6 +59,7 @@ class PaymentCell: UITableViewCell {
         //Amount
         self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
+        self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
         amountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel).priority(.required)
             make.right.equalToSuperview().offset(-self.separatorInset.left)

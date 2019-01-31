@@ -25,8 +25,11 @@ class LightTextField: UITextField {
         
         if let image = image {
             self.leftViewMode = .always
-            let imageView = UIImageView(image: image.tint(with: UIColor(rgb: 0xAAAAAA)))
+            //let imageView = UIImageView(image: image.tint(with: UIColor(rgb: 0xAAAAAA)))
+            let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit
+            //TODO: make sure that line below works
+            imageView.tintColor = UIColor(rgb: 0xAAAAAA)
             let customLeftView = UIView(frame: CGRect(x: 0, y: 0, width: imageView.frame.width + padding, height: imageView.frame.height))
             
             customLeftView.addSubview(imageView)
