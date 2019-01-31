@@ -7,45 +7,27 @@
 //
 
 import UIKit
-import Material
 import EventKit
 
 class PaymentViewController: UIViewController {
     var paymentModel: PaymentModel?
     let eventStore = EKEventStore()
-    let classPickViewController = ClassPickViewController()
+    let studentPicker = UIAlertController(title: nil, message: "Wybierz ucznia:", preferredStyle: .actionSheet)
+    
+    
     
     override func loadView() {
         view = PaymentView(frame: UIScreen.main.bounds)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func didChoose(id: Int, completion: @escaping () -> ()) {
+        let selectedChild = userModel!.children?.first(where: { (child) -> Bool in
+            child.id_field == id
+        })
         
-        classPickViewController.delegate = self
-        classPickViewController.modalPresentationStyle = .overCurrentContext
-        self.present(classPickViewController, animated: false)
+        (self.view as! PaymentView).viewFor(child: selectedChild!)
         
-        (self.view as! PaymentView).tableView.delegate = self
-        (self.view as! PaymentView).tableView.dataSource = self
-        (self.view as! PaymentView).delegate = self
-    }
-}
-
-//MARK:
-extension PaymentViewController: PaymentViewProtocol {
-    func didTappedClass() {
-        self.present(classPickViewController, animated: false)
-    }
-}
-
-//MARK:
-extension PaymentViewController: PickerProtocol {
-    func didChoose(_ index: Int, completion: @escaping () -> ()) {
-        
-        (self.view as! PaymentView).viewFor(child: userModel!.children![index])
-        
-        paymentModel = PaymentModel(for: userModel!.children![index], completion: {
+        paymentModel = PaymentModel(for: selectedChild!, completion: {
             DispatchQueue.main.async {
                 (self.view as! PaymentView).tableView.reloadData()
                 completion()
@@ -53,12 +35,36 @@ extension PaymentViewController: PickerProtocol {
         })
         
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        for child in userModel!.children! {
+            studentPicker.addAction(UIAlertAction(title: "\(child.name)", style: .default, handler: { (_) in
+                //TODO: show some amazing endless animation of loading
+                self.didChoose(id: child.id_field, completion: {
+                    //TODO: stop that amazing animation
+                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                        (self.view as! PaymentView).blurEffect.alpha = 0.0
+                    })
+                })
+                self.studentPicker.dismiss(animated: true)
+            }))
+        }
+        self.present(studentPicker, animated: true)
+        
+        (self.view as! PaymentView).tableView.dataSource = self
+        (self.view as! PaymentView).delegate = self
+    }
 }
 
-//MARK:
-extension PaymentViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("section: \(indexPath.section) row: \(indexPath.row)")
+extension PaymentViewController: PaymentViewProtocol {
+    //MARK: provide selectedChild changing functionality
+    func didTappedClass() {
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
+            (self.view as! PaymentView).blurEffect.alpha = 1.0
+        })
+        self.present(studentPicker, animated: true)
     }
 }
 

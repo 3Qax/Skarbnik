@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Material
 
 class PaymentView: UIView {
     var headerView = UIView()
@@ -20,21 +19,20 @@ class PaymentView: UIView {
         }()
         var headerClassLabel: UILabel = {
             var label = UILabel()
-            
-            label.text = ""
             label.font = UIFont(name: "HelveticaNeue-Light", size: 29.0)
-            label.textColor = Color.blue.base
+            label.textColor = UIColor(rgb: 0x00CEE6)
             label.textAlignment = .right
             return label
         }()
     var tableView = UITableView()
+    let blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     
     var delegate: PaymentViewProtocol?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = Color.grey.lighten4
+        self.backgroundColor = UIColor(rgb: 0xF5F5F5)
         
         self.addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
@@ -63,8 +61,16 @@ class PaymentView: UIView {
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom)
         }
+        
+        
+        self.addSubview(blurEffect)
+        blurEffect.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalToSuperview()
+            make.top.equalTo(headerView.snp.bottom)
+        }
+        self.bringSubviewToFront(blurEffect)
 
-//        tableView.rowHeight = UITableView.automaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
         
         tableView.register(PendingPaymentCellView.self, forCellReuseIdentifier: "PendingCell")

@@ -37,7 +37,7 @@ class PaidPaymentCellView: PaymentCell {
     func setup(_ title: String, _ description: String, _ amount: Float) {
         setupBasicViews(withContent: {
             self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
-            self.amountLabel.textColor = Color.grey.base
+            self.amountLabel.textColor = UIColor(rgb: 0xAAAAAA)
             self.titleLabel.text = title.capitalizingFirstLetter()
             self.descriptionLabel.text = description.capitalizingFirstLetter()
         })

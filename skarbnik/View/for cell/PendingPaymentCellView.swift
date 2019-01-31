@@ -12,20 +12,7 @@ import Material
 class PendingPaymentCellView: PaymentCell {
     var index: Int?
     var delegate: PendingPaymentCellProtocool?
-    var remindButton: IconButton = {
-        let btn = IconButton(title: "PRZYPOMNIJ", titleColor: UIColor.init(rgb: 0xFA3CB1))
-        
-        btn.pulseColor = UIColor.init(rgb: 0xFA3CB1)
-        btn.backgroundColor = Color.clear
-        btn.borderColor = UIColor.init(rgb: 0xFA3CB1)
-        
-        btn.borderWidthPreset = .border2
-        btn.cornerRadiusPreset = .cornerRadius4
-        
-        btn.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 18.0)
-        
-        return btn
-    }()
+    var remindButton = OptionButton(title: "Przypomnij", hight: 30.0)
     var payButton = RaisedButton(title: "Zapłać", hight: 30.0)
     
     @objc func remindButtonTapped(sender: Any) {
