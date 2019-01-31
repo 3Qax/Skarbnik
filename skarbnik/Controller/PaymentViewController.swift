@@ -41,18 +41,28 @@ class PaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //don't allow user to change student while loading one
+        (self.view as! PaymentView).headerClassLabel.isUserInteractionEnabled = false
+        (self.view as! PaymentView).headerClassLabel.alpha = 0.3
+        
         for child in userModel!.children! {
             studentPicker.addAction(UIAlertAction(title: "\(child.name)", style: .default, handler: { (_) in
+                selectionFeedbackGenerator.selectionChanged()
                 //TODO: show some amazing endless animation of loading
                 self.didChoose(id: child.id_field, completion: {
                     //TODO: stop that amazing animation
+                    notificationFeedbackGenerator.notificationOccurred(.success)
+                    (self.view as! PaymentView).headerClassLabel.isUserInteractionEnabled = true
                     UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
                         (self.view as! PaymentView).blurEffect.alpha = 0.0
+                        (self.view as! PaymentView).headerClassLabel.alpha = 1
                     })
+                    
                 })
-                self.studentPicker.dismiss(animated: true)
+                self.studentPicker.dismiss(animated: false)
             }))
         }
+        selectionFeedbackGenerator.prepare()
         self.present(studentPicker, animated: true)
         
         (self.view as! PaymentView).tableView.dataSource = self
@@ -63,9 +73,13 @@ class PaymentViewController: UIViewController {
 extension PaymentViewController: PaymentViewProtocol {
     //MARK: provide selectedChild changing functionality
     func didTappedClass() {
+        (self.view as! PaymentView).headerClassLabel.isUserInteractionEnabled = false
+        selectionFeedbackGenerator.selectionChanged()
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
             (self.view as! PaymentView).blurEffect.alpha = 1.0
+            (self.view as! PaymentView).headerClassLabel.alpha = 0.3
         })
+        selectionFeedbackGenerator.prepare()
         self.present(studentPicker, animated: true)
     }
 }

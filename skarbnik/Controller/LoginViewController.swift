@@ -2,8 +2,8 @@ import Foundation
 import UIKit
 
 var userModel: UserModel?
-let feedbackGenerator = UINotificationFeedbackGenerator()
-
+let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 class LoginViewController: UIViewController {
     
     lazy var paymentViewController = PaymentViewController()
@@ -51,7 +51,7 @@ extension LoginViewController: LoginViewProtocol {
     }
     
     func tryToLoginWith(login: String?, pass: String?) {
-        feedbackGenerator.prepare()
+        notificationFeedbackGenerator.prepare()
         (self.view as! LoginView).startLoginAnimation()
         (self.view as! LoginView).shouldResignAnyResponder()
         
@@ -60,12 +60,12 @@ extension LoginViewController: LoginViewProtocol {
                 DispatchQueue.main.async {
                     (self.view as! LoginView).stopLoginAnimation()
                     self.present(self.incorrectCredentialsAlert, animated: true)
-                    feedbackGenerator.notificationOccurred(.error)
+                    notificationFeedbackGenerator.notificationOccurred(.error)
                 }
                 return
             }
             DispatchQueue.main.async {
-                feedbackGenerator.notificationOccurred(.success)
+                notificationFeedbackGenerator.notificationOccurred(.success)
                 self.loginSuccessfull()
             }
         })
