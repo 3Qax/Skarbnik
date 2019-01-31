@@ -29,11 +29,10 @@
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
 		19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */; };
 		19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */; };
-		BE696A9220E8CF489971B093 /* Pods_skarbnik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C5EBE3878ECED711E1D7895 /* Pods_skarbnik.framework */; };
+		A254F2618EA361D58E4012D3 /* Pods_skarbnik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB04498CD5ED1E9CE404489A /* Pods_skarbnik.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
 		1904C22E21A9F99300477024 /* PaymentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentModel.swift; sourceTree = "<group>"; };
 		1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewProtocol.swift; sourceTree = "<group>"; };
 		1941528821A96A8300D0A7A3 /* skarbnik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skarbnik.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,8 +57,11 @@
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
 		19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewProtocol.swift; sourceTree = "<group>"; };
 		19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
-		1C5EBE3878ECED711E1D7895 /* Pods_skarbnik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_skarbnik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3127D522E2219D2ED2CCF0B /* Pods-skarbnik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.release.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.release.xcconfig"; sourceTree = "<group>"; };
+		4A3FD2ED90FB7B83BE84B12F /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
+		D864932DBBCEBA461A938A3F /* Pods-skarbnik.staging debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.staging debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.staging debug.xcconfig"; sourceTree = "<group>"; };
+		DB04498CD5ED1E9CE404489A /* Pods_skarbnik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_skarbnik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC73E9BF4A8CCF00C9A6DF3B /* Pods-skarbnik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.release.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.release.xcconfig"; sourceTree = "<group>"; };
+		EDD17648C376BEB175AA0449 /* Pods-skarbnik.staging release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.staging release.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.staging release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,20 +69,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE696A9220E8CF489971B093 /* Pods_skarbnik.framework in Frameworks */,
+				A254F2618EA361D58E4012D3 /* Pods_skarbnik.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		059A757353FD50BD352349BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB04498CD5ED1E9CE404489A /* Pods_skarbnik.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		1941527F21A96A8300D0A7A3 = {
 			isa = PBXGroup;
 			children = (
 				1941528A21A96A8300D0A7A3 /* skarbnik */,
 				1941528921A96A8300D0A7A3 /* Products */,
-				1F3913BE216E9B2336AD1727 /* Pods */,
-				88F166082859D2826B2F0BA5 /* Frameworks */,
+				84FC14D9AC04AFECD12AE85F /* Pods */,
+				059A757353FD50BD352349BD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -170,21 +180,15 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		1F3913BE216E9B2336AD1727 /* Pods */ = {
+		84FC14D9AC04AFECD12AE85F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */,
-				A3127D522E2219D2ED2CCF0B /* Pods-skarbnik.release.xcconfig */,
+				4A3FD2ED90FB7B83BE84B12F /* Pods-skarbnik.debug.xcconfig */,
+				D864932DBBCEBA461A938A3F /* Pods-skarbnik.staging debug.xcconfig */,
+				EC73E9BF4A8CCF00C9A6DF3B /* Pods-skarbnik.release.xcconfig */,
+				EDD17648C376BEB175AA0449 /* Pods-skarbnik.staging release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		88F166082859D2826B2F0BA5 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1C5EBE3878ECED711E1D7895 /* Pods_skarbnik.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,11 +198,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1941529A21A96A8400D0A7A3 /* Build configuration list for PBXNativeTarget "skarbnik" */;
 			buildPhases = (
-				0705A4C79E388B29795C51C2 /* [CP] Check Pods Manifest.lock */,
+				F9AF9D631C96091FA06D7488 /* [CP] Check Pods Manifest.lock */,
 				1941528421A96A8300D0A7A3 /* Sources */,
 				1941528521A96A8300D0A7A3 /* Frameworks */,
 				1941528621A96A8300D0A7A3 /* Resources */,
-				1B03CD09FA49C51B902466FC /* [CP] Embed Pods Frameworks */,
+				45938807E9EC03171B35C3B4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -255,7 +259,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0705A4C79E388B29795C51C2 /* [CP] Check Pods Manifest.lock */ = {
+		45938807E9EC03171B35C3B4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F9AF9D631C96091FA06D7488 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -275,34 +301,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1B03CD09FA49C51B902466FC /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
-				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
-				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -467,7 +465,7 @@
 		};
 		1941529B21A96A8400D0A7A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */;
+			baseConfigurationReference = 4A3FD2ED90FB7B83BE84B12F /* Pods-skarbnik.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -487,7 +485,7 @@
 		};
 		1941529C21A96A8400D0A7A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3127D522E2219D2ED2CCF0B /* Pods-skarbnik.release.xcconfig */;
+			baseConfigurationReference = EC73E9BF4A8CCF00C9A6DF3B /* Pods-skarbnik.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -568,7 +566,7 @@
 		};
 		19A7402F21EE8918009BC735 /* Staging Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 037060D2712CDB4853EA5A57 /* Pods-skarbnik.debug.xcconfig */;
+			baseConfigurationReference = D864932DBBCEBA461A938A3F /* Pods-skarbnik.staging debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -643,7 +641,7 @@
 		};
 		19A7403121EE8933009BC735 /* Staging Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A3127D522E2219D2ED2CCF0B /* Pods-skarbnik.release.xcconfig */;
+			baseConfigurationReference = EDD17648C376BEB175AA0449 /* Pods-skarbnik.staging release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
