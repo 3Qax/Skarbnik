@@ -1,0 +1,23 @@
+/* 
+  Localizable.strings
+  skarbnik
+
+  Created by Jakub Towarek on 31/01/2019.
+  Copyright © 2019 Jakub Towarek. All rights reserved.
+*/
+
+//MARK: LoginView string
+"login_placeholder" = "login";
+"password_placeholder" = "password";
+"login_button" = "Log in...";
+"incorrect_credentials_header" = "Incorrect credentials";
+"incorrect_credentials_description" = "Entered login and password doesn't match. Check them and try again.";
+
+//MARK: Payments page strings
+"pending_payments_section_header" = "Pending";
+"paid_payments_section_header" = "Paid";
+"choose_student_description" = "Choose a student:";
+"set_reminder_button_text" = "Remind me...";
+"reminder_prefix_before_payment_name" = "Pay for";
+"pay_button_text" = "Pay...";
+"show_photos_button_text" = "Show photos";

@@ -14,7 +14,7 @@ class PaidPaymentCellView: PaymentCell {
     //it when performing updates
     weak var tableView: UITableView?
     var delegate: PaidPaymentCellProtocool?
-    let showPhotosButton = OptionButton(title: "Pokaż zdjęcia", height: 30)
+    let showPhotosButton = OptionButton(title: NSLocalizedString("show_photos_button_text", comment: ""), height: 30)
     
     
     private var isExpanded = false
@@ -25,6 +25,7 @@ class PaidPaymentCellView: PaymentCell {
     
     func setup(_ title: String, _ description: String, _ amount: Float) {
         setupBasicViews(withContent: {
+            //TODO: show local or designated currency
             self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
             self.amountLabel.textColor = UIColor(rgb: 0xAAAAAA)
             self.titleLabel.text = title.capitalizingFirstLetter()

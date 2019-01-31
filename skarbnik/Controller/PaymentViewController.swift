@@ -12,7 +12,9 @@ import EventKit
 class PaymentViewController: UIViewController {
     var paymentModel: PaymentModel?
     let eventStore = EKEventStore()
-    let studentPicker = UIAlertController(title: nil, message: "Wybierz ucznia:", preferredStyle: .actionSheet)
+    let studentPicker = UIAlertController(title: nil,
+                                          message: NSLocalizedString("choose_student_description", comment: ""),
+                                          preferredStyle: .actionSheet)
     
     
     
@@ -76,9 +78,9 @@ extension PaymentViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Oczekujące"
+            return NSLocalizedString("pending_payments_section_header", comment: "")
         }
-        return "Zapłacone"
+        return NSLocalizedString("paid_payments_section_header", comment: "")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

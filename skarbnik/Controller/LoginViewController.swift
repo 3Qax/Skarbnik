@@ -8,7 +8,9 @@ class LoginViewController: UIViewController {
     
     lazy var paymentViewController = PaymentViewController()
     let incorrectCredentialsAlert: UIAlertController = {
-        var alert = UIAlertController(title: "Nieprawidłowe dane", message: "Wprowadzone login i hasło są niepoprawne. Sprawdź je i spróbuj ponownie.", preferredStyle: .alert)
+        var alert = UIAlertController(title: NSLocalizedString("incorrect_credentials_header", comment: ""),
+                                      message: NSLocalizedString("incorrect_credentials_description", comment: ""),
+                                      preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
         return alert
     }()

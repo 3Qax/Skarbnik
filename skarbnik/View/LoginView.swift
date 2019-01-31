@@ -15,9 +15,14 @@ class LoginView: UIView {
         img.contentMode = .scaleAspectFit
         return img
     }()
-    var loginInput = LightTextField(placeholder: "login",  UIImage(named: "user"), returnKeyType: .next)
-    var passwordInput = LightTextField(placeholder: "hasło",  UIImage(named: "key"), returnKeyType: .done, hideContent: true)
-    var loginButton = RaisedButton(title: "Zaloguj...")
+    var loginInput      = LightTextField(placeholder: NSLocalizedString("login_placeholder", comment: ""),
+                                         UIImage(named: "user"),
+                                         returnKeyType: .next)
+    var passwordInput   = LightTextField(placeholder: NSLocalizedString("password_placeholder", comment: ""),
+                                         UIImage(named: "key"),
+                                         returnKeyType: .done,
+                                         hideContent: true)
+    var loginButton     = RaisedButton(title: NSLocalizedString("login_button", comment: ""))
     
     @objc var delegate: LoginViewProtocol?
     

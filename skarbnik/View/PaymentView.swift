@@ -9,23 +9,23 @@
 import UIKit
 
 class PaymentView: UIView {
-    var headerView = UIView()
-        var headerImage = UIImageView(image: UIImage(named: "logo"))
-        var headerNameLabel: UILabel = {
-            var label = UILabel()
-            label.textColor = UIColor.black
-            label.textAlignment = .left
-            return label
-        }()
-        var headerClassLabel: UILabel = {
-            var label = UILabel()
-            label.font = UIFont(name: "HelveticaNeue-Light", size: 29.0)
-            label.textColor = UIColor(rgb: 0x00CEE6)
-            label.textAlignment = .right
-            return label
-        }()
-    var tableView = UITableView()
-    let blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    var headerView                  = UIView()
+    var headerImage                 = UIImageView(image: UIImage(named: "logo"))
+    var headerNameLabel: UILabel    = {
+        var label = UILabel()
+        label.textColor = UIColor.black
+        label.textAlignment = .left
+        return label
+    }()
+    var headerClassLabel: UILabel   = {
+        var label = UILabel()
+        label.font = UIFont(name: "HelveticaNeue-Light", size: 29.0)
+        label.textColor = UIColor(rgb: 0x00CEE6)
+        label.textAlignment = .right
+        return label
+    }()
+    var tableView                   = UITableView()
+    let blurEffect                  = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     
     var delegate: PaymentViewProtocol?
     

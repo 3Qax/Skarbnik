@@ -11,8 +11,8 @@ import UIKit
 class PendingPaymentCellView: PaymentCell {
     var index: Int?
     var delegate: PendingPaymentCellProtocool?
-    var remindButton = OptionButton(title: "Przypomnij", height: 30.0)
-    var payButton = RaisedButton(title: "Zapłać", hight: 30.0)
+    var remindButton = OptionButton(title: NSLocalizedString("set_reminder_button_text", comment: ""), height: 30.0)
+    var payButton = RaisedButton(title: NSLocalizedString("pay_button_text", comment: ""), hight: 30.0)
     
     @objc func remindButtonTapped(sender: Any) {
         delegate?.didTappedRemindButton(sender: self)
