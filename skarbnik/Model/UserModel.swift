@@ -236,7 +236,7 @@ class UserModel {
     }
     
     func login(login: String?, password: String?, completion: @escaping (Bool) -> ()) {
-        if let login = login, let password = password, login != "", password != ""{
+        if let login = login, let password = password, login != "", password != "" {
             
             struct LoginPacket: Codable {
                 let username: String
@@ -265,6 +265,8 @@ class UserModel {
                     }
                 }
             loginTask.resume()
+        } else {
+            completion(false)
         }
     }
     
