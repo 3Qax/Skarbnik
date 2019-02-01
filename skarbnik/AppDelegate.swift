@@ -59,14 +59,19 @@ extension String {
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var navigationController: UINavigationController?
+    var mainCoordinator: MainCoordinator?
 
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let navigationController = UINavigationController()
+        navigationController.navigationBar.isHidden = true
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        navigationController = UINavigationController(rootViewController: LoginViewController())
-        navigationController!.navigationBar.isHidden = true
+        
+        mainCoordinator = MainCoordinator(navigationController: navigationController)
+        mainCoordinator?.start()
+        
         window!.rootViewController = navigationController
         window!.makeKeyAndVisible()
         

@@ -12,6 +12,13 @@
 "login_button" = "Log in...";
 "incorrect_credentials_header" = "Incorrect credentials";
 "incorrect_credentials_description" = "Entered login and password doesn't match. Check them and try again.";
+"should_change_password_after_first_login_header" = "Password change required";
+"should_change_password_after_first_login_description" = "For the sake of your safety we require changing password after first login. You should use strong password - it should consist at least of 8 characters, min. one big letter, one small letter, digit and a special character like #, @ or !";
+
+//MARK: ChangePasswordAfterFirstLoginView
+"new_password_placeholder" = "new password";
+"repeat_new_password_placeholder" = "repeat new password";
+"change_password_button" = "Change password...";
 
 //MARK: Payments page strings
 "pending_payments_section_header" = "Pending";

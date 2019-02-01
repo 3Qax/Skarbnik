@@ -50,7 +50,7 @@ class LoginView: UIView {
         self.addSubview(passwordInput)
         passwordInput.snp.makeConstraints { (make) in
             make.centerY.equalTo(self)
-            make.left.equalTo(self).offset(20+(40/2)/2)
+            make.left.equalTo(self).offset(25)
             make.right.equalTo(self).offset(-25)
         }
         
@@ -65,7 +65,7 @@ class LoginView: UIView {
         self.addSubview(loginInput)
         loginInput.snp.makeConstraints { (make) in
             make.bottom.equalTo(passwordInput.snp.top).offset(-20)
-            make.left.equalTo(self).offset(20+(40/2)/2)
+            make.left.equalTo(self).offset(25)
             make.right.equalTo(self).offset(-25)
         }
         

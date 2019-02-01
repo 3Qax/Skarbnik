@@ -12,6 +12,13 @@
 "login_button" = "Zaloguj...";
 "incorrect_credentials_header" = "Nieprawidłowe dane";
 "incorrect_credentials_description" = "Wprowadzone login i hasło są niepoprawne. Sprawdź je i spróbuj ponownie.";
+"should_change_password_after_first_login_header" = "Wymagana zmiana hasła";
+"should_change_password_after_first_login_description" = "W trosce o Twoje bezpieczeństwo wymagamy zmiany hasła po pierwszym logowaniu. Użyj silnego hasła - powinno ono zawierać conajmniej 8 znaków, min. jedną dużą literę, małą literę, cyfrę oraz znak specjalny np. #, @ czy !";
+
+//MARK: ChangePasswordAfterFirstLoginView
+"new_password_placeholder" = "nowe hasło";
+"repeat_new_password_placeholder" = "powtórz nowe hasło";
+"change_password_button" = "Zmień hasło...";
 
 //MARK: Payments page strings
 "pending_payments_section_header" = "Oczekujące";

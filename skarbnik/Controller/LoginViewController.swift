@@ -14,13 +14,10 @@ class LoginViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
         return alert
     }()
+    var coordinator: MainCoordinator?
     
     override func loadView() {
         view = LoginView(frame: UIScreen.main.bounds)
-    }
-    
-    func loginSuccessfull() {
-        self.navigationController?.pushViewController(self.paymentViewController, animated: true)
     }
     
     override func viewDidLoad() {
@@ -34,7 +31,7 @@ class LoginViewController: UIViewController {
                 return
             }
             DispatchQueue.main.async {
-                self.loginSuccessfull()
+                self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
             }
         })
         
@@ -66,7 +63,7 @@ extension LoginViewController: LoginViewProtocol {
             }
             DispatchQueue.main.async {
                 notificationFeedbackGenerator.notificationOccurred(.success)
-                self.loginSuccessfull()
+                self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
             }
         })
     }

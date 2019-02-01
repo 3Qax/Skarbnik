@@ -9,23 +9,22 @@
 import UIKit
 
 class PaymentView: UIView {
-    var headerView                  = UIView()
-    var headerImage                 = UIImageView(image: UIImage(named: "logo"))
-    var headerNameLabel: UILabel    = {
+    var headerView                                  = UIView()
+    var headerImage                                 = UIImageView(image: UIImage(named: "logo"))
+    var headerNameLabel: UILabel                    = {
         var label = UILabel()
         label.textColor = UIColor.black
         label.textAlignment = .left
         return label
     }()
-    var headerClassLabel: UILabel   = {
-        var label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Light", size: 29.0)
-        label.textColor = UIColor(rgb: 0x00CEE6)
-        label.textAlignment = .right
-        return label
+    var headerChangeStudentImageView: UIImageView   = {
+        var imageView = UIImageView(image: UIImage(named: "users"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor(rgb: 0xFA3CB1)
+        return imageView
     }()
-    var tableView                   = UITableView()
-    let blurEffect                  = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    var tableView                                   = UITableView()
+    let blurEffect                                  = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     
     var delegate: PaymentViewProtocol?
     
@@ -47,14 +46,16 @@ class PaymentView: UIView {
             make.left.equalToSuperview().offset(15)
         }
         
-        headerView.addSubview(headerClassLabel)
+        headerView.addSubview(headerChangeStudentImageView)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedHeaderClassLabel(sender:)))
-        headerClassLabel.isUserInteractionEnabled = true
-        headerClassLabel.addGestureRecognizer(tapGestureRecognizer)
-        headerClassLabel.snp.makeConstraints { (make) in
+        headerChangeStudentImageView.isUserInteractionEnabled = true
+        headerChangeStudentImageView.addGestureRecognizer(tapGestureRecognizer)
+        headerChangeStudentImageView.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().offset(-15)
         }
+        headerChangeStudentImageView.layer.shouldRasterize = true
+        headerChangeStudentImageView.layer.rasterizationScale = UIScreen.main.scale
         
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
@@ -89,10 +90,6 @@ class PaymentView: UIView {
         let tmpName = NSMutableAttributedString()
         tmpName.append(NSAttributedString(string: child.name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
         headerNameLabel.attributedText = tmpName
-        
-        let tmpClassName = NSMutableAttributedString()
-        tmpClassName.append(NSAttributedString(string: child.class_field.name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Light", size: 29.0)!]))
-        headerClassLabel.attributedText = tmpClassName
     }
     
     func shouldReloadHeader(for name: String) {

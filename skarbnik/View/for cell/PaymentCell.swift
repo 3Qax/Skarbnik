@@ -20,14 +20,14 @@ class PaymentCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = UIFont(name: "HelveticaNeue-Light", size: 18.0)
-        label.textColor = UIColor(rgb: 0x78C0E5)
+        label.textColor = UIColor(rgb: 0xAAAAAA)
         return label
     }()
     var amountLabel: UILabel! = {
         let label = UILabel()
         label.textAlignment = .right
         label.font = UIFont(name: "HelveticaNeue-Light", size: 22.0)
-        label.textColor = UIColor(rgb: 0xFA3CB1)
+        label.textColor = UIColor(rgb: 0x00A1E6)
         return label
     }()
     var tapFunc: (() -> ())?
