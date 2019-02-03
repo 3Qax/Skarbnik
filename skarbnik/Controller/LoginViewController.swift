@@ -1,12 +1,12 @@
 import Foundation
 import UIKit
 
-var userModel: UserModel?
+
+
 let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 class LoginViewController: UIViewController {
-    
-    lazy var paymentViewController = PaymentViewController()
+    let loginModel = LoginModel()
     let incorrectCredentialsAlert: UIAlertController = {
         var alert = UIAlertController(title: NSLocalizedString("incorrect_credentials_header", comment: ""),
                                       message: NSLocalizedString("incorrect_credentials_description", comment: ""),
@@ -23,8 +23,10 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        userModel = UserModel(completion: { (succeed) in
-            guard succeed else {
+        
+        
+        loginModel.login { (successful) in
+            guard successful else {
                 DispatchQueue.main.async {
                     (self.view as! LoginView).showUI()
                 }
@@ -33,7 +35,8 @@ class LoginViewController: UIViewController {
             DispatchQueue.main.async {
                 self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
             }
-        })
+            
+        }
         
         (self.view as! LoginView).delegate = self
         (self.view as! LoginView).loginInput.delegate = self
@@ -52,8 +55,8 @@ extension LoginViewController: LoginViewProtocol {
         (self.view as! LoginView).startLoginAnimation()
         (self.view as! LoginView).shouldResignAnyResponder()
         
-        userModel = UserModel(login: login, password: pass, initCompletion: { succeed in
-            guard succeed else {
+        loginModel.login(login: login, password: pass) { (successful) in
+            guard successful else {
                 DispatchQueue.main.async {
                     (self.view as! LoginView).stopLoginAnimation()
                     self.present(self.incorrectCredentialsAlert, animated: true)
@@ -62,10 +65,10 @@ extension LoginViewController: LoginViewProtocol {
                 return
             }
             DispatchQueue.main.async {
-                notificationFeedbackGenerator.notificationOccurred(.success)
-                self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
+                    notificationFeedbackGenerator.notificationOccurred(.success)
+                    self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
             }
-        })
+        }
     }
     
 }

@@ -10,6 +10,9 @@ import UIKit
 import EventKit
 
 class PaymentViewController: UIViewController {
+    let userModel: UserModel? = UserModel { (_) in
+        print("lunched successfully")
+    }
     var paymentModel: PaymentModel?
     let eventStore = EKEventStore()
     let studentPicker = UIAlertController(title: nil,
