@@ -9,6 +9,7 @@
 import UIKit
 
 class PaymentView: UIView {
+    var delegate: PaymentViewProtocol?
     var headerView                                  = UIView()
     var headerImage                                 = UIImageView(image: UIImage(named: "logo"))
     var headerNameLabel: UILabel                    = {
@@ -24,9 +25,36 @@ class PaymentView: UIView {
         return imageView
     }()
     var tableView                                   = UITableView()
-    let blurEffect                                  = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    let blurView: UIVisualEffectView              = {
+        let blurView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+        
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.layer.zPosition = 100
+        
+        return blurView
+    }()
+    let refreshControl: UIRefreshControl            = {
+        var refresh = UIRefreshControl()
+        
+        refresh.tintColor = UIColor.clear
+        refresh.backgroundColor = UIColor(rgb: 0xFA3CB1)
+        refresh.addTarget(self, action: #selector(didTrigerResfreshControl), for: .valueChanged)
+        
+        let reloadLabel = UILabel()
+        reloadLabel.text = NSLocalizedString("waiting_while_refreshing_data_text", comment: "waiting_while_refreshing_data_text")
+        reloadLabel.font = UIFont(name: "PingFangTC-Light", size: 24.0)
+        reloadLabel.textColor = UIColor.white
+        
+        refresh.addSubview(reloadLabel)
+        reloadLabel.snp.makeConstraints({ (make) in
+            make.centerX.centerY.equalToSuperview()
+        })
+        
+        return refresh
+    }()
     
-    var delegate: PaymentViewProtocol?
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,22 +82,18 @@ class PaymentView: UIView {
             make.centerY.equalToSuperview()
             make.right.equalToSuperview().offset(-15)
         }
-        headerChangeStudentImageView.layer.shouldRasterize = true
-        headerChangeStudentImageView.layer.rasterizationScale = UIScreen.main.scale
         
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom)
         }
+        tableView.refreshControl = refreshControl
         
-        
-        self.addSubview(blurEffect)
-        blurEffect.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(headerView.snp.bottom)
-        }
-        self.bringSubviewToFront(blurEffect)
+
+        blurView.frame = tableView.bounds
+        tableView.addSubview(blurView)
+
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
@@ -84,6 +108,26 @@ class PaymentView: UIView {
     
     @objc func didTappedHeaderClassLabel(sender: UITapGestureRecognizer) {
         delegate?.didTappedClass()
+    }
+    
+    @objc func didTrigerResfreshControl() {
+        
+        UIView.animate(withDuration: 0.5) {
+            self.blurView.alpha = 1.0
+        }
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
+            self.refreshControl.backgroundColor = UIColor(rgb: 0x00A1E6)
+        })
+        
+        delegate?.refreshData(completion: {
+            UIView.animate(withDuration: 0.5) {
+                self.blurView.alpha = 0.0
+                self.refreshControl.backgroundColor = UIColor(rgb: 0xFA3CB1)
+            }
+            self.refreshControl.endRefreshing()
+        })
+        
     }
     
     func viewFor(child: Child) {

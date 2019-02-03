@@ -10,21 +10,20 @@ import UIKit
 import SnapKit
 
 class LoginView: UIView {
-    let logo: UIImageView! = {
+    let logo: UIImageView!  = {
         var img = UIImageView(image: UIImage(named: "logo"))
         img.contentMode = .scaleAspectFit
         return img
     }()
-    var loginInput      = LightTextField(placeholder: NSLocalizedString("login_placeholder", comment: ""),
+    var loginInput          = LightTextField(placeholder: NSLocalizedString("login_placeholder", comment: ""),
                                          UIImage(named: "user"),
                                          returnKeyType: .next)
-    var passwordInput   = LightTextField(placeholder: NSLocalizedString("password_placeholder", comment: ""),
+    var passwordInput       = LightTextField(placeholder: NSLocalizedString("password_placeholder", comment: ""),
                                          UIImage(named: "key"),
                                          returnKeyType: .done,
                                          hideContent: true)
-    var loginButton     = RaisedButton(title: NSLocalizedString("login_button", comment: ""))
-    
-    @objc var delegate: LoginViewProtocol?
+    var loginButton         = RaisedButton(title: NSLocalizedString("login_button", comment: ""))
+    var delegate: LoginViewProtocol?
     
     @objc func loginTapped(sender: Any?)  {
         delegate?.tryToLoginWith(login: loginInput.text, pass: passwordInput.text)
@@ -69,8 +68,7 @@ class LoginView: UIView {
             make.right.equalTo(self).offset(-25)
         }
         
-        //Initial logo position
-        //Should match the launchscreen position of the logo
+        //Initial position of logo should match the launchscreen position of the logo
         self.addSubview(logo)
         logo.snp.makeConstraints { (make) in
             make.centerX.equalTo(self)
@@ -81,7 +79,7 @@ class LoginView: UIView {
     }
     
     func showUI () {
-        //Move logo up, and then show UI in "step by step" style
+        //Move logo up then show UI in "step by step" style
         self.logo.snp.remakeConstraints { (make) in
             make.centerX.equalTo(self)
             make.bottom.equalTo(self.loginInput.snp.top).offset(10)

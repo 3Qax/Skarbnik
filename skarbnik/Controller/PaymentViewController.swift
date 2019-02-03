@@ -15,6 +15,7 @@ class PaymentViewController: UIViewController {
     let studentPicker = UIAlertController(title: nil,
                                           message: NSLocalizedString("choose_student_description", comment: ""),
                                           preferredStyle: .actionSheet)
+    var selectedChild: Child?
     
     
     
@@ -23,7 +24,7 @@ class PaymentViewController: UIViewController {
     }
     
     func didChoose(id: Int, completion: @escaping () -> ()) {
-        let selectedChild = userModel!.children?.first(where: { (child) -> Bool in
+        selectedChild = userModel!.children?.first(where: { (child) -> Bool in
             child.id_field == id
         })
         
@@ -54,7 +55,7 @@ class PaymentViewController: UIViewController {
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     (self.view as! PaymentView).headerChangeStudentImageView.isUserInteractionEnabled = true
                     UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                        (self.view as! PaymentView).blurEffect.alpha = 0.0
+                        (self.view as! PaymentView).blurView.alpha = 0.0
                         (self.view as! PaymentView).headerChangeStudentImageView.alpha = 1
                     })
                     
@@ -66,21 +67,34 @@ class PaymentViewController: UIViewController {
         self.present(studentPicker, animated: true)
         
         (self.view as! PaymentView).tableView.dataSource = self
+        (self.view as! PaymentView).tableView.delegate = self
         (self.view as! PaymentView).delegate = self
     }
 }
 
 extension PaymentViewController: PaymentViewProtocol {
-    //MARK: provide selectedChild changing functionality
+    
+    //provide selectedChild changing functionality
     func didTappedClass() {
         (self.view as! PaymentView).headerChangeStudentImageView.isUserInteractionEnabled = false
         selectionFeedbackGenerator.selectionChanged()
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
-            (self.view as! PaymentView).blurEffect.alpha = 1.0
+            (self.view as! PaymentView).blurView.alpha = 1.0
             (self.view as! PaymentView).headerChangeStudentImageView.alpha = 0.3
         })
         selectionFeedbackGenerator.prepare()
         self.present(studentPicker, animated: true)
+    }
+    
+    //refresh data for selectedChild
+    func refreshData(completion: @escaping () -> ()) {
+        //TODO: model should recived and shown payemnts in separate arrays
+//        paymentModel = PaymentModel(for: selectedChild!, completion: {
+//            DispatchQueue.main.async {
+//                (self.view as! PaymentView).tableView.reloadData()
+                completion()
+//            }
+//        })
     }
 }
 
@@ -88,13 +102,6 @@ extension PaymentViewController: PaymentViewProtocol {
 extension PaymentViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return NSLocalizedString("pending_payments_section_header", comment: "")
-        }
-        return NSLocalizedString("paid_payments_section_header", comment: "")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -119,6 +126,7 @@ extension PaymentViewController: UITableViewDataSource {
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
+            print(indexPath.row)
             let data = paymentModel!.paidPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
             cell.delegate = self
@@ -127,7 +135,38 @@ extension PaymentViewController: UITableViewDataSource {
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
-        
     }
     
+}
+
+extension PaymentViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        let title = UILabel()
+        
+        switch section {
+            case 0:
+                title.text = NSLocalizedString("pending_payments_section_header", comment: "")
+            case 1:
+                 title.text = NSLocalizedString("paid_payments_section_header", comment: "")
+            default:
+                fatalError("Unknow section in tableView")
+        }
+        title.textColor = UIColor(rgb: 0x00A1E6)
+        title.font = UIFont(name: "PingFangTC-Regular", size: 20.0)
+        
+        headerView.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        headerView.addSubview(title)
+        title.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(5)
+        }
+        
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        print("Will display \(String(describing: tableView.indexPath(for: cell)?.item))")
+    }
 }

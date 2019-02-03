@@ -11,8 +11,8 @@ import UIKit
 class PendingPaymentCellView: PaymentCell {
     var index: Int?
     var delegate: PendingPaymentCellProtocool?
-    var remindButton = OptionButton(title: NSLocalizedString("set_reminder_button_text", comment: ""), height: 30.0)
-    var payButton = RaisedButton(title: NSLocalizedString("pay_button_text", comment: ""), hight: 30.0)
+    var remindButton    = OptionButton(title: NSLocalizedString("set_reminder_button_text", comment: ""), height: 30.0)
+    var payButton       = RaisedButton(title: NSLocalizedString("pay_button_text", comment: ""), hight: 30.0)
     
     @objc func remindButtonTapped(sender: Any) {
         delegate?.didTappedRemindButton(sender: self)
@@ -40,14 +40,14 @@ class PendingPaymentCellView: PaymentCell {
         remindButton.addTarget(self, action: #selector(remindButtonTapped(sender:)), for: .touchUpInside)
         remindButton.snp.makeConstraints { (make) in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
-            make.left.right.equalTo(descriptionLabel)
-            make.height.equalTo(30)
+            make.left.equalTo(descriptionLabel)
+            make.right.equalTo(descriptionLabel.snp.centerX).offset(-5)
         }
         
         payButton.snp.makeConstraints { (make) in
-            make.top.equalTo(remindButton.snp.bottom).offset(5)
-            make.left.right.equalTo(descriptionLabel)
-//            make.height.equalTo(30)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
+            make.left.equalTo(descriptionLabel.snp.centerX).offset(5)
+            make.right.equalTo(descriptionLabel)
             make.bottom.equalToSuperview().offset(-5)
         }
     }

@@ -13,20 +13,20 @@ class PaymentCell: UITableViewCell {
     var titleLabel: UILabel! = {
     let label = UILabel()
     label.numberOfLines = 0
-    label.font = UIFont(name: "HelveticaNeue", size: 22.0)
+    label.font = UIFont(name: "PingFangTC-Regular", size: 22.0)
     return label
     }()
     var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "HelveticaNeue-Light", size: 18.0)
+        label.font = UIFont(name: "PingFangTC-Light", size: 16.0)
         label.textColor = UIColor(rgb: 0xAAAAAA)
         return label
     }()
     var amountLabel: UILabel! = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = UIFont(name: "HelveticaNeue-Light", size: 22.0)
+        label.font = UIFont(name: "PingFangTC-Light", size: 22.0)
         label.textColor = UIColor(rgb: 0x00A1E6)
         return label
     }()
@@ -41,6 +41,8 @@ class PaymentCell: UITableViewCell {
     }
 
     func setupBasicViews(withContent: () -> ()) {
+        
+        self.clipsToBounds = true
         
         let tapGestureRecoginzer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
         contentView.isUserInteractionEnabled = true

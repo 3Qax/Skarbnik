@@ -10,14 +10,11 @@ import UIKit
 import SnapKit
 
 class PaidPaymentCellView: PaymentCell {
-    //reference to tableView so that cell could notify
-    //it when performing updates
+
     weak var tableView: UITableView?
     var delegate: PaidPaymentCellProtocool?
-    let showPhotosButton = OptionButton(title: NSLocalizedString("show_photos_button_text", comment: ""), height: 30)
-    
-    
-    private var isExpanded = false
+    let showPhotosButton    = OptionButton(title: NSLocalizedString("show_photos_button_text", comment: ""), height: 30)
+    private var isExpanded  = false
     
     @objc func gotTapped(sender: Any) {
         delegate?.didTapped(sender: self)
@@ -74,9 +71,10 @@ class PaidPaymentCellView: PaymentCell {
                 make.bottom.equalToSuperview().offset(-5).priority(999)
             }
             tableView?.endUpdates()
+            tableView?.scrollToRow(at: (tableView?.indexPathForRow(at: self.center))!, at: .middle, animated: true)
             isExpanded = true
         }
-        //TODO: make sure that newly expanded cell is fully shown
+        
     }
     
 }
