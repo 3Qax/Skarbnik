@@ -72,9 +72,9 @@ class APIClient {
         return request
     }
     
-    func request(_ endpoint: Endpoint, completion: @escaping (Bool, Data?) -> ()) {
+    func request(_ endpoint: Endpoint, queryItems: [URLQueryItem]? = nil, completion: @escaping (Bool, Data?) -> ()) {
         
-        let request = createRequest(.get, from: fullURL(of: endpoint))
+        let request = createRequest(.get, from: fullURL(of: endpoint, queryItems: queryItems))
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: completion)
         }
@@ -82,16 +82,16 @@ class APIClient {
         
     }
     
-    func request(_ endpoint: Endpoint, data: Data, completion: ((Bool, Data?) -> ())? = nil) {
+    func request(_ endpoint: Endpoint, queryItems: [URLQueryItem]? = nil, data: Data, completion: ((Bool, Data?) -> ())? = nil) {
         var request: URLRequest?
         
         switch endpoint {
         case .login:
-            request = createRequest(.post, from: fullURL(of: endpoint), addingData: data, authorise: false)
+            request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data, authorise: false)
         case .refresh:
-            request = createRequest(.post, from: fullURL(of: endpoint), addingData: data, authorise: false)
+            request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data, authorise: false)
         default:
-            request = createRequest(.post, from: fullURL(of: endpoint), addingData: data)
+            request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
         }
         
         let task = URLSession.shared.dataTask(with: request!) { (data, response, error) in
@@ -112,7 +112,7 @@ class APIClient {
                 case 201:
                     requestSenderCompletion?(true, data)
                 default:
-                    print(HTTPURLResponse.localizedString(forStatusCode: response.statusCode) + " !")
+                    print("HTTP Error: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
                     requestSenderCompletion?(false, data)
                 }
             }

@@ -26,10 +26,16 @@ class MainCoordinator {
     func didLoginSuccessfully(passwordChangeRequired: Bool) {
         if passwordChangeRequired {
             //TODO: show alert about requiring assword change
-            let shouldChangePasswordAfterFirstLoginVC = ShouldChangePasswordAfterFirstLoginViewController()
-            navigationController.pushViewController(shouldChangePasswordAfterFirstLoginVC, animated: true)
+            let ChangePasswordVC = ChangePasswordViewController()
+            navigationController.pushViewController(ChangePasswordVC, animated: true)
             return
         }
+        let pickStudentVC = PickStudentViewController()
+        pickStudentVC.coordinator = self
+        navigationController.pushViewController(pickStudentVC, animated: false)
+    }
+    
+    func didChooseStudent(with id: Int) {
         let paymentVC = PaymentViewController()
         navigationController.pushViewController(paymentVC, animated: true)
     }

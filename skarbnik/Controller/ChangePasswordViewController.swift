@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShouldChangePasswordAfterFirstLoginViewController: UIViewController {
+class ChangePasswordViewController: UIViewController {
 
     override func loadView() {
         let view = ShouldChangePasswordAfterFirstLoginView()
@@ -21,7 +21,7 @@ class ShouldChangePasswordAfterFirstLoginViewController: UIViewController {
     }
     
 }
-extension ShouldChangePasswordAfterFirstLoginViewController: ShouldChangePasswordAfterFirstLoginProtocool {
+extension ChangePasswordViewController: ChangePasswordProtocool {
     func didTappedChangePasswordButton(password: String?, repeatedPassword: String?) {
         print("Password: \(String(describing: password)), \(String(describing: repeatedPassword))")
     }

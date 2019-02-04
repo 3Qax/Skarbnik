@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ShouldChangePasswordAfterFirstLoginProtocool {
+protocol ChangePasswordProtocool {
     func didTappedChangePasswordButton(password: String?, repeatedPassword: String?)
 }

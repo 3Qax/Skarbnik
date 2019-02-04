@@ -11,7 +11,7 @@ import SnapKit
 
 class ShouldChangePasswordAfterFirstLoginView: UIView {
     
-    var delegate: ShouldChangePasswordAfterFirstLoginProtocool?
+    var delegate: ChangePasswordProtocool?
     
     var passwordInput   = LightTextField(placeholder: NSLocalizedString("new_password_placeholder", comment: ""),
                                          UIImage(named: "key"),
