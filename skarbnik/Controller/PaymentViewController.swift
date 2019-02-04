@@ -10,15 +10,9 @@ import UIKit
 import EventKit
 
 class PaymentViewController: UIViewController {
-    let userModel: UserModel? = UserModel { (_) in
-        print("lunched successfully")
-    }
-    var paymentModel: PaymentModel?
-    let eventStore = EKEventStore()
-    let studentPicker = UIAlertController(title: nil,
-                                          message: NSLocalizedString("choose_student_description", comment: ""),
-                                          preferredStyle: .actionSheet)
-    var selectedChild: Child?
+    let paymentModel: PaymentModel
+    let eventStore      = EKEventStore()
+    var coordinator: MainCoordinator?
     
     
     
@@ -26,20 +20,13 @@ class PaymentViewController: UIViewController {
         view = PaymentView(frame: UIScreen.main.bounds)
     }
     
-    func didChoose(id: Int, completion: @escaping () -> ()) {
-        selectedChild = userModel!.children?.first(where: { (child) -> Bool in
-            child.id_field == id
-        })
-        
-        (self.view as! PaymentView).viewFor(child: selectedChild!)
-        
-        paymentModel = PaymentModel(for: selectedChild!, completion: {
-            DispatchQueue.main.async {
-                (self.view as! PaymentView).tableView.reloadData()
-                completion()
-            }
-        })
-        
+    init(of id: Int) {
+        paymentModel = PaymentModel(of: id)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -49,80 +36,55 @@ class PaymentViewController: UIViewController {
         (self.view as! PaymentView).headerChangeStudentImageView.isUserInteractionEnabled = false
         (self.view as! PaymentView).headerChangeStudentImageView.alpha = 0.3
         
-        for child in userModel!.children! {
-            studentPicker.addAction(UIAlertAction(title: "\(child.name)", style: .default, handler: { (_) in
-                selectionFeedbackGenerator.selectionChanged()
-                //TODO: show some amazing endless animation of loading
-                self.didChoose(id: child.id_field, completion: {
-                    //TODO: stop that amazing animation
-                    notificationFeedbackGenerator.notificationOccurred(.success)
-                    (self.view as! PaymentView).headerChangeStudentImageView.isUserInteractionEnabled = true
-                    UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
-                        (self.view as! PaymentView).blurView.alpha = 0.0
-                        (self.view as! PaymentView).headerChangeStudentImageView.alpha = 1
-                    })
-                    
-                })
-                self.studentPicker.dismiss(animated: false)
-            }))
-        }
-        selectionFeedbackGenerator.prepare()
-        self.present(studentPicker, animated: true)
         
+        selectionFeedbackGenerator.prepare()
+        
+        
+        (self.view as! PaymentView).delegate = self
         (self.view as! PaymentView).tableView.dataSource = self
         (self.view as! PaymentView).tableView.delegate = self
-        (self.view as! PaymentView).delegate = self
     }
+    
 }
 
 extension PaymentViewController: PaymentViewProtocol {
     
-    //provide selectedChild changing functionality
+    //provide student changing functionality
     func didTappedClass() {
-        (self.view as! PaymentView).headerChangeStudentImageView.isUserInteractionEnabled = false
-        selectionFeedbackGenerator.selectionChanged()
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseIn, animations: {
-            (self.view as! PaymentView).blurView.alpha = 1.0
-            (self.view as! PaymentView).headerChangeStudentImageView.alpha = 0.3
-        })
         selectionFeedbackGenerator.prepare()
-        self.present(studentPicker, animated: true)
+        coordinator?.didLoginSuccessfully(passwordChangeRequired: false)
     }
     
     //refresh data for selectedChild
     func refreshData(completion: @escaping () -> ()) {
-        //TODO: model should recived and shown payemnts in separate arrays
-//        paymentModel = PaymentModel(for: selectedChild!, completion: {
-//            DispatchQueue.main.async {
-//                (self.view as! PaymentView).tableView.reloadData()
-                completion()
-//            }
-//        })
+        paymentModel.refreshData(completion: {
+            (self.view as! PaymentView).tableView.reloadData()
+            completion()
+        })
     }
 }
 
-//MARK:
 extension PaymentViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let paymentModel = self.paymentModel {
-            if section == 0 {
-                return paymentModel.pendingPayments.count
-            } else if section == 1 {
-                return paymentModel.paidPayments.count
-            }
+        switch section {
+        case 0:
+            return paymentModel.pendingPayments.count
+        case 1:
+            return paymentModel.paidPayments.count
+        default:
+            fatalError("Asked for number of rows in \(section) section, while there are only 2 sections possible (0 and 1).")
         }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
-            let data = paymentModel!.pendingPayments[indexPath.row]
+            let data = paymentModel.pendingPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
             cell.delegate = self
             cell.index = indexPath.row
@@ -130,7 +92,7 @@ extension PaymentViewController: UITableViewDataSource {
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
             print(indexPath.row)
-            let data = paymentModel!.paidPayments[indexPath.row]
+            let data = paymentModel.paidPayments[indexPath.row]
             cell.setup(data.name, data.description, data.amount)
             cell.delegate = self
             cell.tableView = (self.view as! PaymentView).tableView
@@ -169,7 +131,4 @@ extension PaymentViewController: UITableViewDelegate {
         return headerView
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        print("Will display \(String(describing: tableView.indexPath(for: cell)?.item))")
-    }
 }

@@ -25,6 +25,7 @@ class PickStudentViewController: UIViewController {
         pickStudentModel.getStudentsWithIDs { students in
             for (name, id) in students {
                 DispatchQueue.main.async {
+                    notificationFeedbackGenerator.notificationOccurred(.success)
                     self.pickStudentAlert.addAction(UIAlertAction(title: name,
                                                                   style: .default,
                                                                   handler: { _ in
@@ -41,9 +42,11 @@ class PickStudentViewController: UIViewController {
     
     override func viewDidLoad() {
         view.backgroundColor = UIColor.clear
+        view.isOpaque = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        selectionFeedbackGenerator.selectionChanged()
         self.present(pickStudentAlert, animated: true)
     }
 }

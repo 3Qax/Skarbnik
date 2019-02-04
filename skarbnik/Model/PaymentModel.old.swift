@@ -38,7 +38,7 @@ struct Payment: Codable {
     }
 }
 
-class PaymentModel {
+class PaymentModelOld {
     
     var child: Child?
     var pendingPayments: [Payment] = [Payment]()
