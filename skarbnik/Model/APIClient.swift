@@ -10,8 +10,8 @@ import Foundation
 
 class APIClient {
     
-    private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
-    //private let baseURL: URLComponents = URLComponents(string: "http://localhost:8000")!
+    //private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
+    private let baseURL: URLComponents = URLComponents(string: "http://localhost:8000")!
     private var Token: String {
         guard UserDefaults.standard.string(forKey: "JWT") != nil else {
             fatalError("Token not found!")
@@ -47,7 +47,7 @@ class APIClient {
         return customizedURL.url!
     }
     
-    private func createRequest(_ method: RequestMethod, from url: URL, addingValueHeader headers: [String : String]? = nil, addingData data: Data? = nil, timeout: TimeInterval = 10, authorise: Bool = true) -> URLRequest {
+    private func createRequest(_ method: RequestMethod, from url: URL, addingValueHeader headers: [String : String]? = nil, addingData data: Data? = nil, timeout: TimeInterval = 20, authorise: Bool = true) -> URLRequest {
         
         var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeout)
         

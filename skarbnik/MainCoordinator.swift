@@ -23,18 +23,26 @@ class MainCoordinator {
         navigationController.pushViewController(loginVC, animated: false)
     }
     
-    func didLoginSuccessfully(passwordChangeRequired: Bool) {
-        if passwordChangeRequired {
-            //TODO: create modal pop-up telling that user must change a password
-            let ChangePasswordVC = ChangePasswordViewController()
-            navigationController.pushViewController(ChangePasswordVC, animated: true)
-            return
-        }
+    func didLoginSuccessfully() {
+        asyncPasswordController()
         let pickStudentVC = PickStudentViewController()
         pickStudentVC.modalPresentationStyle = .overCurrentContext
         pickStudentVC.coordinator = self
         navigationController.present(pickStudentVC, animated: true)
     }
+    
+    func asyncPasswordController() {
+        func passwordChangeRequired() {
+            let ChangePasswordVC = ChangePasswordViewController()
+            navigationController.pushViewController(ChangePasswordVC, animated: true)
+            return
+        }
+        
+        //TODO: create modal pop-up telling that user must change a password
+//        passwordChangeRequired()
+    }
+    
+
     
     func didRequestStudentChange() {
         let pickStudentVC = PickStudentViewController()
@@ -42,8 +50,8 @@ class MainCoordinator {
         navigationController.pushViewController(pickStudentVC, animated: false)
     }
     
-    func didChooseStudent(with id: Int) {
-        let paymentVC = PaymentViewController(of: id)
+    func didChooseStudent(of studentID: Int, in classID: Int) {
+        let paymentVC = PaymentViewController(of: studentID, in: classID)
         paymentVC.coordinator = self
         navigationController.pushViewController(paymentVC, animated: true)
     }

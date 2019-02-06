@@ -91,8 +91,9 @@ class PaymentView: UIView {
         tableView.refreshControl = refreshControl
         
 
-        blurView.frame = tableView.bounds
-        tableView.addSubview(blurView)
+//        blurView.frame = tableView.bounds
+//        tableView.addSubview(blurView)
+        tableView.isUserInteractionEnabled = true
 
 
         tableView.rowHeight = UITableView.automaticDimension
@@ -120,7 +121,7 @@ class PaymentView: UIView {
             self.refreshControl.backgroundColor = UIColor(rgb: 0x00A1E6)
         })
         
-        delegate?.refreshData(completion: {
+        delegate?.didRequestDataRefresh(completion: {
             UIView.animate(withDuration: 0.5) {
                 self.blurView.alpha = 0.0
                 self.refreshControl.backgroundColor = UIColor(rgb: 0xFA3CB1)
@@ -134,9 +135,5 @@ class PaymentView: UIView {
         let tmpName = NSMutableAttributedString()
         tmpName.append(NSAttributedString(string: child.name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
         headerNameLabel.attributedText = tmpName
-    }
-    
-    func shouldReloadHeader(for name: String) {
-
     }
 }

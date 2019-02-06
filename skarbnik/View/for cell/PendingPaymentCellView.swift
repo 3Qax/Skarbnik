@@ -9,7 +9,7 @@
 import UIKit
 
 class PendingPaymentCellView: PaymentCell {
-    var index: Int?
+    var key: Int?
     var delegate: PendingPaymentCellProtocool?
     var remindButton    = OptionButton(title: NSLocalizedString("set_reminder_button_text", comment: ""), height: 30.0)
     var payButton       = RaisedButton(title: NSLocalizedString("pay_button_text", comment: ""), hight: 30.0)

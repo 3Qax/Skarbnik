@@ -58,7 +58,7 @@ class PickStudentModel {
         
         
     
-    func getStudentsWithIDs(completion: @escaping ([String: Int]) -> ()) {
+    func getStudentsWithClassID(completion: @escaping ([String: [Int]]) -> ()) {
         apiClient.request(.student, queryItems: [URLQueryItem(name: "user", value: String(getCurrentUserID()))]) { (succeed, data) in
             guard succeed else {
                 print("Error while getting students info")
@@ -66,9 +66,9 @@ class PickStudentModel {
             }
             if let data = data {
                 let students = self.decode([Child].self, from: data)
-                var studentsWithIDs: [String: Int] = [String: Int]()
+                var studentsWithIDs: [String: [Int]] = [String: [Int]]()
                 for student in students {
-                    studentsWithIDs[student.name] = student.id_field
+                    studentsWithIDs[student.name] = [student.id_field, student.class_field.id_field]
                 }
                 completion(studentsWithIDs)
             }

@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
                 return
             }
             DispatchQueue.main.async {
-                self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
+                self.coordinator!.didLoginSuccessfully()
             }
             
         }
@@ -66,7 +66,7 @@ extension LoginViewController: LoginViewProtocol {
             }
             DispatchQueue.main.async {
                     notificationFeedbackGenerator.notificationOccurred(.success)
-                    self.coordinator!.didLoginSuccessfully(passwordChangeRequired: false)
+                    self.coordinator!.didLoginSuccessfully()
             }
         }
     }

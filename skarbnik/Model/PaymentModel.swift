@@ -10,25 +10,46 @@ import Foundation
 
 class PaymentModel {
     private let apiClient       = APIClient()
-    public var pendingPayments  = [Payment]()
-    public var paidPayments     = [Payment]()
-    private var recivedPayments = [Payment]()
+    private let classID: Int
+    private let studentID: Int
+    public  var pendingPayments  = [Int: Payment]() {
+        didSet {
+            NotificationCenter.default.post(name: .modelChangedPendingPayemnts, object: self)
+        }
+    }
+    public  var paidPayments     = [Int: Payment]() {
+        didSet {
+            NotificationCenter.default.post(name: .modelChangedPaidPayemnts, object: self)
+        }
+    }
+    private var recivedPayments  = [Payment]()
     
     struct PaymentPacket: Codable {
         let id_field: Int
-        let name, description: String
-        let amount: String
         let creation_date, start_date, end_date: String
+        let amount: String
+        let name, description: String
+        let image: String?
     }
     
-    struct Payment: Codable {
+    class Payment {
+        let paymentModel: PaymentModel
         let id_field: Int
         let name, description: String
         let amount: Float
         let creation_date, start_date, end_date: Date
-        var contribution: [Float]?
+        var contribution: [Float]? = [Float]()
+        var image: Data?
         
-        init(data: PaymentPacket) {
+        func encode<T: Encodable>(_ data: T) -> Data {
+            return try! JSONEncoder().encode(data)
+        }
+        
+        func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
+            return try! JSONDecoder().decode(T.self, from: data)
+        }
+        
+        init(data: PaymentPacket, paymentModel: PaymentModel) {
             self.id_field = data.id_field
             self.name = data.name
             self.description = data.description
@@ -41,15 +62,89 @@ class PaymentModel {
             shortDateFormater.dateFormat = "yyyy-MM-dd"
             self.start_date = shortDateFormater.date(from: data.start_date)!
             self.end_date = shortDateFormater.date(from: data.end_date)!
+            
+            self.paymentModel = paymentModel
+            
+            self.fetchContributions()
+            if data.image != nil {
+                self.fetchImage()
+            }
+        }
+        
+        func fetchContributions() {
+            
+            class PaymentDetail: Codable {
+                let amount_paid: String
+            }
+            
+            paymentModel.apiClient.request(.paymentDetail,
+                               queryItems: [URLQueryItem(name: "payment", value: String(id_field)),
+                                            URLQueryItem(name: "student", value: String(paymentModel.studentID))],
+                               completion: { (succeed, data) in
+                                guard succeed else {
+                                    print("Getting contributions of Payment: \(self.id_field) failed!")
+                                    return
+                                }
+                                if let data = data {
+                                    let recivedDetails = self.decode([PaymentDetail].self, from: data)
+                                    for detail in recivedDetails {
+                                        self.contribution?.append(Float(detail.amount_paid) ?? 0)
+                                    }
+                                    self.classify()
+                                }
+            })
+        }
+        
+        func fetchImage() {
+            print("image")
+        }
+        
+        func classify() {
+            let sum = contribution?.reduce(0, +) ?? 0
+            if sum  == amount {
+                paymentModel.paidPayments[id_field] = self
+            } else {
+                paymentModel.pendingPayments[id_field] = self
+            }
         }
     }
     
-    func refreshData(completion: () -> ()) {
-        
+    func encode<T: Encodable>(_ data: T) -> Data {
+        return try! JSONEncoder().encode(data)
     }
     
-    init(of: Int) {
-        
+    func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
+        return try! JSONDecoder().decode(T.self, from: data)
+    }
+    
+    init(of studentID:Int, in classID: Int) {
+        self.studentID = studentID
+        self.classID = classID
+        fetchPayments()
+    }
+    
+    func refreshData() {
+        pendingPayments  = [Int: Payment]()
+        paidPayments     = [Int: Payment]()
+        fetchPayments()
+    }
+    
+    func fetchPayments() {
+        apiClient.request(.payment,
+                          queryItems: [URLQueryItem(name: "class_field", value: String(classID))],
+                          completion: ({ (succeed, data) in
+                            guard succeed else {
+                                fatalError("faild getting data")
+                            }
+                            
+                            //First parse data as PaymentPacket then create Payments based on that data
+                            //This is required due to Date Type handeling dinffrence between Backend and Swift
+                            let recivedPaymentsPackets = self.decode([PaymentPacket].self, from: data!)
+                            for paymentPacket in recivedPaymentsPackets {
+                                self.recivedPayments.append(Payment(data: paymentPacket, paymentModel: self))
+                            }
+                          }))
+
     }
     
 }

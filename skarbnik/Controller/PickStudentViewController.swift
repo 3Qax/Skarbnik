@@ -22,14 +22,15 @@ class PickStudentViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        pickStudentModel.getStudentsWithIDs { students in
-            for (name, id) in students {
+        pickStudentModel.getStudentsWithClassID { students in
+            for (name, IDs) in students {
                 DispatchQueue.main.async {
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     self.pickStudentAlert.addAction(UIAlertAction(title: name,
                                                                   style: .default,
                                                                   handler: { _ in
-                                                                    self.coordinator?.didChooseStudent(with: id)
+                                                                    self.coordinator?.didChooseStudent(of: IDs[0], in: IDs[1])
+                                                                    self.dismiss(animated: true)
                     }))
                 }
             }

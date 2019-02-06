@@ -45,10 +45,10 @@ class PaidPaymentCellView: PaymentCell {
             self.amountLabel.snp.remakeConstraints({ (make) in
                 make.top.equalToSuperview().offset(5)
                 make.right.equalToSuperview().offset(-self.separatorInset.left)
-                make.bottom.equalToSuperview().offset(-5)
+                //make.bottom.equalToSuperview().offset(-5)
             })
             tableView?.endUpdates()
-            isExpanded = false
+            isExpanded.toggle()
         } else {
             tableView?.beginUpdates()
             contentView.addSubview(showPhotosButton)
@@ -72,7 +72,7 @@ class PaidPaymentCellView: PaymentCell {
             }
             tableView?.endUpdates()
             tableView?.scrollToRow(at: (tableView?.indexPathForRow(at: self.center))!, at: .middle, animated: true)
-            isExpanded = true
+            isExpanded.toggle()
         }
         
     }
