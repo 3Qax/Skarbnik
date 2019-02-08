@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class PickStudentViewController: UIViewController {
+class PickStudentAlertController: UIViewController {
     let pickStudentModel = PickStudentModel()
     var coordinator: MainCoordinator?
     let pickStudentAlert = UIAlertController(title: nil,
@@ -30,7 +30,6 @@ class PickStudentViewController: UIViewController {
                                                                   style: .default,
                                                                   handler: { _ in
                                                                     self.coordinator?.didChooseStudent(of: IDs[0], in: IDs[1])
-                                                                    self.dismiss(animated: true)
                     }))
                 }
             }

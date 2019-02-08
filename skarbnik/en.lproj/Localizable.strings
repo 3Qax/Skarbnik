@@ -15,6 +15,13 @@
 "should_change_password_after_first_login_header" = "Password change required";
 "should_change_password_after_first_login_description" = "For the sake of your safety we require changing password after first login. You should use strong password - it should consist at least of 8 characters, min. one big letter, one small letter, digit and a special character like #, @ or !";
 
+//MARK: AsyncPasswordController
+"last_login_failed_header" = "Login attempt failed";
+"last_login_failed_description_before" = "Someone tried to log in into this account on ";
+"last_login_failed_description_from" = " from IP address: ";
+"last_login_failed_description_end" = ". If it wasn't you, we strongly recommend changing password.";
+"last_login_failed_change_password_button_text" = "Change password";
+
 //MARK: ChangePasswordAfterFirstLoginView
 "new_password_placeholder" = "new password";
 "repeat_new_password_placeholder" = "repeat new password";

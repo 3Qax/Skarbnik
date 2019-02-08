@@ -20,7 +20,7 @@ extension PaymentViewController: PendingPaymentCellProtocool {
             }
         case .authorized:
             let reminder = EKReminder(eventStore: eventStore)
-            reminder.title = NSLocalizedString("reminder_prefix_before_payment_name", comment: "") + "\(paymentModel.pendingPayments[sender.key!]!.name)"
+            reminder.title = NSLocalizedString("reminder_prefix_before_payment_name", comment: "") + " \(paymentModel.pendingPayments[sender.key!]!.name)"
             let alarm = EKAlarm(absoluteDate: Calendar.current.date(byAdding: .day, value: -1, to: (paymentModel.pendingPayments[sender.key!]?.end_date)!)!)
             reminder.addAlarm(alarm)
             let calendars = eventStore.calendars(for: .reminder)

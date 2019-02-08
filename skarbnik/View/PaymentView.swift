@@ -131,9 +131,9 @@ class PaymentView: UIView {
         
     }
     
-    func viewFor(child: Child) {
+    func setName(_ name: String) {
         let tmpName = NSMutableAttributedString()
-        tmpName.append(NSAttributedString(string: child.name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
+        tmpName.append(NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue", size: 26.0)!]))
         headerNameLabel.attributedText = tmpName
     }
 }

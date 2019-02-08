@@ -10,7 +10,7 @@ import UIKit
 import EventKit
 
 class PaymentViewController: UIViewController {
-    let paymentModel: PaymentModel
+    var paymentModel: PaymentModel
     let eventStore      = EKEventStore()
     var coordinator: MainCoordinator?
     
@@ -20,6 +20,7 @@ class PaymentViewController: UIViewController {
         paymentModel = PaymentModel(of: studentID, in: classID)
         super.init(nibName: nil, bundle: nil)
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -32,11 +33,7 @@ class PaymentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //don't allow user to change student while loading one
-//        (self.view as! PaymentView).headerChangeStudentImageView.isUserInteractionEnabled = false
-//        (self.view as! PaymentView).headerChangeStudentImageView.alpha = 0.3
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePendingPaymentsSection), name: .modelChangedPendingPayemnts, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePendingPaymentsSection(notification:)), name: .modelChangedPendingPayemnts, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(updatePaidPaymentsSection), name: .modelChangedPaidPayemnts, object: nil)
         
         selectionFeedbackGenerator.prepare()
@@ -47,15 +44,44 @@ class PaymentViewController: UIViewController {
         (self.view as! PaymentView).tableView.delegate = self
     }
     
-    @objc func updatePendingPaymentsSection() {
-        DispatchQueue.main.async {
-            (self.view as! PaymentView).tableView.reloadSections(IndexSet(integer: 0), with: .right)
+    @objc func updatePendingPaymentsSection(notification: Notification) {
+        DispatchQueue.main.sync {
+            print("notification - pending")
+            (self.view as! PaymentView).tableView.beginUpdates()
+            print((self.view as! PaymentView).tableView.numberOfRows(inSection: 0))
+            (self.view as! PaymentView).tableView.insertRows(at: [IndexPath(row: (self.view as! PaymentView).tableView.numberOfRows(inSection: 0), section: 0)], with: .right)
+            (self.view as! PaymentView).tableView.endUpdates()
         }
     }
     @objc func updatePaidPaymentsSection() {
-        DispatchQueue.main.async {
-            (self.view as! PaymentView).tableView.reloadSections(IndexSet(integer: 1), with: .right)
+        DispatchQueue.main.sync {
+            print("notification - paid")
+            (self.view as! PaymentView).tableView.beginUpdates()
+            print((self.view as! PaymentView).tableView.numberOfRows(inSection: 1))
+            (self.view as! PaymentView).tableView.insertRows(at: [IndexPath(row: (self.view as! PaymentView).tableView.numberOfRows(inSection: 1), section: 1)], with: .right)
+            (self.view as! PaymentView).tableView.endUpdates()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        coordinator?.shouldStartAsyncSafetyController()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        (self.view as! PaymentView).tableView.beginUpdates()
+        
+        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 0) {
+            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
+        }
+        
+        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 1) {
+            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 1)], with: .right)
+        }
+        
+        paymentModel.paidPayments.removeAll()
+        paymentModel.pendingPayments.removeAll()
+        (self.view as! PaymentView).tableView.endUpdates()
     }
     
 }
@@ -65,10 +91,25 @@ extension PaymentViewController: PaymentViewProtocol {
     //provide student changing functionality
     func didTappedClass() {
         selectionFeedbackGenerator.prepare()
-        coordinator?.didLoginSuccessfully()
+        coordinator?.navigationController.popViewController(animated: true)
+        coordinator?.didRequestStudentChange()
     }
     
     func didRequestDataRefresh(completion: () -> ()) {
+        (self.view as! PaymentView).tableView.beginUpdates()
+        
+        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 0) {
+            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
+        }
+        paymentModel.pendingPayments.removeAll(keepingCapacity: true)
+        
+        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 1) {
+            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 1)], with: .right)
+        }
+        paymentModel.paidPayments.removeAll(keepingCapacity: true)
+        
+        (self.view as! PaymentView).tableView.endUpdates()
+        
         paymentModel.refreshData()
     }
 }
@@ -92,16 +133,17 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
+            print("requested pending cell for \(indexPath.row)")
             let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
-            let dataKey = paymentModel.pendingPayments.index(paymentModel.pendingPayments.startIndex, offsetBy: indexPath.row)
-            cell.setup(paymentModel.pendingPayments[dataKey].value.name, paymentModel.pendingPayments[dataKey].value.description, paymentModel.pendingPayments[dataKey].value.amount)
+            cell.setup(paymentModel.pendingPayments[indexPath.row]!.name, paymentModel.pendingPayments[indexPath.row]!.description, paymentModel.pendingPayments[indexPath.row]!.amount)
             cell.delegate = self
-            cell.key = paymentModel.pendingPayments[dataKey].key
+            cell.key = indexPath.row
             return cell
         case 1:
+            print("requested paid cell for \(indexPath.row)")
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
-            let dataKey = paymentModel.paidPayments.index(paymentModel.paidPayments.startIndex, offsetBy: indexPath.row)
-            cell.setup(paymentModel.paidPayments[dataKey].value.name, paymentModel.paidPayments[dataKey].value.description, paymentModel.paidPayments[dataKey].value.amount)
+            cell.setup(paymentModel.paidPayments[indexPath.row]!.name, paymentModel.paidPayments[indexPath.row]!.description, paymentModel.paidPayments[indexPath.row]!.amount)
+
             cell.delegate = self
             cell.tableView = (self.view as! PaymentView).tableView
             return cell

@@ -1,5 +1,5 @@
 //
-//  ShouldChangePasswordAfterFirstLoginView.swift
+//  ChangePasswordView.swift
 //  skarbnik
 //
 //  Created by Jakub Towarek on 01/02/2019.
@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class ShouldChangePasswordAfterFirstLoginView: UIView {
+class ChangePasswordView: UIView {
     
     var delegate: ChangePasswordProtocool?
     

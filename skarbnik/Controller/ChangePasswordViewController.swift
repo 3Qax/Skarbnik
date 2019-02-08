@@ -11,13 +11,12 @@ import UIKit
 class ChangePasswordViewController: UIViewController {
 
     override func loadView() {
-        let view = ShouldChangePasswordAfterFirstLoginView()
-        view.delegate = self
-        self.view = view
+        self.view = ChangePasswordView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        (self.view as! ChangePasswordView).delegate = self
     }
     
 }

@@ -15,6 +15,13 @@
 "should_change_password_after_first_login_header" = "Wymagana zmiana hasła";
 "should_change_password_after_first_login_description" = "W trosce o Twoje bezpieczeństwo wymagamy zmiany hasła po pierwszym logowaniu. Użyj silnego hasła - powinno ono zawierać conajmniej 8 znaków, min. jedną dużą literę, małą literę, cyfrę oraz znak specjalny np. #, @ czy !";
 
+//MARK: AsyncPasswordController
+"last_login_failed_header" = "Nieudana próba logowania";
+"last_login_failed_description_before" = "Ktoś próbował zalogować się na to konto ";
+"last_login_failed_description_from" = " z adresu IP: ";
+"last_login_failed_description_end" = ". Jeśli to nie Ty zalecamy zmianę hasła.";
+"last_login_failed_change_password_button_text" = "Zmień hasło";
+
 //MARK: ChangePasswordAfterFirstLoginView
 "new_password_placeholder" = "nowe hasło";
 "repeat_new_password_placeholder" = "powtórz nowe hasło";

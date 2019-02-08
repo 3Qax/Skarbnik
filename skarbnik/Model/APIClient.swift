@@ -10,8 +10,8 @@ import Foundation
 
 class APIClient {
     
-    //private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
-    private let baseURL: URLComponents = URLComponents(string: "http://localhost:8000")!
+    private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
+    //private let baseURL: URLComponents = URLComponents(string: "http://localhost:8000")!
     private var Token: String {
         guard UserDefaults.standard.string(forKey: "JWT") != nil else {
             fatalError("Token not found!")
@@ -20,12 +20,13 @@ class APIClient {
     }
     
     enum Endpoint: String {
-        case login = "/api/users/login"
-        case refresh = "/api/users/refresh"
-        case currentUser = "/api/users/current/"
-        case student = "/api/student/"
-        case payment = "/api/payment/"
-        case paymentDetail = "/api/paymentdetail/"
+        case login          = "/api/users/login"
+        case refresh        = "/api/users/refresh"
+        case currentUser    = "/api/users/current/"
+        case student        = "/api/student/"
+        case payment        = "/api/payment/"
+        case paymentDetail  = "/api/paymentdetail/"
+        case activity       = "/api/activity/"
     }
     
    private enum RequestMethod: String {

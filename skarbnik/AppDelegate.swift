@@ -9,12 +9,6 @@
 import UIKit
 
 
-extension UIApplication {
-    var server_url: String? {
-        let dictionary = ProcessInfo.processInfo.environment
-        return dictionary["SERVER_URL"]
-    }
-}
 
 extension DateFormatter {
     static let iso8601Full: DateFormatter = {
@@ -64,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         let navigationController = UINavigationController()
         navigationController.navigationBar.isHidden = true
         

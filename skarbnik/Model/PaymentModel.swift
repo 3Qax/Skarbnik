@@ -14,12 +14,12 @@ class PaymentModel {
     private let studentID: Int
     public  var pendingPayments  = [Int: Payment]() {
         didSet {
-            NotificationCenter.default.post(name: .modelChangedPendingPayemnts, object: self)
+            if pendingPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPendingPayemnts, object: self) }
         }
     }
     public  var paidPayments     = [Int: Payment]() {
         didSet {
-            NotificationCenter.default.post(name: .modelChangedPaidPayemnts, object: self)
+            if paidPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPaidPayemnts, object: self) }
         }
     }
     private var recivedPayments  = [Payment]()
@@ -102,9 +102,11 @@ class PaymentModel {
         func classify() {
             let sum = contribution?.reduce(0, +) ?? 0
             if sum  == amount {
-                paymentModel.paidPayments[id_field] = self
+                paymentModel.paidPayments[paymentModel.paidPayments.count] = self
+                //paymentModel.paidPayments[id_field] = self
             } else {
-                paymentModel.pendingPayments[id_field] = self
+                paymentModel.pendingPayments[paymentModel.pendingPayments.count] = self
+                //paymentModel.pendingPayments[id_field] = self
             }
         }
     }
@@ -118,14 +120,15 @@ class PaymentModel {
     }
     
     init(of studentID:Int, in classID: Int) {
+        print("of student\(studentID) and class id \(classID)")
         self.studentID = studentID
         self.classID = classID
         fetchPayments()
     }
     
     func refreshData() {
-        pendingPayments  = [Int: Payment]()
-        paidPayments     = [Int: Payment]()
+//        pendingPayments.removeAll()
+//        paidPayments.removeAll()
         fetchPayments()
     }
     
