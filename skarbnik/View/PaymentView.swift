@@ -127,6 +127,7 @@ class PaymentView: UIView {
                 self.refreshControl.backgroundColor = UIColor(rgb: 0xFA3CB1)
             }
             self.refreshControl.endRefreshing()
+            notificationFeedbackGenerator.notificationOccurred(.success)
         })
         
     }

@@ -26,11 +26,11 @@ class LastLoginAttemptFailedAlertControler: UIViewController {
                                                             preferredStyle: .alert)
         super.init(nibName: nil, bundle: nil)
         self.lastLoginUnsuccessfulAlert.addAction(UIAlertAction(title: NSLocalizedString("last_login_failed_change_password_button_text", comment: ""), style: .default, handler: { _ in
-            self.dismiss(animated: true)
             self.coordinator?.didRequestPasswordChange()
+            self.coordinator?.navigationController.dismiss(animated: true)
         }))
         self.lastLoginUnsuccessfulAlert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
-            self.dismiss(animated: true)
+            self.coordinator?.navigationController.dismiss(animated: true)
         }))
     }
     

@@ -10,7 +10,7 @@ import UIKit
 import EventKit
 
 class PaymentViewController: UIViewController {
-    var paymentModel: PaymentModel
+    let paymentModel: PaymentModel
     let eventStore      = EKEventStore()
     var coordinator: MainCoordinator?
     
@@ -46,28 +46,27 @@ class PaymentViewController: UIViewController {
     
     @objc func updatePendingPaymentsSection(notification: Notification) {
         DispatchQueue.main.sync {
-            print("notification - pending")
             (self.view as! PaymentView).tableView.beginUpdates()
-            print((self.view as! PaymentView).tableView.numberOfRows(inSection: 0))
             (self.view as! PaymentView).tableView.insertRows(at: [IndexPath(row: (self.view as! PaymentView).tableView.numberOfRows(inSection: 0), section: 0)], with: .right)
             (self.view as! PaymentView).tableView.endUpdates()
         }
     }
     @objc func updatePaidPaymentsSection() {
         DispatchQueue.main.sync {
-            print("notification - paid")
             (self.view as! PaymentView).tableView.beginUpdates()
-            print((self.view as! PaymentView).tableView.numberOfRows(inSection: 1))
             (self.view as! PaymentView).tableView.insertRows(at: [IndexPath(row: (self.view as! PaymentView).tableView.numberOfRows(inSection: 1), section: 1)], with: .right)
             (self.view as! PaymentView).tableView.endUpdates()
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        coordinator?.shouldStartAsyncSafetyController()
+        coordinator?.asyncSafetyController?.shouldShow = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        
+        NotificationCenter.default.removeObserver(self, name: .modelChangedPendingPayemnts, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .modelChangedPaidPayemnts, object: nil)
         
         (self.view as! PaymentView).tableView.beginUpdates()
         
@@ -95,22 +94,23 @@ extension PaymentViewController: PaymentViewProtocol {
         coordinator?.didRequestStudentChange()
     }
     
-    func didRequestDataRefresh(completion: () -> ()) {
+    func didRequestDataRefresh(completion: @escaping () -> ()) {
         (self.view as! PaymentView).tableView.beginUpdates()
         
         for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 0) {
             (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
         }
-        paymentModel.pendingPayments.removeAll(keepingCapacity: true)
         
         for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 1) {
             (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 1)], with: .right)
         }
-        paymentModel.paidPayments.removeAll(keepingCapacity: true)
         
-        (self.view as! PaymentView).tableView.endUpdates()
-        
-        paymentModel.refreshData()
+        paymentModel.refreshData(deletedDataHandler: {
+            (self.view as! PaymentView).tableView.endUpdates()
+        }, completion: {
+            completion()
+        })
+
     }
 }
 
@@ -133,14 +133,12 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            print("requested pending cell for \(indexPath.row)")
             let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
             cell.setup(paymentModel.pendingPayments[indexPath.row]!.name, paymentModel.pendingPayments[indexPath.row]!.description, paymentModel.pendingPayments[indexPath.row]!.amount)
             cell.delegate = self
             cell.key = indexPath.row
             return cell
         case 1:
-            print("requested paid cell for \(indexPath.row)")
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
             cell.setup(paymentModel.paidPayments[indexPath.row]!.name, paymentModel.paidPayments[indexPath.row]!.description, paymentModel.paidPayments[indexPath.row]!.amount)
 

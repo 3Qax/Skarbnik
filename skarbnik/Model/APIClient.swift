@@ -10,8 +10,9 @@ import Foundation
 
 class APIClient {
     
-    private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
-    //private let baseURL: URLComponents = URLComponents(string: "http://localhost:8000")!
+    //private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
+    private let baseURL: URLComponents = URLComponents(string: "http://172.22.0.47:8000")!
+    
     private var Token: String {
         guard UserDefaults.standard.string(forKey: "JWT") != nil else {
             fatalError("Token not found!")

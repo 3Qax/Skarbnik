@@ -12,7 +12,7 @@ import Foundation
 
 class AsyncSafetyModel {
     let apiClient = APIClient()
-    var delegate: AsyncSafetyProtocool?
+    weak var delegate: AsyncSafetyProtocool?
     private var activities: [Activity] = [Activity]()
     
     private func encode<T: Encodable>(_ data: T) -> Data {
@@ -75,9 +75,15 @@ class AsyncSafetyModel {
         })
     }
     
+    deinit {
+        print("AsyncSafetyModel dealocated!")
+    }
+    
     func interpretActivities() {
         if activities.count == 1 {
             delegate?.requirePasswordChange()
+        } else {
+            delegate?.dontRequirePasswordChange()
         }
         
         for i in 0..<activities.count {
@@ -85,6 +91,8 @@ class AsyncSafetyModel {
                 let longDateFormatter = ISO8601DateFormatter()
                 let date = longDateFormatter.date(from: activities[1].login_datetime)!
                 delegate?.lastLoginUnsuccessful(date, fromIP: activities[1].login_IP)
+            } else {
+                delegate?.lastLoginSuccessful()
             }
         }
     }

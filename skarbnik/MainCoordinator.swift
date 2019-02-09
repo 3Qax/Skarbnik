@@ -11,6 +11,7 @@ import UIKit
 
 class MainCoordinator {
     var navigationController: UINavigationController
+    var asyncSafetyController: AsyncSafetyController?
     
     
     init(navigationController: UINavigationController){
@@ -27,31 +28,24 @@ class MainCoordinator {
         let pickStudentVC = PickStudentAlertController()
         pickStudentVC.coordinator = self
         pickStudentVC.modalPresentationStyle = .overCurrentContext
-        navigationController.pushViewController(pickStudentVC, animated: true)
-//        navigationController.present(pickStudentVC, animated: true)
+        navigationController.present(pickStudentVC, animated: true)
+    
+        asyncSafetyController = AsyncSafetyController()
+        asyncSafetyController!.coordinator = self
     }
     
     func didRequestStudentChange() {
         let pickStudentVC = PickStudentAlertController()
         pickStudentVC.coordinator = self
         pickStudentVC.modalPresentationStyle = .overCurrentContext
-        navigationController.pushViewController(pickStudentVC, animated: true)
-//        navigationController.present(pickStudentVC, animated: true)
+        navigationController.present(pickStudentVC, animated: true)
     }
     
     func didChooseStudent(of studentID: Int, in classID: Int) {
-        navigationController.popViewController(animated: true)
-        
-        let paymentVC = PaymentViewController(of: studentID, in: classID)
-        paymentVC.coordinator = self
-        navigationController.pushViewController(paymentVC, animated: true)
-//        navigationController.present(paymentVC, animated: true)
-    }
-    
-    func shouldStartAsyncSafetyController() {
-        DispatchQueue.global(qos: .background).async {
-            let asyncSafetyController = AsyncSafetyController()
-            asyncSafetyController.coordinator = self
+        navigationController.dismiss(animated: true) {
+            let paymentVC = PaymentViewController(of: studentID, in: classID)
+            paymentVC.coordinator = self
+            self.navigationController.pushViewController(paymentVC, animated: true)
         }
     }
     

@@ -9,20 +9,22 @@
 import Foundation
 
 class PaymentModel {
-    private let apiClient       = APIClient()
+    private let apiClient           = APIClient()
+    private let dispatchGroup       = DispatchGroup()
+    private var onRefreshCompletion: () -> () = { print("refreshing ended") }
     private let classID: Int
     private let studentID: Int
-    public  var pendingPayments  = [Int: Payment]() {
+    public  var pendingPayments     = [Int: Payment]() {
         didSet {
             if pendingPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPendingPayemnts, object: self) }
         }
     }
-    public  var paidPayments     = [Int: Payment]() {
+    public  var paidPayments        = [Int: Payment]() {
         didSet {
             if paidPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPaidPayemnts, object: self) }
         }
     }
-    private var recivedPayments  = [Payment]()
+    private var recivedPayments     = [Payment]()
     
     struct PaymentPacket: Codable {
         let id_field: Int
@@ -33,7 +35,7 @@ class PaymentModel {
     }
     
     class Payment {
-        let paymentModel: PaymentModel
+        private weak var paymentModel: PaymentModel?
         let id_field: Int
         let name, description: String
         let amount: Float
@@ -77,9 +79,9 @@ class PaymentModel {
                 let amount_paid: String
             }
             
-            paymentModel.apiClient.request(.paymentDetail,
+            paymentModel!.apiClient.request(.paymentDetail,
                                queryItems: [URLQueryItem(name: "payment", value: String(id_field)),
-                                            URLQueryItem(name: "student", value: String(paymentModel.studentID))],
+                                            URLQueryItem(name: "student", value: String(paymentModel!.studentID))],
                                completion: { (succeed, data) in
                                 guard succeed else {
                                     print("Getting contributions of Payment: \(self.id_field) failed!")
@@ -102,12 +104,11 @@ class PaymentModel {
         func classify() {
             let sum = contribution?.reduce(0, +) ?? 0
             if sum  == amount {
-                paymentModel.paidPayments[paymentModel.paidPayments.count] = self
-                //paymentModel.paidPayments[id_field] = self
+                paymentModel!.paidPayments[paymentModel!.paidPayments.count] = self
             } else {
-                paymentModel.pendingPayments[paymentModel.pendingPayments.count] = self
-                //paymentModel.pendingPayments[id_field] = self
+                paymentModel!.pendingPayments[paymentModel!.pendingPayments.count] = self
             }
+            paymentModel!.dispatchGroup.leave()
         }
     }
     
@@ -120,16 +121,22 @@ class PaymentModel {
     }
     
     init(of studentID:Int, in classID: Int) {
-        print("of student\(studentID) and class id \(classID)")
         self.studentID = studentID
         self.classID = classID
         fetchPayments()
     }
     
-    func refreshData() {
-//        pendingPayments.removeAll()
-//        paidPayments.removeAll()
+    func refreshData(deletedDataHandler: () -> (), completion: @escaping () -> ()) {
+        
+        pendingPayments.removeAll(keepingCapacity: true)
+        paidPayments.removeAll(keepingCapacity: true)
+        recivedPayments.removeAll(keepingCapacity: true)
+        deletedDataHandler()
+        
+        self.onRefreshCompletion = completion
+        
         fetchPayments()
+        
     }
     
     func fetchPayments() {
@@ -144,8 +151,14 @@ class PaymentModel {
                             //This is required due to Date Type handeling dinffrence between Backend and Swift
                             let recivedPaymentsPackets = self.decode([PaymentPacket].self, from: data!)
                             for paymentPacket in recivedPaymentsPackets {
+                                self.dispatchGroup.enter()
                                 self.recivedPayments.append(Payment(data: paymentPacket, paymentModel: self))
                             }
+                            
+                            self.dispatchGroup.notify(queue: .main) {
+                                self.onRefreshCompletion()
+                            }
+                            
                           }))
 
     }
