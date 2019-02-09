@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1900F2D7220EFADF0040612A /* EasyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D6220EFADF0040612A /* EasyInjection.swift */; };
+		1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D8220F05180040612A /* ChangePasswordModel.swift */; };
 		1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */; };
 		1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528B21A96A8300D0A7A3 /* AppDelegate.swift */; };
 		1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528D21A96A8300D0A7A3 /* LoginViewController.swift */; };
@@ -47,6 +49,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1900F2D6220EFADF0040612A /* EasyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyInjection.swift; sourceTree = "<group>"; };
+		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
 		1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewProtocol.swift; sourceTree = "<group>"; };
 		1941528821A96A8300D0A7A3 /* skarbnik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skarbnik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1941528B21A96A8300D0A7A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -157,6 +161,7 @@
 				194784EA22083C53000AE323 /* PickStudentModel.swift */,
 				194784EC2208C87B000AE323 /* PaymentModel.swift */,
 				1947D58A220AF2BB00C1D7D8 /* AsyncSafetyModel.swift */,
+				1900F2D8220F05180040612A /* ChangePasswordModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,8 +187,8 @@
 				19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */,
 				19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */,
 				195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */,
-				19484C3A220461C1006097CF /* ChangePasswordViewController.swift */,
 				1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */,
+				19484C3A220461C1006097CF /* ChangePasswordViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -219,6 +224,7 @@
 				19484C3E22047340006097CF /* ChangePasswordProtocool.swift */,
 				196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */,
 				1947D58C220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift */,
+				1900F2D6220EFADF0040612A /* EasyInjection.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -365,6 +371,7 @@
 				1943527E21E546C000F84F41 /* PendingPaymentCellView.swift in Sources */,
 				198E731D21ED4AC600053994 /* PaidPaymentCellProtocool.swift in Sources */,
 				199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */,
+				1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */,
 				196A37C6220A4B4A00288808 /* NotificationNameExtension.swift in Sources */,
 				19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */,
 				1947D589220AEEEE00C1D7D8 /* AsyncSafetyController.swift in Sources */,
@@ -374,6 +381,7 @@
 				19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */,
 				19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
+				1900F2D7220EFADF0040612A /* EasyInjection.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
 				194784ED2208C87B000AE323 /* PaymentModel.swift in Sources */,

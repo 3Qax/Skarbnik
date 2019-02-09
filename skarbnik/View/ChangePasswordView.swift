@@ -11,42 +11,60 @@ import SnapKit
 
 class ChangePasswordView: UIView {
     
+    @objc func injected() {
+        delegate?.reloadMe()
+    }
+    
     var delegate: ChangePasswordProtocool?
     
-    var passwordInput   = LightTextField(placeholder: NSLocalizedString("new_password_placeholder", comment: ""),
+    var oldPasswordInput   = LightTextField(placeholder: NSLocalizedString("old_password_placeholder", comment: ""),
                                          UIImage(named: "key"),
                                          returnKeyType: .done,
                                          hideContent: true)
-    var repeatPasswordInput   = LightTextField(placeholder: NSLocalizedString("repeat_new_password_placeholder", comment: ""),
+    var newPasswordInput   = LightTextField(placeholder: NSLocalizedString("new_password_placeholder", comment: ""),
                                          UIImage(named: "key"),
                                          returnKeyType: .done,
                                          hideContent: true)
-    var changePasswordButton     = RaisedButton(title: NSLocalizedString("change_password_button", comment: ""))
+    var repeatNewPasswordInput   = LightTextField(placeholder: NSLocalizedString("repeat_new_password_placeholder", comment: ""),
+                                         UIImage(named: "key"),
+                                         returnKeyType: .done,
+                                         hideContent: true)
+    var changePasswordButton     = RaisedButton(title: NSLocalizedString("change_password_button_text", comment: ""))
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.backgroundColor = UIColor(rgb: 0xF5F5F5)
         
-        self.addSubview(repeatPasswordInput)
-        repeatPasswordInput.snp.makeConstraints { (make) in
-            make.centerX.centerY.equalToSuperview()
+        self.addSubview(newPasswordInput)
+        newPasswordInput.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(25)
-            make.right.equalToSuperview().offset(-25)
+            make.right.equalToSuperview().offset(-20)
+            make.bottom.equalTo(self.snp.centerY).offset(-10)
         }
         
-        self.addSubview(passwordInput)
-        passwordInput.snp.makeConstraints { (make) in
-            make.left.right.equalTo(repeatPasswordInput)
-            make.bottom.equalTo(repeatPasswordInput.snp.top).offset(-20)
+        self.addSubview(repeatNewPasswordInput)
+        repeatNewPasswordInput.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(25)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(self.snp.centerY).offset(10)
+        }
+        
+        self.addSubview(oldPasswordInput)
+        oldPasswordInput.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(25)
+            make.right.equalToSuperview().offset(-20)
+            make.bottom.equalTo(newPasswordInput.snp.top).offset(-20)
         }
         
         self.addSubview(changePasswordButton)
         changePasswordButton.addTarget(self, action: #selector(changePasswordButtonTapped(sender:)), for: .touchUpInside)
         changePasswordButton.snp.makeConstraints { (make) in
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
-            make.top.equalTo(repeatPasswordInput.snp.bottom).offset(20)
+//            make.left.equalTo(20)
+//            make.right.equalTo(-20)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(repeatNewPasswordInput.snp.bottom).offset(20)
         }
         
     }
@@ -56,7 +74,7 @@ class ChangePasswordView: UIView {
     }
     
     @objc func changePasswordButtonTapped(sender: RaisedButton) {
-        delegate?.didTappedChangePasswordButton(password: passwordInput.text, repeatedPassword: repeatPasswordInput.text)
+        delegate?.didTappedChangePasswordButton(old: oldPasswordInput.text, new: newPasswordInput.text, repeatedNew: repeatNewPasswordInput.text)
     }
     
 }

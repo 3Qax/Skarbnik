@@ -9,19 +9,43 @@
 import UIKit
 
 class ChangePasswordViewController: UIViewController {
+    
+    let changePasswordModel = ChangePasswordModel()
+    var coordinator: MainCoordinator?
 
     override func loadView() {
         self.view = ChangePasswordView()
+        (self.view as! ChangePasswordView).delegate = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        (self.view as! ChangePasswordView).delegate = self
     }
+    
     
 }
 extension ChangePasswordViewController: ChangePasswordProtocool {
-    func didTappedChangePasswordButton(password: String?, repeatedPassword: String?) {
-        print("Password: \(String(describing: password)), \(String(describing: repeatedPassword))")
+    func didTappedChangePasswordButton(old: String?, new: String?, repeatedNew: String?) {
+        changePasswordModel.changePassword(old: old, new: new, new: repeatedNew) { (result) in
+            switch result {
+                
+            case .success:
+                self.coordinator?.didChangedPassword()
+            case .failure(let failType):
+                switch failType {
+                case .incorrectOldPassword:
+                    print("old password wrong")
+                case .passwordsDontMatch:
+                    print("passowrds dont match each other")
+                case .passwordDoesntSatisfyRequirements:
+                    print("password doesnt fullfil requirements")
+                }
+            }
+        }
     }
+    
+    func reloadMe() {
+        loadView()
+    }
+    
 }

@@ -71,6 +71,10 @@ class MainCoordinator {
         self.navigationController.pushViewController(ChangePasswordVC, animated: true)
     }
     
+    func didChangedPassword() {
+        
+    }
+    
     
     
 }

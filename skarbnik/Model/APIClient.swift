@@ -24,6 +24,7 @@ class APIClient {
         case login          = "/api/users/login"
         case refresh        = "/api/users/refresh"
         case currentUser    = "/api/users/current/"
+        case changePassword = "/api/users/change_password"
         case student        = "/api/student/"
         case payment        = "/api/payment/"
         case paymentDetail  = "/api/paymentdetail/"
@@ -33,6 +34,7 @@ class APIClient {
    private enum RequestMethod: String {
         case get = "GET"
         case post = "POST"
+        case put = "PUT"
     }
     
     private func fullURL(of endpoint: Endpoint, queryItems: [URLQueryItem]? = nil) -> URL {
@@ -92,6 +94,8 @@ class APIClient {
             request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data, authorise: false)
         case .refresh:
             request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data, authorise: false)
+        case .changePassword:
+            request = createRequest(.put, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
         default:
             request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
         }
@@ -112,6 +116,8 @@ class APIClient {
                 case 200:
                     requestSenderCompletion?(true, data)
                 case 201:
+                    requestSenderCompletion?(true, data)
+                case 204:
                     requestSenderCompletion?(true, data)
                 default:
                     print("HTTP Error: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")

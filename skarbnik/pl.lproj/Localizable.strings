@@ -27,12 +27,11 @@
 "compulsory_password_change_description" = "W trosce o Twoje bezpieczeństwo, wymagamy zmiany hasła po pierwszym logowaniu. Użyj silnego hasła - powinno ono zawierać conajmniej 8 znaków w tym min. jedną duża i małą literę, cyfrę, znak specjalny np. #, @, !.";
 "compulsory_password_change_button_text" = "Zmień hasło";
 
-
-
-//MARK: ChangePasswordAfterFirstLoginView
+//MARK: ChangePasswordView
+"old_password_placeholder" = "stare hasło";
 "new_password_placeholder" = "nowe hasło";
 "repeat_new_password_placeholder" = "powtórz nowe hasło";
-"change_password_button" = "Zmień hasło...";
+"change_password_button_text" = "Zmień hasło...";
 
 //MARK: Payments page strings
 "waiting_while_refreshing_data_text" = "Odświeżanie danych...";
