@@ -50,7 +50,20 @@ class MainCoordinator {
     }
     
     func shouldChangePassword() {
-        
+        let compulsoryPasswordChangeAlertController = CompulsoryPasswordChangeAlertController()
+        compulsoryPasswordChangeAlertController.coordinator = self
+        compulsoryPasswordChangeAlertController.modalPresentationStyle = .overCurrentContext
+        navigationController.present(compulsoryPasswordChangeAlertController, animated: true)
+        //User is forced to change password by
+    }
+    
+
+    func shouldWarnAboutLastLogin(on date: String, from ip: String) {
+        let lastLoginAttemptFailedAlertControler = LastLoginAttemptFailedAlertControler(when: date, from: ip)
+        lastLoginAttemptFailedAlertControler.coordinator = self
+        lastLoginAttemptFailedAlertControler.modalPresentationStyle = .overCurrentContext
+        navigationController.present(lastLoginAttemptFailedAlertControler, animated: true)
+        //User have two options: dismiss that information or decide to change their password - call didRequestPasswordChange()
     }
     
     func didRequestPasswordChange() {
@@ -58,12 +71,6 @@ class MainCoordinator {
         self.navigationController.pushViewController(ChangePasswordVC, animated: true)
     }
     
-    func shouldWarnAboutLastLogin(on date: String, from ip: String) {
-        let lastLoginAttemptFailedAlertControler = LastLoginAttemptFailedAlertControler(when: date, from: ip)
-        lastLoginAttemptFailedAlertControler.coordinator = self
-        lastLoginAttemptFailedAlertControler.modalPresentationStyle = .overCurrentContext
-        navigationController.present(lastLoginAttemptFailedAlertControler, animated: true)
-    }
     
     
 }
