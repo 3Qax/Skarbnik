@@ -27,18 +27,19 @@ class ChangePasswordViewController: UIViewController {
 extension ChangePasswordViewController: ChangePasswordProtocool {
     func didTappedChangePasswordButton(old: String?, new: String?, repeatedNew: String?) {
         changePasswordModel.changePassword(old: old, new: new, new: repeatedNew) { (result) in
-            switch result {
-                
-            case .success:
-                self.coordinator?.didChangedPassword()
-            case .failure(let failType):
-                switch failType {
-                case .incorrectOldPassword:
-                    print("old password wrong")
-                case .passwordsDontMatch:
-                    print("passowrds dont match each other")
-                case .passwordDoesntSatisfyRequirements:
-                    print("password doesnt fullfil requirements")
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self.coordinator?.didChangedPassword()
+                case .failure(let failType):
+                    switch failType {
+                    case .incorrectOldPassword:
+                        print("old password wrong")
+                    case .passwordsDontMatch:
+                        print("passowrds dont match each other")
+                    case .passwordDoesntSatisfyRequirements:
+                        print("password doesnt fullfil requirements")
+                    }
                 }
             }
         }

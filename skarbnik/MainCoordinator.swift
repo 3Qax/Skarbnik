@@ -67,12 +67,17 @@ class MainCoordinator {
     }
     
     func didRequestPasswordChange() {
-        let ChangePasswordVC = ChangePasswordViewController()
-        self.navigationController.pushViewController(ChangePasswordVC, animated: true)
+        let changePasswordVC = ChangePasswordViewController()
+        changePasswordVC.coordinator = self
+        self.navigationController.pushViewController(changePasswordVC, animated: true)
     }
     
     func didChangedPassword() {
-        
+        print("coordinator reached!")
+        self.navigationController.popViewController(animated: true)
+        self.navigationController.popViewController(animated: true)
+//        self.navigationController.popViewController(animated: true)
+        start()
     }
     
     

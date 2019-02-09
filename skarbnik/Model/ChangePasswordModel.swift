@@ -21,6 +21,7 @@ class ChangePasswordModel {
         case failure(ChangingPasswordEnum)
         
         enum ChangingPasswordEnum {
+            case passwordCanNotBeEmpty
             case incorrectOldPassword
             case passwordsDontMatch
             case passwordDoesntSatisfyRequirements
@@ -43,25 +44,29 @@ class ChangePasswordModel {
     }
     
     private func doesSatisfyRequirements(_ password: String) -> Bool {
-        return true
+        let regex = try! NSRegularExpression(pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*.,:;\\[\\]])(?=.{8,})")
+        let matches = regex.firstMatch(in: password, range: NSRange(location: 0, length: password.count))
+        if matches != nil {
+            return true
+        }
+        return false
     }
     
     func changePassword(old oldPassword: String?, new newPassword: String?, new repeatedNewPassword: String?, completion: @escaping (Result) -> ()) {
         guard oldPassword != nil, newPassword != nil, repeatedNewPassword != nil else {
-            completion(.failure(.passwordDoesntSatisfyRequirements))
+            completion(.failure(.passwordCanNotBeEmpty))
             return
         }
         guard oldPassword != "", newPassword != "", repeatedNewPassword != "" else {
-            completion(.failure(.passwordDoesntSatisfyRequirements))
-            return
-        }
-        
-        guard does(newPassword!, match: repeatedNewPassword!) else {
-            completion(.failure(.passwordsDontMatch))
+            completion(.failure(.passwordCanNotBeEmpty))
             return
         }
         guard doesSatisfyRequirements(newPassword!) else  {
             completion(.failure(.passwordDoesntSatisfyRequirements))
+            return
+        }
+        guard does(newPassword!, match: repeatedNewPassword!) else {
+            completion(.failure(.passwordsDontMatch))
             return
         }
         
