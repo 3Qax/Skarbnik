@@ -176,6 +176,16 @@ extension PaymentViewController: UITableViewDelegate {
             make.left.equalToSuperview().offset(5)
         }
         
+        let line = UIView(frame: .zero)
+        line.backgroundColor = UIColor(rgb: 0x00A1E6)
+        headerView.addSubview(line)
+        line.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.left.equalTo(title.snp.right).offset(5)
+            make.right.equalToSuperview()
+            make.height.equalTo(1)
+        }
+        
         return headerView
     }
     
