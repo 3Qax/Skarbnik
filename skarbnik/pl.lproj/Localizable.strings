@@ -12,8 +12,6 @@
 "login_button" = "Zaloguj...";
 "incorrect_credentials_header" = "Nieprawidłowe dane";
 "incorrect_credentials_description" = "Wprowadzone login i hasło są niepoprawne. Sprawdź je i spróbuj ponownie.";
-"should_change_password_after_first_login_header" = "Wymagana zmiana hasła";
-"should_change_password_after_first_login_description" = "W trosce o Twoje bezpieczeństwo wymagamy zmiany hasła po pierwszym logowaniu. Użyj silnego hasła - powinno ono zawierać conajmniej 8 znaków, min. jedną dużą literę, małą literę, cyfrę oraz znak specjalny np. #, @ czy !";
 
 //MARK: LastLoginAttemptFailedAlert
 "last_login_failed_header" = "Nieudana próba logowania";
@@ -28,7 +26,7 @@
 "compulsory_password_change_button_text" = "Zmień hasło";
 
 //MARK: ChangePasswordView
-"old_password_placeholder" = "aktualne hasło";
+"old_password_placeholder" = "obecne hasło";
 "new_password_placeholder" = "nowe hasło";
 "repeat_new_password_placeholder" = "powtórz nowe hasło";
 "change_password_button_text" = "Zmień hasło...";
@@ -45,7 +43,6 @@
 
 "failure_passwordCanNotBeEmpty_title" = "Puste pole";
 "failure_passwordCanNotBeEmpty_description" = "Wypełnij wszystkie pola. To męczące ale tak trzeba!";
-
 
 //MARK: Payments page strings
 "waiting_while_refreshing_data_text" = "Odświeżanie danych...";

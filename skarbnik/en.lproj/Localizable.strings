@@ -12,8 +12,6 @@
 "login_button" = "Log in...";
 "incorrect_credentials_header" = "Incorrect credentials";
 "incorrect_credentials_description" = "Entered login and password doesn't match. Check them and try again.";
-"should_change_password_after_first_login_header" = "Password change required";
-"should_change_password_after_first_login_description" = "For the sake of your safety we require changing password after first login. You should use strong password - it should consist at least of 8 characters, min. one big letter, one small letter, digit and a special character like #, @ or !";
 
 //MARK: AsyncPasswordController
 "last_login_failed_header" = "Login attempt failed";
@@ -22,10 +20,29 @@
 "last_login_failed_description_end" = ". If it wasn't you, we strongly recommend changing password.";
 "last_login_failed_change_password_button_text" = "Change password";
 
-//MARK: ChangePasswordAfterFirstLoginView
+//MARK: CompulsoryPasswordChangeAlert
+"compulsory_password_change_title" = "Password change required";
+"compulsory_password_change_description" = "For the sake of your safety we require changing password after first login. You should use strong password - it have to consist of at least of 8 characters including one big and small letter, digit and a special character like #, @ or !;
+"compulsory_password_change_button_text" = "Change password";
+
+//MARK: ChangePasswordView
+"old_password_placeholder" = "current password";
 "new_password_placeholder" = "new password";
 "repeat_new_password_placeholder" = "repeat new password";
 "change_password_button" = "Change password...";
+
+//MARK: ChangePasswordViewController
+"failure_incorrectOldPassword_title" = "Error";
+"failure_incorrectOldPassword_description" = "Your current password is incorrect. Make sure you typed it correctly and try again!";
+
+"failure_passwordsDontMatch_title" = "Error";
+"failure_passwordsDontMatch_description" = "New passwords don't match each other. They definitely should. Maybe you missclicked? Check it!";
+
+"failure_passwordDoesntSatisfyRequirements_title" = "New password doesn't meet requirements";
+"failure_passwordDoesntSatisfyRequirements_description" = "Use strong password - it have to consist of at least of 8 characters including one big and small letter, digit and a special character like #, @ or !";
+
+"failure_passwordCanNotBeEmpty_title" = "Empty field";
+"failure_passwordCanNotBeEmpty_description" = "Fill all of the fileds. We know that's borring, but it is required!";
 
 //MARK: Payments page strings
 "waiting_while_refreshing_data_text" = "Refreshing data...";
