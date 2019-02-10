@@ -19,11 +19,11 @@ class ChangePasswordView: UIView {
     
     var oldPasswordInput   = LightTextField(placeholder: NSLocalizedString("old_password_placeholder", comment: ""),
                                          UIImage(named: "key"),
-                                         returnKeyType: .done,
+                                         returnKeyType: .next,
                                          hideContent: true)
     var newPasswordInput   = LightTextField(placeholder: NSLocalizedString("new_password_placeholder", comment: ""),
                                          UIImage(named: "key"),
-                                         returnKeyType: .done,
+                                         returnKeyType: .next,
                                          hideContent: true)
     var repeatNewPasswordInput   = LightTextField(placeholder: NSLocalizedString("repeat_new_password_placeholder", comment: ""),
                                          UIImage(named: "key"),
@@ -33,6 +33,7 @@ class ChangePasswordView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         
         self.backgroundColor = UIColor(rgb: 0xF5F5F5)
         
@@ -60,8 +61,6 @@ class ChangePasswordView: UIView {
         self.addSubview(changePasswordButton)
         changePasswordButton.addTarget(self, action: #selector(changePasswordButtonTapped(sender:)), for: .touchUpInside)
         changePasswordButton.snp.makeConstraints { (make) in
-//            make.left.equalTo(20)
-//            make.right.equalTo(-20)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
             make.top.equalTo(repeatNewPasswordInput.snp.bottom).offset(20)
@@ -71,6 +70,28 @@ class ChangePasswordView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func startWaitingAnimation() {
+            UIView.animate(withDuration: 0.5, animations: {
+                self.oldPasswordInput.alpha = 0.0
+                self.newPasswordInput.alpha = 0.0
+                self.repeatNewPasswordInput.alpha = 0.0
+            })
+            UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
+                self.changePasswordButton.backgroundColor = UIColor(rgb: 0x78c1e5)
+            })
+    }
+    
+    func stopAnimating() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.oldPasswordInput.alpha = 1.0
+            self.newPasswordInput.alpha = 1.0
+            self.repeatNewPasswordInput.alpha = 1.0
+        })
+        
+        self.changePasswordButton.layer.removeAllAnimations()
+        self.changePasswordButton.backgroundColor = UIColor(rgb: 0xFA3CB1)
     }
     
     @objc func changePasswordButtonTapped(sender: RaisedButton) {

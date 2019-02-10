@@ -7,6 +7,7 @@ let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 class LoginViewController: UIViewController {
     let loginModel = LoginModel()
+    private var preventUsingToken = false
     let incorrectCredentialsAlert: UIAlertController = {
         var alert = UIAlertController(title: NSLocalizedString("incorrect_credentials_header", comment: ""),
                                       message: NSLocalizedString("incorrect_credentials_description", comment: ""),
@@ -16,6 +17,18 @@ class LoginViewController: UIViewController {
     }()
     var coordinator: MainCoordinator?
     
+    
+    init(shouldUseToken: Bool = true) {
+        if !shouldUseToken {
+            preventUsingToken = true
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = LoginView(frame: UIScreen.main.bounds)
     }
@@ -24,18 +37,21 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         
-        
-        loginModel.login { (successful) in
-            guard successful else {
-                DispatchQueue.main.async {
-                    (self.view as! LoginView).showUI()
+        if !preventUsingToken {
+            loginModel.login { (successful) in
+                guard successful else {
+                    DispatchQueue.main.async {
+                        (self.view as! LoginView).showUI()
+                    }
+                    return
                 }
-                return
+                DispatchQueue.main.async {
+                    self.coordinator!.didLoginSuccessfully()
+                }
+                
             }
-            DispatchQueue.main.async {
-                self.coordinator!.didLoginSuccessfully()
-            }
-            
+        } else {
+            (self.view as! LoginView).showUI()
         }
         
         (self.view as! LoginView).delegate = self

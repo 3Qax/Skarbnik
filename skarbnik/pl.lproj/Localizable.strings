@@ -28,10 +28,24 @@
 "compulsory_password_change_button_text" = "Zmień hasło";
 
 //MARK: ChangePasswordView
-"old_password_placeholder" = "stare hasło";
+"old_password_placeholder" = "aktualne hasło";
 "new_password_placeholder" = "nowe hasło";
 "repeat_new_password_placeholder" = "powtórz nowe hasło";
 "change_password_button_text" = "Zmień hasło...";
+
+//MARK: ChangePasswordViewController
+"failure_incorrectOldPassword_title" = "Błąd";
+"failure_incorrectOldPassword_description" = "Podano nieprawidłowe aktualne hasło. Chcesz spróbować jeszcze raz?";
+
+"failure_passwordsDontMatch_title" = "Błąd";
+"failure_passwordsDontMatch_description" = "Podane nowe hasła nie są identyczne. A powinny. Bo jak nie są to całkiem możliwe że coś źle kliknąłeś na klawiaturze. Sprawdź to!";
+
+"failure_passwordDoesntSatisfyRequirements_title" = "Hasło nie spełnia wymagań";
+"failure_passwordDoesntSatisfyRequirements_description" = "Użyj silnego hasła - powinno ono zawierać conajmniej 8 znaków w tym min. wielką i małą literę, cyfrę oraz znak specjalny";
+
+"failure_passwordCanNotBeEmpty_title" = "Puste pole";
+"failure_passwordCanNotBeEmpty_description" = "Wypełnij wszystkie pola. To męczące ale tak trzeba!";
+
 
 //MARK: Payments page strings
 "waiting_while_refreshing_data_text" = "Odświeżanie danych...";
