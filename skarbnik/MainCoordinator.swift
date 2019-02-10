@@ -73,8 +73,13 @@ class MainCoordinator {
     }
     
     func didChangedPassword() {
+        shouldLogOut()
+    }
+    
+    func shouldLogOut() {
+        TokenManager.shared.deauthorise()
         navigationController.popToRootViewController(animated: true)
-        let loginVC = LoginViewController(shouldUseToken: false)
+        let loginVC = LoginViewController()
         loginVC.coordinator = self
         navigationController.pushViewController(loginVC, animated: false)
     }

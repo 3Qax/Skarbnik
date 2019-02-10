@@ -12,7 +12,9 @@ import SnapKit
 class ChangePasswordView: UIView {
     
     @objc func injected() {
-        delegate?.reloadMe()
+        #if DEBUG
+            delegate?.reloadMe()
+        #endif
     }
     
     var delegate: ChangePasswordProtocool?

@@ -31,52 +31,28 @@ class AsyncSafetyModel {
         let login_IP: String
     }
     
-    private func getCurrentUserUsername() -> String {
-        let token: String = UserDefaults.standard.string(forKey: "JWT")!
-        
-        struct User: Codable {
-            var username: String
-        }
-        
-        let firstDot = token.range(of: ".")
-        let withoutHeader = token[firstDot!.upperBound..<token.endIndex]
-        
-        let secondDot = withoutHeader.range(of: ".")
-        let payload = withoutHeader[..<secondDot!.lowerBound]
-        
-        //Foundation implementation of base64 is so stupid that it can't calculate missing bits...
-        let correctedPayload: String = payload.padding(toLength: ((payload.count+3)/4)*4,
-                                                       withPad: "=",
-                                                       startingAt: 0)
-        
-        
-        let data = Data(base64Encoded: correctedPayload)!
-        
-        return decode(User.self, from: data).username
-        
-    }
-
     
     
     init() {
-        apiClient.request(.activity,
-                          queryItems: [URLQueryItem(name: "login_username", value: getCurrentUserUsername()),
-                                       URLQueryItem(name: "page", value: String(1)),
-                                       URLQueryItem(name: "page_size", value: String(2)),
-                                       URLQueryItem(name: "ordering", value: "-login_datetime")] ,
-                          completion: { (succeed, data) in
-            guard succeed else {
-                fatalError("Failed getting activity info!")
-            }
-            if let data = data {
-                self.activities = self.decode([Activity].self, from: data)
-                self.interpretActivities()
-            }
-        })
-    }
-    
-    deinit {
-        print("AsyncSafetyModel dealocated!")
+        switch TokenManager.shared.get(.username) {
+        case .success(let username):
+            apiClient.request(.activity,
+                              queryItems: [URLQueryItem(name: "login_username", value: username),
+                                           URLQueryItem(name: "page", value: "1"),
+                                           URLQueryItem(name: "page_size", value: "2"),
+                                           URLQueryItem(name: "ordering", value: "-login_datetime")] ,
+                              completion: { (succeed, data) in
+                                guard succeed else {
+                                    fatalError("Failed getting activity info!")
+                                }
+                                if let data = data {
+                                    self.activities = self.decode([Activity].self, from: data)
+                                    self.interpretActivities()
+                                }
+            })
+        case .notAuthorised:
+            fatalError("AsyncSafetyModel should run only after correct authorisation!")
+        }
     }
     
     func interpretActivities() {

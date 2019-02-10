@@ -13,13 +13,6 @@ class APIClient {
     private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
    // private let baseURL: URLComponents = URLComponents(string: "http://172.22.0.47:8000")!
     
-    private var Token: String {
-        guard UserDefaults.standard.string(forKey: "JWT") != nil else {
-            fatalError("Token not found!")
-        }
-        return "Basic" + " " + UserDefaults.standard.string(forKey: "JWT")!
-    }
-    
     enum Endpoint: String {
         case login          = "/api/users/login"
         case refresh        = "/api/users/refresh"
@@ -58,7 +51,7 @@ class APIClient {
         request.httpMethod = method.rawValue
         
         if authorise {
-            request.addValue(Token, forHTTPHeaderField: "Authorization")
+            request.addValue("Basic " + TokenManager.shared.getToken(), forHTTPHeaderField: "Authorization")
         }
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

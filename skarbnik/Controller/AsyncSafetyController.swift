@@ -41,10 +41,6 @@ class AsyncSafetyController {
     init() {
         model.delegate = self
     }
-    
-    deinit {
-        print("AsyncSafetyController dealocated!")
-    }
 }
 
 extension AsyncSafetyController: AsyncSafetyProtocool {

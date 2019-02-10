@@ -22,7 +22,7 @@
 
 //MARK: CompulsoryPasswordChangeAlert
 "compulsory_password_change_title" = "Password change required";
-"compulsory_password_change_description" = "For the sake of your safety we require changing password after first login. You should use strong password - it have to consist of at least of 8 characters including one big and small letter, digit and a special character like #, @ or !;
+"compulsory_password_change_description" = "For the sake of your safety we require changing password after first login. You should use strong password - it have to consist of at least of 8 characters including one big and small letter, digit and a special character like #, @ or !";
 "compulsory_password_change_button_text" = "Change password";
 
 //MARK: ChangePasswordView

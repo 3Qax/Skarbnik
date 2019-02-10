@@ -10,6 +10,7 @@
 		1900F2D7220EFADF0040612A /* EasyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D6220EFADF0040612A /* EasyInjection.swift */; };
 		1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D8220F05180040612A /* ChangePasswordModel.swift */; };
 		1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */; };
+		193357ED221072B1000D922C /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193357EC221072B1000D922C /* TokenManager.swift */; };
 		1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528B21A96A8300D0A7A3 /* AppDelegate.swift */; };
 		1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528D21A96A8300D0A7A3 /* LoginViewController.swift */; };
 		1941529321A96A8400D0A7A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1941529221A96A8400D0A7A3 /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 		1900F2D6220EFADF0040612A /* EasyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyInjection.swift; sourceTree = "<group>"; };
 		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
 		1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewProtocol.swift; sourceTree = "<group>"; };
+		193357EC221072B1000D922C /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		1941528821A96A8300D0A7A3 /* skarbnik.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = skarbnik.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1941528B21A96A8300D0A7A3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1941528D21A96A8300D0A7A3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */,
 				1947D58C220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift */,
 				1900F2D6220EFADF0040612A /* EasyInjection.swift */,
+				193357EC221072B1000D922C /* TokenManager.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				19484C372204594A006097CF /* MainCoordinator.swift in Sources */,
+				193357ED221072B1000D922C /* TokenManager.swift in Sources */,
 				1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
 				1947D58D220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift in Sources */,

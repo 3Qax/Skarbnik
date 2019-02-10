@@ -30,48 +30,34 @@ class PickStudentModel {
         return try! JSONDecoder().decode(T.self, from: data)
     }
     
-    private func getCurrentUserID() -> Int {
-        let token: String = UserDefaults.standard.string(forKey: "JWT")!
-        
-        struct User: Codable {
-            var user_id: Int
-            var username: String
-        }
-        
-        let firstDot = token.range(of: ".")
-        let withoutHeader = token[firstDot!.upperBound..<token.endIndex]
-        
-        let secondDot = withoutHeader.range(of: ".")
-        let payload = withoutHeader[..<secondDot!.lowerBound]
-        
-        //Foundation implementation of base64 is so stupid that it can't calculate missing bits...
-        let correctedPayload: String = payload.padding(toLength: ((payload.count+3)/4)*4,
-                                  withPad: "=",
-                                  startingAt: 0)
-        
-        
-        let data = Data(base64Encoded: correctedPayload)!
-        
-        return decode(User.self, from: data).user_id
-    
-    }
-        
-        
-    
     func getStudentsWithClassID(completion: @escaping ([String: [Int]]) -> ()) {
-        apiClient.request(.student, queryItems: [URLQueryItem(name: "user", value: String(getCurrentUserID()))]) { (succeed, data) in
-            guard succeed else {
-                print("Error while getting students info")
-                return
-            }
-            if let data = data {
-                let students = self.decode([Child].self, from: data)
-                var studentsWithIDs: [String: [Int]] = [String: [Int]]()
-                for student in students {
-                    studentsWithIDs[student.name] = [student.id_field, student.class_field.id_field]
-                }
-                completion(studentsWithIDs)
-            }
+        let id = TokenManager.shared.get(.user_id)
+        switch id {
+        case .success(let user_id):
+            apiClient.request(
+                .student,
+                queryItems: [URLQueryItem(name: "user", value: String(user_id))],
+                completion: { (succeed, data) in
+                    guard succeed else {
+                        print("Error while getting students info")
+                        return
+                    }
+                    if let data = data {
+                        let students = self.decode([Child].self, from: data)
+                        var studentsWithIDs: [String: [Int]] = [String: [Int]]()
+                        for student in students {
+                            studentsWithIDs[student.name] = [student.id_field, student.class_field.id_field]
+                        }
+                        completion(studentsWithIDs)
+                    }
+                })
+        case .notAuthorised:
+            fatalError("User shouldn't pick student without authorisation!")
         }
+        
     }
+    
+    
+    
+    
 }

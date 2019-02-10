@@ -32,17 +32,19 @@ class LoginModel {
     
     
     func login(completion: @escaping (Bool) -> ()) {
-        guard UserDefaults.standard.string(forKey: "JWT") != nil, UserDefaults.standard.string(forKey: "JWT") != "" else {
+        
+        let token = TokenManager.shared.getToken()
+        if token == "" {
             completion(false)
             return
         }
-    
-        let loginPacket = LoginWithTokenPacket(token: UserDefaults.standard.string(forKey: "JWT")!)
+        
+        let loginPacket = LoginWithTokenPacket(token: token)
         apiClient.request(.refresh, data: encode(loginPacket)) { (successful, recivedData) in
             if successful {
                 if let recivedData = recivedData {
                     let recivedToken: ResponsePacket = self.decode(ResponsePacket.self,from: recivedData)
-                    UserDefaults.standard.set(recivedToken.token, forKey: "JWT")
+                    TokenManager.shared.authorise(with: recivedToken.token)
                 } else {
                     print("Even thought login was successful cannot save recived token")
                 }
@@ -60,7 +62,7 @@ class LoginModel {
                     if successful {
                         if let recivedData = recivedData {
                             let recivedToken: ResponsePacket = self.decode(ResponsePacket.self,from: recivedData)
-                            UserDefaults.standard.set(recivedToken.token, forKey: "JWT")
+                            TokenManager.shared.authorise(with: recivedToken.token)
                         } else {
                             print("Even thought login was successful cannot save recived token")
                         }

@@ -6,8 +6,8 @@ import UIKit
 let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 class LoginViewController: UIViewController {
+    var coordinator: MainCoordinator?
     let loginModel = LoginModel()
-    private var preventUsingToken = false
     let incorrectCredentialsAlert: UIAlertController = {
         var alert = UIAlertController(title: NSLocalizedString("incorrect_credentials_header", comment: ""),
                                       message: NSLocalizedString("incorrect_credentials_description", comment: ""),
@@ -15,19 +15,8 @@ class LoginViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
         return alert
     }()
-    var coordinator: MainCoordinator?
     
     
-    init(shouldUseToken: Bool = true) {
-        if !shouldUseToken {
-            preventUsingToken = true
-        }
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func loadView() {
         view = LoginView(frame: UIScreen.main.bounds)
@@ -37,7 +26,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         
-        if !preventUsingToken {
             loginModel.login { (successful) in
                 guard successful else {
                     DispatchQueue.main.async {
@@ -50,9 +38,6 @@ class LoginViewController: UIViewController {
                 }
                 
             }
-        } else {
-            (self.view as! LoginView).showUI()
-        }
         
         (self.view as! LoginView).delegate = self
         (self.view as! LoginView).loginInput.delegate = self
