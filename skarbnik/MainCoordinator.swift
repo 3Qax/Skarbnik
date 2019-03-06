@@ -84,6 +84,12 @@ class MainCoordinator {
         navigationController.pushViewController(loginVC, animated: false)
     }
     
+    func didRequestReminder() {
+        let reminderController = ReminderController()
+        //
+        navigationController.pushViewController(reminderController, animated: true)
+    }
+    
     
     
 }

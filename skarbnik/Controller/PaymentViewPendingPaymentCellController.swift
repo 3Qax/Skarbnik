@@ -12,28 +12,30 @@ import EventKit
 extension PaymentViewController: PendingPaymentCellProtocool {
     func didTappedRemindButton(sender: PendingPaymentCellView) {
         
-        switch EKEventStore.authorizationStatus(for: .reminder) {
-        case .notDetermined:
-            eventStore.requestAccess(to: .reminder) { (succed, error: Error?) in
-                guard succed else { return }
-                self.didTappedRemindButton(sender: sender)
-            }
-        case .authorized:
-            let reminder = EKReminder(eventStore: eventStore)
-            reminder.title = NSLocalizedString("reminder_prefix_before_payment_name", comment: "") + " \(paymentModel.pendingPayments[sender.key!]!.name)"
-            let alarm = EKAlarm(absoluteDate: Calendar.current.date(byAdding: .day, value: -1, to: (paymentModel.pendingPayments[sender.key!]?.end_date)!)!)
-            reminder.addAlarm(alarm)
-            let calendars = eventStore.calendars(for: .reminder)
-            reminder.calendar = calendars.first
-            do {
-                try eventStore.save(reminder, commit: true)
-            } catch {
-                print(error.localizedDescription)
-            }
-        case .restricted:
-            print("restricted")
-        case .denied:
-            print("denied")
-        }
+        coordinator?.didRequestReminder()
+        
+//        switch EKEventStore.authorizationStatus(for: .reminder) {
+//        case .notDetermined:
+//            eventStore.requestAccess(to: .reminder) { (succed, error: Error?) in
+//                guard succed else { return }
+//                self.didTappedRemindButton(sender: sender)
+//            }
+//        case .authorized:
+//            let reminder = EKReminder(eventStore: eventStore)
+//            reminder.title = NSLocalizedString("reminder_prefix_before_payment_name", comment: "") + " \(paymentModel.pendingPayments[sender.key!]!.name)"
+//            let alarm = EKAlarm(absoluteDate: Calendar.current.date(byAdding: .day, value: -1, to: (paymentModel.pendingPayments[sender.key!]?.end_date)!)!)
+//            reminder.addAlarm(alarm)
+//            let calendars = eventStore.calendars(for: .reminder)
+//            reminder.calendar = calendars.first
+//            do {
+//                try eventStore.save(reminder, commit: true)
+//            } catch {
+//                print(error.localizedDescription)
+//            }
+//        case .restricted:
+//            print("restricted")
+//        case .denied:
+//            print("denied")
+//        }
     }
 }
