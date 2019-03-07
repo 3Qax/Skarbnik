@@ -46,6 +46,8 @@
 		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
+		19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC012231147C00BEFF8D /* ReminderModel.swift */; };
+		19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */; };
 		19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1D223062F9006DE37B /* BigLabel.swift */; };
 		19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1F22307161006DE37B /* SegmentedControl.swift */; };
 		19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */; };
@@ -96,6 +98,8 @@
 		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
+		19DEFC012231147C00BEFF8D /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
+		19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDelegate.swift; sourceTree = "<group>"; };
 		19E38E1D223062F9006DE37B /* BigLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLabel.swift; sourceTree = "<group>"; };
 		19E38E1F22307161006DE37B /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewProtocol.swift; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 				194784EC2208C87B000AE323 /* PaymentModel.swift */,
 				1947D58A220AF2BB00C1D7D8 /* AsyncSafetyModel.swift */,
 				1900F2D8220F05180040612A /* ChangePasswordModel.swift */,
+				19DEFC012231147C00BEFF8D /* ReminderModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 				1947D58C220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift */,
 				1900F2D6220EFADF0040612A /* EasyInjection.swift */,
 				193357EC221072B1000D922C /* TokenManager.swift */,
+				19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -382,6 +388,7 @@
 				1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
 				19346239221E72F800EC6CBE /* ReminderView.swift in Sources */,
+				19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */,
 				1947D58D220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift in Sources */,
 				1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */,
 				194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */,
@@ -399,6 +406,7 @@
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
 				19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */,
 				19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */,
+				19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
 				1900F2D7220EFADF0040612A /* EasyInjection.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,

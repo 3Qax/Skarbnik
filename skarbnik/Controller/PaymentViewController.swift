@@ -11,7 +11,6 @@ import EventKit
 
 class PaymentViewController: UIViewController {
     let paymentModel: PaymentModel
-    let eventStore      = EKEventStore()
     var coordinator: MainCoordinator?
     
     

@@ -12,7 +12,12 @@ import SnapKit
 
 
 class SegmentedControl: UIControl {
-    
+
+    var indexOfSelectedOption: Int {
+        get {
+            return selectedOption!
+        }
+    }
     private let sv = UIStackView()
     private let selector: UIView = {
         let view = UIView()
@@ -25,7 +30,7 @@ class SegmentedControl: UIControl {
     private var options: [UIButton] = [UIButton]()
     private var selectedOption: Int? = nil
     
-    func setOption(number index: Int, animated: Bool = true) {
+    private func setOption(number index: Int, animated: Bool = true) {
         selectedOption = index
         
         options.forEach { (button) in
@@ -94,9 +99,11 @@ class SegmentedControl: UIControl {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didSelected(sender: UIButton) {
-        setOption(number: options.firstIndex(of: sender) ?? 0)
-        sendActions(for: .valueChanged)
+    @objc private func didSelected(sender: UIButton) {
+        if options.firstIndex(of: sender)! != selectedOption {
+            setOption(number: options.firstIndex(of: sender) ?? 0)
+            sendActions(for: .valueChanged)
+        }
     }
     
     

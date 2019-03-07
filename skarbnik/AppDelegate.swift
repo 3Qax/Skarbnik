@@ -44,6 +44,10 @@ extension String {
         return prefix(1).uppercased() + self.lowercased().dropFirst()
     }
     
+    func decapitalizeingFirstLetter() -> String {
+        return prefix(1).lowercased() + self.lowercased().dropFirst()
+    }
+    
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
     }
