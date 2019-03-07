@@ -11,51 +11,53 @@ import EventKit
 
 class PaymentViewController: UIViewController {
     let paymentModel: PaymentModel
+    let paymentView: PaymentView
     var coordinator: MainCoordinator?
     
     
     
     init(of studentID: Int, in classID: Int) {
         paymentModel = PaymentModel(of: studentID, in: classID)
+        paymentView = PaymentView(frame: UIScreen.main.bounds)
         super.init(nibName: nil, bundle: nil)
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
-        view = PaymentView(frame: UIScreen.main.bounds)
+        view = paymentView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePendingPaymentsSection(notification:)), name: .modelChangedPendingPayemnts, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updatePaidPaymentsSection), name: .modelChangedPaidPayemnts, object: nil)
-        
         selectionFeedbackGenerator.prepare()
         
-        
-        (self.view as! PaymentView).delegate = self
-        (self.view as! PaymentView).tableView.dataSource = self
-        (self.view as! PaymentView).tableView.delegate = self
+        paymentView.delegate = self
+        paymentView.tableView.dataSource = self
+        paymentView.tableView.delegate = self
     }
     
     @objc func updatePendingPaymentsSection(notification: Notification) {
         DispatchQueue.main.sync {
-            (self.view as! PaymentView).tableView.beginUpdates()
-            (self.view as! PaymentView).tableView.insertRows(at: [IndexPath(row: (self.view as! PaymentView).tableView.numberOfRows(inSection: 0), section: 0)], with: .right)
-            (self.view as! PaymentView).tableView.endUpdates()
+            paymentView.tableView.beginUpdates()
+            paymentView.tableView.insertRows(at: [IndexPath(row: paymentView.tableView.numberOfRows(inSection: 0), section: 0)], with: .right)
+            paymentView.tableView.endUpdates()
         }
     }
     @objc func updatePaidPaymentsSection() {
         DispatchQueue.main.sync {
-            (self.view as! PaymentView).tableView.beginUpdates()
-            (self.view as! PaymentView).tableView.insertRows(at: [IndexPath(row: (self.view as! PaymentView).tableView.numberOfRows(inSection: 1), section: 1)], with: .right)
-            (self.view as! PaymentView).tableView.endUpdates()
+            paymentView.tableView.beginUpdates()
+            paymentView.tableView.insertRows(at: [IndexPath(row: paymentView.tableView.numberOfRows(inSection: 1), section: 1)], with: .right)
+            paymentView.tableView.endUpdates()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePendingPaymentsSection(notification:)), name: .modelChangedPendingPayemnts, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePaidPaymentsSection), name: .modelChangedPaidPayemnts, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,23 +65,8 @@ class PaymentViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        
         NotificationCenter.default.removeObserver(self, name: .modelChangedPendingPayemnts, object: nil)
         NotificationCenter.default.removeObserver(self, name: .modelChangedPaidPayemnts, object: nil)
-        
-        (self.view as! PaymentView).tableView.beginUpdates()
-        
-        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 0) {
-            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
-        }
-        
-        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 1) {
-            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 1)], with: .right)
-        }
-        
-        paymentModel.paidPayments.removeAll()
-        paymentModel.pendingPayments.removeAll()
-        (self.view as! PaymentView).tableView.endUpdates()
     }
     
 }
@@ -94,18 +81,18 @@ extension PaymentViewController: PaymentViewProtocol {
     }
     
     func didRequestDataRefresh(completion: @escaping () -> ()) {
-        (self.view as! PaymentView).tableView.beginUpdates()
+        paymentView.tableView.beginUpdates()
         
-        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 0) {
-            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
+        for i in 0..<paymentView.tableView.numberOfRows(inSection: 0) {
+            paymentView.tableView.deleteRows(at: [IndexPath(row: i, section: 0)], with: .right)
         }
         
-        for i in 0..<(self.view as! PaymentView).tableView.numberOfRows(inSection: 1) {
-            (self.view as! PaymentView).tableView.deleteRows(at: [IndexPath(row: i, section: 1)], with: .right)
+        for i in 0..<paymentView.tableView.numberOfRows(inSection: 1) {
+            paymentView.tableView.deleteRows(at: [IndexPath(row: i, section: 1)], with: .right)
         }
         
         paymentModel.refreshData(deletedDataHandler: {
-            (self.view as! PaymentView).tableView.endUpdates()
+            paymentView.tableView.endUpdates()
         }, completion: {
             completion()
         })
@@ -142,7 +129,7 @@ extension PaymentViewController: UITableViewDataSource {
             cell.setup(paymentModel.paidPayments[indexPath.row]!.name, paymentModel.paidPayments[indexPath.row]!.description, paymentModel.paidPayments[indexPath.row]!.amount)
 
             cell.delegate = self
-            cell.tableView = (self.view as! PaymentView).tableView
+            cell.tableView = paymentView.tableView
             return cell
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
