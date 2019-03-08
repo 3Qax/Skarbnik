@@ -11,5 +11,5 @@ import Foundation
 
 
 protocol ReminderDelegate {
-    func didRequestedToAdd(reminder: String, on: Date)
+    func didTapAddReminder()
 }

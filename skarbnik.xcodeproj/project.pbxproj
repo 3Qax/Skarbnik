@@ -31,6 +31,7 @@
 		19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3A220461C1006097CF /* ChangePasswordViewController.swift */; };
 		19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3C220466CA006097CF /* ChangePasswordView.swift */; };
 		19484C3F22047340006097CF /* ChangePasswordProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3E22047340006097CF /* ChangePasswordProtocool.swift */; };
+		195366112232689B00AE8568 /* ReminderAlertsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195366102232689B00AE8568 /* ReminderAlertsController.swift */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
 		19642BD321EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19642BD221EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */; };
@@ -83,6 +84,7 @@
 		19484C3A220461C1006097CF /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19484C3C220466CA006097CF /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		19484C3E22047340006097CF /* ChangePasswordProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordProtocool.swift; sourceTree = "<group>"; };
+		195366102232689B00AE8568 /* ReminderAlertsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAlertsController.swift; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
 		19642BD221EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentCellProtocool.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */,
 				19484C3A220461C1006097CF /* ChangePasswordViewController.swift */,
 				19346236221E72A000EC6CBE /* ReminderController.swift */,
+				195366102232689B00AE8568 /* ReminderAlertsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -420,6 +423,7 @@
 				1943527C21E546A800F84F41 /* PaidPaymentCellView.swift in Sources */,
 				19A7403321EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
+				195366112232689B00AE8568 /* ReminderAlertsController.swift in Sources */,
 				19642BD321EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
 				19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */,

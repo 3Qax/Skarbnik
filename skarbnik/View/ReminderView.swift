@@ -27,7 +27,9 @@ class ReminderView: UIView {
     //When section
     let whenLabel = BigLabel(text: "Kiedy")
     let whenControl = SegmentedControl(optionsLabels: ["dni przed końcem", "data"])
-    let picker = UIDatePicker(frame: .zero)
+    let daysBeforeEndPickerContainer = UIView()
+    let datePicker = UIDatePicker(frame: .zero)
+    let daysBeforeEndPicker = UIPickerView(frame: .zero)
     
     //Action section
     let addReminderButton = RaisedButton(title: "Dodaj przypomnienie...")
@@ -37,6 +39,9 @@ class ReminderView: UIView {
     init(initialText: String, maxDate: Date) {
         super.init(frame: .zero)
         self.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        self.isUserInteractionEnabled = true
+        let outSideTap = UITapGestureRecognizer(target: self, action: #selector(didTappedOutside))
+        self.addGestureRecognizer(outSideTap)
         
         self.addSubview(remindMeLabel)
         remindMeLabel.snp.makeConstraints { (make) in
@@ -68,23 +73,39 @@ class ReminderView: UIView {
             make.right.equalToSuperview().offset(-20)
         }
         
-        
-        
-        picker.datePickerMode = .dateAndTime
-        picker.minuteInterval = 5
-        picker.minimumDate = Date()
-        picker.maximumDate = maxDate
-        self.addSubview(picker)
-        picker.snp.makeConstraints { (make) in
+        self.addSubview(datePicker)
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.minuteInterval = 5
+        datePicker.minimumDate = Date()
+        datePicker.maximumDate = maxDate
+        datePicker.snp.makeConstraints { (make) in
             make.top.equalTo(whenControl.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
         
+
+        self.addSubview(daysBeforeEndPickerContainer)
+        daysBeforeEndPickerContainer.isUserInteractionEnabled = true
+        daysBeforeEndPickerContainer.snp.makeConstraints { (make) in
+            make.top.equalTo(whenControl.snp.bottom).offset(10)
+            make.left.equalTo(datePicker.snp.right).offset(20)
+            make.width.equalToSuperview().offset(-40)
+            make.height.equalTo(80)
+        }
+        
+        daysBeforeEndPickerContainer.addSubview(daysBeforeEndPicker)
+        daysBeforeEndPicker.transform = CGAffineTransform(rotationAngle: -90 * (.pi/180))
+        daysBeforeEndPicker.snp.makeConstraints { (make) in
+            make.centerX.centerY.equalToSuperview()
+            make.height.equalTo(daysBeforeEndPickerContainer.snp.width)
+            make.width.equalTo(50)
+        }
+        
         self.addSubview(addReminderButton)
         addReminderButton.addTarget(self, action: #selector(didTappedAddReminderButton), for: .touchUpInside)
         addReminderButton.snp.makeConstraints { (make) in
-            make.top.equalTo(picker.snp.bottom).offset(10)
+            make.top.equalTo(datePicker.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
@@ -97,11 +118,45 @@ class ReminderView: UIView {
     }
     
     @objc func didChangedSelection(sender: SegmentedControl) {
-        print(sender.indexOfSelectedOption)
+        if sender.indexOfSelectedOption == 0 {
+            datePicker.snp.remakeConstraints { (make) in
+                make.top.equalTo(whenControl.snp.bottom).offset(10)
+                make.right.equalTo(self.snp.left)
+            }
+            addReminderButton.snp.remakeConstraints { (make) in
+                make.top.equalTo(daysBeforeEndPickerContainer.snp.bottom).offset(10)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalToSuperview().offset(-20)
+            }
+            UIView.animate(withDuration: 0.25) {
+                self.layoutIfNeeded()
+            }
+        } else if sender.indexOfSelectedOption == 1 {
+            datePicker.snp.remakeConstraints { (make) in
+                make.top.equalTo(whenControl.snp.bottom).offset(10)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalToSuperview().offset(-20)
+            }
+            addReminderButton.snp.remakeConstraints { (make) in
+                make.top.equalTo(datePicker.snp.bottom).offset(10)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalToSuperview().offset(-20)
+            }
+            UIView.animate(withDuration: 0.25) {
+                self.layoutIfNeeded()
+            }
+        } else {
+            fatalError("unsupported option selected - \(sender.indexOfSelectedOption)")
+        }
     }
     
     @objc func didTappedAddReminderButton() {
-        delegate?.didRequestedToAdd(reminder: reminderTextField.text ?? "", on: picker.date)
+        //delegate?.didRequestedToAdd(reminder: reminderTextField.text ?? "", on: datePicker.date)
+        delegate?.didTapAddReminder()
+    }
+    
+    @objc func didTappedOutside() {
+        reminderTextField.resignFirstResponder()
     }
 }
 
