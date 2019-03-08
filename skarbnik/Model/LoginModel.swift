@@ -10,7 +10,7 @@ import Foundation
 
 class LoginModel {
     let apiClient = APIClient()
-    
+    var isLoggedIn = false
     struct LoginPacket: Codable {
         let username: String
         let password: String
@@ -48,6 +48,7 @@ class LoginModel {
                 } else {
                     print("Even thought login was successful cannot save recived token")
                 }
+                self.isLoggedIn = true
                 completion(true)
             } else {
                 completion(false)
@@ -66,6 +67,7 @@ class LoginModel {
                         } else {
                             print("Even thought login was successful cannot save recived token")
                         }
+                        self.isLoggedIn = true
                         completion(true)
                     } else {
                         completion(false)

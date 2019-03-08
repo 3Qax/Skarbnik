@@ -7,7 +7,8 @@ let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
 class LoginViewController: UIViewController {
     var coordinator: MainCoordinator?
-    let loginModel = LoginModel()
+    let loginModel: LoginModel
+    let loginView: LoginView
     let incorrectCredentialsAlert: UIAlertController = {
         var alert = UIAlertController(title: NSLocalizedString("incorrect_credentials_header", comment: ""),
                                       message: NSLocalizedString("incorrect_credentials_description", comment: ""),
@@ -19,12 +20,22 @@ class LoginViewController: UIViewController {
     
     
     override func loadView() {
-        view = LoginView(frame: UIScreen.main.bounds)
+        view = loginView
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        loginView = LoginView(frame: UIScreen.main.bounds)
+        loginModel = LoginModel()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
+
         super.viewDidLoad()
-        
         
             loginModel.login { (successful) in
                 guard successful else {
@@ -42,6 +53,12 @@ class LoginViewController: UIViewController {
         (self.view as! LoginView).delegate = self
         (self.view as! LoginView).loginInput.delegate = self
         (self.view as! LoginView).passwordInput.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if loginModel.isLoggedIn {
+            coordinator?.didRequestStudentChange()
+        }
     }
 }
 

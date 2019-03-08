@@ -53,3 +53,23 @@
 "reminder_prefix_before_payment_name" = "Pay for";
 "pay_button_text" = "Pay...";
 "show_photos_button_text" = "Show photos";
+
+//MARK: Add a reminder screen strings
+"remind_about" = "About";
+"remind_when" = "When";
+"reminder_placeholder" = "Reminder title";
+"reminder_days_before_end" = "days before end";
+"reminder_date" = "date";
+"reminder_add_button_text" = "Add a reminder...";
+"reminder_cancel_button_text" = "Cancel...";
+"default_prefix_of_reminder" = "Pay for ";
+"reminder_permision_denied_title" = "You haven't allowed us!";
+"reminder_permision_denied_message" = "You haven't give us appropriate permisions. Do you want to change your mind? If you don't then we will stay quiet 🤐!";
+"reminder_permision_denied_cancel" = "Go for a hike!";
+"reminder_permision_denied_change_permisions" = "I changed my mind...";
+"reminder_go_to_settings_title" = "It won't be so simple!";
+"reminder_go_to_settings_message" = "In order to allow us to show you reminders you will need to go to settings then choose our app settings and toogle permission to show reminders.";
+"reminder_go_to_settings_ok" = "OK";
+"reminder_permision_restricted_title" = "We can't do that";
+"reminder_permision_restricted_message" = "We are sorry, but we haven't got your permission to set you reminders and now there is nothing you can do about it 🤯!";
+"reminder_permision_restricted_ok" = "OK";
