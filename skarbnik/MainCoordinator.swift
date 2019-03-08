@@ -94,5 +94,9 @@ class MainCoordinator {
         navigationController.popViewController(animated: true)
     }
     
+    func didCancelAddingReminder() {
+        navigationController.popViewController(animated: true)
+    }
+    
     
 }

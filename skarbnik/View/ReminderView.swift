@@ -13,26 +13,27 @@ import UIKit
 class ReminderView: UIView {
     
     //About section
-    let remindMeLabel = BigLabel(text: "O czym")
+    let remindMeLabel = BigLabel(text: NSLocalizedString("remind_about", comment: ""))
     let reminderTextField: UITextField = {
         let textfield = UITextField()
         
         textfield.backgroundColor = UIColor.clear
         textfield.textColor = UIColor(rgb: 0xFA3CB1)
-        textfield.placeholder = "Treść przypomnienia"
+        textfield.placeholder = NSLocalizedString("reminder_placeholder", comment: "")
         textfield.font = UIFont(name: "PingFangTC-Light", size: 20.0)
         
         return textfield
     }()
     //When section
-    let whenLabel = BigLabel(text: "Kiedy")
-    let whenControl = SegmentedControl(optionsLabels: ["dni przed końcem", "data"])
+    let whenLabel = BigLabel(text: NSLocalizedString("remind_when", comment: ""))
+    let whenControl = SegmentedControl(optionsLabels: [NSLocalizedString("reminder_days_before_end", comment: ""), NSLocalizedString("reminder_date", comment: "")])
     let daysBeforeEndPickerContainer = UIView()
     let datePicker = UIDatePicker(frame: .zero)
     let daysBeforeEndPicker = UIPickerView(frame: .zero)
     
     //Action section
-    let addReminderButton = RaisedButton(title: "Dodaj przypomnienie...")
+    let addReminderButton = RaisedButton(title: NSLocalizedString("reminder_add_button_text", comment: ""))
+    let cancelButton = OptionButton(title: NSLocalizedString("reminder_cancel_button_text", comment: ""))
     
     var delegate: ReminderDelegate?
     
@@ -42,6 +43,7 @@ class ReminderView: UIView {
         self.isUserInteractionEnabled = true
         let outSideTap = UITapGestureRecognizer(target: self, action: #selector(didTappedOutside))
         self.addGestureRecognizer(outSideTap)
+        self.clipsToBounds = true
         
         self.addSubview(remindMeLabel)
         remindMeLabel.snp.makeConstraints { (make) in
@@ -103,9 +105,17 @@ class ReminderView: UIView {
         }
         
         self.addSubview(addReminderButton)
-        addReminderButton.addTarget(self, action: #selector(didTappedAddReminderButton), for: .touchUpInside)
+        addReminderButton.addTarget(self, action: #selector(didTapAddReminderButton), for: .touchUpInside)
         addReminderButton.snp.makeConstraints { (make) in
             make.top.equalTo(datePicker.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+        }
+        
+        self.addSubview(cancelButton)
+        cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
+        cancelButton.snp.makeConstraints { (make) in
+            make.top.equalTo(addReminderButton.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
@@ -150,9 +160,12 @@ class ReminderView: UIView {
         }
     }
     
-    @objc func didTappedAddReminderButton() {
-        //delegate?.didRequestedToAdd(reminder: reminderTextField.text ?? "", on: datePicker.date)
+    @objc func didTapAddReminderButton() {
         delegate?.didTapAddReminder()
+    }
+    
+    @objc func didTapCancelButton() {
+        delegate?.didTapCancel()
     }
     
     @objc func didTappedOutside() {

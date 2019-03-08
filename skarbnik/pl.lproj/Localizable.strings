@@ -46,10 +46,30 @@
 
 //MARK: Payments page strings
 "waiting_while_refreshing_data_text" = "Odświeżanie danych...";
-"pending_payments_section_header" = "Do zapłaty"; //Oczekujące
+"pending_payments_section_header" = "Do zapłaty";
 "paid_payments_section_header" = "Zapłacone";
 "choose_student_description" = "Wybierz ucznia:";
 "set_reminder_button_text" = "Przypomnij...";
 "reminder_prefix_before_payment_name" = "Zapłacić za";
 "pay_button_text" = "Zapłać...";
 "show_photos_button_text" = "Pokaż zdjęcia";
+
+//MARK: Add a reminder screen strings
+"remind_about" = "O czym";
+"remind_when" = "Kiedy";
+"reminder_placeholder" = "Treść przypomnienia";
+"reminder_days_before_end" = "dni przed końcem";
+"reminder_date" = "data";
+"reminder_add_button_text" = "Dodaj przypomnienie...";
+"reminder_cancel_button_text" = "Anuluj...";
+"default_prefix_of_reminder" = "Zapłacić za ";
+"reminder_permision_denied_title" = "Nie pozwoliłeś nam na to!";
+"reminder_permision_denied_message" = "Nie dałeś nam wystarczających uprawnień. Może chcesz zmienić zdanie? Bo jak nie zmienisz to dalej będziemy siedzieć cicho 🤐!";
+"reminder_permision_denied_cancel" = "Cicho tam!";
+"reminder_permision_denied_change_permisions" = "Zmieniam zdanie...";
+"reminder_go_to_settings_title" = "Wcześniej namieszałeś to teraz masz!";
+"reminder_go_to_settings_message" = "Żeby zezwolić aplikacji musisz w ustawieniach telefonu wejść w ustawienia aplikacji Skarbnik i pozwolić nam na przypomnienia.";
+"reminder_go_to_settings_ok" = "OK";
+"reminder_permision_restricted_title" = "Jak mamy Ci przypomnieć jak nam nie pozwalasz?";
+"reminder_permision_restricted_message" = "To ty masz tu władzę! Więc skoro tak chcesz, to Ci nie przypomnimy. 🤐!";
+"reminder_permision_restricted_ok" = "OK";

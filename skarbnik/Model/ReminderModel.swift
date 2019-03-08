@@ -19,7 +19,7 @@ class ReminderModel {
     let endDate: Date
     var defaultReminderText: String {
         get {
-            return "Zapłacić za ".capitalizingFirstLetter() + paymentName.decapitalizeingFirstLetter()
+            return NSLocalizedString("default_prefix_of_reminder", comment: "").capitalizingFirstLetter() + paymentName.decapitalizeingFirstLetter()
         }
     }
     let possibleDaysBeforeEnd: Int

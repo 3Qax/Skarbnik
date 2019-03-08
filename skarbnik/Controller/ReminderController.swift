@@ -39,21 +39,53 @@ class ReminderController: UIViewController {
         switch result {
             case .succeed:
                 //display affirmative animation
+                notificationFeedbackGenerator.notificationOccurred(.success)
                 coordinator?.didAddReminder()
+            
             case .failure(let reason):
+                notificationFeedbackGenerator.notificationOccurred(.error)
                 switch reason {
                     case .permissionDenied:
-                        print("permission denied")
+                        //Permission denied
+                        let permissionDenidedAlert = UIAlertController(  title: NSLocalizedString("reminder_permision_denied_title", comment: ""),
+                                                                         message: NSLocalizedString("reminder_permision_denied_message", comment: ""),
+                                                                         preferredStyle: .alert)
+                        permissionDenidedAlert.addAction(UIAlertAction(title: NSLocalizedString("reminder_permision_denied_cancel", comment: ""), style: .destructive, handler: { _ in self.coordinator?.didCancelAddingReminder() }))
+                        permissionDenidedAlert.addAction(UIAlertAction(title: NSLocalizedString("reminder_permision_denied_change_permisions", comment: ""), style: .default, handler: { _ in
+                            
+                            let goToSettingsAlert = UIAlertController(  title: NSLocalizedString("reminder_go_to_settings_title", comment: ""),
+                                                                        message: NSLocalizedString("reminder_go_to_settings_message", comment: ""),
+                                                                        preferredStyle: .alert)
+                            goToSettingsAlert.addAction(UIAlertAction(title: NSLocalizedString("reminder_go_to_settings_ok", comment: ""), style: .default, handler: { (_) in
+                                self.coordinator?.didCancelAddingReminder()
+                            }))
+                            self.present(goToSettingsAlert, animated: true)
+                        }))
+                        self.present(permissionDenidedAlert, animated: true)
+                    
                     case .permissionRestricted:
-                        print("permission restricted")
-            }
+                        //Permission restricted
+                        let permissionRestrictedAlert = UIAlertController(  title: NSLocalizedString("reminder_permision_restricted_title", comment: ""),
+                                                                            message: NSLocalizedString("reminder_permision_restricted_message", comment: ""),
+                                                                            preferredStyle: .alert)
+                        permissionRestrictedAlert.addAction(UIAlertAction(title: NSLocalizedString("reminder_permision_restricted_ok", comment: ""), style: .destructive, handler: { _ in
+                            self.coordinator?.didCancelAddingReminder()
+                        }))
+                        self.present(permissionRestrictedAlert, animated: true)
+                }
         }
     }
 }
 
 extension ReminderController: ReminderDelegate {
     
+    func didTapCancel() {
+        coordinator?.didCancelAddingReminder()
+    }
+    
     func didTapAddReminder() {
+        notificationFeedbackGenerator.prepare()
+        
         //selected days before end
         if reminderView.whenControl.indexOfSelectedOption == 0 {
             reminderModel.addReminder(withTitle: reminderView.reminderTextField.text!,
