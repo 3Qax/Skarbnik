@@ -29,7 +29,7 @@ class PaymentModel {
     struct PaymentPacket: Codable {
         let id_field: Int
         let creation_date, start_date, end_date: String
-        let amount: String
+        let amount, currency: String
         let name, description: String
         let image: String?
     }
@@ -39,6 +39,7 @@ class PaymentModel {
         let id_field: Int
         let name, description: String
         let amount: Float
+        let currency: String
         let creation_date, start_date, end_date: Date
         var contribution: [Float]? = [Float]()
         var image: Data?
@@ -56,6 +57,7 @@ class PaymentModel {
             self.name = data.name
             self.description = data.description
             self.amount = Float(data.amount)!
+            self.currency = data.currency
             
             let longDateFormatter = ISO8601DateFormatter()
             self.creation_date = longDateFormatter.date(from: data.creation_date)!

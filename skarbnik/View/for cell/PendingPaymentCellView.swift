@@ -18,7 +18,7 @@ class PendingPaymentCellView: PaymentCell {
         delegate?.didTappedRemindButton(sender: self)
     }
     
-    func setup(_ title: String, _ description: String, _ amount: Float) {
+    func setup(title: String, description: String, amount: Float, currency: String) {
         setupBasicViews(withContent: {
             contentView.addSubview(descriptionLabel)
             
@@ -29,7 +29,10 @@ class PendingPaymentCellView: PaymentCell {
                 make.right.equalTo(self.amountLabel)
             })
             
-            self.amountLabel.text = String.localizedStringWithFormat("%.2f%@", amount, "zł")
+            let amountFormatter = NumberFormatter()
+            amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == currency })
+            amountFormatter.numberStyle = .currency
+            self.amountLabel.text = amountFormatter.string(from: amount as NSNumber)
             self.titleLabel.text = title.capitalizingFirstLetter()
             self.descriptionLabel.text = description.capitalizingFirstLetter()
         })

@@ -120,14 +120,19 @@ extension PaymentViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
-            cell.setup(paymentModel.pendingPayments[indexPath.row]!.name, paymentModel.pendingPayments[indexPath.row]!.description, paymentModel.pendingPayments[indexPath.row]!.amount)
+            cell.setup(title: paymentModel.pendingPayments[indexPath.row]!.name,
+                       description: paymentModel.pendingPayments[indexPath.row]!.description,
+                       amount: paymentModel.pendingPayments[indexPath.row]!.amount,
+                       currency: paymentModel.pendingPayments[indexPath.row]!.currency)
             cell.delegate = self
             cell.key = indexPath.row
             return cell
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
-            cell.setup(paymentModel.paidPayments[indexPath.row]!.name, paymentModel.paidPayments[indexPath.row]!.description, paymentModel.paidPayments[indexPath.row]!.amount)
-
+            cell.setup(title: paymentModel.paidPayments[indexPath.row]!.name,
+                       description: paymentModel.paidPayments[indexPath.row]!.description,
+                       amount: paymentModel.paidPayments[indexPath.row]!.amount,
+                       currency: paymentModel.paidPayments[indexPath.row]!.currency)
             cell.delegate = self
             cell.tableView = paymentView.tableView
             return cell
