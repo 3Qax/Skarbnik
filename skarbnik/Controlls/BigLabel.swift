@@ -16,7 +16,7 @@ class BigLabel: UILabel {
         super.init(frame: .zero)
         
         self.text = text
-        self.textColor = UIColor(rgb: 0x00A1E6)
+        self.textColor = UIColor.pacyficBlue
         self.font = UIFont(name: "PingFangTC-Regular", size: 36)
         
         self.numberOfLines = 0

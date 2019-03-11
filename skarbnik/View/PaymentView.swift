@@ -21,7 +21,7 @@ class PaymentView: UIView {
     var headerChangeStudentImageView: UIImageView   = {
         var imageView = UIImageView(image: UIImage(named: "users"))
         imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor(rgb: 0xFA3CB1)
+        imageView.tintColor = UIColor.catchyPink
         return imageView
     }()
     var tableView                                   = UITableView()
@@ -38,7 +38,7 @@ class PaymentView: UIView {
         var refresh = UIRefreshControl()
         
         refresh.tintColor = UIColor.clear
-        refresh.backgroundColor = UIColor(rgb: 0xFA3CB1)
+        refresh.backgroundColor = UIColor.catchyPink
         refresh.addTarget(self, action: #selector(didTrigerResfreshControl), for: .valueChanged)
         
         let reloadLabel = UILabel()
@@ -59,7 +59,7 @@ class PaymentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        self.backgroundColor = UIColor.backgroundGrey
         
         //Setup button for navigationBar
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedHeaderClassLabel(sender:)))
@@ -83,7 +83,7 @@ class PaymentView: UIView {
         tableView.allowsSelectionDuringEditing = false
         tableView.allowsMultipleSelectionDuringEditing = false
         
-        tableView.register(PaymentCell.self, forCellReuseIdentifier: "PaymentCell")
+        tableView.register(PaymentCellView.self, forCellReuseIdentifier: "PaymentCellView")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -101,13 +101,13 @@ class PaymentView: UIView {
         }
         
         UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
-            self.refreshControl.backgroundColor = UIColor(rgb: 0x00A1E6)
+            self.refreshControl.backgroundColor = UIColor.pacyficBlue
         })
         
         delegate?.didRequestDataRefresh(completion: {
             UIView.animate(withDuration: 0.5) {
                 self.blurView.alpha = 0.0
-                self.refreshControl.backgroundColor = UIColor(rgb: 0xFA3CB1)
+                self.refreshControl.backgroundColor = UIColor.catchyPink
             }
             self.refreshControl.endRefreshing()
             notificationFeedbackGenerator.notificationOccurred(.success)

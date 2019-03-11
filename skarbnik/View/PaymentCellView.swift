@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class PaymentCell: UITableViewCell {
+class PaymentCellView: UITableViewCell {
     
     //let key: Int
     private let titleLabel: UILabel         = {
@@ -20,19 +20,19 @@ class PaymentCell: UITableViewCell {
     private let descriptionLabel: UILabel   = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "PingFangTC-Light", size: 16.0)
-        label.textColor = UIColor(rgb: 0xAAAAAA)
+        label.font = UIFont(name: "PingFangTC-Light", size: 15.0)
+        label.textColor = UIColor.darkGrey
         return label
     }()
     private let amountLabel: UILabel        = {
         let label = UILabel()
         label.textAlignment = .right
         label.font = UIFont(name: "PingFangTC-Light", size: 22.0)
-        label.textColor = UIColor(rgb: 0x00A1E6)
+        label.textColor = UIColor.pacyficBlue
         return label
     }()
-    private let remindButton                = OptionButton("set_reminder_button_text", hight: 30.0)
-    private let payButton                   = RaisedButton("pay_button_text", hight: 30.0)
+    private let remindButton                = OptionButton("set_reminder_button_text", hight: 30)
+    private let payButton                   = RaisedButton("pay_button_text", hight: 30)
     private let moreButton                  = OptionButton("show_photos_button_text", hight: 30)
     var style: PaymentCellStyle             = .unknown {
         didSet {
@@ -108,9 +108,9 @@ class PaymentCell: UITableViewCell {
     }
     
     func setupTargets() {
-        remindButton.addAction(for: .touchUpInside, { self.delegate?.didTapRemindButton(sender: self) })
-        payButton.addAction(for: .touchUpInside, { self.delegate?.didTapPayButton(sender: self) })
-        moreButton.addAction(for: .touchUpInside, { self.delegate?.didTapMoreButton(sender: self) })
+        remindButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.remindButton, completion: {self.delegate?.didTapRemindButton(sender: self)} ) })
+        payButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payButton, completion: {self.delegate?.didTapPayButton(sender: self)} ) })
+        moreButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.moreButton, completion: {self.delegate?.didTapMoreButton(sender: self)} ) })
     }
     
     func didChangeState() {
@@ -119,13 +119,13 @@ class PaymentCell: UITableViewCell {
             fatalError("Unknown state")
         case .pending:
             contentView.addSubview(remindButton)
-            remindButton.snp.remakeConstraints { (make) in
+            remindButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.equalTo(descriptionLabel)
                 make.right.equalTo(descriptionLabel.snp.centerX).offset(-5)
             }
             contentView.addSubview(payButton)
-            payButton.snp.remakeConstraints { (make) in
+            payButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.equalTo(descriptionLabel.snp.centerX).offset(5)
                 make.right.equalTo(descriptionLabel)
@@ -135,11 +135,10 @@ class PaymentCell: UITableViewCell {
             moreButton.removeFromSuperview()
             
         case .paid:
-            
-            amountLabel.textColor = UIColor(rgb: 0xAAAAAA)
+            amountLabel.textColor = UIColor.darkGrey
             
             contentView.addSubview(moreButton)
-            moreButton.snp.remakeConstraints { (make) in
+            moreButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.right.equalTo(descriptionLabel)
                 make.bottom.equalToSuperview().offset(-5)
@@ -151,5 +150,30 @@ class PaymentCell: UITableViewCell {
             
             
         }
+    }
+    
+
+}
+
+//Animations
+extension PaymentCellView {
+    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
+        
+        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        selectionFeedbackGenerator.selectionChanged()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+            completion()
+        }
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(0.20),
+                       initialSpringVelocity: CGFloat(6.0),
+                       options:.allowUserInteraction,
+                       animations: {
+                        view.transform = CGAffineTransform.identity
+        })
+
     }
 }

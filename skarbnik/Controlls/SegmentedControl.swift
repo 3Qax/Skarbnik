@@ -22,7 +22,7 @@ class SegmentedControl: UIControl {
     private let selector: UIView = {
         let view = UIView()
         
-        view.backgroundColor = UIColor(rgb: 0xFA3CB1)
+        view.backgroundColor = UIColor.catchyPink
 
         
         return view
@@ -55,7 +55,7 @@ class SegmentedControl: UIControl {
     init(optionsLabels: [String], borderWidth: CGFloat = 1.0, height: CGFloat = 30) {
         super.init(frame: .zero)
         self.backgroundColor = UIColor.clear
-        self.layer.borderColor = UIColor(rgb: 0xFA3CB1).cgColor
+        self.layer.borderColor = UIColor.catchyPink.cgColor
         self.layer.borderWidth = borderWidth
         self.layer.cornerRadius = height/2.0
         
@@ -75,8 +75,8 @@ class SegmentedControl: UIControl {
         
         optionsLabels.forEach { (name) in
             let button = UIButton(frame: .zero)
-            button.setTitleColor(UIColor(rgb: 0xFA3CB1), for: .normal)
-            button.setTitleColor(UIColor(rgb: 0xFFFFFF), for: .selected)
+            button.setTitleColor(UIColor.catchyPink, for: .normal)
+            button.setTitleColor(UIColor.white, for: .selected)
             button.setTitle(name, for: .normal)
             button.setTitle(name, for: .selected)
             button.titleLabel?.font = UIFont(name: "PingFangTC-Light", size: 17.0)

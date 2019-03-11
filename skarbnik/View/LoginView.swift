@@ -37,7 +37,7 @@ class LoginView: UIView {
         super.init(frame: frame)
         
         let outsideTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(outsideTapped(sender:)))
-        self.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        self.backgroundColor = UIColor.backgroundGrey
         self.addGestureRecognizer(outsideTapGestureRecognizer)
         
         //UI will be presented after unsuccessfull login with token
@@ -119,7 +119,7 @@ class LoginView: UIView {
             self.passwordInput.alpha = 1.0
         })
         loginButton.layer.removeAllAnimations()
-        loginButton.backgroundColor = UIColor(rgb: 0xFA3CB1)
+        loginButton.backgroundColor = UIColor.catchyPink
     }
     
     required init?(coder aDecoder: NSCoder) {

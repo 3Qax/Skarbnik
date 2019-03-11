@@ -18,7 +18,7 @@ class ReminderView: UIView {
         let textfield = UITextField()
         
         textfield.backgroundColor = UIColor.clear
-        textfield.textColor = UIColor(rgb: 0xFA3CB1)
+        textfield.textColor = UIColor.catchyPink
         textfield.placeholder = NSLocalizedString("reminder_placeholder", comment: "")
         textfield.font = UIFont(name: "PingFangTC-Light", size: 20.0)
         
@@ -39,7 +39,7 @@ class ReminderView: UIView {
     
     init(initialText: String, maxDate: Date) {
         super.init(frame: .zero)
-        self.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        self.backgroundColor = UIColor.backgroundGrey
         self.isUserInteractionEnabled = true
         let outSideTap = UITapGestureRecognizer(target: self, action: #selector(didTappedOutside))
         self.addGestureRecognizer(outSideTap)

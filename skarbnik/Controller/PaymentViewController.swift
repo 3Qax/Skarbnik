@@ -125,7 +125,7 @@ extension PaymentViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell") as! PaymentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCellView") as! PaymentCellView
         cell.delegate = self
         
         switch indexPath.section {
@@ -151,18 +151,20 @@ extension PaymentViewController: UITableViewDataSource {
 }
 
 extension PaymentViewController: PaymentCellDelegate {
-    func didTapRemindButton(sender: PaymentCell) {
-//        let payment =
-//        coordinator?.didRequestReminder(about: paymentModel.pendingPayments[sender.key!]?.name,
-//                                        ending: paymentModel.pendingPayments[sender.key!]?.end_date)
-        print("tapped remind")
+    func didTapRemindButton(sender: PaymentCellView) {
+        
+        guard let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item else {
+            fatalError("TableView didn't return indexPath")
+        }
+        coordinator?.didRequestReminder(about: paymentModel.pendingPayments[index]!.name,
+                                        ending: paymentModel.pendingPayments[index]!.end_date)
     }
     
-    func didTapPayButton(sender: PaymentCell) {
+    func didTapPayButton(sender: PaymentCellView) {
         print("tapped pay")
     }
     
-    func didTapMoreButton(sender: PaymentCell) {
+    func didTapMoreButton(sender: PaymentCellView) {
         print("tapped more")
     }
 }

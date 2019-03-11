@@ -87,7 +87,7 @@ class MainCoordinator {
     }
     
     func didRequestReminder(about paymentName: String, ending endDate: Date) {
-        let reminderController = ReminderController(about: paymentName, ending: endDate)
+        let reminderController = ReminderViewController(about: paymentName, ending: endDate)
         reminderController.coordinator = self
         navigationController.pushViewController(reminderController, animated: true)
     }

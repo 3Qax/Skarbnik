@@ -20,7 +20,7 @@ class LightTextField: UITextField {
         self.font = UIFont(name: "PingFangTC-Light", size: 18.0)
         
         if let placeholder = placeholder {
-            self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor(rgb: 0xAAAAAA)])
+            self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGrey])
         }
         
         if let image = image {
@@ -28,7 +28,7 @@ class LightTextField: UITextField {
             let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit
             //give template image some color
-            imageView.tintColor = UIColor(rgb: 0xAAAAAA)
+            imageView.tintColor = UIColor.darkGrey
             let customLeftView = UIView(frame: CGRect(x: 0, y: 0, width: imageView.frame.width + padding, height: imageView.frame.height))
             
             customLeftView.addSubview(imageView)

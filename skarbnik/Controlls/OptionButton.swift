@@ -14,13 +14,13 @@ class OptionButton: UIButton {
         super.init(frame: .zero)
         
         setTitle(title.capitalizingFirstLetter(), for: .normal)
-        setTitleColor(UIColor(rgb: 0xFA3CB1), for: .normal)
-        titleLabel!.font = UIFont(name: "PingFangTC-Light", size: 19.0)
+        setTitleColor(UIColor.catchyPink, for: .normal)
+        titleLabel!.font = UIFont(name: "PingFangTC-Light", size: 16.0)
         
         backgroundColor = UIColor.clear//(rgb: 0xFA3CB1)
         
         layer.cornerRadius = hight / 2.0
-        layer.borderColor = UIColor(rgb: 0xFA3CB1).cgColor
+        layer.borderColor = UIColor.catchyPink.cgColor
         layer.borderWidth = 1.0
         
         snp.makeConstraints { (make) in

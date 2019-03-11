@@ -31,7 +31,7 @@ class ChangePasswordView: UIView {
         super.init(frame: frame)
         
         
-        self.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        self.backgroundColor = UIColor.backgroundGrey
         
         self.addSubview(newPasswordInput)
         newPasswordInput.snp.makeConstraints { (make) in
@@ -87,7 +87,7 @@ class ChangePasswordView: UIView {
         })
         
         self.changePasswordButton.layer.removeAllAnimations()
-        self.changePasswordButton.backgroundColor = UIColor(rgb: 0xFA3CB1)
+        self.changePasswordButton.backgroundColor = UIColor.catchyPink
     }
     
     @objc func changePasswordButtonTapped(sender: RaisedButton) {

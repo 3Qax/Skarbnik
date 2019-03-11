@@ -11,7 +11,7 @@ import UIKit
 
 
 
-class ReminderController: UIViewController {
+class ReminderViewController: UIViewController {
     let reminderModel: ReminderModel
     let reminderView: ReminderView
     var coordinator: MainCoordinator?
@@ -79,7 +79,7 @@ class ReminderController: UIViewController {
     }
 }
 
-extension ReminderController: ReminderDelegate {
+extension ReminderViewController: ReminderDelegate {
     
     func didTapCancel() {
         coordinator?.didCancelAddingReminder()
@@ -106,7 +106,7 @@ extension ReminderController: ReminderDelegate {
     
 }
 
-extension ReminderController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension ReminderViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

@@ -14,10 +14,10 @@ class RaisedButton: UIButton {
         super.init(frame: .zero)
         
         setTitle(title.capitalizingFirstLetter(), for: .normal)
-        titleLabel!.font = UIFont(name: "PingFangTC-Light", size: 20.0)
+        titleLabel!.font = UIFont(name: "PingFangTC-Light", size: 16.0)
         titleLabel!.textColor = UIColor.white
         
-        backgroundColor = UIColor(rgb: 0xFA3CB1)
+        backgroundColor = UIColor.catchyPink
         
         layer.cornerRadius = hight / 2.0
         
