@@ -41,6 +41,7 @@
 		19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC012231147C00BEFF8D /* ReminderModel.swift */; };
 		19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */; };
 		19DF9F1622369CAB006CE8FA /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF9F1522369CAB006CE8FA /* UIColorExtensions.swift */; };
+		19DF9F182236A41A006CE8FA /* LoginViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF9F172236A41A006CE8FA /* LoginViewDelegate.swift */; };
 		19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1D223062F9006DE37B /* BigLabel.swift */; };
 		19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1F22307161006DE37B /* SegmentedControl.swift */; };
 		19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */; };
@@ -87,6 +88,7 @@
 		19DEFC012231147C00BEFF8D /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
 		19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDelegate.swift; sourceTree = "<group>"; };
 		19DF9F1522369CAB006CE8FA /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		19DF9F172236A41A006CE8FA /* LoginViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDelegate.swift; sourceTree = "<group>"; };
 		19E38E1D223062F9006DE37B /* BigLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLabel.swift; sourceTree = "<group>"; };
 		19E38E1F22307161006DE37B /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCellDelegate.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				193357EC221072B1000D922C /* TokenManager.swift */,
 				19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */,
 				19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */,
+				19DF9F172236A41A006CE8FA /* LoginViewDelegate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */,
 				1947D58D220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift in Sources */,
 				1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */,
+				19DF9F182236A41A006CE8FA /* LoginViewDelegate.swift in Sources */,
 				194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */,
 				19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,

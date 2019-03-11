@@ -62,7 +62,7 @@ class LoginViewController: UIViewController {
     }
 }
 
-extension LoginViewController: LoginViewProtocol {
+extension LoginViewController: LoginViewDelegate {
     
     func didTappedOutside() {
         (self.view as! LoginView).shouldResignAnyResponder()

@@ -23,7 +23,7 @@ class LoginView: UIView {
                                          returnKeyType: .done,
                                          hideContent: true)
     var loginButton         = RaisedButton(title: NSLocalizedString("login_button", comment: ""))
-    var delegate: LoginViewProtocol?
+    var delegate: LoginViewDelegate?
     
     @objc func loginTapped(sender: Any?)  {
         delegate?.tryToLoginWith(login: loginInput.text, pass: passwordInput.text)
