@@ -47,7 +47,8 @@ class ReminderView: UIView {
         
         self.addSubview(remindMeLabel)
         remindMeLabel.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview().offset(20)
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.left.equalToSuperview().offset(20)
         }
         
         reminderTextField.text = initialText

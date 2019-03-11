@@ -12,6 +12,7 @@ import EventKit
 class PaymentViewController: UIViewController {
     let paymentModel: PaymentModel
     let paymentView: PaymentView
+    let searchController: UISearchController
     var coordinator: MainCoordinator?
     
     
@@ -19,6 +20,7 @@ class PaymentViewController: UIViewController {
     init(of studentID: Int, in classID: Int) {
         paymentModel = PaymentModel(of: studentID, in: classID)
         paymentView = PaymentView(frame: UIScreen.main.bounds)
+        searchController = UISearchController(searchResultsController: nil)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,10 +36,16 @@ class PaymentViewController: UIViewController {
         super.viewDidLoad()
         
         selectionFeedbackGenerator.prepare()
+        navigationController?.navigationBar.isHidden = false
+        navigationItem.title = "Składki"
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.headerChangeStudentImageView)
+        navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         paymentView.delegate = self
         paymentView.tableView.dataSource = self
-        paymentView.tableView.delegate = self
     }
     
     @objc func updatePendingPaymentsSection(notification: Notification) {
@@ -71,7 +79,7 @@ class PaymentViewController: UIViewController {
     
 }
 
-extension PaymentViewController: PaymentViewProtocol {
+extension PaymentViewController: PaymentViewDelegate {
     
     //provide student changing functionality
     func didTappedClass() {
@@ -117,67 +125,50 @@ extension PaymentViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCell") as! PaymentCell
+        cell.delegate = self
+        
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PendingCell") as! PendingPaymentCellView
-            cell.setup(title: paymentModel.pendingPayments[indexPath.row]!.name,
-                       description: paymentModel.pendingPayments[indexPath.row]!.description,
-                       amount: paymentModel.pendingPayments[indexPath.row]!.amount,
-                       currency: paymentModel.pendingPayments[indexPath.row]!.currency)
-            cell.delegate = self
-            cell.key = indexPath.row
-            return cell
+            cell.style = .pending
+            cell.setupContent(title: paymentModel.pendingPayments[indexPath.row]!.name,
+                              description: paymentModel.pendingPayments[indexPath.row]!.description,
+                              amount: paymentModel.pendingPayments[indexPath.row]!.amount,
+                              currency: paymentModel.pendingPayments[indexPath.row]!.currency)
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PaidCell") as! PaidPaymentCellView
-            cell.setup(title: paymentModel.paidPayments[indexPath.row]!.name,
+            cell.style = .paid
+            cell.setupContent(title: paymentModel.paidPayments[indexPath.row]!.name,
                        description: paymentModel.paidPayments[indexPath.row]!.description,
                        amount: paymentModel.paidPayments[indexPath.row]!.amount,
                        currency: paymentModel.paidPayments[indexPath.row]!.currency)
-            cell.delegate = self
-            cell.tableView = paymentView.tableView
-            return cell
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
+        
+        return cell
     }
     
 }
 
-extension PaymentViewController: UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        let title = UILabel()
-        
-        switch section {
-            case 0:
-                title.text = NSLocalizedString("pending_payments_section_header", comment: "")
-            case 1:
-                 title.text = NSLocalizedString("paid_payments_section_header", comment: "")
-            default:
-                fatalError("Unknow section in tableView")
-        }
-        title.textColor = UIColor(rgb: 0x00A1E6)
-        title.font = UIFont(name: "PingFangTC-Regular", size: 20.0)
-        
-        headerView.backgroundColor = UIColor(rgb: 0xF5F5F5)
-        headerView.addSubview(title)
-        title.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().offset(5)
-        }
-        
-        let line = UIView(frame: .zero)
-        line.backgroundColor = UIColor(rgb: 0x00A1E6)
-        headerView.addSubview(line)
-        line.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(title.snp.right).offset(5)
-            make.right.equalToSuperview()
-            make.height.equalTo(1)
-        }
-        
-        return headerView
+extension PaymentViewController: PaymentCellDelegate {
+    func didTapRemindButton(sender: PaymentCell) {
+//        let payment =
+//        coordinator?.didRequestReminder(about: paymentModel.pendingPayments[sender.key!]?.name,
+//                                        ending: paymentModel.pendingPayments[sender.key!]?.end_date)
+        print("tapped remind")
     }
     
+    func didTapPayButton(sender: PaymentCell) {
+        print("tapped pay")
+    }
+    
+    func didTapMoreButton(sender: PaymentCell) {
+        print("tapped more")
+    }
+}
+
+extension PaymentViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
 }

@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1900F2D7220EFADF0040612A /* EasyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D6220EFADF0040612A /* EasyInjection.swift */; };
 		1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D8220F05180040612A /* ChangePasswordModel.swift */; };
-		1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */; };
+		1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */; };
 		193357ED221072B1000D922C /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193357EC221072B1000D922C /* TokenManager.swift */; };
 		19346237221E72A000EC6CBE /* ReminderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19346236221E72A000EC6CBE /* ReminderController.swift */; };
 		19346239221E72F800EC6CBE /* ReminderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19346238221E72F800EC6CBE /* ReminderView.swift */; };
@@ -17,8 +16,6 @@
 		1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1941528D21A96A8300D0A7A3 /* LoginViewController.swift */; };
 		1941529321A96A8400D0A7A3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1941529221A96A8400D0A7A3 /* Assets.xcassets */; };
 		1941529621A96A8400D0A7A3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1941529421A96A8400D0A7A3 /* LaunchScreen.storyboard */; };
-		1943527C21E546A800F84F41 /* PaidPaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943527B21E546A800F84F41 /* PaidPaymentCellView.swift */; };
-		1943527E21E546C000F84F41 /* PendingPaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943527D21E546C000F84F41 /* PendingPaymentCellView.swift */; };
 		194784E5220707C5000AE323 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194784E4220707C5000AE323 /* APIClient.swift */; };
 		194784E7220793E7000AE323 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194784E6220793E7000AE323 /* LoginModel.swift */; };
 		194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194784E8220835C4000AE323 /* PickStudentAlertController.swift */; };
@@ -30,18 +27,13 @@
 		19484C372204594A006097CF /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C362204594A006097CF /* MainCoordinator.swift */; };
 		19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3A220461C1006097CF /* ChangePasswordViewController.swift */; };
 		19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3C220466CA006097CF /* ChangePasswordView.swift */; };
-		19484C3F22047340006097CF /* ChangePasswordProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3E22047340006097CF /* ChangePasswordProtocool.swift */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
-		19642BD321EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19642BD221EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift */; };
-		196A37C6220A4B4A00288808 /* NotificationNameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */; };
+		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
 		197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */; };
 		198583562203112C00630FCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 198583582203112C00630FCE /* Localizable.strings */; };
-		198E731D21ED4AC600053994 /* PaidPaymentCellProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 198E731C21ED4AC600053994 /* PaidPaymentCellProtocool.swift */; };
 		199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F8F022201DB6700ABD4C2 /* OptionButton.swift */; };
 		19A4ADEB21E62AF100CC2E42 /* PaymentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCell.swift */; };
-		19A7403321EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */; };
-		19A7403521EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */; };
 		19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A6F2200DF890095D991 /* RaisedButton.swift */; };
 		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
@@ -50,15 +42,16 @@
 		19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */; };
 		19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1D223062F9006DE37B /* BigLabel.swift */; };
 		19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1F22307161006DE37B /* SegmentedControl.swift */; };
+		19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */; };
+		19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */; };
 		19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */; };
 		19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */; };
 		A254F2618EA361D58E4012D3 /* Pods_skarbnik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB04498CD5ED1E9CE404489A /* Pods_skarbnik.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1900F2D6220EFADF0040612A /* EasyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyInjection.swift; sourceTree = "<group>"; };
 		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
-		1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewProtocol.swift; sourceTree = "<group>"; };
+		1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewDelegate.swift; sourceTree = "<group>"; };
 		193357EC221072B1000D922C /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		19346236221E72A000EC6CBE /* ReminderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderController.swift; sourceTree = "<group>"; };
 		19346238221E72F800EC6CBE /* ReminderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderView.swift; sourceTree = "<group>"; };
@@ -68,8 +61,6 @@
 		1941529221A96A8400D0A7A3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1941529521A96A8400D0A7A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1941529721A96A8400D0A7A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1943527B21E546A800F84F41 /* PaidPaymentCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidPaymentCellView.swift; sourceTree = "<group>"; };
-		1943527D21E546C000F84F41 /* PendingPaymentCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentCellView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		1943528021E6259900F84F41 /* PaymentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCell.swift; sourceTree = "<group>"; };
 		194784E4220707C5000AE323 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		194784E6220793E7000AE323 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -82,18 +73,13 @@
 		19484C362204594A006097CF /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		19484C3A220461C1006097CF /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19484C3C220466CA006097CF /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
-		19484C3E22047340006097CF /* ChangePasswordProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordProtocool.swift; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
-		19642BD221EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingPaymentCellProtocool.swift; sourceTree = "<group>"; };
-		196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtension.swift; sourceTree = "<group>"; };
+		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
 		197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewProtocol.swift; sourceTree = "<group>"; };
 		198583572203112C00630FCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		198583592203113C00630FCE /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		198E731C21ED4AC600053994 /* PaidPaymentCellProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaidPaymentCellProtocool.swift; sourceTree = "<group>"; };
 		199F8F022201DB6700ABD4C2 /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
-		19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewPaidPaymentCellController.swift; sourceTree = "<group>"; };
-		19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewPendingPaymentCellController.swift; sourceTree = "<group>"; };
 		19BA4A6F2200DF890095D991 /* RaisedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaisedButton.swift; sourceTree = "<group>"; };
 		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -102,6 +88,8 @@
 		19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDelegate.swift; sourceTree = "<group>"; };
 		19E38E1D223062F9006DE37B /* BigLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLabel.swift; sourceTree = "<group>"; };
 		19E38E1F22307161006DE37B /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCellDelegate.swift; sourceTree = "<group>"; };
+		19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordProtocool.swift; sourceTree = "<group>"; };
 		19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewProtocol.swift; sourceTree = "<group>"; };
 		19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		4A3FD2ED90FB7B83BE84B12F /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
@@ -184,9 +172,9 @@
 		1941529E21A96CE200D0A7A3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				1943527F21E6258500F84F41 /* for cell */,
 				19CA3D5A21C9B530009059B0 /* LoginView.swift */,
 				19D7065921AFC38E00AE2546 /* PaymentView.swift */,
+				1943528021E6259900F84F41 /* PaymentCell.swift */,
 				19484C3C220466CA006097CF /* ChangePasswordView.swift */,
 				19346238221E72F800EC6CBE /* ReminderView.swift */,
 			);
@@ -200,24 +188,12 @@
 				194784E8220835C4000AE323 /* PickStudentAlertController.swift */,
 				1947D588220AEEEE00C1D7D8 /* AsyncSafetyController.swift */,
 				19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */,
-				19A7403421EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift */,
-				19A7403221EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift */,
 				195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */,
 				1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */,
 				19484C3A220461C1006097CF /* ChangePasswordViewController.swift */,
 				19346236221E72A000EC6CBE /* ReminderController.swift */,
 			);
 			path = Controller;
-			sourceTree = "<group>";
-		};
-		1943527F21E6258500F84F41 /* for cell */ = {
-			isa = PBXGroup;
-			children = (
-				1943528021E6259900F84F41 /* PaymentCell.swift */,
-				1943527D21E546C000F84F41 /* PendingPaymentCellView.swift */,
-				1943527B21E546A800F84F41 /* PaidPaymentCellView.swift */,
-			);
-			path = "for cell";
 			sourceTree = "<group>";
 		};
 		19BA4A6E2200DF490095D991 /* Controlls */ = {
@@ -237,15 +213,13 @@
 			children = (
 				19FC745D21A9922A0019F1A5 /* loginViewProtocol.swift */,
 				197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */,
-				1924039C21D0F16100F29E7E /* PaymentViewProtocol.swift */,
-				19642BD221EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift */,
-				198E731C21ED4AC600053994 /* PaidPaymentCellProtocool.swift */,
-				19484C3E22047340006097CF /* ChangePasswordProtocool.swift */,
-				196A37C5220A4B4A00288808 /* NotificationNameExtension.swift */,
+				1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */,
+				19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */,
+				196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */,
 				1947D58C220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift */,
-				1900F2D6220EFADF0040612A /* EasyInjection.swift */,
 				193357EC221072B1000D922C /* TokenManager.swift */,
 				19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */,
+				19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -384,8 +358,9 @@
 			files = (
 				19484C372204594A006097CF /* MainCoordinator.swift in Sources */,
 				19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */,
+				19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */,
 				193357ED221072B1000D922C /* TokenManager.swift in Sources */,
-				1924039D21D0F16100F29E7E /* PaymentViewProtocol.swift in Sources */,
+				1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
 				19346239221E72F800EC6CBE /* ReminderView.swift in Sources */,
 				19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */,
@@ -394,11 +369,9 @@
 				194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */,
 				19346237221E72A000EC6CBE /* ReminderController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,
-				1943527E21E546C000F84F41 /* PendingPaymentCellView.swift in Sources */,
-				198E731D21ED4AC600053994 /* PaidPaymentCellProtocool.swift in Sources */,
 				199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */,
 				1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */,
-				196A37C6220A4B4A00288808 /* NotificationNameExtension.swift in Sources */,
+				196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */,
 				19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */,
 				1947D589220AEEEE00C1D7D8 /* AsyncSafetyController.swift in Sources */,
 				195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */,
@@ -408,19 +381,14 @@
 				19FC745E21A9922A0019F1A5 /* loginViewProtocol.swift in Sources */,
 				19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
-				1900F2D7220EFADF0040612A /* EasyInjection.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
 				194784ED2208C87B000AE323 /* PaymentModel.swift in Sources */,
+				19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCell.swift in Sources */,
-				19A7403521EEB32C009BC735 /* PaymentViewPendingPaymentCellController.swift in Sources */,
-				19484C3F22047340006097CF /* ChangePasswordProtocool.swift in Sources */,
 				194784EB22083C53000AE323 /* PickStudentModel.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
-				1943527C21E546A800F84F41 /* PaidPaymentCellView.swift in Sources */,
-				19A7403321EEB30B009BC735 /* PaymentViewPaidPaymentCellController.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
-				19642BD321EC9E2D00ECA28C /* PendingPaymentCellProtocool.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
 				19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */,
 				1941528C21A96A8300D0A7A3 /* AppDelegate.swift in Sources */,

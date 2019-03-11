@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ChangePasswordProtocool: EasyInjection {
+protocol ChangePasswordProtocool {
     func didTappedChangePasswordButton(old: String?, new: String?, repeatedNew: String?)
 }

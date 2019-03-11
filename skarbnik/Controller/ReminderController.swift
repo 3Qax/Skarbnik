@@ -29,6 +29,8 @@ class ReminderController: UIViewController {
         reminderModel = ReminderModel(paymentName: about, endDate: ending)
         reminderView = ReminderView(initialText: reminderModel.defaultReminderText, maxDate: reminderModel.endDate)
         super.init(nibName: nil, bundle: nil)
+        navigationItem.title = reminderModel.paymentName
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     required init?(coder aDecoder: NSCoder) {

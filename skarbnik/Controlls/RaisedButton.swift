@@ -26,6 +26,10 @@ class RaisedButton: UIButton {
         }
     }
     
+    convenience init(_ localizedTitle: String, hight: CGFloat = 40.0) {
+        self.init(title: NSLocalizedString(localizedTitle, comment: ""), hight: hight)
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }

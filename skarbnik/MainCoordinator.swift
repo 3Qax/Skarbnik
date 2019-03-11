@@ -25,6 +25,7 @@ class MainCoordinator {
     }
     
     func didLoginSuccessfully() {
+        navigationController.navigationBar.isHidden = true
         let pickStudentVC = PickStudentAlertController()
         pickStudentVC.coordinator = self
         pickStudentVC.modalPresentationStyle = .overCurrentContext
@@ -35,6 +36,7 @@ class MainCoordinator {
     }
     
     func didRequestStudentChange() {
+        navigationController.navigationBar.isHidden = true
         let pickStudentVC = PickStudentAlertController()
         pickStudentVC.coordinator = self
         pickStudentVC.modalPresentationStyle = .overCurrentContext

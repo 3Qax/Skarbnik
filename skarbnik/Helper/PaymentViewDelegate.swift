@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PaymentViewProtocol {
+protocol PaymentViewDelegate {
     func didTappedClass()
     func didRequestDataRefresh(completion: @escaping () -> ())
 }

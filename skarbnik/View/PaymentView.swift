@@ -9,7 +9,7 @@
 import UIKit
 
 class PaymentView: UIView {
-    var delegate: PaymentViewProtocol?
+    var delegate: PaymentViewDelegate?
     var headerView                                  = UIView()
     var headerImage                                 = UIImageView(image: UIImage(named: "logo"))
     var headerNameLabel: UILabel                    = {
@@ -61,46 +61,29 @@ class PaymentView: UIView {
         
         self.backgroundColor = UIColor(rgb: 0xF5F5F5)
         
-        self.addSubview(headerView)
-        headerView.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.height.equalTo(50)
-        }
-        
-        headerView.addSubview(headerNameLabel)
-        headerNameLabel.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.left.equalToSuperview().offset(15)
-        }
-        
-        headerView.addSubview(headerChangeStudentImageView)
+        //Setup button for navigationBar
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTappedHeaderClassLabel(sender:)))
         headerChangeStudentImageView.isUserInteractionEnabled = true
         headerChangeStudentImageView.addGestureRecognizer(tapGestureRecognizer)
-        headerChangeStudentImageView.snp.makeConstraints { (make) in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().offset(-15)
-        }
+        
         
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(headerView.snp.bottom)
+            make.left.right.bottom.top.equalToSuperview()
         }
         tableView.refreshControl = refreshControl
-        
 
-//        blurView.frame = tableView.bounds
-//        tableView.addSubview(blurView)
         tableView.isUserInteractionEnabled = true
 
 
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
+        tableView.allowsSelection = false
+        tableView.allowsMultipleSelection = false
+        tableView.allowsSelectionDuringEditing = false
+        tableView.allowsMultipleSelectionDuringEditing = false
         
-        tableView.register(PendingPaymentCellView.self, forCellReuseIdentifier: "PendingCell")
-        tableView.register(PaidPaymentCellView.self, forCellReuseIdentifier: "PaidCell")
+        tableView.register(PaymentCell.self, forCellReuseIdentifier: "PaymentCell")
     }
     
     required init?(coder aDecoder: NSCoder) {

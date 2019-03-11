@@ -11,12 +11,6 @@ import SnapKit
 
 class ChangePasswordView: UIView {
     
-    @objc func injected() {
-        #if DEBUG
-            delegate?.reloadMe()
-        #endif
-    }
-    
     var delegate: ChangePasswordProtocool?
     
     var oldPasswordInput   = LightTextField(placeholder: NSLocalizedString("old_password_placeholder", comment: ""),
