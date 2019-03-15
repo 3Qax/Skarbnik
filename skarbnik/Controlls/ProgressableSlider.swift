@@ -14,95 +14,88 @@ import SnapKit
 
 
 
-class ProgressableSlider: UIView {
+class ProgressableSlider: UIControl {
     
-    class VariableHightSlider: UISlider {
-        override func trackRect(forBounds bounds: CGRect) -> CGRect {
-            var result = super.trackRect(forBounds: bounds)
-            result.size.height = 5
-            result.origin.x = 0
-            result.origin.y -= 2.5
-            
-            return result
-        }
-        
-        
-    }
-    let slider: VariableHightSlider
+    //Colors
+    var sliderTrackColor:UIColor            = UIColor.pacyficBlue
+    var thumbColor: UIColor                 = UIColor.catchyPink
+    
+    var progressTrackColor: UIColor         = UIColor.darkGray
+    var progressDotColor: UIColor           = UIColor.pacyficBlue
+    var progressDotBackgroundColor: UIColor = UIColor.backgroundGrey
+    
+    var progressDotImage: UIImage?          = nil
+    var progressDotImageTint: UIColor?      = nil
+    
+    var trackHight: Float                   = 5
+    var cornerRadius: Float?                = nil
+    
+    //Vales
+    var value: Float
+    
+    private let sumOfProgressionPoints: Float
     
     
-    init(total totalAmount: Float, remittances: [Float], barHight: Float = 5, cornerRadius: Float = 0) {
-        
-        func createSlider(minValue min: Float, maxValue max: Float) -> VariableHightSlider {
-            let slider = VariableHightSlider()
-            slider.minimumTrackTintColor = UIColor.pacyficBlue
-            slider.minimumValue = min
-            slider.maximumTrackTintColor = UIColor.darkGrey
-            slider.maximumValue = max
-            slider.setValue(max, animated: true)
-            slider.thumbTintColor = UIColor.catchyPink
-            slider.isUserInteractionEnabled = true
-            return slider
-        }
-        slider = createSlider(minValue: remittances.reduce(0.0, +), maxValue: totalAmount)
-        //TODO: make thumb's zPosition > 2
+    init(minValue min: Float, progressionPoints: [Float]? = nil, maxValue max: Float) {
+        sumOfProgressionPoints = progressionPoints?.reduce(0.0, +) ?? min
         super.init(frame: .zero)
         
         
         self.isUserInteractionEnabled = true
         
-        //For every remittance create track and dot with checkmark on the right side of that track
-        for remittance in remittances {
+        //If there are any progression points specified
+        if let progressionPoints = progressionPoints {
             
-            let track = createTrack(cornerRadius: cornerRadius)
-            let dot = createProgressDot()
-            let description = createDescription(text: String(format: "%.2f", remittance) )
-            
-            
-            self.addSubview(track)
-            track.snp.makeConstraints { (make) in
-                //make track's width proportional
-                make.width.equalToSuperview().multipliedBy(remittance/totalAmount)
+            //For each one of them create a part of track and dot on the right side of that track
+            for point in progressionPoints {
                 
-                make.height.equalTo(barHight)
-                make.centerY.equalToSuperview()
-
-                //create an array of all tracks currently in View
-                let allTracks = self.subviews.filter({ return $0.tag == 1 })
+                let progressTrack = createTrack()
+                let progressDot = createProgressDot()
+                let progressDesciption = createDescription(text: String(format: "%.2f", point))
                 
-                //If this is first track (count == 1) make it's left eqaul to left of whole view
-                if  allTracks.count == 1 {
-                    make.left.equalToSuperview()
-
-                //If it isn't make it's left equal to right of last track
-                } else {
-                    make.left.equalTo(allTracks.dropLast().last!.snp.right)
+                
+                self.addSubview(progressTrack)
+                progressTrack.snp.makeConstraints { (make) in
+                    make.width.equalToSuperview().multipliedBy(point/max) //make track's width proportional
+                    make.height.equalTo(self.trackHight)
+                    make.centerY.equalToSuperview()
+                    
+                    let allTracks = self.subviews.filter({ return $0.tag == 1 }) //create an array of all tracks currently in View
+                    
+                    
+                    if  allTracks.count == 1 {
+                        //If this is first track make it's left eqaul to left of whole control
+                        make.left.equalToSuperview()
+                    } else {
+                        //If it isn't first one make it's left equal to right of last track
+                        make.left.equalTo(allTracks.dropLast().last!.snp.right)
+                    }
+                }
+                
+                self.addSubview(progressDot)
+                progressDot.snp.makeConstraints { (make) in
+                    make.centerY.equalTo(progressTrack)
+                    make.centerX.equalTo(progressTrack.snp.right)
+                }
+                
+                self.addSubview(progressDesciption)
+                progressDesciption.snp.makeConstraints { (make) in
+                    make.centerX.equalTo(progressTrack)
+                    make.top.equalTo(progressTrack.snp.bottom)
                 }
             }
-            
-            self.addSubview(dot)
-            dot.snp.makeConstraints { (make) in
-                make.centerY.equalTo(track)
-                make.centerX.equalTo(track.snp.right)
-            }
-            
-            self.addSubview(description)
-            description.snp.makeConstraints { (make) in
-                make.centerX.equalTo(track)
-                make.top.equalTo(track.snp.bottom)
-            }
-        } //End of for
+        }
         
-        //Create slider for changing amount which user wish to pay
-        //It's width should be proportional to unpaid amount
-        addSubview(slider)
-        slider.snp.makeConstraints { (make) in
+        let sliderTrack = createTrack()
+        addSubview(sliderTrack)
+        sliderTrack.snp.makeConstraints { (make) in
             make.right.equalToSuperview()
             make.centerY.equalToSuperview()
             
-            let mostLeftItem = self.subviews.filter({ return $0.tag == 1 }).last?.snp.right ?? self.snp.left
-            make.left.equalTo(mostLeftItem)
+            let mostLeftItem = self.subviews.filter({ return $0.tag == 1 }).last ?? self
+            make.left.equalTo(mostLeftItem.snp.right)
         }
+        
         
         
     }
@@ -111,11 +104,23 @@ class ProgressableSlider: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func createTrack(cornerRadius radius: Float) -> UIView {
+
+
+    
+    
+}
+
+extension ProgressableSlider {
+    func createTrack(forSlider: Bool = false) -> UIView {
         let track = UIView()
         track.tag = 1
-        track.backgroundColor = UIColor.pacyficBlue
-        track.layer.cornerRadius = CGFloat(radius)
+        if forSlider {
+            track.backgroundColor = sliderTrackColor
+        } else {
+            track.backgroundColor = progressTrackColor
+        }
+        
+
         return track
     }
     
@@ -161,7 +166,8 @@ class ProgressableSlider: UIView {
         desc.text = text
         return desc
     }
-
     
-    
+    func createThumb() -> {
+        
+    }
 }
