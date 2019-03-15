@@ -14,6 +14,7 @@ class PayView: UIView {
     
     let slider: ProgressableSlider
     let toPayLabel = UILabel()
+    let amountToPay: Float
     let amounLabel = BigLabel(text: "", fontStyle: .thin)
     let amountFormatter: NumberFormatter
     let payButton = RaisedButton(title: "Zapłać...")
@@ -21,15 +22,16 @@ class PayView: UIView {
     
     
     
-    init(amount: Float, remittances: [Float], amountFormatter: NumberFormatter) {
-        slider = ProgressableSlider(total: amount, remittances: remittances, barHight: 5, cornerRadius: 2)
+    init(totalAmount: Float, amountToPay: Float, remittances: [Float], amountFormatter: NumberFormatter) {
+        slider = ProgressableSlider(progressionPoints: remittances, maxValue: totalAmount)
         self.amountFormatter = amountFormatter
+        self.amountToPay = amountToPay
         super.init(frame: .zero)
         
         self.backgroundColor = UIColor.backgroundGrey
         
         addSubview(slider)
-        slider.slider.addTarget(self, action: #selector(didChangedSliderValue(sender:)), for: .valueChanged)
+        slider.addTarget(self, action: #selector(didChangedSliderValue(sender:)), for: .valueChanged)
         slider.snp.makeConstraints { (make) in
             //make.top.equalTo(amountLabel.snp.bottom)
             make.centerY.equalToSuperview()
@@ -54,7 +56,7 @@ class PayView: UIView {
         
         addSubview(amounLabel)
         amounLabel.textAlignment = .right
-        amounLabel.text = amountFormatter.string(from: slider.slider.value as NSNumber)
+        amounLabel.text = amountFormatter.string(from: Float(slider.value) * amountToPay as NSNumber)
         amounLabel.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-40)
             make.bottom.equalTo(payButton.snp.top)
@@ -73,11 +75,14 @@ class PayView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didChangedSliderValue(sender: ProgressableSlider.VariableHightSlider) {
-        amounLabel.text = amountFormatter.string(from: sender.value as NSNumber)
+    @objc func didChangedSliderValue(sender: ProgressableSlider) {
+        amounLabel.text = amountFormatter.string(from: Float(sender.value) * amountToPay  as NSNumber)
         print(sender.value)
     }
     
+    func refresh() {
+        slider.updateThumbFrame()
+    }
     
     
     

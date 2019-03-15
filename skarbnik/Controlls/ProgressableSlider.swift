@@ -30,14 +30,34 @@ class ProgressableSlider: UIControl {
     var trackHight: Float                   = 5
     var cornerRadius: Float?                = nil
     
-    //Vales
-    var value: Float
-    
+    //Values
+    var value: CGFloat {
+        didSet {
+            updateThumbFrame()
+        }
+    }
+    private var previousePosition           = CGPoint()
+    private let sliderThumb: UIView         = {
+        let thumb = UIView()
+        
+        thumb.snp.makeConstraints { (make) in
+            make.height.width.equalTo(35)
+        }
+        thumb.layer.zPosition = 3
+        thumb.layer.cornerRadius = 35/2
+        return thumb
+    }()
+    private let sliderTrack: UIView         = {
+        let track = UIView()
+        track.backgroundColor = UIColor.pacyficBlue
+        return track
+    }()
     private let sumOfProgressionPoints: Float
     
     
-    init(minValue min: Float, progressionPoints: [Float]? = nil, maxValue max: Float) {
-        sumOfProgressionPoints = progressionPoints?.reduce(0.0, +) ?? min
+    init(progressionPoints: [Float]? = nil, maxValue max: Float) {
+        sumOfProgressionPoints = progressionPoints?.reduce(0.0, +) ?? 0.0
+        value = 1
         super.init(frame: .zero)
         
         
@@ -86,16 +106,24 @@ class ProgressableSlider: UIControl {
             }
         }
         
-        let sliderTrack = createTrack()
+        
         addSubview(sliderTrack)
+        sliderTrack.isUserInteractionEnabled = true
         sliderTrack.snp.makeConstraints { (make) in
             make.right.equalToSuperview()
+            make.height.equalTo(trackHight)
             make.centerY.equalToSuperview()
             
-            let mostLeftItem = self.subviews.filter({ return $0.tag == 1 }).last ?? self
-            make.left.equalTo(mostLeftItem.snp.right)
+            let mostLeftItem = self.subviews.filter({ return $0.tag == 1 }).last?.snp.right ?? self.snp.left
+            make.left.equalTo(mostLeftItem)
         }
         
+        addSubview(sliderThumb)
+        sliderThumb.isUserInteractionEnabled = false
+        sliderThumb.backgroundColor = thumbColor
+        sliderThumb.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+        }
         
         
     }
@@ -113,11 +141,12 @@ class ProgressableSlider: UIControl {
 extension ProgressableSlider {
     func createTrack(forSlider: Bool = false) -> UIView {
         let track = UIView()
-        track.tag = 1
+        
         if forSlider {
             track.backgroundColor = sliderTrackColor
         } else {
             track.backgroundColor = progressTrackColor
+            track.tag = 1
         }
         
 
@@ -167,7 +196,48 @@ extension ProgressableSlider {
         return desc
     }
     
-    func createThumb() -> {
+}
+
+
+extension ProgressableSlider {
+    
+    func updateThumbFrame() {
+        print("update - value: \(value)")
+        let a = value * sliderTrack.bounds.width
+        setThumbXCenter(to: a)
+    }
+    
+    func setThumbXCenter(to: CGFloat) {
+        sliderThumb.frame = CGRect(origin: CGPoint(x: (to - sliderThumb.bounds.width/2)+sliderTrack.frame.origin.x,
+                                                   y: sliderThumb.frame.origin.y),
+                                   size: sliderThumb.frame.size)
+    }
+
+    private func boundValue(_ value: CGFloat) -> CGFloat {
+        return Swift.min(Swift.max(value, 0.0), 1.0)
+    }
+    
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        previousePosition = touch.location(in: self)
+        if sliderThumb.frame.contains(previousePosition) { selectionFeedbackGenerator.selectionChanged() }
+        return sliderThumb.frame.contains(previousePosition)
+    }
+    
+    override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        let location = touch.location(in: self)
+        let deltaValue = (location.x - previousePosition.x) / sliderTrack.bounds.size.width
+
+        value = boundValue(deltaValue + value)
+
+        updateThumbFrame()
         
+        previousePosition = location
+
+        sendActions(for: .valueChanged)
+        return true
+    }
+    
+    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        print("end")
     }
 }

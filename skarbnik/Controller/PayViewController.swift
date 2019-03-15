@@ -23,7 +23,10 @@ class PayViewController: UIViewController {
     }
     
     init(for name: String, total: Float, remittances: [Float], currencyFormatter: NumberFormatter) {
-        payView = PayView(amount: total, remittances: remittances, amountFormatter: currencyFormatter)
+        payView = PayView(totalAmount: total,
+                          amountToPay: total - remittances.reduce(0, +),
+                          remittances: remittances,
+                          amountFormatter: currencyFormatter)
         payModel = PayModel(of: name, remittances: remittances)
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = payModel.paymentName
@@ -32,5 +35,9 @@ class PayViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        payView.refresh()
     }
 }
