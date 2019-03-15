@@ -100,5 +100,12 @@ class MainCoordinator {
         navigationController.popViewController(animated: true)
     }
     
+    func didRequestToPay(for name: String, total: Float, remittances: [Float], currencyFormatter: NumberFormatter) {
+        let payViewController = PayViewController(for: name, total: total, remittances: remittances, currencyFormatter: currencyFormatter)
+        payViewController.coordinator = self
+        navigationController.pushViewController(payViewController, animated: true)
+        
+    }
+    
     
 }

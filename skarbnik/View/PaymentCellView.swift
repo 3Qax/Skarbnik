@@ -31,6 +31,7 @@ class PaymentCellView: UITableViewCell {
         label.textColor = UIColor.pacyficBlue
         return label
     }()
+    public let amountFormatter             = NumberFormatter()
     private let remindButton                = OptionButton("set_reminder_button_text", hight: 30)
     private let payButton                   = RaisedButton("pay_button_text", hight: 30)
     private let moreButton                  = OptionButton("show_photos_button_text", hight: 30)
@@ -98,7 +99,6 @@ class PaymentCellView: UITableViewCell {
         self.titleLabel.text = title.capitalizingFirstLetter()
         
         //Amount
-        let amountFormatter = NumberFormatter()
         amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == currency })
         amountFormatter.numberStyle = .currency
         self.amountLabel.text = amountFormatter.string(from: amount as NSNumber)
@@ -118,6 +118,8 @@ class PaymentCellView: UITableViewCell {
         case .unknown:
             fatalError("Unknown state")
         case .pending:
+            amountLabel.textColor = UIColor.pacyficBlue
+            
             contentView.addSubview(remindButton)
             remindButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)

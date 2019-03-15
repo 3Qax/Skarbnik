@@ -41,7 +41,7 @@ class PaymentModel {
         let amount: Float
         let currency: String
         let creation_date, start_date, end_date: Date
-        var contribution: [Float]? = [Float]()
+        var contribution: [Float] = [Float]()
         var image: Data?
         
         func encode<T: Encodable>(_ data: T) -> Data {
@@ -92,7 +92,7 @@ class PaymentModel {
                                 if let data = data {
                                     let recivedDetails = self.decode([PaymentDetail].self, from: data)
                                     for detail in recivedDetails {
-                                        self.contribution?.append(Float(detail.amount_paid) ?? 0)
+                                        self.contribution.append(Float(detail.amount_paid) ?? 0)
                                     }
                                     self.classify()
                                 }
@@ -104,7 +104,7 @@ class PaymentModel {
         }
         
         func classify() {
-            let sum = contribution?.reduce(0, +) ?? 0
+            let sum = contribution.reduce(0, +)
             if sum  == amount {
                 paymentModel!.paidPayments[paymentModel!.paidPayments.count] = self
             } else {

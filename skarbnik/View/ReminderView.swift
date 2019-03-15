@@ -162,11 +162,11 @@ class ReminderView: UIView {
     }
     
     @objc func didTapAddReminderButton() {
-        delegate?.didTapAddReminder()
+        animateButtonTap(addReminderButton, completion: { self.delegate?.didTapAddReminder() })
     }
     
     @objc func didTapCancelButton() {
-        delegate?.didTapCancel()
+        animateButtonTap(cancelButton, completion: { self.delegate?.didTapCancel() }) 
     }
     
     @objc func didTappedOutside() {
@@ -178,5 +178,28 @@ extension ReminderView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+//Animations
+extension ReminderView {
+    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
+        
+        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        selectionFeedbackGenerator.selectionChanged()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+            completion()
+        }
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(0.20),
+                       initialSpringVelocity: CGFloat(6.0),
+                       options:.allowUserInteraction,
+                       animations: {
+                        view.transform = CGAffineTransform.identity
+        })
+        
     }
 }

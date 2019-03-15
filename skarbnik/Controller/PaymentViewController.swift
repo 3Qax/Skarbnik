@@ -39,7 +39,7 @@ class PaymentViewController: UIViewController {
         navigationController?.navigationBar.isHidden = false
         navigationItem.title = "Składki"
         navigationItem.setHidesBackButton(true, animated: false)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.headerChangeStudentImageView)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.changeStudentIV)
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -161,7 +161,13 @@ extension PaymentViewController: PaymentCellDelegate {
     }
     
     func didTapPayButton(sender: PaymentCellView) {
-        print("tapped pay")
+        guard let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item else {
+            fatalError("TableView didn't return indexPath")
+        }
+        coordinator?.didRequestToPay(for: paymentModel.pendingPayments[index]!.name,
+                                     total: paymentModel.pendingPayments[index]!.amount,
+                                     remittances: paymentModel.pendingPayments[index]!.contribution,
+                                     currencyFormatter: sender.amountFormatter)
     }
     
     func didTapMoreButton(sender: PaymentCellView) {

@@ -12,12 +12,21 @@ import UIKit
 
 class BigLabel: UILabel {
     
-    init(text: String) {
+    enum FontStyle: String {
+        case ultraLight = "PingFangSC-Ultralight"
+        case light = "PingFangSC-Light"
+        case thin = "PingFangSC-Thin"
+        case regular = "PingFangSC-Regular"
+        case medium = "PingFangSC-Medium"
+        case semibold = "PingFangSC-Semibold"
+    }
+    
+    init(text: String, fontSize: Int = 36, fontStyle: FontStyle = .regular) {
         super.init(frame: .zero)
         
         self.text = text
         self.textColor = UIColor.pacyficBlue
-        self.font = UIFont(name: "PingFangTC-Regular", size: 36)
+        self.font = UIFont(name: fontStyle.rawValue, size: CGFloat(fontSize))
         
         self.numberOfLines = 0
     }
