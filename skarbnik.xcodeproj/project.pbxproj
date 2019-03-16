@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D8220F05180040612A /* ChangePasswordModel.swift */; };
+		190EC502223D9D510082E4AA /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190EC501223D9D510082E4AA /* Payment.swift */; };
 		1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */; };
 		193357ED221072B1000D922C /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193357EC221072B1000D922C /* TokenManager.swift */; };
 		19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19346236221E72A000EC6CBE /* ReminderViewController.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
+		190EC501223D9D510082E4AA /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewDelegate.swift; sourceTree = "<group>"; };
 		193357EC221072B1000D922C /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		19346236221E72A000EC6CBE /* ReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewController.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 		1941529D21A96CDC00D0A7A3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				190EC501223D9D510082E4AA /* Payment.swift */,
 				194784E4220707C5000AE323 /* APIClient.swift */,
 				194784E6220793E7000AE323 /* LoginModel.swift */,
 				194784EA22083C53000AE323 /* PickStudentModel.swift */,
@@ -392,6 +395,7 @@
 				19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,
 				199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */,
+				190EC502223D9D510082E4AA /* Payment.swift in Sources */,
 				1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */,
 				196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */,
 				19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */,

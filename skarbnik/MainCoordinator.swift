@@ -86,8 +86,8 @@ class MainCoordinator {
         navigationController.pushViewController(loginVC, animated: false)
     }
     
-    func didRequestReminder(about paymentName: String, ending endDate: Date) {
-        let reminderController = ReminderViewController(about: paymentName, ending: endDate)
+    func didRequestReminder(about payment: Payment) {
+        let reminderController = ReminderViewController(about: payment)
         reminderController.coordinator = self
         navigationController.pushViewController(reminderController, animated: true)
     }
@@ -100,8 +100,8 @@ class MainCoordinator {
         navigationController.popViewController(animated: true)
     }
     
-    func didRequestToPay(for name: String, total: Float, remittances: [Float], currencyFormatter: NumberFormatter) {
-        let payViewController = PayViewController(for: name, total: total, remittances: remittances, currencyFormatter: currencyFormatter)
+    func didRequestToPay(for payment: Payment, withCurrencyFormatter formatter: NumberFormatter) {
+        let payViewController = PayViewController(for: payment, currencyFormatter: formatter)
         payViewController.coordinator = self
         navigationController.pushViewController(payViewController, animated: true)
         

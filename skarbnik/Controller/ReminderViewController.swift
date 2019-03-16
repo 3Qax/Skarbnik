@@ -18,15 +18,12 @@ class ReminderViewController: UIViewController {
     
     
     
-    override func loadView() {
-        reminderView.delegate = self
-        reminderView.daysBeforeEndPicker.dataSource = self
-        reminderView.daysBeforeEndPicker.delegate = self
-        view = reminderView
-    }
     
-    init(about: String, ending: Date) {
-        reminderModel = ReminderModel(paymentName: about, endDate: ending)
+    
+
+    
+    init(about payment: Payment) {
+        reminderModel = ReminderModel(for: payment)
         reminderView = ReminderView(initialText: reminderModel.defaultReminderText, maxDate: reminderModel.endDate)
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = reminderModel.paymentName
@@ -35,6 +32,13 @@ class ReminderViewController: UIViewController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        reminderView.delegate = self
+        reminderView.daysBeforeEndPicker.dataSource = self
+        reminderView.daysBeforeEndPicker.delegate = self
+        view = reminderView
     }
     
     func reminderAddingHandler(result: ReminderModel.Result) -> () {

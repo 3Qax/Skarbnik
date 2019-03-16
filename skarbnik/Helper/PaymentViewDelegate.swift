@@ -10,5 +10,5 @@ import Foundation
 
 protocol PaymentViewDelegate {
     func didTappedClass()
-    func didRequestDataRefresh(completion: @escaping () -> ())
+    func didRequestDataRefresh()
 }

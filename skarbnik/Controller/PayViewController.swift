@@ -22,14 +22,15 @@ class PayViewController: UIViewController {
         view = payView
     }
     
-    init(for name: String, total: Float, remittances: [Float], currencyFormatter: NumberFormatter) {
-        payView = PayView(totalAmount: total,
-                          amountToPay: total - remittances.reduce(0, +),
-                          remittances: remittances,
+    init(for payment: Payment, currencyFormatter: NumberFormatter) {
+        payModel = PayModel(of: payment)
+        payView = PayView(totalAmount: payment.amount,
+                          amountToPay: payment.amount - payment.contribution.reduce(0, +),
+                          remittances: payment.contribution,
                           amountFormatter: currencyFormatter)
-        payModel = PayModel(of: name, remittances: remittances)
+        
         super.init(nibName: nil, bundle: nil)
-        navigationItem.title = payModel.paymentName
+        navigationItem.title = payModel.payment.name
         navigationItem.largeTitleDisplayMode = .never
     }
     

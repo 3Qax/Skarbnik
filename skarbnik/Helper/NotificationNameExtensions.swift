@@ -9,6 +9,5 @@
 import Foundation
 
 extension Notification.Name {
-    static let modelChangedPendingPayemnts = Notification.Name("modelChangedPendingPayemnts")
-    static let modelChangedPaidPayemnts = Notification.Name("modelChangedPaidPayemnts")
+    static let modelLoadedPayments = Notification.Name("modelLoadedPayments")
 }

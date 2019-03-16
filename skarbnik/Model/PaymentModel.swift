@@ -11,150 +11,56 @@ import Foundation
 class PaymentModel {
     private let classID: Int
     private let studentID: Int
+    
     private let apiClient                       = APIClient()
     private let dispatchGroup                   = DispatchGroup()
-    private var onRefreshCompletion: () -> ()   = { print("refreshing ended") }
-    public  var pendingPayments                 = [Int: Payment]() {
-        didSet {
-            if pendingPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPendingPayemnts, object: self) }
-        }
-    }
-    public  var paidPayments                    = [Int: Payment]() {
-        didSet {
-            if paidPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPaidPayemnts, object: self) }
-        }
-    }
+    
     private var recivedPayments                 = [Payment]()
-    public  var filter: (Payment) -> Bool       = { _ in return true }
-    
-    struct PaymentPacket: Codable {
-        let id_field: Int
-        let creation_date, start_date, end_date: String
-        let amount, currency: String
-        let name, description: String
-        let image: String?
+    private var filter: (Payment) -> Bool       = { _ in return true }
+    public  var payments: [Payment] {
+        get {
+            return recivedPayments.filter({self.filter($0)})
+        }
     }
     
-    class Payment {
-        private weak var paymentModel: PaymentModel?
-        let id_field: Int
-        let name, description: String
-        let amount: Float
-        let currency: String
-        let creation_date, start_date, end_date: Date
-        var contribution: [Float] = [Float]()
-        var image: Data?
-        
-        func encode<T: Encodable>(_ data: T) -> Data {
-            return try! JSONEncoder().encode(data)
-        }
-        
-        func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
-            return try! JSONDecoder().decode(T.self, from: data)
-        }
-        
-        init(data: PaymentPacket, paymentModel: PaymentModel) {
-            self.id_field = data.id_field
-            self.name = data.name
-            self.description = data.description
-            self.amount = Float(data.amount)!
-            self.currency = data.currency
-            
-            let longDateFormatter = ISO8601DateFormatter()
-            self.creation_date = longDateFormatter.date(from: data.creation_date)!
-            
-            let shortDateFormater = DateFormatter()
-            shortDateFormater.dateFormat = "yyyy-MM-dd"
-            self.start_date = shortDateFormater.date(from: data.start_date)!
-            self.end_date = shortDateFormater.date(from: data.end_date)!
-            
-            self.paymentModel = paymentModel
-            
-            self.fetchContributions()
-            if data.image != nil {
-                self.fetchImage()
-            }
-        }
-        
-        func fetchContributions() {
-            
-            class PaymentDetail: Codable {
-                let amount_paid: String
-            }
-            
-            let queryItems = [URLQueryItem(name: "payment", value: String(id_field)),
-                              URLQueryItem(name: "student", value: String(paymentModel!.studentID))]
-            
-            paymentModel!.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: APIClient.Result<[PaymentDetail]>) in
-                switch result {
-                case .success(let recivedDetails):
-                    for detail in recivedDetails {
-                        self.contribution.append(Float(detail.amount_paid) ?? 0)
-                    }
-                    self.classify()
-                case .failure(let error):
-                    print("Getting contributions of Payment: \(self.id_field) failed!")
-                    fatalError(error.localizedDescription)
-                }
-            }
+    private var onRefreshCompletion: () -> ()   = { print("refreshing ended") }
+    
 
-        }
-        
-        func fetchImage() {
-            print("image")
-        }
-        
-        func classify() {
-            let sum = contribution.reduce(0, +)
-            if sum  == amount {
-                paymentModel!.paidPayments[paymentModel!.paidPayments.count] = self
-            } else {
-                paymentModel!.pendingPayments[paymentModel!.pendingPayments.count] = self
-            }
-            paymentModel!.dispatchGroup.leave()
-        }
-    }
     
-    func encode<T: Encodable>(_ data: T) -> Data {
-        return try! JSONEncoder().encode(data)
-    }
     
-    func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
-        return try! JSONDecoder().decode(T.self, from: data)
-    }
+
+    
     
     init(of studentID:Int, in classID: Int) {
         self.studentID = studentID
         self.classID = classID
-        fetchPayments()
+        loadData()
     }
     
-    func refreshData(deletedDataHandler: () -> (), completion: @escaping () -> ()) {
-        
-        pendingPayments.removeAll(keepingCapacity: true)
-        paidPayments.removeAll(keepingCapacity: true)
-        recivedPayments.removeAll(keepingCapacity: true)
-        deletedDataHandler()
-        
-        self.onRefreshCompletion = completion
-        
-        fetchPayments()
-        
-    }
-    
-    func fetchPayments() {
+    func loadData() {
 
         apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: APIClient.Result<[PaymentPacket]>) in
             switch result {
             case .success(let recivedPaymentsPacket):
                 for recivedPayment in recivedPaymentsPacket {
+                    self.recivedPayments.append(Payment(data: recivedPayment))
+                }
+                self.recivedPayments.forEach({ (payment) in
                     self.dispatchGroup.enter()
-                    self.recivedPayments.append(Payment(data: recivedPayment, paymentModel: self))
-                }
+                    let queryItems = [URLQueryItem(name: "payment", value: String(payment.id_field)),
+                                      URLQueryItem(name: "student", value: String(self.studentID))]
+                    self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: APIClient.Result<[PaymentDetailPacket]>) in
+                        switch result {
+                        case .success(let recivedDetails):
+                            for detail in recivedDetails { payment.contribution.append(Float(detail.amount_paid) ?? 0) }
+                            self.dispatchGroup.leave()
+                        case .failure(let error):
+                            fatalError(error.localizedDescription)
+                        }
+                    }
+                })
+                self.dispatchGroup.notify(queue: .main) { NotificationCenter.default.post(name: .modelLoadedPayments, object: self)}
                 
-                self.dispatchGroup.notify(queue: .main) {
-                    self.onRefreshCompletion()
-                }
             case .failure(let error):
                 print("Faild getting payments data!")
                 fatalError(error.localizedDescription)
@@ -163,22 +69,17 @@ class PaymentModel {
         
     }
     
-    
-    
-    func setFilter(containing phrase: String) {
-        guard phrase != "" else {
-            removeFilter()
-            return
-        }
-        filter = {
-            return $0.name.localizedCaseInsensitiveContains(phrase) || $0.description.localizedCaseInsensitiveContains(phrase)
-        }
+    func refreshData() {
+        recivedPayments.removeAll(keepingCapacity: true)
+        loadData()
     }
     
-    func removeFilter() {
-        filter = { _ in
-            return true
+    func setFilter(to phrase: String) {
+        guard phrase != "" else {
+            filter = { _ in return true }
+            return
         }
+        filter = { return $0.name.localizedCaseInsensitiveContains(phrase) || $0.description.localizedCaseInsensitiveContains(phrase) }
     }
     
 }

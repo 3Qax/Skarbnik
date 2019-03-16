@@ -116,7 +116,8 @@ class PaymentCellView: UITableViewCell {
     func didChangeState() {
         switch style {
         case .unknown:
-            fatalError("Unknown state")
+            print("unknow")
+            //fatalError("Unknown state")
         case .pending:
             amountLabel.textColor = UIColor.pacyficBlue
             

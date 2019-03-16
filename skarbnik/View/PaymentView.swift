@@ -56,9 +56,7 @@ class PaymentView: UIView {
         tableView.allowsMultipleSelectionDuringEditing = false
         
         tableView.refreshControl = self.refreshControl
-        refreshControl.addAction(for: .valueChanged, { self.delegate?.didRequestDataRefresh(completion:  {
-            self.refreshControl.endRefreshing()
-        }) })
+        refreshControl.addAction(for: .valueChanged, { self.delegate?.didRequestDataRefresh() })
         
         tableView.register(PaymentCellView.self, forCellReuseIdentifier: "PaymentCellView")
     }
@@ -71,6 +69,10 @@ class PaymentView: UIView {
         delegate?.didTappedClass()
     }
     
+    func reloadData() {
+        refreshControl.endRefreshing()
+        tableView.reloadData()
+    }
 
     
 }

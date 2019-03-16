@@ -12,11 +12,9 @@ import Foundation
 
 
 class PayModel {
-    let remittances: [Float]
-    let paymentName: String
+    let payment: Payment
     
-    init(of name: String, remittances: [Float]) {
-        self.paymentName = name
-        self.remittances = remittances
+    init(of payment: Payment) {
+        self.payment = payment
     }
 }
