@@ -30,6 +30,15 @@ class APIClient {
         case put = "PUT"
     }
     
+    enum Result<T> {
+        case success(T)
+        case failure(Error)
+    }
+    
+    func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
+        return try! JSONDecoder().decode(T.self, from: data)
+    }
+    
     private func fullURL(of endpoint: Endpoint, queryItems: [URLQueryItem]? = nil) -> URL {
         var customizedURL = baseURL
         customizedURL.path = endpoint.rawValue
@@ -69,17 +78,8 @@ class APIClient {
         return request
     }
     
-    func request(_ endpoint: Endpoint, queryItems: [URLQueryItem]? = nil, completion: @escaping (Bool, Data?) -> ()) {
-        
-        let request = createRequest(.get, from: fullURL(of: endpoint, queryItems: queryItems))
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: completion)
-        }
-        task.resume()
-        
-    }
-    
-    func request(_ endpoint: Endpoint, queryItems: [URLQueryItem]? = nil, data: Data, completion: ((Bool, Data?) -> ())? = nil) {
+    //POST
+    func post<T: Decodable>(_ data: Data, to endpoint: Endpoint, adding queryItems: [URLQueryItem]? = nil, handler: @escaping (Result<T>) -> ()) {
         var request: URLRequest?
         
         switch endpoint {
@@ -87,34 +87,55 @@ class APIClient {
             request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data, authorise: false)
         case .refresh:
             request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data, authorise: false)
-        case .changePassword:
-            request = createRequest(.put, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
         default:
             request = createRequest(.post, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
         }
         
         let task = URLSession.shared.dataTask(with: request!) { (data, response, error) in
-            self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: completion)
+            self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: handler)
         }
         task.resume()
     }
     
-    func taskCompletionHandler(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: ((Bool, Data?) -> ())? ) {
+    func put<T: Decodable>(_ data: Data, to endpoint: Endpoint, addingQueryItems queryItems: [URLQueryItem]? = nil, handler: @escaping (Result<T>) -> ()) {
+        let request = createRequest(.put, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: handler)
+        }
+        task.resume()
+    }
+    
+    //GET
+    func get<T: Decodable>(from endpoint: Endpoint, adding queryItems: [URLQueryItem]? = nil, handler: @escaping (Result<T>) -> ()) {
+        
+        let request = createRequest(.get, from: fullURL(of: endpoint, queryItems: queryItems))
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: handler)
+        }
+        task.resume()
+        
+    }
+    
+    
+    func taskCompletionHandler<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: (Result<T>) -> () ) {
         if let error = error {
             print(error.localizedDescription)
+            requestSenderCompletion(.failure(error))
         } else {
-            if let response = response as? HTTPURLResponse {
+            if let data = data, let response = response as? HTTPURLResponse {
                 
                 switch response.statusCode {
                 case 200:
-                    requestSenderCompletion?(true, data)
+                    requestSenderCompletion(.success(decode(T.self, from: data)))
                 case 201:
-                    requestSenderCompletion?(true, data)
+                    requestSenderCompletion(.success(decode(T.self, from: data)))
                 case 204:
-                    requestSenderCompletion?(true, data)
+                    requestSenderCompletion(.success(decode(T.self, from: data)))
                 default:
                     print("HTTP Error: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
-                    requestSenderCompletion?(false, data)
+                    requestSenderCompletion(.success(decode(T.self, from: data)))
                 }
             }
         }

@@ -40,44 +40,44 @@ class LoginModel {
         }
         
         let loginPacket = LoginWithTokenPacket(token: token)
-        apiClient.request(.refresh, data: encode(loginPacket)) { (successful, recivedData) in
-            if successful {
-                if let recivedData = recivedData {
-                    let recivedToken: ResponsePacket = self.decode(ResponsePacket.self,from: recivedData)
-                    TokenManager.shared.authorise(with: recivedToken.token)
-                } else {
-                    print("Even thought login was successful cannot save recived token")
-                }
-                self.isLoggedIn = true
+
+        apiClient.post(encode(loginPacket), to: .refresh) { (result: APIClient.Result<ResponsePacket>) in
+            switch result {
+            case .success(let recivedToken):
+                TokenManager.shared.authorise(with: recivedToken.token)
                 completion(true)
-            } else {
+            case .failure(let error):
+                print(error.localizedDescription)
                 completion(false)
             }
         }
     }
     
     func login(login: String?, password: String?, completion: @escaping (Bool) -> ()) {
-        if let login = login, let password = password {
-            if login != "" && password != "" {
-                apiClient.request(.login, data: encode(LoginPacket(username: login, password: password))) { (successful, recivedData) in
-                    if successful {
-                        if let recivedData = recivedData {
-                            let recivedToken: ResponsePacket = self.decode(ResponsePacket.self,from: recivedData)
-                            TokenManager.shared.authorise(with: recivedToken.token)
-                        } else {
-                            print("Even thought login was successful cannot save recived token")
-                        }
-                        self.isLoggedIn = true
-                        completion(true)
-                    } else {
-                        completion(false)
-                    }
-                }
-            } else {
-                print("Empty login or password")
+        
+        guard let login = login, let password = password else {
+            completion(false)
+            return
+        }
+        
+        guard login != "" && password != "" else {
+            completion(false)
+            return
+        }
+        
+        apiClient.post(encode(LoginPacket(username: login, password: password)), to: .login) { (result: APIClient.Result<ResponsePacket>) in
+            switch result {
+            case .success(let recivedToken):
+                TokenManager.shared.authorise(with: recivedToken.token)
+                self.isLoggedIn = true
+                completion(true)
+            case .failure(let error):
+                print(error.localizedDescription)
+                completion(false)
             }
-        } else {
-            print("Login or password are nil")
         }
     }
+    
+    
+    
 }

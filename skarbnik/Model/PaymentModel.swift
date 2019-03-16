@@ -82,22 +82,22 @@ class PaymentModel {
                 let amount_paid: String
             }
             
-            paymentModel!.apiClient.request(.paymentDetail,
-                               queryItems: [URLQueryItem(name: "payment", value: String(id_field)),
-                                            URLQueryItem(name: "student", value: String(paymentModel!.studentID))],
-                               completion: { (succeed, data) in
-                                guard succeed else {
-                                    print("Getting contributions of Payment: \(self.id_field) failed!")
-                                    return
-                                }
-                                if let data = data {
-                                    let recivedDetails = self.decode([PaymentDetail].self, from: data)
-                                    for detail in recivedDetails {
-                                        self.contribution.append(Float(detail.amount_paid) ?? 0)
-                                    }
-                                    self.classify()
-                                }
-            })
+            let queryItems = [URLQueryItem(name: "payment", value: String(id_field)),
+                              URLQueryItem(name: "student", value: String(paymentModel!.studentID))]
+            
+            paymentModel!.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: APIClient.Result<[PaymentDetail]>) in
+                switch result {
+                case .success(let recivedDetails):
+                    for detail in recivedDetails {
+                        self.contribution.append(Float(detail.amount_paid) ?? 0)
+                    }
+                    self.classify()
+                case .failure(let error):
+                    print("Getting contributions of Payment: \(self.id_field) failed!")
+                    fatalError(error.localizedDescription)
+                }
+            }
+
         }
         
         func fetchImage() {
@@ -143,27 +143,24 @@ class PaymentModel {
     }
     
     func fetchPayments() {
-        apiClient.request(.payment,
-                          queryItems: [URLQueryItem(name: "class_field", value: String(classID))],
-                          completion: ({ (succeed, data) in
-                            guard succeed else {
-                                fatalError("faild getting data")
-                            }
-                            
-                            //First parse data as PaymentPacket then create Payments based on that data
-                            //This is required due to Date Type handeling dinffrence between Backend and Swift
-                            let recivedPaymentsPackets = self.decode([PaymentPacket].self, from: data!)
-                            for paymentPacket in recivedPaymentsPackets {
-                                self.dispatchGroup.enter()
-                                self.recivedPayments.append(Payment(data: paymentPacket, paymentModel: self))
-                            }
-                            
-                            self.dispatchGroup.notify(queue: .main) {
-                                self.onRefreshCompletion()
-                            }
-                            
-                          }))
 
+        apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: APIClient.Result<[PaymentPacket]>) in
+            switch result {
+            case .success(let recivedPaymentsPacket):
+                for recivedPayment in recivedPaymentsPacket {
+                    self.dispatchGroup.enter()
+                    self.recivedPayments.append(Payment(data: recivedPayment, paymentModel: self))
+                }
+                
+                self.dispatchGroup.notify(queue: .main) {
+                    self.onRefreshCompletion()
+                }
+            case .failure(let error):
+                print("Faild getting payments data!")
+                fatalError(error.localizedDescription)
+            }
+        }
+        
     }
     
     

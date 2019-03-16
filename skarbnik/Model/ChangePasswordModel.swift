@@ -71,14 +71,18 @@ class ChangePasswordModel {
         }
         
         let changePasswordPacket = ChangePasswordPacket(old_password: oldPassword!, new_password: newPassword!)
-        self.apiClient.request(.changePassword, data: encode(changePasswordPacket)) { (succeed, data) in
-            guard succeed else {
-                completion(.failure(.incorrectOldPassword))
-                return
-            }
-            completion(.success)
+
+        class tmp: Codable {
+            
         }
-        
-        
+
+        apiClient.put(encode(changePasswordPacket), to: .changePassword) { (result: APIClient.Result<tmp>) in
+            switch result {
+            case .success(_):
+                completion(.success)
+            case .failure(_):
+                completion(.failure(.incorrectOldPassword))
+            }
+        }
     }
 }

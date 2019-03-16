@@ -34,22 +34,27 @@ class AsyncSafetyModel {
     
     
     init() {
+        
+
+        
         switch TokenManager.shared.get(.username) {
         case .success(let username):
-            apiClient.request(.activity,
-                              queryItems: [URLQueryItem(name: "login_username", value: username),
-                                           URLQueryItem(name: "page", value: "1"),
-                                           URLQueryItem(name: "page_size", value: "2"),
-                                           URLQueryItem(name: "ordering", value: "-login_datetime")] ,
-                              completion: { (succeed, data) in
-                                guard succeed else {
-                                    fatalError("Failed getting activity info!")
-                                }
-                                if let data = data {
-                                    self.activities = self.decode([Activity].self, from: data)
-                                    self.interpretActivities()
-                                }
-            })
+            
+            let queryParameters = [URLQueryItem(name: "login_username", value: username),
+                                   URLQueryItem(name: "page", value: "1"),
+                                   URLQueryItem(name: "page_size", value: "2"),
+                                   URLQueryItem(name: "ordering", value: "-login_datetime")]
+
+            apiClient.get(from: .activity, adding: queryParameters) { (result: APIClient.Result<[Activity]>) in
+                switch result {
+                case .success(let recivedActivities):
+                    self.activities = recivedActivities
+                    self.interpretActivities()
+                case .failure(let error):
+                    fatalError(error.localizedDescription)
+                }
+            }
+            
         case .notAuthorised:
             fatalError("AsyncSafetyModel should run only after correct authorisation!")
         }
