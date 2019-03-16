@@ -40,4 +40,7 @@ class PayViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         payView.refresh()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
 }

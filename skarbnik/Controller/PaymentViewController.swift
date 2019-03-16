@@ -42,6 +42,8 @@ class PaymentViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.changeStudentIV)
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.obscuresBackgroundDuringPresentation = false
         navigationController?.navigationBar.prefersLargeTitles = true
         
         paymentView.delegate = self
@@ -116,9 +118,11 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return paymentModel.pendingPayments.count
+            print("got asked for number of rows in section \(section), returned \(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}).count)")
+            return paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}).count
         case 1:
-            return paymentModel.paidPayments.count
+            print("got asked for number of rows in section \(section), returned \(paymentModel.paidPayments.filter({p in paymentModel.filter(p.value)}).count)")
+            return paymentModel.paidPayments.filter({p in paymentModel.filter(p.value)}).count
         default:
             fatalError("Asked for number of rows in \(section) section, while there are only 2 sections possible (0 and 1).")
         }
@@ -127,20 +131,20 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCellView") as! PaymentCellView
         cell.delegate = self
-        
+        print("Cell for section \(indexPath.section), row: \(indexPath.row)")
         switch indexPath.section {
         case 0:
             cell.style = .pending
-            cell.setupContent(title: paymentModel.pendingPayments[indexPath.row]!.name,
-                              description: paymentModel.pendingPayments[indexPath.row]!.description,
-                              amount: paymentModel.pendingPayments[indexPath.row]!.amount,
-                              currency: paymentModel.pendingPayments[indexPath.row]!.currency)
+            cell.setupContent(title: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.name,
+                              description: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.description,
+                              amount: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.amount,
+                              currency: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.currency)
         case 1:
             cell.style = .paid
-            cell.setupContent(title: paymentModel.paidPayments[indexPath.row]!.name,
-                       description: paymentModel.paidPayments[indexPath.row]!.description,
-                       amount: paymentModel.paidPayments[indexPath.row]!.amount,
-                       currency: paymentModel.paidPayments[indexPath.row]!.currency)
+            cell.setupContent(title: Array(paymentModel.paidPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.name,
+                       description: Array(paymentModel.paidPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.description,
+                       amount: Array(paymentModel.paidPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.amount,
+                       currency: Array(paymentModel.paidPayments.filter({p in paymentModel.filter(p.value)}))[indexPath.row].value.currency)
         default:
             fatalError("TableView was ask for cell for unexpected section with number: \(indexPath.section)")
         }
@@ -156,17 +160,17 @@ extension PaymentViewController: PaymentCellDelegate {
         guard let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item else {
             fatalError("TableView didn't return indexPath")
         }
-        coordinator?.didRequestReminder(about: paymentModel.pendingPayments[index]!.name,
-                                        ending: paymentModel.pendingPayments[index]!.end_date)
+        coordinator?.didRequestReminder(about: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[index].value.name,
+                                        ending: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[index].value.end_date)
     }
     
     func didTapPayButton(sender: PaymentCellView) {
         guard let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item else {
             fatalError("TableView didn't return indexPath")
         }
-        coordinator?.didRequestToPay(for: paymentModel.pendingPayments[index]!.name,
-                                     total: paymentModel.pendingPayments[index]!.amount,
-                                     remittances: paymentModel.pendingPayments[index]!.contribution,
+        coordinator?.didRequestToPay(for: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[index].value.name,
+                                     total: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[index].value.amount,
+                                     remittances: Array(paymentModel.pendingPayments.filter({p in paymentModel.filter(p.value)}))[index].value.contribution,
                                      currencyFormatter: sender.amountFormatter)
     }
     
@@ -177,6 +181,7 @@ extension PaymentViewController: PaymentCellDelegate {
 
 extension PaymentViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        paymentModel.setFilter(containing: searchText)
+        paymentView.tableView.reloadData()
     }
 }

@@ -9,22 +9,23 @@
 import Foundation
 
 class PaymentModel {
-    private let apiClient           = APIClient()
-    private let dispatchGroup       = DispatchGroup()
-    private var onRefreshCompletion: () -> () = { print("refreshing ended") }
     private let classID: Int
     private let studentID: Int
-    public  var pendingPayments     = [Int: Payment]() {
+    private let apiClient                       = APIClient()
+    private let dispatchGroup                   = DispatchGroup()
+    private var onRefreshCompletion: () -> ()   = { print("refreshing ended") }
+    public  var pendingPayments                 = [Int: Payment]() {
         didSet {
             if pendingPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPendingPayemnts, object: self) }
         }
     }
-    public  var paidPayments        = [Int: Payment]() {
+    public  var paidPayments                    = [Int: Payment]() {
         didSet {
             if paidPayments.count > 0 { NotificationCenter.default.post(name: .modelChangedPaidPayemnts, object: self) }
         }
     }
-    private var recivedPayments     = [Payment]()
+    private var recivedPayments                 = [Payment]()
+    public  var filter: (Payment) -> Bool       = { _ in return true }
     
     struct PaymentPacket: Codable {
         let id_field: Int
@@ -163,6 +164,24 @@ class PaymentModel {
                             
                           }))
 
+    }
+    
+    
+    
+    func setFilter(containing phrase: String) {
+        guard phrase != "" else {
+            removeFilter()
+            return
+        }
+        filter = {
+            return $0.name.localizedCaseInsensitiveContains(phrase) || $0.description.localizedCaseInsensitiveContains(phrase)
+        }
+    }
+    
+    func removeFilter() {
+        filter = { _ in
+            return true
+        }
     }
     
 }
