@@ -116,28 +116,35 @@ extension PaymentViewController: UITableViewDataSource {
 extension PaymentViewController: PaymentCellDelegate {
     func didTapRemindButton(sender: PaymentCellView) {
         
-        guard let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item else {
-            fatalError("TableView didn't return indexPath")
+        if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
+            coordinator?.didRequestReminder(about: paymentModel.payments[index])
         }
-        coordinator?.didRequestReminder(about: paymentModel.payments[index])
+        
     }
     
     func didTapPayButton(sender: PaymentCellView) {
         
-        guard let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item else {
-            fatalError("TableView didn't return indexPath")
+        if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
+            coordinator?.didRequestToPay(for: paymentModel.payments[index], withCurrencyFormatter: sender.amountFormatter)
         }
-        coordinator?.didRequestToPay(for: paymentModel.payments[index], withCurrencyFormatter: sender.amountFormatter)
+        
     }
     
     func didTapMoreButton(sender: PaymentCellView) {
-        print("tapped more")
+        
+        if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
+            print("Tapped more button of cell at index: \(index)")
+        }
     }
 }
 
 extension PaymentViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         paymentModel.setFilter(to: searchText)
+        paymentView.tableView.reloadData()
+    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        paymentModel.setFilter(to: "")
         paymentView.tableView.reloadData()
     }
 }

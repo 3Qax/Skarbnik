@@ -39,10 +39,10 @@ final class Payment {
         }
     }
     
-    enum PaymentState {
-        case pending
-        case partialyPaid
-        case paid
+    enum PaymentState: Int {
+        case pending = 1
+        case partialyPaid = 2
+        case paid = 3
     }
     
     

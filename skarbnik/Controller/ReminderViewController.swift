@@ -41,6 +41,10 @@ class ReminderViewController: UIViewController {
         view = reminderView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     func reminderAddingHandler(result: ReminderModel.Result) -> () {
         switch result {
             case .succeed:

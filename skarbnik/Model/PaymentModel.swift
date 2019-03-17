@@ -59,7 +59,10 @@ class PaymentModel {
                         }
                     }
                 })
-                self.dispatchGroup.notify(queue: .main) { NotificationCenter.default.post(name: .modelLoadedPayments, object: self)}
+                self.dispatchGroup.notify(queue: .main) {
+                    self.recivedPayments.sort(by: { return $0.state.rawValue < $1.state.rawValue })
+                    NotificationCenter.default.post(name: .modelLoadedPayments, object: self)
+                }
                 
             case .failure(let error):
                 print("Faild getting payments data!")

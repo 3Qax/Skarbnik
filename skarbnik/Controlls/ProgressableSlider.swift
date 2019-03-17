@@ -54,6 +54,9 @@ class ProgressableSlider: UIControl {
     }()
     private let sumOfProgressionPoints: Float
     
+    //Positioning
+    var initialThumbPosition: Constraint?
+    
     
     init(progressionPoints: [Float]? = nil, maxValue max: Float) {
         sumOfProgressionPoints = progressionPoints?.reduce(0.0, +) ?? 0.0
@@ -123,8 +126,8 @@ class ProgressableSlider: UIControl {
         sliderThumb.backgroundColor = thumbColor
         sliderThumb.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
+            initialThumbPosition = make.centerX.equalTo(sliderTrack.snp.right).constraint
         }
-        
         
     }
     
@@ -202,6 +205,7 @@ extension ProgressableSlider {
 extension ProgressableSlider {
     
     func updateThumbFrame() {
+        initialThumbPosition?.deactivate()
         print("update - value: \(value)")
         let a = value * sliderTrack.bounds.width
         setThumbXCenter(to: a)

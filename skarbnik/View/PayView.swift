@@ -80,10 +80,29 @@ class PayView: UIView {
         print(sender.value)
     }
     
-    func refresh() {
-        slider.updateThumbFrame()
+    
+    
+}
+
+//Animations
+extension PayView {
+    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
+        
+        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+        selectionFeedbackGenerator.selectionChanged()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+            completion()
+        }
+        
+        UIView.animate(withDuration: 0.25,
+                       delay: 0,
+                       usingSpringWithDamping: CGFloat(0.20),
+                       initialSpringVelocity: CGFloat(6.0),
+                       options:.allowUserInteraction,
+                       animations: {
+                        view.transform = CGAffineTransform.identity
+        })
+        
     }
-    
-    
-    
 }
