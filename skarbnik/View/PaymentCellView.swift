@@ -10,7 +10,7 @@ import SnapKit
 
 class PaymentCellView: UITableViewCell {
     
-    //let key: Int
+
     private let titleLabel: UILabel         = {
     let label = UILabel()
     label.numberOfLines = 0
@@ -31,10 +31,17 @@ class PaymentCellView: UITableViewCell {
         label.textColor = UIColor.pacyficBlue
         return label
     }()
-    public let amountFormatter             = NumberFormatter()
+    public  let amountFormatter             = NumberFormatter()
     private let remindButton                = OptionButton("set_reminder_button_text", hight: 30)
     private let payButton                   = RaisedButton("pay_button_text", hight: 30)
     private let moreButton                  = OptionButton("show_photos_button_text", hight: 30)
+    private let startDateLabel: UILabel     = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont(name: "PingFangTC-Light", size: 15.0)
+        label.textColor = UIColor.darkGrey
+        return label
+    }()
     var style: PaymentCellStyle             = .unknown {
         didSet {
             didChangeState()
@@ -46,6 +53,7 @@ class PaymentCellView: UITableViewCell {
     enum PaymentCellStyle {
         case paid
         case pending
+        case awaiting
         case unknown
     }
     
@@ -89,11 +97,11 @@ class PaymentCellView: UITableViewCell {
         self.descriptionLabel.snp.makeConstraints({ (make) in
             make.top.equalTo(titleLabel.snp.bottom)
             make.left.equalToSuperview().offset(20)
-            make.right.equalTo(self.amountLabel)
+            make.right.equalToSuperview().offset(-20)
         })
     }
     
-    func setupContent(title: String, description: String, amount: Float, currency: String) {
+    func setupContent(title: String, description: String, amount: Float, currency: String, startDate: Date) {
         
         //Title
         self.titleLabel.text = title.capitalizingFirstLetter()
@@ -105,6 +113,12 @@ class PaymentCellView: UITableViewCell {
         
         //Description
         self.descriptionLabel.text = description.capitalizingFirstLetter()
+        
+        //StartDate
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.locale = Locale.current
+        self.startDateLabel.text = "Płatne od: " + dateFormatter.string(from: startDate)
     }
     
     func setupTargets() {
@@ -136,9 +150,9 @@ class PaymentCellView: UITableViewCell {
             }
             
             moreButton.removeFromSuperview()
+            startDateLabel.removeFromSuperview()
             
         case .paid:
-            amountLabel.textColor = UIColor.darkGrey
             
             contentView.addSubview(moreButton)
             moreButton.snp.makeConstraints { (make) in
@@ -149,9 +163,25 @@ class PaymentCellView: UITableViewCell {
             
             remindButton.removeFromSuperview()
             payButton.removeFromSuperview()
+            startDateLabel.removeFromSuperview()
+            amountLabel.removeFromSuperview()
             
             
             
+        case .awaiting:
+            amountLabel.textColor = UIColor.pacyficBlue
+            
+            contentView.addSubview(startDateLabel)
+            startDateLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+            startDateLabel.snp.makeConstraints { (make) in
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
+                make.left.right.equalTo(descriptionLabel)
+                make.bottom.equalToSuperview().offset(-5)
+            }
+            
+            remindButton.removeFromSuperview()
+            payButton.removeFromSuperview()
+            moreButton.removeFromSuperview()
         }
     }
     

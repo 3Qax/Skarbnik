@@ -5,8 +5,9 @@ import UIKit
 
 let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
 let selectionFeedbackGenerator = UISelectionFeedbackGenerator()
+
 class LoginViewController: UIViewController {
-    var coordinator: MainCoordinator?
+    var coordinator: LoginCoordinator?
     let loginModel: LoginModel
     let loginView: LoginView
     let incorrectCredentialsAlert: UIAlertController = {
@@ -56,9 +57,9 @@ class LoginViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if loginModel.isLoggedIn {
-            coordinator?.didRequestStudentChange()
-        }
+//        if loginModel.isLoggedIn {
+//            coordinator?.didRequestStudentChange()
+//        }
     }
 }
 

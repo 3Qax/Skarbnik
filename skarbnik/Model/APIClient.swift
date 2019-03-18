@@ -35,8 +35,14 @@ class APIClient {
         case failure(Error)
     }
     
-    func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
-        return try! JSONDecoder().decode(T.self, from: data)
+    func decode<T: Decodable>(_: T.Type, from data: Data) throws -> T {
+        //        return try? JSONDecoder().decode(T.self, from: data)
+        do {
+            let decodedData = try JSONDecoder().decode(T.self, from: data)
+            return decodedData
+        } catch let error {
+            throw error
+        }
     }
     
     private func fullURL(of endpoint: Endpoint, queryItems: [URLQueryItem]? = nil) -> URL {
@@ -121,22 +127,30 @@ class APIClient {
     
     func taskCompletionHandler<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: (Result<T>) -> () ) {
         if let error = error {
-            print(error.localizedDescription)
             requestSenderCompletion(.failure(error))
         } else {
             if let data = data, let response = response as? HTTPURLResponse {
                 
-                switch response.statusCode {
-                case 200:
-                    requestSenderCompletion(.success(decode(T.self, from: data)))
-                case 201:
-                    requestSenderCompletion(.success(decode(T.self, from: data)))
-                case 204:
-                    requestSenderCompletion(.success(decode(T.self, from: data)))
-                default:
-                    print("HTTP Error: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
-                    requestSenderCompletion(.success(decode(T.self, from: data)))
+                do {
+                    let encodedData = try decode(T.self, from: data)
+                    
+                    switch response.statusCode {
+                    case 200:
+                        requestSenderCompletion(.success(encodedData))
+                    case 201:
+                        requestSenderCompletion(.success(encodedData))
+                    case 204:
+                        requestSenderCompletion(.success(encodedData))
+                    default:
+                        print("HTTP StatusCode: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
+                        requestSenderCompletion(.success(encodedData))
+                    }
+                    
+                } catch let error {
+                    return requestSenderCompletion(.failure(error))
                 }
+                
+                
             }
         }
     }

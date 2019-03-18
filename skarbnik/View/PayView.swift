@@ -19,6 +19,7 @@ class PayView: UIView {
     let amountFormatter: NumberFormatter
     let payButton = RaisedButton(title: "Zapłać...")
     let payOnWebButton = OptionButton(title: "Zapłać przez portal www...")
+    var delegate: PayViewDelegate?
     
     
     
@@ -35,12 +36,13 @@ class PayView: UIView {
         slider.snp.makeConstraints { (make) in
             //make.top.equalTo(amountLabel.snp.bottom)
             make.centerY.equalToSuperview()
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
+            make.left.equalToSuperview()
+            make.right.equalToSuperview()
             make.height.equalTo(50)
         }
         
         addSubview(payOnWebButton)
+        payOnWebButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payOnWebButton, completion: {self.delegate?.didTapPayOnWeb()}) })
         payOnWebButton.snp.makeConstraints { (make) in
             make.bottom.equalToSuperview().offset(-20)
             make.left.equalToSuperview().offset(20)
@@ -48,6 +50,7 @@ class PayView: UIView {
         }
         
         addSubview(payButton)
+        payButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payButton, completion: {self.delegate?.didTapPay()}) })
         payButton.snp.makeConstraints { (make) in
             make.bottom.equalTo(payOnWebButton.snp.top).offset(-10)
             make.left.equalToSuperview().offset(20)
@@ -77,7 +80,6 @@ class PayView: UIView {
     
     @objc func didChangedSliderValue(sender: ProgressableSlider) {
         amounLabel.text = amountFormatter.string(from: Float(sender.value) * amountToPay  as NSNumber)
-        print(sender.value)
     }
     
     

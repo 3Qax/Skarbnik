@@ -88,7 +88,7 @@ class ProgressableSlider: UIControl {
                     
                     if  allTracks.count == 1 {
                         //If this is first track make it's left eqaul to left of whole control
-                        make.left.equalToSuperview()
+                        make.left.equalToSuperview().offset(20)
                     } else {
                         //If it isn't first one make it's left equal to right of last track
                         make.left.equalTo(allTracks.dropLast().last!.snp.right)
@@ -111,14 +111,18 @@ class ProgressableSlider: UIControl {
         
         
         addSubview(sliderTrack)
-        sliderTrack.isUserInteractionEnabled = true
+        sliderTrack.isUserInteractionEnabled = false
         sliderTrack.snp.makeConstraints { (make) in
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().offset(-20)
             make.height.equalTo(trackHight)
             make.centerY.equalToSuperview()
             
-            let mostLeftItem = self.subviews.filter({ return $0.tag == 1 }).last?.snp.right ?? self.snp.left
-            make.left.equalTo(mostLeftItem)
+            if let mostLeftTrack = self.subviews.filter({ return $0.tag == 1 }).last {
+                make.left.equalTo(mostLeftTrack.snp.right)
+            } else {
+                make.left.equalToSuperview().offset(20)
+            }
+            
         }
         
         addSubview(sliderThumb)
@@ -144,7 +148,7 @@ class ProgressableSlider: UIControl {
 extension ProgressableSlider {
     func createTrack(forSlider: Bool = false) -> UIView {
         let track = UIView()
-        
+        track.isUserInteractionEnabled = false
         if forSlider {
             track.backgroundColor = sliderTrackColor
         } else {
@@ -158,6 +162,7 @@ extension ProgressableSlider {
     
     func createProgressDot() -> UIView {
         let progressDot = UIView()
+        progressDot.isUserInteractionEnabled = false
         progressDot.tag = 2
         progressDot.backgroundColor = UIColor.backgroundGrey
         
@@ -194,6 +199,7 @@ extension ProgressableSlider {
     
     func createDescription(text: String) -> UILabel {
         let desc = UILabel()
+        desc.isUserInteractionEnabled = false
         desc.font = UIFont(name: "PingFangTC-Thin", size: 14.0)
         desc.text = text
         return desc
@@ -206,7 +212,6 @@ extension ProgressableSlider {
     
     func updateThumbFrame() {
         initialThumbPosition?.deactivate()
-        print("update - value: \(value)")
         let a = value * sliderTrack.bounds.width
         setThumbXCenter(to: a)
     }
@@ -241,7 +246,6 @@ extension ProgressableSlider {
         return true
     }
     
-    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
-        print("end")
-    }
+//    override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+//    }
 }

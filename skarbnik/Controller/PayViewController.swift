@@ -8,17 +8,18 @@
 
 import Foundation
 import UIKit
+import PassKit
 
 
 class PayViewController: UIViewController {
-    
     let payView: PayView
     let payModel: PayModel
-    var coordinator: MainCoordinator?
+    var coordinator: PaymentCoordinator?
     
     
     
     override func loadView() {
+        payView.delegate = self
         view = payView
     }
     
@@ -42,4 +43,15 @@ class PayViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+}
+
+extension PayViewController: PayViewDelegate {
+    func didTapPay() {
+        payModel.pay(Float(payView.slider.value))
+    }
+    
+    func didTapPayOnWeb() {
+        guard let url = URL(string: "https://github.com/FilipJedrasik/hackathon-skarbnik") else { return }
+        UIApplication.shared.open(url)
+    }
 }

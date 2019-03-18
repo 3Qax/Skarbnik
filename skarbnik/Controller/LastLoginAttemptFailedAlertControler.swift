@@ -13,7 +13,7 @@ import UIKit
 
 class LastLoginAttemptFailedAlertControler: UIViewController {
     let lastLoginUnsuccessfulAlert: UIAlertController
-    var coordinator: MainCoordinator?
+    var coordinator: LoginCoordinator?
     
     
     init(when date: String, from ip: String) {
@@ -31,6 +31,7 @@ class LastLoginAttemptFailedAlertControler: UIViewController {
         }))
         self.lastLoginUnsuccessfulAlert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
             self.coordinator?.navigationController.dismiss(animated: true)
+            self.coordinator?.safetyCheckEnded()
         }))
     }
     

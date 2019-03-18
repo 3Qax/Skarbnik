@@ -11,6 +11,5 @@ import Foundation
 protocol AsyncSafetyProtocool: class {
     func requirePasswordChange()
     func lastLoginUnsuccessful(_ date: Date, fromIP ip: String)
-    func dontRequirePasswordChange()
-    func lastLoginSuccessful()
+    func everythingOk()
 }

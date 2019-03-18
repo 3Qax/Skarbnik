@@ -32,16 +32,20 @@ final class Payment {
     var image: Data?
     var state: PaymentState {
         get {
-            let sum = contribution.reduce(0, +)
-            if sum == amount { return .paid }
-            if sum == 0 { return .pending }
-            return .partialyPaid
+            if contribution.reduce(0, +) == amount { return .paid }
+            if Date() < start_date { return .awaiting }
+            return .pending
+        }
+    }
+    var leftToPay: Float {
+        get {
+            return amount - contribution.reduce(0, +)
         }
     }
     
     enum PaymentState: Int {
-        case pending = 1
-        case partialyPaid = 2
+        case awaiting = 1
+        case pending = 2
         case paid = 3
     }
     
@@ -63,37 +67,4 @@ final class Payment {
         self.end_date = shortDateFormater.date(from: data.end_date)!
     }
     
-    //        func fetchContributions() {
-    //
-    //            class PaymentDetail: Codable {
-    //                let amount_paid: String
-    //            }
-    //
-    //            let queryItems = [URLQueryItem(name: "payment", value: String(id_field)),
-    //                              URLQueryItem(name: "student", value: String(paymentModel!.studentID))]
-    //
-    //            paymentModel!.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: APIClient.Result<[PaymentDetail]>) in
-    //                switch result {
-    //                case .success(let recivedDetails):
-    //                    for detail in recivedDetails {
-    //                        self.contribution.append(Float(detail.amount_paid) ?? 0)
-    //                    }
-    //                    self.classify()
-    //                case .failure(let error):
-    //                    print("Getting contributions of Payment: \(self.id_field) failed!")
-    //                    fatalError(error.localizedDescription)
-    //                }
-    //            }
-    //
-    //        }
-    //
-    //        func classify() {
-    //            let sum = contribution.reduce(0, +)
-    //            if sum  == amount {
-    //                paymentModel!.paidPayments[paymentModel!.paidPayments.count] = self
-    //            } else {
-    //                paymentModel!.pendingPayments[paymentModel!.pendingPayments.count] = self
-    //            }
-    //            paymentModel!.dispatchGroup.leave()
-    //        }
 }

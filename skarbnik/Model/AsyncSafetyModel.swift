@@ -12,16 +12,9 @@ import Foundation
 
 class AsyncSafetyModel {
     let apiClient = APIClient()
-    weak var delegate: AsyncSafetyProtocool?
+    var delegate: AsyncSafetyProtocool?
     private var activities: [Activity] = [Activity]()
     
-    private func encode<T: Encodable>(_ data: T) -> Data {
-        return try! JSONEncoder().encode(data)
-    }
-    
-    private func decode<T: Decodable>(_: T.Type, from data: Data) -> T {
-        return try! JSONDecoder().decode(T.self, from: data)
-    }
     
     struct Activity: Codable {
         let id: Int
@@ -33,9 +26,7 @@ class AsyncSafetyModel {
     
     
     
-    init() {
-        
-
+    func start() {
         
         switch TokenManager.shared.get(.username) {
         case .success(let username):
@@ -61,20 +52,33 @@ class AsyncSafetyModel {
     }
     
     func interpretActivities() {
-        if activities.count == 1 {
-            delegate?.requirePasswordChange()
-        } else {
-            delegate?.dontRequirePasswordChange()
-        }
-        
-        for i in 0..<activities.count {
-            if activities[i].status == "F" {
-                let longDateFormatter = ISO8601DateFormatter()
-                let date = longDateFormatter.date(from: activities[1].login_datetime)!
-                delegate?.lastLoginUnsuccessful(date, fromIP: activities[1].login_IP)
-            } else {
-                delegate?.lastLoginSuccessful()
+        DispatchQueue.main.async {
+            
+            guard self.activities.count != 1 else {
+                self.delegate?.requirePasswordChange()
+                return
             }
+            
+            for i in 0..<self.activities.count {
+                if self.activities[i].status == "F" {
+                    let longDateFormatter = ISO8601DateFormatter()
+                    let date = longDateFormatter.date(from: self.activities[1].login_datetime)!
+                    self.delegate?.lastLoginUnsuccessful(date, fromIP: self.activities[1].login_IP)
+                    return
+                }
+            }
+            
+            //        activities.forEach { (activity) in
+            //            if activity.status == "F" {
+            //                let longDateFormatter = ISO8601DateFormatter()
+            //                let date = longDateFormatter.date(from: activity.login_datetime)!
+            //                delegate?.lastLoginUnsuccessful(date, fromIP: activity.login_IP)
+            //                return
+            //            }
+            //        }
+            
+            print("interpret ended with no errors")
+            self.delegate?.everythingOk()
         }
     }
     

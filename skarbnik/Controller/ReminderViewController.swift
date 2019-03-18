@@ -14,7 +14,7 @@ import UIKit
 class ReminderViewController: UIViewController {
     let reminderModel: ReminderModel
     let reminderView: ReminderView
-    var coordinator: MainCoordinator?
+    var coordinator: PaymentCoordinator?
     
     
     

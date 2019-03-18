@@ -52,7 +52,7 @@
 "set_reminder_button_text" = "Przypomnij...";
 "reminder_prefix_before_payment_name" = "Zapłacić za";
 "pay_button_text" = "Zapłać...";
-"show_photos_button_text" = "Pokaż zdjęcia";
+"show_photos_button_text" = "Więcej...";
 
 //MARK: Add a reminder screen strings
 "remind_about" = "O czym";

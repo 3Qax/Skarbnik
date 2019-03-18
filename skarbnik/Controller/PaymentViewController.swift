@@ -13,7 +13,7 @@ class PaymentViewController: UIViewController {
     let paymentModel: PaymentModel
     let paymentView: PaymentView
     let searchController: UISearchController
-    var coordinator: MainCoordinator?
+    var coordinator: PaymentCoordinator?
     
     
     
@@ -60,9 +60,6 @@ class PaymentViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        coordinator?.asyncSafetyController?.shouldShow = true
-    }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: .modelLoadedPayments, object: nil)
@@ -92,19 +89,19 @@ extension PaymentViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PaymentCellView") as! PaymentCellView
         cell.delegate = self
-        print("Cell for section \(indexPath.section), row: \(indexPath.row)")
         
         let payment = paymentModel.payments[indexPath.row]
         cell.setupContent(title: payment.name,
                           description: payment.description,
-                          amount: payment.amount,
-                          currency: payment.currency)
+                          amount: payment.leftToPay,
+                          currency: payment.currency,
+                          startDate: payment.start_date)
         
         switch payment.state {
         case .pending:
             cell.style = .pending
-        case .partialyPaid:
-            cell.style = .pending
+        case .awaiting:
+            cell.style = .awaiting
         case .paid:
             cell.style = .paid
         }

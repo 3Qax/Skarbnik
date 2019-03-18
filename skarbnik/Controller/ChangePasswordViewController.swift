@@ -11,7 +11,7 @@ import UIKit
 class ChangePasswordViewController: UIViewController {
     
     let changePasswordModel = ChangePasswordModel()
-    var coordinator: MainCoordinator?
+    var coordinator: LoginCoordinator?
 
     override func loadView() {
         self.view = ChangePasswordView()

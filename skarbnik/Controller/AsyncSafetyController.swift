@@ -11,51 +11,22 @@ import UIKit
 
 
 class AsyncSafetyController {
-    private let model = AsyncSafetyModel()
-    weak var coordinator: MainCoordinator?
+    var safetyModel = AsyncSafetyModel()
+    weak var coordinator: LoginCoordinator?
     
-    private var lastLoginWasUnsuccessful: Bool?
-    private var dateOfUnsuccessfulLogin: String?
-    private var ipOfUnsuccessfulLogin: String?
-    private var doRequirePasswordChange: Bool?
-    
-    var shouldShow: Bool = false {
-        didSet {
-            if shouldShow, let doRequirePasswordChange = doRequirePasswordChange, let lastLoginWasUnsuccessful = lastLoginWasUnsuccessful {
-                if doRequirePasswordChange {
-                    DispatchQueue.main.async {
-                        self.coordinator?.shouldChangePassword()
-                    }
-                }
-                if lastLoginWasUnsuccessful {
-                    DispatchQueue.main.async {
-                        self.coordinator?.shouldWarnAboutLastLogin(on: self.dateOfUnsuccessfulLogin ?? "", from: self.ipOfUnsuccessfulLogin ?? "")
-                    }
-                }
-                coordinator?.asyncSafetyController = nil
-            }
-        }
-    }
 
     
     init() {
-        model.delegate = self
+        safetyModel.delegate = self
+        safetyModel.start()
     }
+    
 }
 
 extension AsyncSafetyController: AsyncSafetyProtocool {
-    
-    func dontRequirePasswordChange() {
-        doRequirePasswordChange = false
-    }
-    
-    func lastLoginSuccessful() {
-        lastLoginWasUnsuccessful = false
-    }
-    
+        
     func requirePasswordChange() {
-        print("require password change")
-        doRequirePasswordChange = true
+        self.coordinator?.shouldChangePassword()
     }
     
     func lastLoginUnsuccessful(_ date: Date, fromIP ip: String) {
@@ -63,9 +34,15 @@ extension AsyncSafetyController: AsyncSafetyProtocool {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .medium
-        dateOfUnsuccessfulLogin = formatter.string(from: date)
-        ipOfUnsuccessfulLogin = ip
-        lastLoginWasUnsuccessful = true
+        let formattedDate = formatter.string(from: date)
+        
+        self.coordinator?.shouldWarnAboutLastLogin(on: formattedDate, from: ip)
+    }
+    
+    func everythingOk() {
+        print("everything OK")
+        self.coordinator?.safetyCheckEnded()
+        
     }
     
 }

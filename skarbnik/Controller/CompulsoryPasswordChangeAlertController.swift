@@ -12,7 +12,7 @@ import UIKit
 
 class CompulsoryPasswordChangeAlertController: UIViewController {
     let compulsoryPasswordChangeAlert: UIAlertController
-    var coordinator: MainCoordinator?
+    var coordinator: LoginCoordinator?
     
     
     init() {
