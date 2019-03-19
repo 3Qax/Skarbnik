@@ -20,7 +20,7 @@ class PaymentViewController: UIViewController {
     
     init(of studentID: Int, in classID: Int) {
         paymentModel = PaymentModel(of: studentID, in: classID)
-        paymentView = PaymentView(frame: UIScreen.main.bounds)
+        paymentView = PaymentView(frame: .zero)
         searchController = UISearchController(searchResultsController: nil)
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
@@ -38,10 +38,10 @@ class PaymentViewController: UIViewController {
         super.viewDidLoad()
         
         selectionFeedbackGenerator.prepare()
-        navigationController?.navigationBar.isHidden = false
+        navigationController?.navigationBar.isHidden = true
         navigationItem.title = "Składki"
         navigationItem.setHidesBackButton(true, animated: false)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.changeStudentIV)
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.changeStudentIV)
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
@@ -64,6 +64,10 @@ class PaymentViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: .modelLoadedPayments, object: nil)
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
     }
     
 }
@@ -97,7 +101,7 @@ extension PaymentViewController: UITableViewDataSource {
                           amount: payment.leftToPay,
                           currency: payment.currency,
                           startDate: payment.start_date)
-        
+        tableView.beginUpdates()
         switch payment.state {
         case .pending:
             cell.style = .pending
@@ -106,7 +110,11 @@ extension PaymentViewController: UITableViewDataSource {
         case .paid:
             cell.style = .paid
         }
+        
+        cell.layoutSubviews()
+        tableView.endUpdates()
         return cell
+        
     }
     
 }
