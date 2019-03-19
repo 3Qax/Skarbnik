@@ -45,7 +45,7 @@ extension ChangePasswordViewController: ChangePasswordProtocool {
                 switch result {
                 case .success:
                     notificationFeedbackGenerator.notificationOccurred(.success)
-                    self.coordinator?.didChangedPassword()
+                    self.coordinator?.shouldLogOut()
                 case .failure(let failType):
                     notificationFeedbackGenerator.prepare()
                     switch failType {

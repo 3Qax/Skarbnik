@@ -71,9 +71,9 @@ class LoginView: UIView {
         //Initial position of logo should match the launchscreen position of the logo
         self.addSubview(logo)
         logo.snp.makeConstraints { (make) in
-            make.centerX.equalTo(self)
-            make.centerY.equalTo(self)
-            make.width.equalTo(self.snp.width).multipliedBy(0.5)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().multipliedBy(0.5)
+            make.width.equalToSuperview().multipliedBy(0.5)
         }
         self.layoutIfNeeded()
     }
@@ -85,7 +85,7 @@ class LoginView: UIView {
             make.bottom.equalTo(self.loginInput.snp.top).offset(10)
             make.width.equalTo(self.snp.width).multipliedBy(0.5)
         }
-        UIView.animate(withDuration: 0.5, delay: 0.2, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion: { (_) in
             UIView.animate(withDuration: 0.5, delay: 0, animations: {

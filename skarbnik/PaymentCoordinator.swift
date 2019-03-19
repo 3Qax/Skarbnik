@@ -18,6 +18,7 @@ class PaymentCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     let studentID, classID: Int
+    var paymentVC: PaymentViewController?
     
     
     
@@ -30,14 +31,17 @@ class PaymentCoordinator: Coordinator {
     }
     
     func start() {
-        let paymentVC = PaymentViewController(of: studentID, in: classID)
-        paymentVC.coordinator = self
-        self.navigationController.pushViewController(paymentVC, animated: true)
+        paymentVC = PaymentViewController(of: studentID, in: classID)
+        paymentVC!.coordinator = self
     }
     
     //
     //---------------------------------------------------------------------------------------
     //
+    
+    func readyToPresentPayments() {
+        navigationController.pushViewController(paymentVC!, animated: true)
+    }
     
     func didRequestReminder(about payment: Payment) {
         let reminderController = ReminderViewController(about: payment)

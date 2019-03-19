@@ -38,19 +38,6 @@ class LoginViewController: UIViewController {
 
         super.viewDidLoad()
         
-            loginModel.login { (successful) in
-                guard successful else {
-                    DispatchQueue.main.async {
-                        (self.view as! LoginView).showUI()
-                    }
-                    return
-                }
-                DispatchQueue.main.async {
-                    self.coordinator!.didLoginSuccessfully()
-                }
-                
-            }
-        
         (self.view as! LoginView).delegate = self
         (self.view as! LoginView).loginInput.delegate = self
         (self.view as! LoginView).passwordInput.delegate = self
@@ -60,6 +47,19 @@ class LoginViewController: UIViewController {
 //        if loginModel.isLoggedIn {
 //            coordinator?.didRequestStudentChange()
 //        }
+    }
+    
+    func tryToLogin() {
+        loginModel.login { (successful) in
+            guard successful else {
+                DispatchQueue.main.async { self.coordinator?.loginRequireCredentials() ;(self.view as! LoginView).showUI() }
+                return
+            }
+            DispatchQueue.main.async {
+                self.coordinator!.didLoginSuccessfully()
+            }
+            
+        }
     }
 }
 

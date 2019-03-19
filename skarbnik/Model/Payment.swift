@@ -44,8 +44,8 @@ final class Payment {
     }
     
     enum PaymentState: Int {
-        case awaiting = 1
-        case pending = 2
+        case awaiting = 2
+        case pending = 1
         case paid = 3
     }
     

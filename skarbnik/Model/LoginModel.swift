@@ -39,6 +39,8 @@ class LoginModel {
             return
         }
         
+        NotificationCenter.default.post(name: .setStatus, object: nil, userInfo: ["status":"Przywracanie sesji..."])
+        
         let loginPacket = LoginWithTokenPacket(token: token)
 
         apiClient.post(encode(loginPacket), to: .refresh) { (result: APIClient.Result<ResponsePacket>) in

@@ -12,9 +12,10 @@ import UIKit
 
 class LoginCoordinator: Coordinator {
     
-    weak var parentCoordinator: MainCoordinator?
-    var      children: [Coordinator] = [Coordinator]()
-    var      navigationController: UINavigationController
+    weak var    parentCoordinator: MainCoordinator?
+    var         children: [Coordinator] = [Coordinator]()
+    var         navigationController: UINavigationController
+    var         loginVC: LoginViewController?
     
     
     
@@ -24,16 +25,21 @@ class LoginCoordinator: Coordinator {
     
     
     func start() {
-        let loginVC = LoginViewController()
-        loginVC.coordinator = self
-        navigationController.pushViewController(loginVC, animated: false)
+        let startVC = StartViewController()
+        navigationController.pushViewController(startVC, animated: false)
+        loginVC = LoginViewController()
+        loginVC!.coordinator = self
+        loginVC!.tryToLogin()
+    }
+    
+    func loginRequireCredentials() {
+        navigationController.popViewController(animated: false)
+        navigationController.pushViewController(loginVC!, animated: false)
     }
     
     func didLoginSuccessfully() {
-        
         let asyncSafetyController = AsyncSafetyController()
         asyncSafetyController.coordinator = self
-
     }
     
     func shouldChangePassword() {
@@ -58,9 +64,6 @@ class LoginCoordinator: Coordinator {
         self.navigationController.pushViewController(changePasswordVC, animated: true)
     }
     
-    func didChangedPassword() {
-        shouldLogOut()
-    }
     
     func shouldLogOut() {
         TokenManager.shared.deauthorise()

@@ -10,4 +10,6 @@ import Foundation
 
 extension Notification.Name {
     static let modelLoadedPayments = Notification.Name("modelLoadedPayments")
+    static let setStatus = Notification.Name("setStatus")
+    static let removeStatus = Notification.Name("removeStatus")
 }

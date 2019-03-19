@@ -43,6 +43,8 @@
 		1988D797223F1747006A6A22 /* PaymentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988D796223F1747006A6A22 /* PaymentCoordinator.swift */; };
 		199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F8F022201DB6700ABD4C2 /* OptionButton.swift */; };
 		19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCellView.swift */; };
+		19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A1CC224045F4005B1818 /* StartViewController.swift */; };
+		19A6A1CF224045FC005B1818 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A1CE224045FC005B1818 /* StartView.swift */; };
 		19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A6F2200DF890095D991 /* RaisedButton.swift */; };
 		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
@@ -99,6 +101,8 @@
 		1988D794223F01C3006A6A22 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		1988D796223F1747006A6A22 /* PaymentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCoordinator.swift; sourceTree = "<group>"; };
 		199F8F022201DB6700ABD4C2 /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		19A6A1CC224045F4005B1818 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		19A6A1CE224045FC005B1818 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
 		19BA4A6F2200DF890095D991 /* RaisedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaisedButton.swift; sourceTree = "<group>"; };
 		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -202,6 +206,7 @@
 				19484C3C220466CA006097CF /* ChangePasswordView.swift */,
 				19346238221E72F800EC6CBE /* ReminderView.swift */,
 				19461BAC22391D8800D2E907 /* PayView.swift */,
+				19A6A1CE224045FC005B1818 /* StartView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 		1941529F21A96CEC00D0A7A3 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				19A6A1CC224045F4005B1818 /* StartViewController.swift */,
 				1941528D21A96A8300D0A7A3 /* LoginViewController.swift */,
 				194784E8220835C4000AE323 /* PickStudentAlertController.swift */,
 				1947D588220AEEEE00C1D7D8 /* AsyncSafetyController.swift */,
@@ -394,6 +400,7 @@
 				19484C372204594A006097CF /* MainCoordinator.swift in Sources */,
 				19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */,
 				19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */,
+				19A6A1CF224045FC005B1818 /* StartView.swift in Sources */,
 				193357ED221072B1000D922C /* TokenManager.swift in Sources */,
 				1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
@@ -405,6 +412,7 @@
 				1988D797223F1747006A6A22 /* PaymentCoordinator.swift in Sources */,
 				19DF9F182236A41A006CE8FA /* LoginViewDelegate.swift in Sources */,
 				194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */,
+				19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */,
 				19461BAF223920A000D2E907 /* PayModel.swift in Sources */,
 				19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,

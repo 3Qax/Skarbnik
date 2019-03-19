@@ -14,6 +14,7 @@ class PaymentViewController: UIViewController {
     let paymentView: PaymentView
     let searchController: UISearchController
     var coordinator: PaymentCoordinator?
+    private var isShown: Bool = false
     
     
     
@@ -22,6 +23,7 @@ class PaymentViewController: UIViewController {
         paymentView = PaymentView(frame: UIScreen.main.bounds)
         searchController = UISearchController(searchResultsController: nil)
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,13 +53,12 @@ class PaymentViewController: UIViewController {
     }
     
     @objc func loadedData() {
-        DispatchQueue.main.async {
-            self.paymentView.reloadData()
+        self.paymentView.reloadData()
+        
+        if !isShown {
+            self.coordinator!.readyToPresentPayments()
+            isShown = true
         }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
     }
     
     

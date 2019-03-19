@@ -38,7 +38,7 @@ class PaymentModel {
     }
     
     func loadData() {
-
+        NotificationCenter.default.post(name: .setStatus, object: nil, userInfo: ["status":"Pobieranie danych..."])
         apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: APIClient.Result<[PaymentPacket]>) in
             switch result {
             case .success(let recivedPaymentsPacket):
@@ -62,6 +62,7 @@ class PaymentModel {
                 self.dispatchGroup.notify(queue: .main) {
                     self.recivedPayments.sort(by: { return $0.state.rawValue < $1.state.rawValue })
                     NotificationCenter.default.post(name: .modelLoadedPayments, object: self)
+                    NotificationCenter.default.post(name: .removeStatus, object: self)
                 }
                 
             case .failure(let error):
