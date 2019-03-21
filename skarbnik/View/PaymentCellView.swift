@@ -13,6 +13,7 @@ class PaymentCellView: UITableViewCell {
     private let background: UIView          = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
+//        view.isUserInteractionEnabled = false
         return view
     }()
     private let content: UIView             = {
