@@ -11,12 +11,13 @@ import SnapKit
 
 class PaymentView: UIView {
     var delegate: PaymentViewDelegate?
-    var changeStudentIV: UIImageView                = {
-        var imageView = UIImageView(image: UIImage(named: "refresh"))
+    var changeStudentIV: UIImageView   = {
+        var imageView = UIImageView(image: UIImage(named: "users"))
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = UIColor.catchyPink
         return imageView
     }()
+<<<<<<< HEAD
     var searchIV: UIImageView                       = {
         var imageView = UIImageView(image: UIImage(named: "search"))
         imageView.contentMode = .scaleAspectFit
@@ -31,6 +32,9 @@ class PaymentView: UIView {
         return label
     }()
     var tableView: UITableView                      = UITableView()
+=======
+    var tableView                                   = UITableView()
+>>>>>>> parent of 81fcf9f... Redesign of PaymentVC
     let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
 
@@ -50,28 +54,18 @@ class PaymentView: UIView {
         
         self.backgroundColor = UIColor.backgroundGrey
         
+        //Setup button for navigationBar
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapChangeStudentButton(sender:)))
         changeStudentIV.isUserInteractionEnabled = true
         changeStudentIV.addGestureRecognizer(tapGestureRecognizer)
         
-        self.addSubview(changeStudentIV)
-        changeStudentIV.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.left.equalToSuperview()
+        
+        self.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.left.right.bottom.top.equalToSuperview()
         }
         
-        
-        
-        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(didTapSearchButton(sender:)))
-        searchIV.isUserInteractionEnabled = true
-        searchIV.addGestureRecognizer(tapGestureRecognizer2)
-        
-        self.addSubview(searchIV)
-        searchIV.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.right.equalToSuperview()
-        }
-        
+<<<<<<< HEAD
         
         
  
@@ -141,6 +135,23 @@ class PaymentView: UIView {
         }
         
         
+=======
+
+        //tableView.isUserInteractionEnabled = true
+
+
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 100
+        tableView.allowsSelection = false
+        tableView.allowsMultipleSelection = false
+        tableView.allowsSelectionDuringEditing = false
+        tableView.allowsMultipleSelectionDuringEditing = false
+        
+        tableView.refreshControl = self.refreshControl
+        refreshControl.addAction(for: .valueChanged, { self.delegate?.didRequestDataRefresh() })
+        
+        tableView.register(PaymentCellView.self, forCellReuseIdentifier: "PaymentCellView")
+>>>>>>> parent of 81fcf9f... Redesign of PaymentVC
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -151,11 +162,14 @@ class PaymentView: UIView {
         delegate?.didTappedClass()
     }
     
+<<<<<<< HEAD
     @objc func didTapSearchButton(sender: UITapGestureRecognizer) {
         print("search!")
         print(tableView.contentOffset)
     }
     
+=======
+>>>>>>> parent of 81fcf9f... Redesign of PaymentVC
     func reloadData() {
         refreshControl.endRefreshing()
         tableView.reloadData()

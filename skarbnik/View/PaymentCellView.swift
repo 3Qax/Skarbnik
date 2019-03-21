@@ -10,6 +10,7 @@ import SnapKit
 
 class PaymentCellView: UITableViewCell {
     
+<<<<<<< HEAD
     private let background: UIView          = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
@@ -21,10 +22,12 @@ class PaymentCellView: UITableViewCell {
         view.backgroundColor = UIColor.clear
         return view
     }()
+=======
+
+>>>>>>> parent of 81fcf9f... Redesign of PaymentVC
     private let titleLabel: UILabel         = {
     let label = UILabel()
     label.numberOfLines = 0
-    label.textColor = UIColor.pacyficBlue
     label.font = UIFont(name: "PingFangTC-Regular", size: 22.0)
     return label
     }()
@@ -82,50 +85,33 @@ class PaymentCellView: UITableViewCell {
 
     func setupViews() {
         
-        self.backgroundColor = UIColor.clear
-        self.contentView.backgroundColor = UIColor.clear
-
-        contentView.addSubview(background)
-        background.layer.cornerRadius = CGFloat(20.0)
-        background.dropShadow()
-        background.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
-        }
-        
-        contentView.addSubview(content)
-        content.snp.makeConstraints { (make) in
-            make.edges.equalTo(background)
-        }
-        
-                
+        self.clipsToBounds = true
         
         //Title
-        content.addSubview(titleLabel)
-        titleLabel.setContentHuggingPriority(.required, for: .vertical)
-        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        contentView.addSubview(titleLabel)
+        self.titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(5)
-            make.left.equalToSuperview().offset(15)
+            make.top.equalToSuperview().offset(5).priority(.required)
+            make.left.equalToSuperview().offset(20)
         }
         
         //Amount
-        content.addSubview(amountLabel)
+        contentView.addSubview(amountLabel)
         self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
         amountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel).priority(.required)
-            make.right.equalTo(content).offset(-10)
+            make.right.equalToSuperview().offset(-self.separatorInset.left)
             make.left.equalTo(titleLabel.snp.right).offset(10)
         }
         
         //Description
-        content.addSubview(descriptionLabel)
-        descriptionLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        contentView.addSubview(descriptionLabel)
         self.descriptionLabel.snp.makeConstraints({ (make) in
             make.top.equalTo(titleLabel.snp.bottom)
-            make.left.equalTo(titleLabel)
-            make.right.equalTo(content).offset(-20)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
         })
     }
     
@@ -163,18 +149,18 @@ class PaymentCellView: UITableViewCell {
         case .pending:
             amountLabel.textColor = UIColor.pacyficBlue
             
-            content.addSubview(remindButton)
+            contentView.addSubview(remindButton)
             remindButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.equalTo(descriptionLabel)
                 make.right.equalTo(descriptionLabel.snp.centerX).offset(-5)
             }
-            content.addSubview(payButton)
+            contentView.addSubview(payButton)
             payButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.equalTo(descriptionLabel.snp.centerX).offset(5)
                 make.right.equalTo(descriptionLabel)
-                make.bottom.equalTo(content).offset(-10)
+                make.bottom.equalToSuperview().offset(-5)
             }
             
             moreButton.removeFromSuperview()
@@ -182,11 +168,11 @@ class PaymentCellView: UITableViewCell {
             
         case .paid:
             
-            content.addSubview(moreButton)
+            contentView.addSubview(moreButton)
             moreButton.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.right.equalTo(descriptionLabel)
-                make.bottom.equalTo(content).offset(-10)
+                make.bottom.equalToSuperview().offset(-5)
             }
             
             remindButton.removeFromSuperview()
@@ -199,12 +185,12 @@ class PaymentCellView: UITableViewCell {
         case .awaiting:
             amountLabel.textColor = UIColor.pacyficBlue
             
-            content.addSubview(startDateLabel)
+            contentView.addSubview(startDateLabel)
             startDateLabel.setContentCompressionResistancePriority(.required, for: .vertical)
             startDateLabel.snp.makeConstraints { (make) in
                 make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
                 make.left.right.equalTo(descriptionLabel)
-                make.bottom.equalTo(content).offset(-5)
+                make.bottom.equalToSuperview().offset(-5)
             }
             
             remindButton.removeFromSuperview()
