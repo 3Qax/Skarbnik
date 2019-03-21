@@ -77,6 +77,7 @@ class AsyncSafetyModel {
             //            }
             //        }
             
+            print("interpret ended with no errors")
             self.delegate?.everythingOk()
         }
     }
