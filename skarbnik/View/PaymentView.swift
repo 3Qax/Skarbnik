@@ -13,7 +13,7 @@ class PaymentView: UIView {
     var header: UIView                              = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
-        view.layer.cornerRadius                    = 30.0
+        view.layer.cornerRadius                    = 20.0
         view.layer.maskedCorners                   = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         return view
     }()
@@ -40,8 +40,10 @@ class PaymentView: UIView {
     let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
         
-        refresh.tintColor = UIColor.pacyficBlue
-        refresh.attributedTitle = NSAttributedString(string: NSLocalizedString("waiting_while_refreshing_data_text", comment:""))
+        refresh.tintColor = UIColor.white
+        refresh.attributedTitle = NSAttributedString(string: NSLocalizedString("waiting_while_refreshing_data_text",
+                                                                                comment:""),
+                                                     attributes: [.foregroundColor: UIColor.white] )
         
         return refresh
     }()
@@ -65,9 +67,9 @@ class PaymentView: UIView {
         
         self.addSubview(header)
         header.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.top.equalToSuperview()
             make.width.centerX.equalToSuperview()
-            make.height.equalTo(50)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.top).offset(50)
         }
         
         header.addSubview(changeStudentIV)
@@ -75,7 +77,7 @@ class PaymentView: UIView {
         changeStudentIV.isUserInteractionEnabled = true
         changeStudentIV.addGestureRecognizer(tapGestureRecognizer)
         changeStudentIV.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.top.equalTo(self.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(5)
         }
         
@@ -84,7 +86,7 @@ class PaymentView: UIView {
         searchIV.isUserInteractionEnabled = true
         searchIV.addGestureRecognizer(tapGestureRecognizer2)
         searchIV.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
+            make.top.equalTo(self.safeAreaLayoutGuide)
             make.right.equalToSuperview().offset(-5)
         }
         

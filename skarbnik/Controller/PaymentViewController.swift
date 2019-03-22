@@ -38,10 +38,7 @@ class PaymentViewController: UIViewController {
         super.viewDidLoad()
         
         selectionFeedbackGenerator.prepare()
-        navigationController?.navigationBar.isHidden = true
-        navigationItem.title = "Składki"
-        navigationItem.setHidesBackButton(true, animated: false)
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: paymentView.changeStudentIV)
+        
         navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none

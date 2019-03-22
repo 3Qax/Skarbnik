@@ -40,7 +40,6 @@ class MainCoordinator: Coordinator {
 //
     
     func didRequestStudentChange() {
-        navigationController.navigationBar.isHidden = true
         let pickStudentVC = PickStudentAlertController()
         pickStudentVC.coordinator = self
         pickStudentVC.modalPresentationStyle = .overCurrentContext
