@@ -10,6 +10,13 @@ import UIKit
 
 class PaymentView: UIView {
     var delegate: PaymentViewDelegate?
+    var header: UIView                              = {
+        let view = UIView()
+        view.backgroundColor = UIColor.backgroundGrey
+        view.layer.cornerRadius                    = 30.0
+        view.layer.maskedCorners                   = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        return view
+    }()
     var changeStudentIV: UIImageView                = {
         var imageView = UIImageView(image: UIImage(named: "refresh"))
         imageView.contentMode = .scaleAspectFit
@@ -32,11 +39,19 @@ class PaymentView: UIView {
     var tableView                                   = UITableView()
     let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
-
+        
         refresh.tintColor = UIColor.pacyficBlue
         refresh.attributedTitle = NSAttributedString(string: NSLocalizedString("waiting_while_refreshing_data_text", comment:""))
         
         return refresh
+    }()
+    let gradientLayer: CAGradientLayer              = {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.catchyPink.cgColor, UIColor.pacyficBlue.cgColor]
+        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
+        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
+        return gradientLayer
     }()
     
     
@@ -44,44 +59,48 @@ class PaymentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.backgroundColor = UIColor.backgroundGrey
         
+        layer.insertSublayer(gradientLayer, at: 0)
+        gradientLayer.frame = bounds
+        
+        self.addSubview(header)
+        header.snp.makeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.width.centerX.equalToSuperview()
+            make.height.equalTo(50)
+        }
+        
+        header.addSubview(changeStudentIV)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapChangeStudentButton(sender:)))
         changeStudentIV.isUserInteractionEnabled = true
         changeStudentIV.addGestureRecognizer(tapGestureRecognizer)
-        
-        self.addSubview(changeStudentIV)
         changeStudentIV.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.left.equalToSuperview()
+            make.top.equalToSuperview()
+            make.left.equalToSuperview().offset(5)
         }
         
-        
-        
+        header.addSubview(searchIV)
         let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(didTapSearchButton(sender:)))
         searchIV.isUserInteractionEnabled = true
         searchIV.addGestureRecognizer(tapGestureRecognizer2)
-        
-        self.addSubview(searchIV)
         searchIV.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.right.equalToSuperview()
+            make.top.equalToSuperview()
+            make.right.equalToSuperview().offset(-5)
         }
         
         
         
- 
-
         
-
         
-
         
-
-
-        tableView.layer.cornerRadius                    = 30.0
-        tableView.layer.maskedCorners                   = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-
+        
+        
+        
+        
+        
+        
+        
+        
         tableView.rowHeight                             = UITableView.automaticDimension
         tableView.estimatedRowHeight                    = 100
         tableView.showsVerticalScrollIndicator          = false
@@ -90,7 +109,7 @@ class PaymentView: UIView {
         tableView.allowsSelectionDuringEditing          = false
         tableView.allowsMultipleSelectionDuringEditing  = false
         
-        tableView.backgroundColor                       = UIColor.pacyficBlue
+        tableView.backgroundColor                       = UIColor.clear
         tableView.separatorStyle                        = .none
         tableView.refreshControl                        = self.refreshControl
         refreshControl.addAction(for: .valueChanged, { self.delegate?.didRequestDataRefresh() })
@@ -100,16 +119,16 @@ class PaymentView: UIView {
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalToSuperview().offset(175)
+            make.top.equalTo(header.snp.bottom)
         }
         
         
         
-        self.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(25)
-            make.lastBaseline.equalTo(tableView.snp.top).offset(-2)
-        }
+        //        self.addSubview(titleLabel)
+        //        titleLabel.snp.makeConstraints { (make) in
+        //            make.left.equalToSuperview().offset(25)
+        //            make.lastBaseline.equalTo(tableView.snp.top).offset(-2)
+        //        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -128,6 +147,12 @@ class PaymentView: UIView {
         refreshControl.endRefreshing()
         tableView.reloadData()
     }
-
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        print("did layout subview")
+        gradientLayer.frame = self.bounds
+    }
+    
     
 }
