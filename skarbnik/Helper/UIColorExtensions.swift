@@ -31,8 +31,8 @@ extension UIColor {
 //Define custom colors
 extension UIColor {
     
-    static let catchyPink = UIColor(rgb: 0xFA3CB1)
-    static let pacyficBlue = UIColor(rgb: 0x00A1E6)
+    static let catchyPink = UIColor(rgb: 0xEB6F92)//FA3CB1
+    static let pacyficBlue = UIColor(rgb: 0x42509F)//00A1E6
     static let backgroundGrey = UIColor(rgb: 0xF5F5F5)
     static let darkGrey = UIColor(rgb: 0xAAAAAA)
     

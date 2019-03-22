@@ -32,6 +32,7 @@
 		19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3A220461C1006097CF /* ChangePasswordViewController.swift */; };
 		19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3C220466CA006097CF /* ChangePasswordView.swift */; };
 		194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E989A223971EC0039CA66 /* ProgressableSlider.swift */; };
+		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
 		197069C72243B66F001813E1 /* TransitionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197069C62243B66F001813E1 /* TransitionHelper.swift */; };
@@ -91,6 +92,7 @@
 		19484C3A220461C1006097CF /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19484C3C220466CA006097CF /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		194E989A223971EC0039CA66 /* ProgressableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressableSlider.swift; sourceTree = "<group>"; };
+		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		197069C62243B66F001813E1 /* TransitionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionHelper.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 		19BA4A6E2200DF490095D991 /* Controlls */ = {
 			isa = PBXGroup;
 			children = (
+				19533A112241A2B80091095E /* OpenSans-Light.ttf */,
 				19BA4A6F2200DF890095D991 /* RaisedButton.swift */,
 				19BA4A732201013F0095D991 /* LightTextField.swift */,
 				199F8F022201DB6700ABD4C2 /* OptionButton.swift */,
@@ -342,6 +345,7 @@
 			files = (
 				1941529621A96A8400D0A7A3 /* LaunchScreen.storyboard in Resources */,
 				198583562203112C00630FCE /* Localizable.strings in Resources */,
+				19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */,
 				1941529321A96A8400D0A7A3 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
