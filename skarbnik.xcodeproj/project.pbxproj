@@ -35,7 +35,6 @@
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
-		197069C72243B66F001813E1 /* TransitionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197069C62243B66F001813E1 /* TransitionHelper.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
 		197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */; };
 		198583562203112C00630FCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 198583582203112C00630FCE /* Localizable.strings */; };
@@ -95,7 +94,6 @@
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
-		197069C62243B66F001813E1 /* TransitionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionHelper.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
 		197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewProtocol.swift; sourceTree = "<group>"; };
 		198583572203112C00630FCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -243,7 +241,6 @@
 				19E38E1F22307161006DE37B /* SegmentedControl.swift */,
 				194E989A223971EC0039CA66 /* ProgressableSlider.swift */,
 				1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */,
-				197069C62243B66F001813E1 /* TransitionHelper.swift */,
 			);
 			path = Controlls;
 			sourceTree = "<group>";
@@ -436,7 +433,6 @@
 				19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
 				19DF9F1622369CAB006CE8FA /* UIColorExtensions.swift in Sources */,
-				197069C72243B66F001813E1 /* TransitionHelper.swift in Sources */,
 				194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
