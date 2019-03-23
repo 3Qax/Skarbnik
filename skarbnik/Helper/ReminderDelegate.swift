@@ -13,4 +13,5 @@ import Foundation
 protocol ReminderDelegate {
     func didTapAddReminder()
     func didTapCancel()
+    func didTapBack()
 }

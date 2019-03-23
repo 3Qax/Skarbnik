@@ -26,8 +26,7 @@ class ReminderViewController: UIViewController {
         reminderModel = ReminderModel(for: payment)
         reminderView = ReminderView(initialText: reminderModel.defaultReminderText, maxDate: reminderModel.endDate)
         super.init(nibName: nil, bundle: nil)
-        navigationItem.title = reminderModel.paymentName
-        navigationItem.largeTitleDisplayMode = .never
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -42,7 +41,7 @@ class ReminderViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+       
     }
     
     func reminderAddingHandler(result: ReminderModel.Result) -> () {
@@ -88,6 +87,10 @@ class ReminderViewController: UIViewController {
 }
 
 extension ReminderViewController: ReminderDelegate {
+    func didTapBack() {
+        coordinator?.goBack()
+    }
+    
     
     func didTapCancel() {
         coordinator?.didCancelAddingReminder()

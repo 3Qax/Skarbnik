@@ -88,7 +88,7 @@ class ProgressableSlider: UIControl {
                     
                     if  allTracks.count == 1 {
                         //If this is first track make it's left eqaul to left of whole control
-                        make.left.equalToSuperview().offset(20)
+                        make.left.equalToSuperview().offset(25)
                     } else {
                         //If it isn't first one make it's left equal to right of last track
                         make.left.equalTo(allTracks.dropLast().last!.snp.right)
@@ -113,14 +113,14 @@ class ProgressableSlider: UIControl {
         addSubview(sliderTrack)
         sliderTrack.isUserInteractionEnabled = false
         sliderTrack.snp.makeConstraints { (make) in
-            make.right.equalToSuperview().offset(-20)
+            make.right.equalToSuperview().offset(-25)
             make.height.equalTo(trackHight)
             make.centerY.equalToSuperview()
             
             if let mostLeftTrack = self.subviews.filter({ return $0.tag == 1 }).last {
                 make.left.equalTo(mostLeftTrack.snp.right)
             } else {
-                make.left.equalToSuperview().offset(20)
+                make.left.equalToSuperview().offset(25)
             }
             
         }

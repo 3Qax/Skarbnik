@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SnapKit
+
 
 
 
@@ -18,14 +20,39 @@ class PayView: UIView {
         imageView.tintColor = UIColor.catchyPink
         return imageView
     }()
-    let segmentedControl = SegmentedControl(optionsLabels: ["suwak", "wpisz kwotę"])
-    let slider: ProgressableSlider
-    let toPayLabel = UILabel()
-    let amountToPay: Float
-    let amounLabel = BigLabel(text: "", fontStyle: .thin)
+    
+    let howMuchLabel                            = BigLabel(text: "Ile")
+    let segmentedControl                        = SegmentedControl(optionsLabels: ["wpisz kwotę", "wybierz kwotę"])
+    
     let amountFormatter: NumberFormatter
-    let payButton = RaisedButton(title: "Zapłać...")
-    let payOnWebButton = OptionButton(title: "Zapłać przez portal www...")
+    
+    let sliderWrapper                           = UIView()
+        let slider: ProgressableSlider
+        var sliderLeftConstraint: Constraint?   = nil
+        let toPayLabel                          = UILabel()
+        let amountToPay: Float
+        let amounLabel                          = BigLabel(text: "", fontStyle: .thin)
+    
+    let amountToPayWrapper                      = UIView()
+        let amountToPayTextField: UITextField   = {
+        let textfield = UITextField()
+        
+        textfield.backgroundColor = UIColor.clear
+        textfield.textColor = UIColor.catchyPink
+        textfield.textAlignment = .right
+        textfield.placeholder = "0zł"
+        textfield.keyboardType = .decimalPad
+        textfield.font = UIFont(name: "PingFangTC-Light", size: 40.0)
+        
+        return textfield
+    }()
+        let tipHalfButton                           = OptionButton(title: "połowa", hight: 25)
+        let tipFullButton                           = OptionButton(title: "całość", hight: 25)
+    
+    
+    
+    let payButton                               = RaisedButton(title: "Zapłać...")
+    let payOnWebButton                          = OptionButton(title: "Zapłać przez portal www...")
     var delegate: PayViewDelegate?
     
     
@@ -36,6 +63,7 @@ class PayView: UIView {
         self.amountToPay = amountToPay
         super.init(frame: .zero)
         
+        self.clipsToBounds = true
         self.backgroundColor = UIColor.backgroundGrey
         
         self.addSubview(backIV)
@@ -47,54 +75,115 @@ class PayView: UIView {
             make.left.equalToSuperview()
         }
         
-        self.addSubview(segmentedControl)
-        segmentedControl.snp.makeConstraints { (make) in
+        self.addSubview(howMuchLabel)
+        howMuchLabel.snp.makeConstraints { (make) in
             make.top.equalTo(backIV.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(20)
+        }
+        
+        self.addSubview(segmentedControl)
+        segmentedControl.addTarget(self, action: #selector(didChangeSelection(sender:)), for: .valueChanged)
+        segmentedControl.snp.makeConstraints { (make) in
+            make.top.equalTo(howMuchLabel.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
         
+        //Slider -------------------------------------------------------------------------------------------
+        self.addSubview(sliderWrapper)
+        sliderWrapper.snp.makeConstraints { (make) in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            sliderLeftConstraint = make.left.equalToSuperview().constraint
+            make.width.equalToSuperview()
+        }
         
-        addSubview(slider)
+        sliderWrapper.addSubview(slider)
         slider.addTarget(self, action: #selector(didChangedSliderValue(sender:)), for: .valueChanged)
         slider.snp.makeConstraints { (make) in
-            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            make.top.equalToSuperview()
             make.left.equalToSuperview()
-            make.right.equalToSuperview()
+            make.width.equalToSuperview()
             make.height.equalTo(50)
         }
         
-        addSubview(payOnWebButton)
-        payOnWebButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payOnWebButton, completion: {self.delegate?.didTapPayOnWeb()}) })
-        payOnWebButton.snp.makeConstraints { (make) in
-            make.bottom.equalToSuperview().offset(-20)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
-        }
-        
-        addSubview(payButton)
-        payButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payButton, completion: {self.delegate?.didTapPay()}) })
-        payButton.snp.makeConstraints { (make) in
-            make.bottom.equalTo(payOnWebButton.snp.top).offset(-10)
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
-        }
-        
-        addSubview(amounLabel)
+        sliderWrapper.addSubview(amounLabel)
         amounLabel.textAlignment = .right
         amounLabel.text = amountFormatter.string(from: Float(slider.value) * amountToPay as NSNumber)
         amounLabel.snp.makeConstraints { (make) in
-            make.right.equalToSuperview().offset(-40)
-            make.bottom.equalTo(payButton.snp.top)
+            make.right.equalToSuperview().offset(-25)
+            make.top.equalTo(slider.snp.bottom).offset(10)
         }
         
-        addSubview(toPayLabel)
+        sliderWrapper.addSubview(toPayLabel)
         toPayLabel.text = "Do zapłaty:"
         toPayLabel.font = UIFont(name: "PingFangTC-Light", size: 20.0)
         toPayLabel.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(40)
+            make.left.equalToSuperview().offset(25)
             make.lastBaseline.equalTo(amounLabel)
         }
+        
+        sliderWrapper.snp.makeConstraints { (make) in
+            make.bottom.equalTo(amounLabel)
+        }
+        
+        
+        
+        
+        
+        
+        //AmountToPayTextField -----------------------------------------------------------------------------
+        self.addSubview(amountToPayWrapper)
+        amountToPayWrapper.snp.makeConstraints { (make) in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
+            make.width.equalToSuperview()
+            make.left.equalTo(sliderWrapper.snp.right)
+        }
+        
+        amountToPayWrapper.addSubview(amountToPayTextField)
+        amountToPayTextField.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.left.equalToSuperview()
+            make.right.equalToSuperview().offset(-20)
+        }
+        
+        amountToPayWrapper.addSubview(tipHalfButton)
+        tipHalfButton.snp.makeConstraints { (make) in
+            make.top.equalTo(amountToPayTextField.snp.bottom).offset(5)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalTo(amountToPayWrapper.snp.centerX).offset(-5)
+        }
+        
+        amountToPayWrapper.addSubview(tipFullButton)
+        tipFullButton.snp.makeConstraints { (make) in
+            make.top.equalTo(amountToPayTextField.snp.bottom).offset(5)
+            make.right.equalToSuperview().offset(-20)
+            make.left.equalTo(amountToPayWrapper.snp.centerX).offset(5)
+        }
+        
+        amountToPayWrapper.snp.makeConstraints { (make) in
+            make.bottom.equalTo(tipFullButton).offset(10)
+        }
+        
+
+        
+        //Buttons ------------------------------------------------------------------------------------------
+        self.addSubview(payButton)
+        payButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payButton, completion: {self.delegate?.didTapPay()}) })
+        payButton.snp.makeConstraints { (make) in
+            make.top.equalTo(sliderWrapper.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+        }
+        
+        self.addSubview(payOnWebButton)
+        payOnWebButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payOnWebButton, completion: {self.delegate?.didTapPayOnWeb()}) })
+        payOnWebButton.snp.makeConstraints { (make) in
+            make.top.equalTo(payButton.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+        }
+        
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -109,6 +198,37 @@ class PayView: UIView {
         delegate?.didTapBack()
     }
     
+    @objc func didChangeSelection(sender: SegmentedControl) {
+        if sender.indexOfSelectedOption == 0 {
+            sliderLeftConstraint?.update(offset: -sliderWrapper.frame.width)
+            self.amountToPayTextField.becomeFirstResponder()
+            payButton.snp.remakeConstraints { (make) in
+                make.top.equalTo(amountToPayWrapper.snp.bottom).offset(10)
+                make.height.equalTo(40)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalToSuperview().offset(-20)
+            }
+            UIView.animate(withDuration: 0.25, animations: {
+                self.layoutIfNeeded()
+            })
+            return
+        }
+        if sender.indexOfSelectedOption == 1 {
+            sliderLeftConstraint?.update(offset: 0)
+            amountToPayTextField.resignFirstResponder()
+            payButton.snp.remakeConstraints { (make) in
+                make.top.equalTo(sliderWrapper.snp.bottom).offset(10)
+                make.height.equalTo(40)
+                make.left.equalToSuperview().offset(20)
+                make.right.equalToSuperview().offset(-20)
+            }
+            UIView.animate(withDuration: 0.25) {
+                self.layoutIfNeeded()
+            }
+            return
+        }
+        fatalError("Selected option with unknown index: \(sender.indexOfSelectedOption)")
+    }
     
     
 }
@@ -134,4 +254,8 @@ extension PayView {
         })
         
     }
+}
+
+extension PayView: UITextFieldDelegate {
+    
 }

@@ -39,11 +39,10 @@ class PaymentViewController: UIViewController {
         
         selectionFeedbackGenerator.prepare()
         
-        navigationItem.searchController = searchController
+//        navigationItem.searchController = searchController
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
-        navigationController?.navigationBar.prefersLargeTitles = true
         
         paymentView.delegate = self
         paymentView.tableView.dataSource = self

@@ -12,6 +12,12 @@ import UIKit
 
 class ReminderView: UIView {
     
+    let backIV: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "back"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor.catchyPink
+        return imageView
+    }()
     //About section
     let remindMeLabel = BigLabel(text: NSLocalizedString("remind_about", comment: ""))
     let reminderTextField: UITextField = {
@@ -45,9 +51,18 @@ class ReminderView: UIView {
         self.addGestureRecognizer(outSideTap)
         self.clipsToBounds = true
         
+        self.addSubview(backIV)
+        let backTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapBackButton))
+        backIV.isUserInteractionEnabled = true
+        backIV.addGestureRecognizer(backTapGestureRecognizer)
+        backIV.snp.makeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalToSuperview()
+        }
+        
         self.addSubview(remindMeLabel)
         remindMeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(backIV.snp.bottom)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -171,6 +186,10 @@ class ReminderView: UIView {
     
     @objc func didTappedOutside() {
         reminderTextField.resignFirstResponder()
+    }
+    
+    @objc func didTapBackButton() {
+        delegate?.didTapBack()
     }
 }
 
