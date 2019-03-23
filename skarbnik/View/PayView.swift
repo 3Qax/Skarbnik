@@ -12,6 +12,13 @@ import UIKit
 
 class PayView: UIView {
     
+    let backIV: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "back"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor.catchyPink
+        return imageView
+    }()
+    let segmentedControl = SegmentedControl(optionsLabels: ["suwak", "wpisz kwotę"])
     let slider: ProgressableSlider
     let toPayLabel = UILabel()
     let amountToPay: Float
@@ -31,11 +38,27 @@ class PayView: UIView {
         
         self.backgroundColor = UIColor.backgroundGrey
         
+        self.addSubview(backIV)
+        let backTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapBackButton))
+        backIV.isUserInteractionEnabled = true
+        backIV.addGestureRecognizer(backTapGestureRecognizer)
+        backIV.snp.makeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalToSuperview()
+        }
+        
+        self.addSubview(segmentedControl)
+        segmentedControl.snp.makeConstraints { (make) in
+            make.top.equalTo(backIV.snp.bottom).offset(10)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+        }
+        
+        
         addSubview(slider)
         slider.addTarget(self, action: #selector(didChangedSliderValue(sender:)), for: .valueChanged)
         slider.snp.makeConstraints { (make) in
-            //make.top.equalTo(amountLabel.snp.bottom)
-            make.centerY.equalToSuperview()
+            make.top.equalTo(segmentedControl.snp.bottom).offset(10)
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.height.equalTo(50)
@@ -80,6 +103,10 @@ class PayView: UIView {
     
     @objc func didChangedSliderValue(sender: ProgressableSlider) {
         amounLabel.text = amountFormatter.string(from: Float(sender.value) * amountToPay  as NSNumber)
+    }
+    
+    @objc func didTapBackButton() {
+        delegate?.didTapBack()
     }
     
     

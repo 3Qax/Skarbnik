@@ -13,4 +13,5 @@ import Foundation
 protocol PayViewDelegate {
     func didTapPay()
     func didTapPayOnWeb()
+    func didTapBack()
 }

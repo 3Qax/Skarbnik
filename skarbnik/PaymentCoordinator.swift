@@ -64,6 +64,10 @@ class PaymentCoordinator: Coordinator {
         
     }
     
+    func goBack() {
+        navigationController.popViewController(animated: true)
+    }
+    
     func didRequestStudentChange() {
         parentCoordinator?.childDidFinish(self)
         parentCoordinator?.didRequestStudentChange()

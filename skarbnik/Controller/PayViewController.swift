@@ -40,12 +40,16 @@ class PayViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
 }
 
 extension PayViewController: PayViewDelegate {
+    func didTapBack() {
+        coordinator?.goBack()
+    }
+    
     func didTapPay() {
         payModel.pay(Float(payView.slider.value))
     }
@@ -53,5 +57,13 @@ extension PayViewController: PayViewDelegate {
     func didTapPayOnWeb() {
         guard let url = URL(string: "https://github.com/FilipJedrasik/hackathon-skarbnik") else { return }
         UIApplication.shared.open(url)
+    }
+}
+
+extension PayViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard gestureRecognizer === navigationController?.interactivePopGestureRecognizer else { return true }
+        let doesContain = payView.slider.frame.contains(gestureRecognizer.location(in: payView))
+        return !doesContain //if touch occured within slider frame interrupt it
     }
 }
