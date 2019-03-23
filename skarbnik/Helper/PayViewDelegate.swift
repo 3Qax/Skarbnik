@@ -14,4 +14,6 @@ protocol PayViewDelegate {
     func didTapPay()
     func didTapPayOnWeb()
     func didTapBack()
+    func getHalfOfAmountToPay() -> Float
+    func getFullAmountToPay() -> Float
 }

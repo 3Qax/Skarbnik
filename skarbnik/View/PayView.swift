@@ -40,14 +40,14 @@ class PayView: UIView {
         textfield.backgroundColor = UIColor.clear
         textfield.textColor = UIColor.catchyPink
         textfield.textAlignment = .right
-        textfield.placeholder = "0zł"
+        textfield.placeholder = "0"
         textfield.keyboardType = .decimalPad
         textfield.font = UIFont(name: "PingFangTC-Light", size: 40.0)
         
         return textfield
     }()
-        let tipHalfButton                           = OptionButton(title: "połowa", hight: 25)
-        let tipFullButton                           = OptionButton(title: "całość", hight: 25)
+        let tipHalfButton                       = OptionButton(title: "połowa", hight: 25)
+        let tipFullButton                       = OptionButton(title: "całość", hight: 25)
     
     
     
@@ -140,6 +140,7 @@ class PayView: UIView {
         }
         
         amountToPayWrapper.addSubview(amountToPayTextField)
+        amountToPayTextField.delegate = self
         amountToPayTextField.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.left.equalToSuperview()
@@ -147,6 +148,7 @@ class PayView: UIView {
         }
         
         amountToPayWrapper.addSubview(tipHalfButton)
+        tipHalfButton.addAction(for: .touchUpInside) { self.didTapHalf() }
         tipHalfButton.snp.makeConstraints { (make) in
             make.top.equalTo(amountToPayTextField.snp.bottom).offset(5)
             make.left.equalToSuperview().offset(20)
@@ -154,6 +156,7 @@ class PayView: UIView {
         }
         
         amountToPayWrapper.addSubview(tipFullButton)
+        tipFullButton.addAction(for: .touchUpInside) { self.didTapFull() }
         tipFullButton.snp.makeConstraints { (make) in
             make.top.equalTo(amountToPayTextField.snp.bottom).offset(5)
             make.right.equalToSuperview().offset(-20)
@@ -230,6 +233,23 @@ class PayView: UIView {
         fatalError("Selected option with unknown index: \(sender.indexOfSelectedOption)")
     }
     
+    @objc func didTapHalf() {
+        animateButtonTap(tipHalfButton) {
+            let currencyWithoutSumbolFormatter = self.amountFormatter
+            currencyWithoutSumbolFormatter.currencySymbol = ""
+            self.amountToPayTextField.text = String(currencyWithoutSumbolFormatter.string(from: (self.delegate?.getHalfOfAmountToPay() ?? 0.0) as NSNumber)!.dropLast())
+        }
+    }
+    
+    @objc func didTapFull() {
+        animateButtonTap(tipFullButton) {
+            let currencyWithoutSumbolFormatter = self.amountFormatter
+            currencyWithoutSumbolFormatter.currencySymbol = ""
+            self.amountToPayTextField.text = String(currencyWithoutSumbolFormatter.string(from: (self.delegate?.getFullAmountToPay() ?? 0.0) as NSNumber)!.dropLast())
+        }
+    }
+    
+    
     
 }
 
@@ -257,5 +277,10 @@ extension PayView {
 }
 
 extension PayView: UITextFieldDelegate {
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let decimalCharacter = CharacterSet(charactersIn: amountFormatter.decimalSeparator)
+        let allowedCharacter = CharacterSet.decimalDigits.union(decimalCharacter)
+        let characterSet = CharacterSet(charactersIn: string)
+        return allowedCharacter.isSuperset(of: characterSet)
+    }
 }

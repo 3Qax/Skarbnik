@@ -46,6 +46,14 @@ class PayViewController: UIViewController {
 }
 
 extension PayViewController: PayViewDelegate {
+    func getHalfOfAmountToPay() -> Float {
+        return (payModel.amountLeftToPay * 0.5 * 100).rounded(.up) / 100
+    }
+    
+    func getFullAmountToPay() -> Float {
+        return payModel.amountLeftToPay
+    }
+    
     func didTapBack() {
         coordinator?.goBack()
     }

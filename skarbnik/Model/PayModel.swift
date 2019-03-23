@@ -15,6 +15,12 @@ class PayModel {
     let payment: Payment
     let apiClient = APIClient()
     
+    var amountLeftToPay: Float {
+        get {
+            return payment.amount - payment.contribution.reduce(0, +)
+        }
+    }
+    
     struct PayPacket: Codable {
         let payment: Int
         let student: Int
