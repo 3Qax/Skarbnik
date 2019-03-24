@@ -140,7 +140,6 @@ extension PaymentViewController: PaymentCellDelegate {
 
 extension PaymentViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("searchbar")
         paymentModel.setFilter(to: searchText)
         paymentView.tableView.reloadData()
     }

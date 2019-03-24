@@ -7,38 +7,48 @@
 //
 
 import UIKit
+import SnapKit
 
 class PaymentView: UIView {
     
-    var header: UIView                              = {
+    var header: UIView                                  = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
         view.layer.cornerRadius                    = 20.0
         view.layer.maskedCorners                   = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         return view
     }()
-        var changeStudentIV: UIImageView            = {
+        var changeStudentIV: UIImageView                = {
             var imageView = UIImageView(image: UIImage(named: "refresh"))
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = UIColor.catchyPink
             return imageView
         }()
-        let searchBar                               = LightSearchBar()
-        var searchIV: UIImageView                   = {
+        var titleLabel: UILabel                         = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 32)
+            label.text = "Skarbnik"
+            label.textColor = UIColor.pacyficBlue
+            label.textAlignment = .center
+            label.setContentHuggingPriority(.init(200), for: .horizontal)
+            return label
+        }()
+        let searchBar                                   = LightSearchBar()
+        var searchIV: UIImageView                       = {
             var imageView = UIImageView(image: UIImage(named: "search"))
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = UIColor.catchyPink
             return imageView
         }()
-    var titleLabel: UILabel                         = {
-        let label = UILabel()
-        label.font = UIFont(name: "OpenSans-Light", size: 42)
-        label.text = "Skarbnik"
-        label.textColor = UIColor.catchyPink
-        return label
-    }()
-    var tableView                                   = UITableView()
-    let refreshControl: UIRefreshControl            = {
+        var cancelIV: UIImageView                       = {
+            var imageView = UIImageView(image: UIImage(named: "cancel"))
+            imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = UIColor.catchyPink
+            return imageView
+        }()
+    
+    var tableView                                       = UITableView()
+        let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
         
         refresh.tintColor = UIColor.white
@@ -48,7 +58,8 @@ class PaymentView: UIView {
         
         return refresh
     }()
-    let gradientLayer: CAGradientLayer              = {
+    
+    let gradientLayer: CAGradientLayer                  = {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [UIColor.catchyPink.cgColor, UIColor.pacyficBlue.cgColor]
         gradientLayer.locations = [0.0, 1.0]
@@ -68,6 +79,7 @@ class PaymentView: UIView {
         gradientLayer.frame = bounds
         
         self.addSubview(header)
+        header.clipsToBounds = true
         header.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
             make.width.centerX.equalToSuperview()
@@ -92,13 +104,14 @@ class PaymentView: UIView {
             make.right.equalToSuperview().offset(-5)
         }
         
-        header.addSubview(searchBar)
-        searchBar.snp.makeConstraints { (make) in
+        header.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide)
-            make.left.equalTo(changeStudentIV.snp.right)
-            make.right.equalTo(searchIV.snp.left)
             make.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
         }
+        
+
         
         
         
@@ -136,11 +149,7 @@ class PaymentView: UIView {
         
         
         
-        //        self.addSubview(titleLabel)
-        //        titleLabel.snp.makeConstraints { (make) in
-        //            make.left.equalToSuperview().offset(25)
-        //            make.lastBaseline.equalTo(tableView.snp.top).offset(-2)
-        //        }
+      
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -152,7 +161,85 @@ class PaymentView: UIView {
     }
     
     @objc func didTapSearchButton(sender: UITapGestureRecognizer) {
-        print("search!")
+        
+        titleLabel.snp.remakeConstraints { (make) in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(header.snp.bottom)
+        }
+        searchIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalTo(header.snp.right)
+        }
+
+        UIView.animate(withDuration: 0.25, animations: {
+            self.titleLabel.alpha = 0
+            self.layoutIfNeeded()
+        }, completion: { _ in
+            
+            self.header.addSubview(self.cancelIV)
+            let tapGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(self.didTapCancelButton))
+            self.cancelIV.isUserInteractionEnabled = true
+            self.cancelIV.addGestureRecognizer(tapGestureRecognizer3)
+            self.cancelIV.alpha = 0.0
+            self.cancelIV.snp.makeConstraints({ (make) in
+                make.top.equalTo(self.safeAreaLayoutGuide)
+                make.right.equalToSuperview().offset(-5)
+            })
+            
+            self.header.addSubview(self.searchBar)
+            self.searchBar.snp.remakeConstraints { (make) in
+                make.top.equalTo(self.safeAreaLayoutGuide)
+                make.centerX.equalToSuperview()
+                make.bottom.equalToSuperview()
+            }
+            
+            self.layoutIfNeeded()
+            
+            self.searchBar.snp.makeConstraints { (make) in
+                make.left.equalTo(self.changeStudentIV.snp.right)
+                make.right.equalTo(self.cancelIV.snp.left)
+            }
+            UIView.animate(withDuration: 0.25, animations: {
+                self.cancelIV.alpha = 1.0
+                self.layoutIfNeeded()
+            }, completion: { _ in
+                self.searchBar.becomeFirstResponder()
+            })
+            
+        })
+    }
+    
+    @objc func didTapCancelButton() {
+        searchBar.resignFirstResponder()
+        searchBar.delegate?.searchBarCancelButtonClicked!(searchBar)
+        searchBar.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.bottom.centerX.equalToSuperview()
+            make.width.equalTo(0)
+        }
+        self.cancelIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalTo(self.header.snp.right)
+        }
+        UIView.animate(withDuration: 0.25, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in
+            self.searchBar.removeFromSuperview()
+            self.cancelIV.removeFromSuperview()
+            self.titleLabel.snp.remakeConstraints { (make) in
+                make.top.equalTo(self.safeAreaLayoutGuide)
+                make.bottom.equalToSuperview()
+                make.centerX.equalToSuperview()
+            }
+            self.searchIV.snp.remakeConstraints { (make) in
+                make.top.equalTo(self.safeAreaLayoutGuide)
+                make.right.equalToSuperview().offset(-5)
+            }
+            UIView.animate(withDuration: 0.25, animations: {
+                self.titleLabel.alpha = 1.0
+                self.layoutIfNeeded()
+            })
+        })
     }
     
     func reloadData() {

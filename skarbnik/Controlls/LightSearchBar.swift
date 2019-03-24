@@ -13,6 +13,12 @@ import SnapKit
 
 class LightSearchBar: UISearchBar {
     
+    private let line: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.pacyficBlue
+        return view
+    }()
+    
     
     override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
@@ -37,8 +43,18 @@ class LightSearchBar: UISearchBar {
         textField.returnKeyType = .search
         
         textField.leftView = nil
+        textField.tintColor = UIColor.pacyficBlue
+        
+        textField.clearButtonMode = .never
         
         self.setContentHuggingPriority(.init(200), for: .horizontal)
+        
+        self.addSubview(line)
+        line.snp.makeConstraints { (make) in
+            make.left.right.equalTo(textField)
+            make.bottom.equalTo(textField).offset(-5)
+            make.height.equalTo(1)
+        }
     }
     
 }
