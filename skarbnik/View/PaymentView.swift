@@ -9,7 +9,7 @@
 import UIKit
 
 class PaymentView: UIView {
-    var delegate: PaymentViewDelegate?
+    
     var header: UIView                              = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
@@ -17,18 +17,19 @@ class PaymentView: UIView {
         view.layer.maskedCorners                   = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         return view
     }()
-    var changeStudentIV: UIImageView                = {
-        var imageView = UIImageView(image: UIImage(named: "refresh"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor.catchyPink
-        return imageView
-    }()
-    var searchIV: UIImageView                       = {
-        var imageView = UIImageView(image: UIImage(named: "search"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor.catchyPink
-        return imageView
-    }()
+        var changeStudentIV: UIImageView            = {
+            var imageView = UIImageView(image: UIImage(named: "refresh"))
+            imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = UIColor.catchyPink
+            return imageView
+        }()
+        let searchBar                               = LightSearchBar()
+        var searchIV: UIImageView                   = {
+            var imageView = UIImageView(image: UIImage(named: "search"))
+            imageView.contentMode = .scaleAspectFit
+            imageView.tintColor = UIColor.catchyPink
+            return imageView
+        }()
     var titleLabel: UILabel                         = {
         let label = UILabel()
         label.font = UIFont(name: "OpenSans-Light", size: 42)
@@ -55,6 +56,7 @@ class PaymentView: UIView {
         gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
         return gradientLayer
     }()
+    var delegate: PaymentViewDelegate?
     
     
     
@@ -88,6 +90,14 @@ class PaymentView: UIView {
         searchIV.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.right.equalToSuperview().offset(-5)
+        }
+        
+        header.addSubview(searchBar)
+        searchBar.snp.makeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalTo(changeStudentIV.snp.right)
+            make.right.equalTo(searchIV.snp.left)
+            make.bottom.equalToSuperview()
         }
         
         

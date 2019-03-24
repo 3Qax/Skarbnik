@@ -12,7 +12,6 @@ import EventKit
 class PaymentViewController: UIViewController {
     let paymentModel: PaymentModel
     let paymentView: PaymentView
-    let searchController: UISearchController
     var coordinator: PaymentCoordinator?
     private var isShown: Bool = false
     
@@ -21,7 +20,6 @@ class PaymentViewController: UIViewController {
     init(of studentID: Int, in classID: Int) {
         paymentModel = PaymentModel(of: studentID, in: classID)
         paymentView = PaymentView(frame: .zero)
-        searchController = UISearchController(searchResultsController: nil)
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
     }
@@ -39,13 +37,13 @@ class PaymentViewController: UIViewController {
         
         selectionFeedbackGenerator.prepare()
         
-//        navigationItem.searchController = searchController
-        searchController.searchBar.delegate = self
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.obscuresBackgroundDuringPresentation = false
+        
+       
+        
         
         paymentView.delegate = self
         paymentView.tableView.dataSource = self
+        paymentView.searchBar.delegate = self
     }
     
     @objc func loadedData() {
@@ -142,6 +140,7 @@ extension PaymentViewController: PaymentCellDelegate {
 
 extension PaymentViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("searchbar")
         paymentModel.setFilter(to: searchText)
         paymentView.tableView.reloadData()
     }
