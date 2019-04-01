@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190026B92252A76F0009F6F5 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190026B82252A76F0009F6F5 /* OpenSans-Regular.ttf */; };
+		190026BB2252A7790009F6F5 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */; };
 		1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D8220F05180040612A /* ChangePasswordModel.swift */; };
 		190EC502223D9D510082E4AA /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190EC501223D9D510082E4AA /* Payment.swift */; };
 		1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */; };
@@ -65,6 +67,8 @@
 
 /* Begin PBXFileReference section */
 		057D5E9F630CB27DA4C323B9 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
+		190026B82252A76F0009F6F5 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
 		190EC501223D9D510082E4AA /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewDelegate.swift; sourceTree = "<group>"; };
@@ -228,6 +232,8 @@
 			isa = PBXGroup;
 			children = (
 				19533A112241A2B80091095E /* OpenSans-Light.ttf */,
+				190026B82252A76F0009F6F5 /* OpenSans-Regular.ttf */,
+				190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */,
 				19BA4A6F2200DF890095D991 /* RaisedButton.swift */,
 				19BA4A732201013F0095D991 /* LightTextField.swift */,
 				199F8F022201DB6700ABD4C2 /* OptionButton.swift */,
@@ -343,7 +349,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				190026B92252A76F0009F6F5 /* OpenSans-Regular.ttf in Resources */,
 				1941529621A96A8400D0A7A3 /* LaunchScreen.storyboard in Resources */,
+				190026BB2252A7790009F6F5 /* OpenSans-Bold.ttf in Resources */,
 				198583562203112C00630FCE /* Localizable.strings in Resources */,
 				19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */,
 				1941529321A96A8400D0A7A3 /* Assets.xcassets in Resources */,

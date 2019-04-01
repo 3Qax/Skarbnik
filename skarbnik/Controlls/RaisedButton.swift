@@ -14,7 +14,7 @@ class RaisedButton: UIButton {
         super.init(frame: .zero)
         
         setTitle(title.capitalizingFirstLetter(), for: .normal)
-        titleLabel!.font = UIFont(name: "PingFangTC-Light", size: 16.0)
+        titleLabel!.font = UIFont(name: "OpenSans-Light", size: 16.0)
         titleLabel!.textColor = UIColor.white
         
         backgroundColor = UIColor.catchyPink

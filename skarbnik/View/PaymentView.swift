@@ -26,7 +26,7 @@ class PaymentView: UIView {
         }()
         var titleLabel: UILabel                         = {
             let label = UILabel()
-            label.font = UIFont(name: "OpenSans-Light", size: 32)
+            label.font = UIFont(name: "OpenSans-Regular", size: 32)
             label.text = "Skarbnik"
             label.textColor = UIColor.pacyficBlue
             label.textAlignment = .center
@@ -124,7 +124,7 @@ class PaymentView: UIView {
         
         
         
-        
+        tableView.setContentOffset(CGPoint(x: 0, y: 5), animated: false)
         
         tableView.rowHeight                             = UITableView.automaticDimension
         tableView.estimatedRowHeight                    = 100
@@ -144,10 +144,10 @@ class PaymentView: UIView {
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(header.snp.bottom)
+            make.top.equalTo(header.snp.bottom).offset(-5)
         }
         
-        
+        self.bringSubviewToFront(header)
         
       
     }

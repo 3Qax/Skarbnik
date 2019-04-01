@@ -17,7 +17,7 @@ class LightTextField: UITextField {
         self.returnKeyType = returnKeyType
         autocapitalizationType = .none
         autocorrectionType = .no
-        self.font = UIFont(name: "PingFangTC-Light", size: 18.0)
+        self.font = UIFont(name: "OpenSans-Light", size: 18.0)
         
         if let placeholder = placeholder {
             self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.darkGrey])

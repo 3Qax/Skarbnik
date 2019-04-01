@@ -15,9 +15,9 @@ class OptionButton: UIButton {
         
         setTitle(title.capitalizingFirstLetter(), for: .normal)
         setTitleColor(UIColor.catchyPink, for: .normal)
-        titleLabel!.font = UIFont(name: "PingFangTC-Light", size: 16.0)
+        titleLabel!.font = UIFont(name: "OpenSans-Light", size: 16.0)
         
-        backgroundColor = UIColor.clear//(rgb: 0xFA3CB1)
+        backgroundColor = UIColor.clear
         
         layer.cornerRadius = hight / 2.0
         layer.borderColor = UIColor.catchyPink.cgColor

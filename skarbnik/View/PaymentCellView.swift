@@ -24,20 +24,20 @@ class PaymentCellView: UITableViewCell {
     let label = UILabel()
     label.numberOfLines = 0
     label.textColor = UIColor.pacyficBlue
-    label.font = UIFont(name: "PingFangTC-Regular", size: 22.0)
+    label.font = UIFont(name: "OpenSans-Light", size: 26.0)
     return label
     }()
     private let descriptionLabel: UILabel   = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "PingFangTC-Light", size: 15.0)
+        label.font = UIFont(name: "OpenSans-Light", size: 16.0)
         label.textColor = UIColor.darkGrey
         return label
     }()
     private let amountLabel: UILabel        = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = UIFont(name: "PingFangTC-Light", size: 22.0)
+        label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         label.textColor = UIColor.pacyficBlue
         return label
     }()
@@ -48,7 +48,7 @@ class PaymentCellView: UITableViewCell {
     private let startDateLabel: UILabel     = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "PingFangTC-Light", size: 15.0)
+        label.font = UIFont(name: "OpenSans-Light", size: 15.0)
         label.textColor = UIColor.darkGrey
         return label
     }()
@@ -114,7 +114,7 @@ class PaymentCellView: UITableViewCell {
         self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
         amountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel).priority(.required)
-            make.right.equalTo(content).offset(-10)
+            make.right.equalTo(content).offset(-15)
             make.left.equalTo(titleLabel.snp.right).offset(10)
         }
         
@@ -124,7 +124,7 @@ class PaymentCellView: UITableViewCell {
         self.descriptionLabel.snp.makeConstraints({ (make) in
             make.top.equalTo(titleLabel.snp.bottom)
             make.left.equalTo(titleLabel)
-            make.right.equalTo(content).offset(-20)
+            make.right.equalTo(content).offset(-15)
         })
     }
     
@@ -158,7 +158,6 @@ class PaymentCellView: UITableViewCell {
         switch style {
         case .unknown:
             print("unknow")
-            //fatalError("Unknown state")
         case .pending:
             amountLabel.textColor = UIColor.pacyficBlue
             
