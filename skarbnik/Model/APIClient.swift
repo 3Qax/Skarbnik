@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum Result<T> {
+    case success(T)
+    case failure(Error)
+}
+
 class APIClient {
     
     //private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
@@ -30,10 +35,7 @@ class APIClient {
         case put = "PUT"
     }
     
-    enum Result<T> {
-        case success(T)
-        case failure(Error)
-    }
+
     
     func decode<T: Decodable>(_: T.Type, from data: Data) throws -> T {
         //        return try? JSONDecoder().decode(T.self, from: data)

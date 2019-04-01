@@ -9,6 +9,18 @@
 import Foundation
 
 
+enum PasswordChangingResult {
+    case success
+    case failure(ChangingPasswordEnum)
+    
+    enum ChangingPasswordEnum {
+        case passwordCanNotBeEmpty
+        case incorrectOldPassword
+        case passwordsDontMatch
+        case passwordDoesntSatisfyRequirements
+    }
+}
+
 class ChangePasswordModel {
     private let apiClient = APIClient()
     private let semaphore = DispatchSemaphore(value: 0)
@@ -16,17 +28,7 @@ class ChangePasswordModel {
         let old_password: String
         let new_password: String
     }
-    enum Result {
-        case success
-        case failure(ChangingPasswordEnum)
-        
-        enum ChangingPasswordEnum {
-            case passwordCanNotBeEmpty
-            case incorrectOldPassword
-            case passwordsDontMatch
-            case passwordDoesntSatisfyRequirements
-        }
-    }
+
     
 
  
@@ -52,7 +54,7 @@ class ChangePasswordModel {
         return false
     }
     
-    func changePassword(old oldPassword: String?, new newPassword: String?, new repeatedNewPassword: String?, completion: @escaping (Result) -> ()) {
+    func changePassword(old oldPassword: String?, new newPassword: String?, new repeatedNewPassword: String?, completion: @escaping (PasswordChangingResult) -> ()) {
         guard oldPassword != nil, newPassword != nil, repeatedNewPassword != nil else {
             completion(.failure(.passwordCanNotBeEmpty))
             return
@@ -76,7 +78,7 @@ class ChangePasswordModel {
             
         }
 
-        apiClient.put(encode(changePasswordPacket), to: .changePassword) { (result: APIClient.Result<tmp>) in
+        apiClient.put(encode(changePasswordPacket), to: .changePassword) { (result: Result<tmp>) in
             switch result {
             case .success(_):
                 completion(.success)

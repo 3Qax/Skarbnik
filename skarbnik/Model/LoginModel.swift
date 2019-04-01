@@ -43,7 +43,7 @@ class LoginModel {
         
         let loginPacket = LoginWithTokenPacket(token: token)
 
-        apiClient.post(encode(loginPacket), to: .refresh) { (result: APIClient.Result<ResponsePacket>) in
+        apiClient.post(encode(loginPacket), to: .refresh) { (result: Result<ResponsePacket>) in
             switch result {
             case .success(let recivedToken):
                 TokenManager.shared.authorise(with: recivedToken.token)
@@ -67,7 +67,7 @@ class LoginModel {
             return
         }
         
-        apiClient.post(encode(LoginPacket(username: login, password: password)), to: .login) { (result: APIClient.Result<ResponsePacket>) in
+        apiClient.post(encode(LoginPacket(username: login, password: password)), to: .login) { (result: Result<ResponsePacket>) in
             switch result {
             case .success(let recivedToken):
                 TokenManager.shared.authorise(with: recivedToken.token)
