@@ -249,7 +249,6 @@ class PaymentView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print("did layout subview")
         gradientLayer.frame = self.bounds
     }
     

@@ -110,34 +110,35 @@ class PaymentCellView: UITableViewCell {
             make.edges.equalTo(background)
         }
         
-                
+        //Info button
+        content.addSubview(infoImage)
+        infoImage.setContentHuggingPriority(.required, for: .horizontal)
+        infoImage.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+        }
         
         //Title
         content.addSubview(titleLabel)
-        titleLabel.setContentHuggingPriority(.required, for: .vertical)
-        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+//        titleLabel.setContentHuggingPriority(.required, for: .vertical)
+//        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
         titleLabel.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(5)
             make.left.equalToSuperview().offset(15)
-            make.right.equalToSuperview().offset(-15)
+            make.right.equalTo(infoImage.snp.left).offset(-10)
         }
         
         //Amount
         content.addSubview(amountLabel)
-        self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
-        self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
+//        self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+//        self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
+//        self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
         amountLabel.snp.makeConstraints { (make) in
             make.top.equalTo(titleLabel.snp.bottom)
             make.left.right.equalTo(titleLabel)
         }
         
-        //Info button
-        content.addSubview(infoImage)
-        infoImage.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-        }
+
         
         
         
@@ -190,14 +191,14 @@ class PaymentCellView: UITableViewCell {
             content.addSubview(remindButton)
             remindButton.snp.makeConstraints { (make) in
                 make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.equalTo(amountLabel)
-                make.right.equalTo(amountLabel.snp.centerX).offset(-5)
+                make.left.equalToSuperview().offset(15)
+                make.right.equalTo(content.snp.centerX).offset(-5)
             }
             content.addSubview(payButton)
             payButton.snp.makeConstraints { (make) in
                 make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.equalTo(amountLabel.snp.centerX).offset(5)
-                make.right.equalTo(amountLabel)
+                make.left.equalTo(content.snp.centerX).offset(5)
+                make.right.equalToSuperview().offset(-15)
                 make.bottom.equalTo(content).offset(-10)
             }
             
