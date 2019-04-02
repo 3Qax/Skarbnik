@@ -15,8 +15,7 @@ enum Result<T> {
 
 class APIClient {
     
-    //private let baseURL: URLComponents = URLComponents(string: "https://quiet-caverns-69534.herokuapp.com:443")!
-    private let baseURL: URLComponents = URLComponents(string: "http://192.168.1.134:8000")!
+    private let baseURL: URLComponents
     
     enum Endpoint: String {
         case login          = "/api/users/login"
@@ -36,6 +35,13 @@ class APIClient {
     }
     
 
+    init() {
+        #if targetEnvironment(simulator)
+        baseURL = URLComponents(string: "http://localhost:8000")!
+        #else
+        baseURL = URLComponents(string: "http://192.168.1.134:8000")!
+        #endif
+    }
     
     func decode<T: Decodable>(_: T.Type, from data: Data) throws -> T {
         //        return try? JSONDecoder().decode(T.self, from: data)
