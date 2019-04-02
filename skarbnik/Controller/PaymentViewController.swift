@@ -114,6 +114,12 @@ extension PaymentViewController: UITableViewDataSource {
 }
 
 extension PaymentViewController: PaymentCellDelegate {
+    func didTapCell(sender: PaymentCellView) {
+        if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
+            print("Tapped cell at index: \(index)")
+        }
+    }
+    
     func didTapRemindButton(sender: PaymentCellView) {
         
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
@@ -132,9 +138,7 @@ extension PaymentViewController: PaymentCellDelegate {
     
     func didTapMoreButton(sender: PaymentCellView) {
         
-        if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
-            print("Tapped more button of cell at index: \(index)")
-        }
+
     }
 }
 
