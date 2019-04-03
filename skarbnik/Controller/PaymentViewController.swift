@@ -92,7 +92,7 @@ extension PaymentViewController: UITableViewDataSource {
         let payment = paymentModel.payments[indexPath.row]
         cell.setupContent(title: payment.name,
                           description: payment.description,
-                          amount: payment.leftToPay,
+                          amount: payment.leftToPay == 0.0 ? payment.amount : payment.leftToPay,
                           currency: payment.currency,
                           startDate: payment.start_date)
         tableView.beginUpdates()
