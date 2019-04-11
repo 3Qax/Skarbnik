@@ -31,11 +31,14 @@ class PaymentCellView: UITableViewCell {
         label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         return label
     }()
-    private let amountLabel: UILabel        = {
+    private let amountLabel: AmountLabel    = {
+        let label = AmountLabel()
+        return label
+    }()
+    private let currrencyLabel: UILabel     = {
         let label = UILabel()
-        label.textAlignment = .right
-        label.font = UIFont(name: "OpenSans-Light", size: 24.0)
-        label.textColor = UIColor.pacyficBlue
+        label.font = UIFont(name: "OpenSans-Light", size: 12.0)
+        label.textColor = UIColor.lightGray
         return label
     }()
     public  let amountFormatter             = NumberFormatter()
@@ -72,7 +75,7 @@ class PaymentCellView: UITableViewCell {
         //Foreground
         contentView.addSubview(foreground)
         foreground.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()//.inset(UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
+            make.edges.equalToSuperview()
         }
         
         //Amount
@@ -80,7 +83,7 @@ class PaymentCellView: UITableViewCell {
         amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         amountLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().offset(-15)
         }
         
         //Title
@@ -91,6 +94,13 @@ class PaymentCellView: UITableViewCell {
             make.right.equalTo(amountLabel.snp.left).offset(-10)
         }
         
+        //Currency code
+        foreground.addSubview(currrencyLabel)
+        currrencyLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom)
+        }
+        
     }
     
     func setupContent(title: String, description: String, amount: Float, currency: String, startDate: Date) {
@@ -99,10 +109,10 @@ class PaymentCellView: UITableViewCell {
         self.titleLabel.text = title.capitalizingFirstLetter()
         
         //Amount
-        amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == currency })
-        amountFormatter.numberStyle = .currency
-        self.amountLabel.text = amountFormatter.string(from: amount as NSNumber)
+        self.amountLabel.amount = amount
         
+        //Currency
+        self.currrencyLabel.text = currency
         
     }
     
