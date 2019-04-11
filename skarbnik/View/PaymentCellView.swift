@@ -11,16 +11,16 @@ import SnapKit
 
 
 
+enum PaymentCellStyle {
+    case paid
+    case pending
+}
+
 class PaymentCellView: UITableViewCell {
     
-    private let background: UIView          = {
+    private let foreground: UIView          = {
         let view = UIView()
-        view.backgroundColor = UIColor.backgroundGrey
-        return view
-    }()
-    private let content: UIView             = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
+        view.backgroundColor = UIColor.white
         return view
     }()
     private let titleLabel: UILabel         = {
@@ -28,44 +28,20 @@ class PaymentCellView: UITableViewCell {
         label.numberOfLines = 0
         label.textColor = UIColor.pacyficBlue
         label.textAlignment = .left
-        label.font = UIFont(name: "OpenSans-Light", size: 16.0)
-        return label
-    }()
-    private let infoImage: UIImageView      = {
-        var imageView = UIImageView(image: UIImage(named: "info"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor.catchyPink
-        imageView.snp.makeConstraints({ (make) in
-            make.height.width.equalTo(25)
-        })
-        return imageView
-    }()
-    private let descriptionLabel: UILabel   = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont(name: "OpenSans-Light", size: 16.0)
-        label.textColor = UIColor.darkGrey
+        label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         return label
     }()
     private let amountLabel: UILabel        = {
         let label = UILabel()
-        label.textAlignment = .left
-        label.font = UIFont(name: "OpenSans-Light", size: 26.0)
+        label.textAlignment = .right
+        label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         label.textColor = UIColor.pacyficBlue
         return label
     }()
     public  let amountFormatter             = NumberFormatter()
-    private let remindButton                = OptionButton("set_reminder_button_text", hight: 30)
-    private let payButton                   = RaisedButton("pay_button_text", hight: 30)
-    private let moreButton                  = OptionButton("show_photos_button_text", hight: 30)
-    private let startDateLabel: UILabel     = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont(name: "OpenSans-Light", size: 15.0)
-        label.textColor = UIColor.darkGrey
-        return label
-    }()
-    var style: PaymentCellStyle             = .unknown {
+
+
+    var style: PaymentCellStyle?             = nil {
         didSet {
             didChangeState()
         }
@@ -73,12 +49,7 @@ class PaymentCellView: UITableViewCell {
     var delegate: PaymentCellDelegate?
     
     
-    enum PaymentCellStyle {
-        case paid
-        case pending
-        case awaiting
-        case unknown
-    }
+
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -94,53 +65,31 @@ class PaymentCellView: UITableViewCell {
 
     func setupViews() {
         
+        //Background
         self.backgroundColor = UIColor.clear
-        self.contentView.backgroundColor = UIColor.clear
+        self.contentView.backgroundColor = UIColor.pacyficBlue
 
-        contentView.addSubview(background)
-        background.layer.cornerRadius = CGFloat(20.0)
-        background.dropShadow()
-        background.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
-        }
-        
-        contentView.addSubview(content)
-        content.isUserInteractionEnabled = true
-        content.snp.makeConstraints { (make) in
-            make.edges.equalTo(background)
-        }
-        
-        //Info button
-        content.addSubview(infoImage)
-        infoImage.setContentHuggingPriority(.required, for: .horizontal)
-        infoImage.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-        }
-        
-        //Title
-        content.addSubview(titleLabel)
-//        titleLabel.setContentHuggingPriority(.required, for: .vertical)
-//        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(5)
-            make.left.equalToSuperview().offset(15)
-            make.right.equalTo(infoImage.snp.left).offset(-10)
+        //Foreground
+        contentView.addSubview(foreground)
+        foreground.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()//.inset(UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
         }
         
         //Amount
-        content.addSubview(amountLabel)
-//        self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-//        self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
-//        self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
+        foreground.addSubview(amountLabel)
+        amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         amountLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.left.right.equalTo(titleLabel)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview()
         }
         
-
-        
-        
+        //Title
+        foreground.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(15)
+            make.right.equalTo(amountLabel.snp.left).offset(-10)
+        }
         
     }
     
@@ -154,22 +103,13 @@ class PaymentCellView: UITableViewCell {
         amountFormatter.numberStyle = .currency
         self.amountLabel.text = amountFormatter.string(from: amount as NSNumber)
         
-        //Description
-        self.descriptionLabel.text = description.capitalizingFirstLetter()
         
-        //StartDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.locale = Locale.current
-        self.startDateLabel.text = "Płatne od: " + dateFormatter.string(from: startDate)
     }
     
     func setupTargets() {
-        remindButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.remindButton, completion: {self.delegate?.didTapRemindButton(sender: self)} ) })
-        payButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payButton, completion: {self.delegate?.didTapPayButton(sender: self)} ) })
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
-        content.addGestureRecognizer(tapGestureRecognizer)
+        foreground.addGestureRecognizer(tapGestureRecognizer)
     }
     
     @objc func didTapCell() {
@@ -178,68 +118,26 @@ class PaymentCellView: UITableViewCell {
     
     func didChangeState() {
         switch style {
-        case .unknown:
+
+        case .pending?:
+            titleLabel.textColor    = UIColor.black
+            amountLabel.textColor   = UIColor.pacyficBlue
             
-            print("unknow")
+        case .paid?:
+            titleLabel.textColor    = UIColor.darkGrey
+            amountLabel.textColor   = UIColor.darkGrey
             
-            
-            
-        case .pending:
-            
-            amountLabel.textColor = UIColor.pacyficBlue
-            
-            content.addSubview(remindButton)
-            remindButton.snp.makeConstraints { (make) in
-                make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.equalToSuperview().offset(15)
-                make.right.equalTo(content.snp.centerX).offset(-5)
-            }
-            content.addSubview(payButton)
-            payButton.snp.makeConstraints { (make) in
-                make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.equalTo(content.snp.centerX).offset(5)
-                make.right.equalToSuperview().offset(-15)
-                make.bottom.equalTo(content).offset(-10)
-            }
-            
-            startDateLabel.removeFromSuperview()
-            
-            
-            
-        case .paid:
-            
-            amountLabel.textColor = UIColor.darkGrey
-            
-            amountLabel.snp.makeConstraints { (make) in
-                make.bottom.equalTo(content).offset(-5)
-            }
-            
-            remindButton.removeFromSuperview()
-            payButton.removeFromSuperview()
-            startDateLabel.removeFromSuperview()
-            
-            
-            
-        case .awaiting:
-            
-            amountLabel.textColor = UIColor.pacyficBlue
-            
-            content.addSubview(startDateLabel)
-            startDateLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-            startDateLabel.snp.makeConstraints { (make) in
-                make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.right.equalTo(amountLabel)
-                make.bottom.equalTo(content).offset(-5)
-            }
-            
-            remindButton.removeFromSuperview()
-            payButton.removeFromSuperview()
-            moreButton.removeFromSuperview()
-            
-            
-            
+        case .none:
+            fatalError("Cell have to have certain style")
         }
+        
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
+    }
+    
     
 
 }

@@ -100,7 +100,7 @@ extension PaymentViewController: UITableViewDataSource {
         case .pending:
             cell.style = .pending
         case .awaiting:
-            cell.style = .awaiting
+            cell.style = .paid
         case .paid:
             cell.style = .paid
         }

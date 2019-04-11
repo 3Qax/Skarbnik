@@ -15,7 +15,7 @@ class LightSearchBar: UISearchBar {
     
     private let line: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.pacyficBlue
+        view.backgroundColor = UIColor.white
         return view
     }()
     
@@ -43,7 +43,7 @@ class LightSearchBar: UISearchBar {
         textField.returnKeyType = .search
         
         textField.leftView = nil
-        textField.tintColor = UIColor.pacyficBlue
+        textField.tintColor = UIColor.white
         
         textField.clearButtonMode = .never
         
