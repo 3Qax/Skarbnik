@@ -41,6 +41,21 @@ class PaymentCellView: UITableViewCell {
         label.textColor = UIColor.lightGray
         return label
     }()
+    private var previousPosition: CGPoint   = CGPoint()
+    
+    private var offsetConstraint: Constraint?
+    private var offset: Float = 0 {
+        didSet {
+            offsetConstraint?.updateOffset(amount: offset)
+            foreground.layer.cornerRadius   = CGFloat(min(abs(offset), 10))
+            if offset <= 0 {
+                foreground.layer.maskedCorners  = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+            } else {
+                foreground.layer.maskedCorners  = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+            }
+        }
+    }
+    
     public  let amountFormatter             = NumberFormatter()
 
 
@@ -58,7 +73,6 @@ class PaymentCellView: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
-        setupTargets()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -74,8 +88,14 @@ class PaymentCellView: UITableViewCell {
 
         //Foreground
         contentView.addSubview(foreground)
+        let panGestureRecognizer        = UIPanGestureRecognizer(target: self, action: #selector(panHandler(_:)))
+        panGestureRecognizer.delegate   = self
+        foreground.addGestureRecognizer(panGestureRecognizer)
+        let tapGestureRecognizer        = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
+        foreground.addGestureRecognizer(tapGestureRecognizer)
         foreground.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+            make.width.top.bottom.equalToSuperview()
+            offsetConstraint = make.left.equalToSuperview().constraint
         }
         
         //Amount
@@ -116,16 +136,6 @@ class PaymentCellView: UITableViewCell {
         
     }
     
-    func setupTargets() {
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
-        foreground.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
-    @objc func didTapCell() {
-        self.delegate?.didTapCell(sender: self)
-    }
-    
     func didChangeState() {
         switch style {
 
@@ -152,25 +162,83 @@ class PaymentCellView: UITableViewCell {
 
 }
 
-//Animations
+//MARK: Gesture recognizers handlers
 extension PaymentCellView {
-    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
+    
+    @objc func tapHandler() {
+        self.delegate?.didTapCell(sender: self)
+    }
+    
+    @objc func panHandler(_ panGestureRecognizer: UIPanGestureRecognizer) {
+        let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
         
-        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
-        selectionFeedbackGenerator.selectionChanged()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
-            completion()
+        
+        offset += Float(translation)
+        //print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t")
+        
+        if panGestureRecognizer.state == .ended {
+            if offset > -80 {
+                offset = 0
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                    self.layoutIfNeeded()
+                })
+            }
+            if offset <= -80 && offset > -150 {
+                offset = -80
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                    self.layoutIfNeeded()
+                })
+            }
+            if offset < -150 {
+                //do action
+            }
+            previousPosition = CGPoint()
+            return
         }
         
-        UIView.animate(withDuration: 0.25,
-                       delay: 0,
-                       usingSpringWithDamping: CGFloat(0.20),
-                       initialSpringVelocity: CGFloat(6.0),
-                       options:.allowUserInteraction,
-                       animations: {
-                        view.transform = CGAffineTransform.identity
-        })
 
+        
+        previousPosition = panGestureRecognizer.translation(in: foreground)
+    }
+    
+}
+
+
+extension PaymentCellView {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            let translation = panGestureRecognizer.translation(in: superview)
+            if abs(translation.x) > abs(translation.y) {
+                return true
+            }
+            return false
+        }
+        return false
     }
 }
+
+////Animations
+//extension PaymentCellView {
+//    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
+//
+//        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+//        selectionFeedbackGenerator.selectionChanged()
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
+//            completion()
+//        }
+//
+//        UIView.animate(withDuration: 0.25,
+//                       delay: 0,
+//                       usingSpringWithDamping: CGFloat(0.20),
+//                       initialSpringVelocity: CGFloat(6.0),
+//                       options:.allowUserInteraction,
+//                       animations: {
+//                        view.transform = CGAffineTransform.identity
+//        })
+//
+//    }
+//
+//
+//
+//}
