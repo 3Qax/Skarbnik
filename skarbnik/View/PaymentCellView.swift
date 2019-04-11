@@ -21,6 +21,7 @@ class PaymentCellView: UITableViewCell {
     private let foreground: UIView          = {
         let view = UIView()
         view.backgroundColor = UIColor.white
+        view.layer.zPosition = 5
         return view
     }()
     private let titleLabel: UILabel         = {
@@ -55,6 +56,21 @@ class PaymentCellView: UITableViewCell {
             }
         }
     }
+    
+    private lazy var bellIV: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "bell")
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    private lazy var walletIV: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "wallet")
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
     
     public  let amountFormatter             = NumberFormatter()
 
@@ -143,6 +159,21 @@ class PaymentCellView: UITableViewCell {
             titleLabel.textColor    = UIColor.black
             amountLabel.textColor   = UIColor.pacyficBlue
             
+            contentView.addSubview(bellIV)
+            let bellTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBell))
+            bellIV.addGestureRecognizer(bellTGR)
+            bellIV.snp.makeConstraints { (make) in
+                make.top.left.equalToSuperview().offset(14)
+            }
+            
+            contentView.addSubview(walletIV)
+            let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
+            walletIV.addGestureRecognizer(walletTGR)
+            walletIV.snp.makeConstraints { (make) in
+                make.top.equalToSuperview().offset(26)
+                make.right.equalToSuperview().offset(-24)
+            }
+            
         case .paid?:
             titleLabel.textColor    = UIColor.darkGrey
             amountLabel.textColor   = UIColor.darkGrey
@@ -203,6 +234,18 @@ extension PaymentCellView {
     
 }
 
+//MARK: Underneath icons taps handlers
+extension PaymentCellView {
+    
+    @objc func didTapWallet() {
+        print("Wallet tapped!")
+    }
+    
+    @objc func didTapBell() {
+        print("Bell tapped!")
+    }
+    
+}
 
 extension PaymentCellView {
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
