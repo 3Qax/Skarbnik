@@ -35,6 +35,12 @@ class PaymentView: UIView {
             imageView.tintColor = UIColor.white
             return imageView
         }()
+    var circle: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.catchyPink
+
+        return view
+    }()
     
     var tableView                                       = UITableView()
         let refreshControl: UIRefreshControl            = {
@@ -85,6 +91,13 @@ class PaymentView: UIView {
             make.right.equalToSuperview().offset(-5)
         }
         
+        self.addSubview(circle)
+        circle.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(-134)
+            make.left.equalToSuperview().offset(136)
+            make.height.width.equalTo(250)
+        }
+        circle.layer.cornerRadius = 250/2
 
         
         
