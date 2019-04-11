@@ -16,6 +16,11 @@ enum PaymentCellStyle {
     case pending
 }
 
+struct PaymentCellRatchetValue {
+    let stickyValue: Float
+    let triggerValue: Float
+}
+
 class PaymentCellView: UITableViewCell {
     
     private let foreground: UIView          = {
@@ -44,6 +49,7 @@ class PaymentCellView: UITableViewCell {
     }()
     private var previousPosition: CGPoint   = CGPoint()
     
+    private var ratchetValues = [PaymentCellRatchetValue]()
     private var offsetConstraint: Constraint?
     private var offset: Float = 0 {
         didSet {
@@ -165,6 +171,7 @@ class PaymentCellView: UITableViewCell {
             bellIV.snp.makeConstraints { (make) in
                 make.top.left.equalToSuperview().offset(14)
             }
+            ratchetValues.append(PaymentCellRatchetValue(stickyValue: 80, triggerValue: 150))
             
             contentView.addSubview(walletIV)
             let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
@@ -173,6 +180,7 @@ class PaymentCellView: UITableViewCell {
                 make.top.equalToSuperview().offset(26)
                 make.right.equalToSuperview().offset(-24)
             }
+            ratchetValues.append(PaymentCellRatchetValue(stickyValue: -80, triggerValue: -150))
             
         case .paid?:
             titleLabel.textColor    = UIColor.darkGrey
@@ -205,29 +213,53 @@ extension PaymentCellView {
         
         
         offset += Float(translation)
-        //print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t")
+        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t")
         
         if panGestureRecognizer.state == .ended {
-            if offset > -80 {
-                offset = 0
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                    self.layoutIfNeeded()
-                })
-            }
-            if offset <= -80 && offset > -150 {
-                offset = -80
-                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                    self.layoutIfNeeded()
-                })
-            }
-            if offset < -150 {
-                //do action
+            ratchetValues.forEach { (v) in
+                if v.stickyValue < 0 && v.triggerValue < 0 {
+                    if offset > v.stickyValue && offset < 0 {
+                        offset = 0
+                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                            self.layoutIfNeeded()
+                        })
+                    }
+                    if offset <= v.stickyValue && offset > v.triggerValue && offset < 0 {
+                        offset = v.stickyValue
+                        selectionFeedbackGenerator.selectionChanged()
+                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                            self.layoutIfNeeded()
+                        })
+                    }
+                    if offset < v.triggerValue && offset < 0 {
+                        //do action
+                        notificationFeedbackGenerator.notificationOccurred(.success)
+                    }
+                } else {
+                    if offset < v.stickyValue && offset > 0 {
+                        offset = 0
+                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                            self.layoutIfNeeded()
+                        })
+                    }
+                    if offset >= v.stickyValue && offset < v.triggerValue && offset > 0 {
+                        offset = v.stickyValue
+                        selectionFeedbackGenerator.selectionChanged()
+                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                            self.layoutIfNeeded()
+                        })
+                    }
+                    if offset > v.triggerValue && offset > 0 {
+                        //do action
+                        notificationFeedbackGenerator.notificationOccurred(.success)
+                    }
+                }
+
+                
             }
             previousPosition = CGPoint()
             return
         }
-        
-
         
         previousPosition = panGestureRecognizer.translation(in: foreground)
     }
