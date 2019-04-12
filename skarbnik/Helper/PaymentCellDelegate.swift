@@ -11,7 +11,8 @@ import Foundation
 
 
 protocol PaymentCellDelegate {
-    func didTapRemindButton(sender: PaymentCellView)
-    func didTapPayButton(sender: PaymentCellView)
+    func didTapRemind(sender: PaymentCellView)
+    func didTapPay(sender: PaymentCellView)
     func didTapCell(sender: PaymentCellView)
+    //func didTapCell(sender: PaymentCellView)
 }

@@ -120,7 +120,7 @@ extension PaymentViewController: PaymentCellDelegate {
         }
     }
     
-    func didTapRemindButton(sender: PaymentCellView) {
+    func didTapRemind(sender: PaymentCellView) {
         
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
             coordinator?.didRequestReminder(about: paymentModel.payments[index])
@@ -128,7 +128,7 @@ extension PaymentViewController: PaymentCellDelegate {
         
     }
     
-    func didTapPayButton(sender: PaymentCellView) {
+    func didTapPay(sender: PaymentCellView) {
         
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
             coordinator?.didRequestToPay(for: paymentModel.payments[index], withCurrencyFormatter: sender.amountFormatter)
@@ -136,10 +136,6 @@ extension PaymentViewController: PaymentCellDelegate {
         
     }
     
-    func didTapMoreButton(sender: PaymentCellView) {
-        
-
-    }
 }
 
 extension PaymentViewController: UISearchBarDelegate {

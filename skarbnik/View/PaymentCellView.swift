@@ -16,20 +16,23 @@ enum PaymentCellStyle {
     case pending
 }
 
-struct PaymentCellRatchetValue {
+struct PaymentCellRatchet {
+    
     let stickyValue: Float
     let triggerValue: Float
+    let action: () -> ()
+    
 }
 
 class PaymentCellView: UITableViewCell {
     
-    private let foreground: UIView          = {
+    private let foreground: UIView                      = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.zPosition = 5
         return view
     }()
-    private let titleLabel: UILabel         = {
+    private let titleLabel: UILabel                     = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = UIColor.pacyficBlue
@@ -37,21 +40,22 @@ class PaymentCellView: UITableViewCell {
         label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         return label
     }()
-    private let amountLabel: AmountLabel    = {
+    private let amountLabel: AmountLabel                = {
         let label = AmountLabel()
         return label
     }()
-    private let currrencyLabel: UILabel     = {
+    private let currrencyLabel: UILabel                 = {
         let label = UILabel()
         label.font = UIFont(name: "OpenSans-Light", size: 12.0)
         label.textColor = UIColor.lightGray
         return label
     }()
-    private var previousPosition: CGPoint   = CGPoint()
+    private var previousPosition: CGPoint               = CGPoint()
     
-    private var ratchetValues = [PaymentCellRatchetValue]()
+    private lazy var leftRatchet: PaymentCellRatchet?   = nil
+    private lazy var rightRatchet: PaymentCellRatchet?  = nil
     private var offsetConstraint: Constraint?
-    private var offset: Float = 0 {
+    private var offset: Float                           = 0 {
         didSet {
             offsetConstraint?.updateOffset(amount: offset)
             foreground.layer.cornerRadius   = CGFloat(min(abs(offset), 10))
@@ -63,25 +67,13 @@ class PaymentCellView: UITableViewCell {
         }
     }
     
-    private lazy var bellIV: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "bell")
-        imageView.contentMode = .scaleAspectFit
-        imageView.isUserInteractionEnabled = true
-        return imageView
-    }()
-    private lazy var walletIV: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "wallet")
-        imageView.contentMode = .scaleAspectFit
-        imageView.isUserInteractionEnabled = true
-        return imageView
-    }()
+
+
     
-    public  let amountFormatter             = NumberFormatter()
+    public  let amountFormatter                         = NumberFormatter()
 
 
-    var style: PaymentCellStyle?             = nil {
+    var style: PaymentCellStyle?                        = nil {
         didSet {
             didChangeState()
         }
@@ -165,13 +157,25 @@ class PaymentCellView: UITableViewCell {
             titleLabel.textColor    = UIColor.black
             amountLabel.textColor   = UIColor.pacyficBlue
             
+            //Bell
+            let bellIV = UIImageView()
+            bellIV.image = UIImage(named: "bell")
+            bellIV.contentMode = .scaleAspectFit
+            bellIV.isUserInteractionEnabled = true
+            
             contentView.addSubview(bellIV)
             let bellTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBell))
             bellIV.addGestureRecognizer(bellTGR)
             bellIV.snp.makeConstraints { (make) in
                 make.top.left.equalToSuperview().offset(14)
             }
-            ratchetValues.append(PaymentCellRatchetValue(stickyValue: 80, triggerValue: 150))
+            leftRatchet = PaymentCellRatchet(stickyValue: 80, triggerValue: 150, action: { self.didTapBell() })
+            
+            //Wallet
+            let walletIV = UIImageView()
+            walletIV.image = UIImage(named: "wallet")
+            walletIV.contentMode = .scaleAspectFit
+            walletIV.isUserInteractionEnabled = true
             
             contentView.addSubview(walletIV)
             let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
@@ -180,7 +184,7 @@ class PaymentCellView: UITableViewCell {
                 make.top.equalToSuperview().offset(26)
                 make.right.equalToSuperview().offset(-24)
             }
-            ratchetValues.append(PaymentCellRatchetValue(stickyValue: -80, triggerValue: -150))
+            rightRatchet = PaymentCellRatchet(stickyValue: -80, triggerValue: -150, action: { self.didTapWallet() })
             
         case .paid?:
             titleLabel.textColor    = UIColor.darkGrey
@@ -215,48 +219,56 @@ extension PaymentCellView {
         offset += Float(translation)
         print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t")
         
-        if panGestureRecognizer.state == .ended {
-            ratchetValues.forEach { (v) in
-                if v.stickyValue < 0 && v.triggerValue < 0 {
-                    if offset > v.stickyValue && offset < 0 {
-                        offset = 0
-                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                            self.layoutIfNeeded()
-                        })
-                    }
-                    if offset <= v.stickyValue && offset > v.triggerValue && offset < 0 {
-                        offset = v.stickyValue
-                        selectionFeedbackGenerator.selectionChanged()
-                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                            self.layoutIfNeeded()
-                        })
-                    }
-                    if offset < v.triggerValue && offset < 0 {
-                        //do action
-                        notificationFeedbackGenerator.notificationOccurred(.success)
-                    }
-                } else {
-                    if offset < v.stickyValue && offset > 0 {
-                        offset = 0
-                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                            self.layoutIfNeeded()
-                        })
-                    }
-                    if offset >= v.stickyValue && offset < v.triggerValue && offset > 0 {
-                        offset = v.stickyValue
-                        selectionFeedbackGenerator.selectionChanged()
-                        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                            self.layoutIfNeeded()
-                        })
-                    }
-                    if offset > v.triggerValue && offset > 0 {
-                        //do action
-                        notificationFeedbackGenerator.notificationOccurred(.success)
-                    }
+        if panGestureRecognizer.state == .changed {
+            if let left = leftRatchet {
+                if offset > left.triggerValue && offset > 0 {
+                    offset = 0
+                    left.action()
+                    previousPosition = CGPoint()
                 }
-
-                
             }
+            if let right = rightRatchet {
+                if offset < right.triggerValue && offset < 0 {
+                    offset = 0
+                    right.action()
+                    previousPosition = CGPoint()
+                }
+            }
+        }
+        
+        if panGestureRecognizer.state == .ended {
+            
+            if let left = leftRatchet {
+                if offset < left.stickyValue && offset > 0 {
+                    offset = 0
+                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                        self.layoutIfNeeded()
+                    })
+                }
+                if offset >= left.stickyValue && offset < left.triggerValue && offset > 0 {
+                    offset = left.stickyValue
+                    selectionFeedbackGenerator.selectionChanged()
+                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                        self.layoutIfNeeded()
+                    })
+                }
+            }
+            if let right = rightRatchet {
+                if offset > right.stickyValue && offset < 0 {
+                    offset = 0
+                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                        self.layoutIfNeeded()
+                    })
+                }
+                if offset <= right.stickyValue && offset > right.triggerValue && offset < 0 {
+                    offset = right.stickyValue
+                    selectionFeedbackGenerator.selectionChanged()
+                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+                        self.layoutIfNeeded()
+                    })
+                }
+            }
+            
             previousPosition = CGPoint()
             return
         }
@@ -270,11 +282,11 @@ extension PaymentCellView {
 extension PaymentCellView {
     
     @objc func didTapWallet() {
-        print("Wallet tapped!")
+        delegate?.didTapPay(sender: self)
     }
     
     @objc func didTapBell() {
-        print("Bell tapped!")
+        delegate?.didTapRemind(sender: self)
     }
     
 }
@@ -291,29 +303,3 @@ extension PaymentCellView {
         return false
     }
 }
-
-////Animations
-//extension PaymentCellView {
-//    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
-//
-//        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
-//        selectionFeedbackGenerator.selectionChanged()
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
-//            completion()
-//        }
-//
-//        UIView.animate(withDuration: 0.25,
-//                       delay: 0,
-//                       usingSpringWithDamping: CGFloat(0.20),
-//                       initialSpringVelocity: CGFloat(6.0),
-//                       options:.allowUserInteraction,
-//                       animations: {
-//                        view.transform = CGAffineTransform.identity
-//        })
-//
-//    }
-//
-//
-//
-//}
