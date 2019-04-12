@@ -58,6 +58,11 @@ class PaymentCellView: UITableViewCell {
     private lazy    var didVibrateLeft: Bool                    = false
     private lazy    var rightRatchet: PaymentCellRatchet?       = nil
     private lazy    var didVibrateRight: Bool                   = false
+    private lazy    var animateForegroundMove: () -> ()         = {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+            self.layoutIfNeeded()
+        })
+    }
     
     //Handling cell swiping
     private         var offset: Float                           = 0 {
@@ -214,85 +219,100 @@ extension PaymentCellView {
     
     @objc func panHandler(_ panGestureRecognizer: UIPanGestureRecognizer) {
         
-        if panGestureRecognizer.state == .began {
-            previousPosition = CGPoint()
-            print("Began! Cleared!")
-        }
+        if panGestureRecognizer.state == .began { previousPosition = CGPoint() }
         
-        let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
+  
         
-        if (panGestureRecognizer.state != .cancelled) { offset += Float(translation) }
-        
-        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t State: \(panGestureRecognizer.state.rawValue)")
+//        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t State: \(panGestureRecognizer.state.rawValue)")
         
         if panGestureRecognizer.state == .changed {
+            
+            //Calculate translation and move the foreground accordingly
+            let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
+            offset += Float(translation)
+            
             if let left = leftRatchet {
+                
+                //if users moves foreground near sticky range vibrate slightly
                 if abs(offset-left.stickyValue) < 5 && offset > 0 && !didVibrateLeft {
                     selectionFeedbackGenerator.selectionChanged()
                     didVibrateLeft = true
+                //make sure to vibrate again only if user leaves 10 points zone
                 } else if (abs(offset-left.stickyValue) >= 5 && offset > 0) { didVibrateLeft = false }
+                
+                //trigger action if triggerValue was exceeded
                 if offset > left.triggerValue && offset > 0 {
-                    print("left tiggered")
                     left.action()
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     panGestureRecognizer.cancel()
                     offset = 0
                 }
             }
+            
             if let right = rightRatchet {
+                
+                //if users moves foreground near sticky range vibrate slightly
                 if abs(offset-right.stickyValue) < 5 && offset < 0 && !didVibrateRight {
                     selectionFeedbackGenerator.selectionChanged()
                     didVibrateRight = true
+                //make sure to vibrate again only if user leaves 10 points zone
                 } else if (abs(offset-right.stickyValue) >= 5 && offset < 0) { didVibrateRight = false }
+                
+                //trigger action if triggerValue was exceeded
                 if offset < right.triggerValue && offset < 0 {
-                    print("right tiggered")
                     right.action()
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     panGestureRecognizer.cancel()
                     offset = 0
                 }
             }
+            
+            //set previous position to current position so that
+            //next function call have integral data
+            previousPosition = panGestureRecognizer.translation(in: foreground)
+            return
         }
         
         if panGestureRecognizer.state == .ended {
             
-            if let left = leftRatchet {
-                if offset < left.stickyValue && offset > 0 {
+            if leftRatchet != nil && offset > 0 {
+                
+                //if foreground doesn't reach stickyValue - 5 move it back to default positon
+                if offset < leftRatchet!.stickyValue - 5 {
                     offset = 0
-                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                        self.layoutIfNeeded()
-                    })
+                    animateForegroundMove()
                 }
-                if offset >= left.stickyValue && offset < left.triggerValue && offset > 0 {
-                    offset = left.stickyValue
+                
+                //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
+                //sticky postion (where IV is visible)
+                if offset >= leftRatchet!.stickyValue - 5 && offset < leftRatchet!.triggerValue {
+                    offset = leftRatchet!.stickyValue
                     selectionFeedbackGenerator.selectionChanged()
-                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                        self.layoutIfNeeded()
-                    })
-                }
-            }
-            if let right = rightRatchet {
-                if offset > right.stickyValue && offset < 0 {
-                    offset = 0
-                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                        self.layoutIfNeeded()
-                    })
-                }
-                if offset <= right.stickyValue && offset > right.triggerValue && offset < 0 {
-                    offset = right.stickyValue
-                    selectionFeedbackGenerator.selectionChanged()
-                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-                        self.layoutIfNeeded()
-                    })
+                    animateForegroundMove()
                 }
             }
             
-            previousPosition = CGPoint()
-            return
+            if rightRatchet != nil && offset < 0 {
+                
+                //if foreground doesn't reach stickyValue - 5 move it back to default positon
+                if offset > rightRatchet!.stickyValue + 5 {
+                    offset = 0
+                    animateForegroundMove()
+                }
+                
+                //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
+                //sticky postion (where IV is visible)
+                if offset <= rightRatchet!.stickyValue + 5 && offset > rightRatchet!.triggerValue{
+                    offset = rightRatchet!.stickyValue
+                    selectionFeedbackGenerator.selectionChanged()
+                    animateForegroundMove()
+                }
+            }
         }
         
-        previousPosition = panGestureRecognizer.translation(in: foreground)
     }
+    
+    
     
 }
 
@@ -318,7 +338,8 @@ extension PaymentCellView {
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
             let translation = panGestureRecognizer.translation(in: superview)
             if abs(translation.x) > abs(translation.y) {
-                return true
+                if translation.x > 0 && rightRatchet != nil { return true }
+                if translation.x < 0 && leftRatchet != nil { return true }
             }
             return false
         }
