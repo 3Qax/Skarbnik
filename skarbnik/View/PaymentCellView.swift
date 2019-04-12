@@ -20,6 +20,7 @@ struct PaymentCellRatchet {
     
     let stickyValue: Float
     let triggerValue: Float
+    let image: UIImage
     let action: () -> ()
     
 }
@@ -54,9 +55,42 @@ class PaymentCellView: UITableViewCell {
     private         var previousPosition: CGPoint               = CGPoint()
     
     //Handling ratchet mechanisms
-    private lazy    var leftRatchet: PaymentCellRatchet?        = nil
+    private         var leftRatchet: PaymentCellRatchet?        = nil {
+        didSet {
+            if let ratchet = leftRatchet {
+                let imageView = UIImageView()
+                imageView.image = ratchet.image
+                imageView.contentMode = .scaleAspectFit
+                imageView.isUserInteractionEnabled = true
+                
+                contentView.addSubview(imageView)
+                let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapLeftRatchetImage))
+                imageView.addGestureRecognizer(imageViewTGR)
+                imageView.snp.makeConstraints { (make) in
+                    make.top.left.equalToSuperview().offset(14)
+                }
+            }
+        }
+    }
     private lazy    var didVibrateLeft: Bool                    = false
-    private lazy    var rightRatchet: PaymentCellRatchet?       = nil
+    private         var rightRatchet: PaymentCellRatchet?       = nil {
+        didSet {
+            if let ratchet = rightRatchet {
+                let imageView = UIImageView()
+                imageView.image = ratchet.image
+                imageView.contentMode = .scaleAspectFit
+                imageView.isUserInteractionEnabled = true
+                
+                contentView.addSubview(imageView)
+                let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapRightRatchetImage))
+                imageView.addGestureRecognizer(imageViewTGR)
+                imageView.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(26)
+                    make.right.equalToSuperview().offset(-24)
+                }
+            }
+        }
+    }
     private lazy    var didVibrateRight: Bool                   = false
     private lazy    var animateForegroundMove: () -> ()         = {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
@@ -162,34 +196,16 @@ class PaymentCellView: UITableViewCell {
             titleLabel.textColor    = UIColor.black
             amountLabel.textColor   = UIColor.pacyficBlue
             
-            //Bell
-            let bellIV = UIImageView()
-            bellIV.image = UIImage(named: "bell")
-            bellIV.contentMode = .scaleAspectFit
-            bellIV.isUserInteractionEnabled = true
             
-            contentView.addSubview(bellIV)
-            let bellTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBell))
-            bellIV.addGestureRecognizer(bellTGR)
-            bellIV.snp.makeConstraints { (make) in
-                make.top.left.equalToSuperview().offset(14)
-            }
-            leftRatchet = PaymentCellRatchet(stickyValue: 80, triggerValue: 150, action: { self.didTapBell() })
-            
-            //Wallet
-            let walletIV = UIImageView()
-            walletIV.image = UIImage(named: "wallet")
-            walletIV.contentMode = .scaleAspectFit
-            walletIV.isUserInteractionEnabled = true
-            
-            contentView.addSubview(walletIV)
-            let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
-            walletIV.addGestureRecognizer(walletTGR)
-            walletIV.snp.makeConstraints { (make) in
-                make.top.equalToSuperview().offset(26)
-                make.right.equalToSuperview().offset(-24)
-            }
-            rightRatchet = PaymentCellRatchet(stickyValue: -80, triggerValue: -150, action: { self.didTapWallet() })
+            leftRatchet = PaymentCellRatchet(stickyValue: 80,
+                                             triggerValue: 150,
+                                             image: UIImage(named: "bell")!,
+                                             action: { self.didTapLeftRatchetImage() })
+
+            rightRatchet = PaymentCellRatchet(stickyValue: -80,
+                                              triggerValue: -150,
+                                              image: UIImage(named: "wallet")!,
+                                              action: { self.didTapRightRatchetImage() })
             
         case .paid?:
             titleLabel.textColor    = UIColor.darkGrey
@@ -319,13 +335,13 @@ extension PaymentCellView {
 //MARK: Underneath icons taps handlers
 extension PaymentCellView {
     
-    @objc func didTapWallet() {
+    @objc func didTapRightRatchetImage() {
         delegate?.didTapPay(sender: self)
         offset = 0
         previousPosition = CGPoint()
     }
     
-    @objc func didTapBell() {
+    @objc func didTapLeftRatchetImage() {
         delegate?.didTapRemind(sender: self)
         offset = 0
         previousPosition = CGPoint()
