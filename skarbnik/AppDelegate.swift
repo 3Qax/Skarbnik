@@ -23,6 +23,13 @@ extension UIView {
     }
 }
 
+extension UIPanGestureRecognizer {
+    func cancel() {
+        self.isEnabled = false
+        self.isEnabled = true
+    }
+}
+
 class ClosureSleeve {
     let closure: ()->()
     

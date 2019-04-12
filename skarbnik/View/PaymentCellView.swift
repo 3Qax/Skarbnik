@@ -221,9 +221,9 @@ extension PaymentCellView {
         
         let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
         
+        if (panGestureRecognizer.state != .cancelled) { offset += Float(translation) }
         
-        offset += Float(translation)
-        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t")
+        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t State: \(panGestureRecognizer.state.rawValue)")
         
         if panGestureRecognizer.state == .changed {
             if let left = leftRatchet {
@@ -233,9 +233,10 @@ extension PaymentCellView {
                 } else if (abs(offset-left.stickyValue) >= 5 && offset > 0) { didVibrateLeft = false }
                 if offset > left.triggerValue && offset > 0 {
                     print("left tiggered")
-                    offset = 0
                     left.action()
                     notificationFeedbackGenerator.notificationOccurred(.success)
+                    panGestureRecognizer.cancel()
+                    offset = 0
                 }
             }
             if let right = rightRatchet {
@@ -245,9 +246,10 @@ extension PaymentCellView {
                 } else if (abs(offset-right.stickyValue) >= 5 && offset < 0) { didVibrateRight = false }
                 if offset < right.triggerValue && offset < 0 {
                     print("right tiggered")
-                    offset = 0
                     right.action()
                     notificationFeedbackGenerator.notificationOccurred(.success)
+                    panGestureRecognizer.cancel()
+                    offset = 0
                 }
             }
         }
