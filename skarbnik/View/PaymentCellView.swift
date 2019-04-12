@@ -26,13 +26,14 @@ struct PaymentCellRatchet {
 
 class PaymentCellView: UITableViewCell {
     
-    private let foreground: UIView                      = {
+    //UI components
+    private         let foreground: UIView                      = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.zPosition = 5
         return view
     }()
-    private let titleLabel: UILabel                     = {
+    private         let titleLabel: UILabel                     = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = UIColor.pacyficBlue
@@ -40,22 +41,26 @@ class PaymentCellView: UITableViewCell {
         label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         return label
     }()
-    private let amountLabel: AmountLabel                = {
+    private         let amountLabel: AmountLabel                = {
         let label = AmountLabel()
         return label
     }()
-    private let currrencyLabel: UILabel                 = {
+    private         let currrencyLabel: UILabel                 = {
         let label = UILabel()
         label.font = UIFont(name: "OpenSans-Light", size: 12.0)
         label.textColor = UIColor.lightGray
         return label
     }()
-    private var previousPosition: CGPoint               = CGPoint()
+    private         var previousPosition: CGPoint               = CGPoint()
     
-    private lazy var leftRatchet: PaymentCellRatchet?   = nil
-    private lazy var rightRatchet: PaymentCellRatchet?  = nil
-    private var offsetConstraint: Constraint?
-    private var offset: Float                           = 0 {
+    //Handling ratchet mechanisms
+    private lazy    var leftRatchet: PaymentCellRatchet?        = nil
+    private lazy    var didVibrateLeft: Bool                    = false
+    private lazy    var rightRatchet: PaymentCellRatchet?       = nil
+    private lazy    var didVibrateRight: Bool                   = false
+    
+    //Handling cell swiping
+    private         var offset: Float                           = 0 {
         didSet {
             offsetConstraint?.updateOffset(amount: offset)
             foreground.layer.cornerRadius   = CGFloat(min(abs(offset), 10))
@@ -66,12 +71,9 @@ class PaymentCellView: UITableViewCell {
             }
         }
     }
-    
-
-
+    private         var offsetConstraint: Constraint?
     
     public  let amountFormatter                         = NumberFormatter()
-
 
     var style: PaymentCellStyle?                        = nil {
         didSet {
@@ -80,8 +82,6 @@ class PaymentCellView: UITableViewCell {
     }
     var delegate: PaymentCellDelegate?
     
-    
-
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -145,7 +145,7 @@ class PaymentCellView: UITableViewCell {
         //Amount
         self.amountLabel.amount = amount
         
-        //Currency
+        //Currency code
         self.currrencyLabel.text = currency
         
     }
@@ -213,6 +213,12 @@ extension PaymentCellView {
     }
     
     @objc func panHandler(_ panGestureRecognizer: UIPanGestureRecognizer) {
+        
+        if panGestureRecognizer.state == .began {
+            previousPosition = CGPoint()
+            print("Began! Cleared!")
+        }
+        
         let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
         
         
@@ -221,17 +227,27 @@ extension PaymentCellView {
         
         if panGestureRecognizer.state == .changed {
             if let left = leftRatchet {
+                if abs(offset-left.stickyValue) < 5 && offset > 0 && !didVibrateLeft {
+                    selectionFeedbackGenerator.selectionChanged()
+                    didVibrateLeft = true
+                } else if (abs(offset-left.stickyValue) >= 5 && offset > 0) { didVibrateLeft = false }
                 if offset > left.triggerValue && offset > 0 {
+                    print("left tiggered")
                     offset = 0
                     left.action()
-                    previousPosition = CGPoint()
+                    notificationFeedbackGenerator.notificationOccurred(.success)
                 }
             }
             if let right = rightRatchet {
+                if abs(offset-right.stickyValue) < 5 && offset < 0 && !didVibrateRight {
+                    selectionFeedbackGenerator.selectionChanged()
+                    didVibrateRight = true
+                } else if (abs(offset-right.stickyValue) >= 5 && offset < 0) { didVibrateRight = false }
                 if offset < right.triggerValue && offset < 0 {
+                    print("right tiggered")
                     offset = 0
                     right.action()
-                    previousPosition = CGPoint()
+                    notificationFeedbackGenerator.notificationOccurred(.success)
                 }
             }
         }
@@ -283,10 +299,14 @@ extension PaymentCellView {
     
     @objc func didTapWallet() {
         delegate?.didTapPay(sender: self)
+        offset = 0
+        previousPosition = CGPoint()
     }
     
     @objc func didTapBell() {
         delegate?.didTapRemind(sender: self)
+        offset = 0
+        previousPosition = CGPoint()
     }
     
 }
@@ -302,4 +322,5 @@ extension PaymentCellView {
         }
         return false
     }
+
 }
