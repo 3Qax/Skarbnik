@@ -131,7 +131,7 @@ extension PaymentViewController: PaymentCellDelegate {
     func didTapPay(sender: PaymentCellView) {
         
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
-            coordinator?.didRequestToPay(for: paymentModel.payments[index], withCurrencyFormatter: sender.amountFormatter)
+            coordinator?.didRequestToPay(for: paymentModel.payments[index])
         }
         
     }

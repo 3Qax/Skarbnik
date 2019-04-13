@@ -46,7 +46,7 @@ class PaymentCellView: UITableViewCell {
         let label = AmountLabel()
         return label
     }()
-    private         let currrencyLabel: UILabel                 = {
+    private         let currrencyCodeLabel: UILabel                 = {
         let label = UILabel()
         label.font = UIFont(name: "OpenSans-Light", size: 12.0)
         label.textColor = UIColor.lightGray
@@ -111,8 +111,6 @@ class PaymentCellView: UITableViewCell {
         }
     }
     private         var offsetConstraint: Constraint?
-    
-    public  let amountFormatter                         = NumberFormatter()
 
     var style: PaymentCellStyle?                        = nil {
         didSet {
@@ -168,8 +166,8 @@ class PaymentCellView: UITableViewCell {
         }
         
         //Currency code
-        foreground.addSubview(currrencyLabel)
-        currrencyLabel.snp.makeConstraints { (make) in
+        foreground.addSubview(currrencyCodeLabel)
+        currrencyCodeLabel.snp.makeConstraints { (make) in
             make.left.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom)
         }
@@ -185,7 +183,7 @@ class PaymentCellView: UITableViewCell {
         self.amountLabel.amount = amount
         
         //Currency code
-        self.currrencyLabel.text = currency
+        self.currrencyCodeLabel.text = currency
         
     }
     

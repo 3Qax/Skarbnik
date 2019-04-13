@@ -24,7 +24,7 @@ class PayView: UIView {
     let howMuchLabel                            = BigLabel(text: "Ile")
     let segmentedControl                        = SegmentedControl(optionsLabels: ["wpisz kwotę", "wybierz kwotę"])
     
-    let amountFormatter: NumberFormatter
+    let amountFormatter: NumberFormatter        = NumberFormatter()
     
     let sliderWrapper                           = UIView()
         let slider: ProgressableSlider
@@ -57,9 +57,10 @@ class PayView: UIView {
     
     
     
-    init(totalAmount: Float, amountToPay: Float, remittances: [Float], amountFormatter: NumberFormatter) {
+    init(totalAmount: Float, amountToPay: Float, remittances: [Float], currencyCode: String) {
         slider = ProgressableSlider(progressionPoints: remittances, maxValue: totalAmount)
-        self.amountFormatter = amountFormatter
+        self.amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == currencyCode })
+        self.amountFormatter.numberStyle = .currency
         self.amountToPay = amountToPay
         super.init(frame: .zero)
         

@@ -57,8 +57,8 @@ class PaymentCoordinator: Coordinator {
         navigationController.popViewController(animated: true)
     }
     
-    func didRequestToPay(for payment: Payment, withCurrencyFormatter formatter: NumberFormatter) {
-        let payViewController = PayViewController(for: payment, currencyFormatter: formatter)
+    func didRequestToPay(for payment: Payment) {
+        let payViewController = PayViewController(for: payment)
         payViewController.coordinator = self
         navigationController.pushViewController(payViewController, animated: true)
         
