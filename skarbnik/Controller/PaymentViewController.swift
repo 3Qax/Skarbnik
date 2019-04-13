@@ -46,6 +46,11 @@ class PaymentViewController: UIViewController {
         paymentView.searchBar.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        paymentView.updateStats(pending: paymentModel.payments.filter({ $0.state == .pending }).count,
+                                paid: paymentModel.payments.filter({ $0.state == .paid }).count)
+    }
+    
     @objc func loadedData() {
         self.paymentView.reloadData()
         

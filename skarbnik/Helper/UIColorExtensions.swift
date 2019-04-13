@@ -35,6 +35,7 @@ extension UIColor {
     static let pacyficBlue = UIColor(rgb: 0x42509F)//00A1E6
     static let backgroundGrey = UIColor(rgb: 0xF5F5F5)
     static let darkGrey = UIColor(rgb: 0xAAAAAA)
+    static let lightViolet = UIColor(rgb: 0xE3E9F5)
     
     
 }

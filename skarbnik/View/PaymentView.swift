@@ -42,6 +42,54 @@ class PaymentView: UIView {
         return view
     }()
     
+    var statsView: UIView                               = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        view.layer.cornerRadius = 10
+        view.layer.zPosition = 5
+        
+        let divider = UIView()
+        divider.backgroundColor = UIColor.lightViolet
+        view.addSubview(divider)
+        divider.snp.makeConstraints({ (make) in
+            make.width.equalTo(1)
+            make.height.centerX.equalToSuperview()
+        })
+        return view
+    }()
+        var statsLeftNumber: UILabel                    = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 48)
+            label.textAlignment = .center
+            label.textColor = UIColor.pacyficBlue
+            return label
+        }()
+        var statsLeftDescription: UILabel               = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 16)
+            label.textAlignment = .center
+            label.textColor = UIColor.black
+            label.baselineAdjustment = UIBaselineAdjustment.alignBaselines
+            label.text = "oczekujące"
+            return label
+        }()
+        var statsRightNumber: UILabel                   = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 48)
+            label.textAlignment = .center
+            label.textColor = UIColor.darkGrey
+            return label
+        }()
+        var statsRightDescription: UILabel              = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 16)
+            label.textAlignment = .center
+            label.baselineAdjustment = UIBaselineAdjustment.alignBaselines
+            label.textColor = UIColor.black
+            label.text = "zapłacone"
+            return label
+        }()
+    
     var tableView                                       = UITableView()
         let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
@@ -99,6 +147,41 @@ class PaymentView: UIView {
         }
         circle.layer.cornerRadius = 250/2
 
+        self.addSubview(statsView)
+        statsView.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.height.equalTo(80)
+            make.top.equalTo(safeAreaLayoutGuide).offset(150)
+        }
+        
+        statsView.addSubview(statsLeftNumber)
+        statsLeftNumber.snp.makeConstraints { (make) in
+            make.top.left.equalToSuperview()
+            make.right.equalTo(statsView.snp.centerX)
+            make.height.equalTo(59)
+        }
+        
+        statsView.addSubview(statsRightNumber)
+        statsRightNumber.snp.makeConstraints { (make) in
+            make.top.right.equalToSuperview()
+            make.left.equalTo(statsView.snp.centerX)
+            make.height.equalTo(59)
+        }
+        
+        statsView.addSubview(statsLeftDescription)
+        statsLeftDescription.snp.makeConstraints { (make) in
+            make.bottom.left.equalToSuperview()
+            make.right.equalTo(statsView.snp.centerX)
+            make.height.equalTo(26)
+        }
+        
+        statsView.addSubview(statsRightDescription)
+        statsRightDescription.snp.makeConstraints { (make) in
+            make.bottom.right.equalToSuperview()
+            make.left.equalTo(statsView.snp.centerX)
+            make.height.equalTo(26)
+        }
         
         
         
@@ -130,7 +213,7 @@ class PaymentView: UIView {
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(header.snp.bottom).offset(185)
+            make.top.equalTo(safeAreaLayoutGuide).offset(205)
         }
         
         self.bringSubviewToFront(header)
@@ -220,6 +303,11 @@ class PaymentView: UIView {
     func reloadData() {
         refreshControl.endRefreshing()
         tableView.reloadData()
+    }
+    
+    func updateStats(pending: Int, paid: Int) {
+        self.statsLeftNumber.text = String(pending)
+        self.statsRightNumber.text = String(paid)
     }
     
     
