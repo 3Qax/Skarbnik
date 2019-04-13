@@ -17,9 +17,10 @@ class PaymentViewController: UIViewController {
     
     
     
-    init(of studentID: Int, in classID: Int) {
+    init(of name: String, studentID: Int, in classID: Int) {
         paymentModel = PaymentModel(of: studentID, in: classID)
-        paymentView = PaymentView(frame: .zero)
+        paymentView = PaymentView(firstName: name.components(separatedBy: " ").dropLast().reduce("", { $0=="" ? $1 : $0 + " " + $1 }),
+                                  lastName: name.components(separatedBy: " ").last ?? "")
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
     }

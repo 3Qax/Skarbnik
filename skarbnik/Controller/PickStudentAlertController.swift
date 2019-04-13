@@ -29,7 +29,9 @@ class PickStudentAlertController: UIViewController {
                     self.pickStudentAlert.addAction(UIAlertAction(title: name,
                                                                   style: .default,
                                                                   handler: { _ in
-                                                                    self.coordinator?.didChooseStudent(of: IDs[0], in: IDs[1])
+                                                                    self.coordinator?.didChooseStudent(of: IDs[0],
+                                                                                                       andName: name,
+                                                                                                       in: IDs[1])
                     }))
                 }
             }

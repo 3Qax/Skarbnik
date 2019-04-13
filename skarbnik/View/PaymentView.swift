@@ -42,6 +42,19 @@ class PaymentView: UIView {
         return view
     }()
     
+    var firstNameLabel: UILabel                         = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Light", size: 16)
+        label.textColor = UIColor.white
+        return label
+    }()
+    var lastNameLabel: UILabel                          = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Regular", size: 18)
+        label.textColor = UIColor.white
+        return label
+    }()
+    
     var statsView: UIView                               = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -107,7 +120,7 @@ class PaymentView: UIView {
     
     
     
-    override init(frame: CGRect) {
+    init(firstName: String, lastName: String, frame: CGRect = .zero) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.pacyficBlue
         
@@ -146,6 +159,24 @@ class PaymentView: UIView {
             make.height.width.equalTo(250)
         }
         circle.layer.cornerRadius = 250/2
+        
+        self.addSubview(firstNameLabel)
+        firstNameLabel.text = firstName
+        firstNameLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(30)
+            make.height.equalTo(20)
+            make.top.equalTo(safeAreaLayoutGuide).offset(96)
+        }
+        
+        self.addSubview(lastNameLabel)
+        lastNameLabel.text = lastName
+        lastNameLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(30)
+            make.height.equalTo(29)
+            make.top.equalTo(firstNameLabel.snp.bottom)
+        }
+        
+
 
         self.addSubview(statsView)
         statsView.snp.makeConstraints { (make) in

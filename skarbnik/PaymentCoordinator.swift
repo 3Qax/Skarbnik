@@ -18,20 +18,22 @@ class PaymentCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     let studentID, classID: Int
+    let studentName: String
     var paymentVC: PaymentViewController?
     
     
     
     
     
-    init(ofStudentWithID: Int, inClassWithID: Int, navigationController: UINavigationController) {
+    init(ofStudentWithID: Int, andName name: String, inClassWithID: Int, navigationController: UINavigationController) {
         self.studentID = ofStudentWithID
+        self.studentName = name
         self.classID = inClassWithID
         self.navigationController = navigationController
     }
     
     func start() {
-        paymentVC = PaymentViewController(of: studentID, in: classID)
+        paymentVC = PaymentViewController(of: studentName, studentID: studentID, in: classID)
         paymentVC!.coordinator = self
     }
     
