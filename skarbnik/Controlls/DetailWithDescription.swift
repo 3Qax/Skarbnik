@@ -41,7 +41,7 @@ class DetailWithDescription: UIView {
         valueLabel.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             make.top.equalTo(descriptionLabel.snp.bottom).offset(-5)//-10
-            make.height.equalTo(43)
+            make.height.equalTo(48)
         }
     }
     

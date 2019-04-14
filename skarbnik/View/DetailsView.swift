@@ -93,7 +93,7 @@ class DetailsView: UIView {
                         make.left.equalToSuperview().offset(15)
                         make.right.equalToSuperview()
                         if let bottomOfLastItem = mostBottomItem?.snp.bottom {
-                            make.top.equalTo(bottomOfLastItem).offset(10)
+                            make.top.equalTo(bottomOfLastItem).offset(5)
                         } else { make.top.equalTo(card).offset(10) }
                     }
         }
