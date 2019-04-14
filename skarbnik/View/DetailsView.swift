@@ -82,6 +82,7 @@ class DetailsView: UIView {
             make.top.equalTo(safeAreaLayoutGuide).offset(127)
             make.left.bottom.right.equalToSuperview()
         }
+        card.layer.addShadow(Xoffset: -4, Yoffset: 0, blurRadius: 2)
         
         for detail in details {
                     let detailLabel = DetailWithDescription(title: detail.title,

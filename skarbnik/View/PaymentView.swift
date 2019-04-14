@@ -58,8 +58,6 @@ class PaymentView: UIView {
     var statsView: UIView                               = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 10
-        view.layer.zPosition = 5
         
         let divider = UIView()
         divider.backgroundColor = UIColor.lightViolet
@@ -185,6 +183,8 @@ class PaymentView: UIView {
             make.height.equalTo(80)
             make.top.equalTo(safeAreaLayoutGuide).offset(150)
         }
+        statsView.layer.addShadow()
+        statsView.layer.roundCorners(radius: 10)
         
         statsView.addSubview(statsLeftNumber)
         statsLeftNumber.snp.makeConstraints { (make) in
@@ -248,7 +248,7 @@ class PaymentView: UIView {
         }
         
         self.bringSubviewToFront(header)
-        
+        self.bringSubviewToFront(statsView)
       
     }
     

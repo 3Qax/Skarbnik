@@ -31,7 +31,6 @@ class PaymentCellView: UITableViewCell {
     private         let foreground: UIView                      = {
         let view = UIView()
         view.backgroundColor = UIColor.white
-        view.layer.zPosition = 5
         return view
     }()
     private         let titleLabel: UILabel                     = {
@@ -46,7 +45,7 @@ class PaymentCellView: UITableViewCell {
         let label = AmountLabel()
         return label
     }()
-    private         let currrencyCodeLabel: UILabel                 = {
+    private         let currrencyCodeLabel: UILabel             = {
         let label = UILabel()
         label.font = UIFont(name: "OpenSans-Light", size: 12.0)
         label.textColor = UIColor.lightGray
@@ -112,7 +111,7 @@ class PaymentCellView: UITableViewCell {
     }
     private         var offsetConstraint: Constraint?
 
-    var style: PaymentCellStyle?                        = nil {
+    var style: PaymentCellStyle?                                = nil {
         didSet {
             didChangeState()
         }
@@ -171,6 +170,8 @@ class PaymentCellView: UITableViewCell {
             make.left.equalTo(titleLabel)
             make.top.equalTo(titleLabel.snp.bottom)
         }
+        
+        contentView.bringSubviewToFront(foreground)
         
     }
     

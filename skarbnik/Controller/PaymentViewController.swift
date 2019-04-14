@@ -113,6 +113,9 @@ extension PaymentViewController: UITableViewDataSource {
         
         cell.layoutSubviews()
         tableView.endUpdates()
+        
+        cell.layer.addShadow(Xoffset: 0, Yoffset: 4, blurRadius: 2)
+        
         return cell
         
     }
