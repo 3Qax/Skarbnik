@@ -77,6 +77,7 @@ class PaymentCoordinator: Coordinator {
     
     func showDetails(of payment: Payment) {
         let detailsVC = DetailsViewController(of: payment)
+        detailsVC.coordinator = self
         navigationController.pushViewController(detailsVC, animated: true)
     }
     

@@ -13,6 +13,7 @@ import UIKit
 class DetailsViewController: UIViewController {
     let detailsView: DetailsView
     let detailsModel: DetailsModel
+    var coordinator: PaymentCoordinator?
     
     
     
@@ -36,10 +37,12 @@ class DetailsViewController: UIViewController {
             //detailsToShow.append(Detail(title: "", value: ""))//[""] = ""
             //detailsToShow.append(Detail(title: "", value: ""))//[""] = ""
         }
-        detailsView = DetailsView(showing: detailsToShow)
+        detailsView = DetailsView(showing: detailsToShow, ofPaymentNamed: payment.name, withDescription: payment.description)
         detailsModel = DetailsModel()
         
         super.init(nibName: nil, bundle: nil)
+        
+        detailsView.delegate = self
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,5 +56,13 @@ class DetailsViewController: UIViewController {
     override func loadView() {
         view = detailsView
     }
+    
+}
+
+extension DetailsViewController: DetailsViewDelegate {
+    func didTapBack() {
+        coordinator?.goBack()
+    }
+    
     
 }

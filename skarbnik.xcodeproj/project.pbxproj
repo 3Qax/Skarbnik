@@ -54,6 +54,7 @@
 		19B446BD226298FD0014121F /* DetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BC226298FD0014121F /* DetailsModel.swift */; };
 		19B446BF226299160014121F /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BE226299160014121F /* DetailsView.swift */; };
 		19B446C12262A0A10014121F /* DetailWithDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C02262A0A10014121F /* DetailWithDescription.swift */; };
+		19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C222637F5D0014121F /* DetailsViewDelegate.swift */; };
 		19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A6F2200DF890095D991 /* RaisedButton.swift */; };
 		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
@@ -122,6 +123,7 @@
 		19B446BC226298FD0014121F /* DetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModel.swift; sourceTree = "<group>"; };
 		19B446BE226299160014121F /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
 		19B446C02262A0A10014121F /* DetailWithDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWithDescription.swift; sourceTree = "<group>"; };
+		19B446C222637F5D0014121F /* DetailsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewDelegate.swift; sourceTree = "<group>"; };
 		19BA4A6F2200DF890095D991 /* RaisedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaisedButton.swift; sourceTree = "<group>"; };
 		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */,
 				19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */,
 				1988D790223ECEEC006A6A22 /* PayViewDelegate.swift */,
+				19B446C222637F5D0014121F /* DetailsViewDelegate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				19461BAB22391D4B00D2E907 /* PayViewController.swift in Sources */,
 				194784EB22083C53000AE323 /* PickStudentModel.swift in Sources */,
 				1988D791223ECEEC006A6A22 /* PayViewDelegate.swift in Sources */,
+				19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,

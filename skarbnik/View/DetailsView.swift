@@ -16,9 +16,15 @@ class DetailsView: UIView {
         let imageView = UIImageView(image: UIImage(named: "back"))
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = UIColor.white
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
-    
+    let title: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Regular", size: 36)
+        label.textColor = UIColor.white
+        return label
+    }()
     let card: UIView            = {
        let view = UIView()
         view.layer.cornerRadius = 15
@@ -26,8 +32,9 @@ class DetailsView: UIView {
         view.backgroundColor = UIColor.backgroundGrey
         return view
     }()
+    var delegate: DetailsViewDelegate?
     
-    init(showing details: [Detail]) {
+    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String) {
         super.init(frame: .zero)
         
         self.backgroundColor = UIColor.pacyficBlue
@@ -56,9 +63,16 @@ class DetailsView: UIView {
                         make.left.equalToSuperview().offset(15)
                         make.right.equalToSuperview()
                         if let bottomOfLastItem = mostBottomItem?.snp.bottom {
-                            make.top.equalTo(bottomOfLastItem)
+                            make.top.equalTo(bottomOfLastItem).offset(10)
                         } else { make.top.equalTo(card).offset(10) }
                     }
+        }
+        
+        self.addSubview(title)
+        title.text = paymentTitle
+        title.snp.makeConstraints { (make) in
+            make.bottom.equalTo(card.snp.top)
+            make.left.equalToSuperview().offset(15)
         }
         
     }
@@ -68,6 +82,6 @@ class DetailsView: UIView {
     }
     
     @objc func didTapBack() {
-    
+        delegate?.didTapBack()
     }
 }
