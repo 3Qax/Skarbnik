@@ -17,7 +17,7 @@ class PaymentView: UIView {
         return view
     }()
         var changeStudentIV: UIImageView                = {
-            var imageView = UIImageView(image: UIImage(named: "refresh"))
+            var imageView = UIImageView(image: UIImage(named: "users"))
             imageView.contentMode = .scaleAspectFit
             imageView.tintColor = UIColor.white
             return imageView

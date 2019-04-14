@@ -63,7 +63,7 @@ class PaymentCellView: UITableViewCell {
                 imageView.contentMode = .scaleAspectFit
                 imageView.isUserInteractionEnabled = true
                 
-                contentView.addSubview(imageView)
+                contentView.insertSubview(imageView, belowSubview: foreground)
                 let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapLeftRatchetImage))
                 imageView.addGestureRecognizer(imageViewTGR)
                 imageView.snp.makeConstraints { (make) in
@@ -81,7 +81,7 @@ class PaymentCellView: UITableViewCell {
                 imageView.contentMode = .scaleAspectFit
                 imageView.isUserInteractionEnabled = true
                 
-                contentView.addSubview(imageView)
+                contentView.insertSubview(imageView, belowSubview: foreground)
                 let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapRightRatchetImage))
                 imageView.addGestureRecognizer(imageViewTGR)
                 imageView.snp.makeConstraints { (make) in
