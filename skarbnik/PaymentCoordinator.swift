@@ -75,5 +75,10 @@ class PaymentCoordinator: Coordinator {
         parentCoordinator?.didRequestStudentChange()
     }
     
+    func showDetails(of payment: Payment) {
+        let detailsVC = DetailsViewController(of: payment)
+        navigationController.pushViewController(detailsVC, animated: true)
+    }
+    
     
 }

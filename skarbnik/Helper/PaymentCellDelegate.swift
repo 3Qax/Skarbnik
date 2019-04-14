@@ -14,5 +14,4 @@ protocol PaymentCellDelegate {
     func didTapRemind(sender: PaymentCellView)
     func didTapPay(sender: PaymentCellView)
     func didTapCell(sender: PaymentCellView)
-    //func didTapCell(sender: PaymentCellView)
 }

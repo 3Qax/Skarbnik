@@ -50,6 +50,10 @@
 		19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCellView.swift */; };
 		19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A1CC224045F4005B1818 /* StartViewController.swift */; };
 		19A6A1CF224045FC005B1818 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A1CE224045FC005B1818 /* StartView.swift */; };
+		19B446BB226296880014121F /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BA226296880014121F /* DetailsViewController.swift */; };
+		19B446BD226298FD0014121F /* DetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BC226298FD0014121F /* DetailsModel.swift */; };
+		19B446BF226299160014121F /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BE226299160014121F /* DetailsView.swift */; };
+		19B446C12262A0A10014121F /* DetailWithDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C02262A0A10014121F /* DetailWithDescription.swift */; };
 		19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A6F2200DF890095D991 /* RaisedButton.swift */; };
 		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
@@ -114,6 +118,10 @@
 		19A1D915225F51300012B09E /* AmountLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountLabel.swift; sourceTree = "<group>"; };
 		19A6A1CC224045F4005B1818 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		19A6A1CE224045FC005B1818 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		19B446BA226296880014121F /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		19B446BC226298FD0014121F /* DetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModel.swift; sourceTree = "<group>"; };
+		19B446BE226299160014121F /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		19B446C02262A0A10014121F /* DetailWithDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWithDescription.swift; sourceTree = "<group>"; };
 		19BA4A6F2200DF890095D991 /* RaisedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaisedButton.swift; sourceTree = "<group>"; };
 		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -195,6 +203,7 @@
 				1900F2D8220F05180040612A /* ChangePasswordModel.swift */,
 				19DEFC012231147C00BEFF8D /* ReminderModel.swift */,
 				19461BAE223920A000D2E907 /* PayModel.swift */,
+				19B446BC226298FD0014121F /* DetailsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -209,6 +218,7 @@
 				19346238221E72F800EC6CBE /* ReminderView.swift */,
 				19461BAC22391D8800D2E907 /* PayView.swift */,
 				19A6A1CE224045FC005B1818 /* StartView.swift */,
+				19B446BE226299160014121F /* DetailsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -226,6 +236,7 @@
 				19484C3A220461C1006097CF /* ChangePasswordViewController.swift */,
 				19346236221E72A000EC6CBE /* ReminderViewController.swift */,
 				19461BAA22391D4B00D2E907 /* PayViewController.swift */,
+				19B446BA226296880014121F /* DetailsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -245,6 +256,7 @@
 				1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */,
 				1953FE12224782F300F91A9B /* LightSearchBar.swift */,
 				19A1D915225F51300012B09E /* AmountLabel.swift */,
+				19B446C02262A0A10014121F /* DetailWithDescription.swift */,
 			);
 			path = Controlls;
 			sourceTree = "<group>";
@@ -428,6 +440,7 @@
 				1988D793223EFF20006A6A22 /* CoordinatorProtocol.swift in Sources */,
 				19346239221E72F800EC6CBE /* ReminderView.swift in Sources */,
 				19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */,
+				19B446C12262A0A10014121F /* DetailWithDescription.swift in Sources */,
 				1947D58D220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift in Sources */,
 				1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */,
 				1988D797223F1747006A6A22 /* PaymentCoordinator.swift in Sources */,
@@ -435,6 +448,7 @@
 				194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */,
 				19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */,
 				19461BAF223920A000D2E907 /* PayModel.swift in Sources */,
+				19B446BB226296880014121F /* DetailsViewController.swift in Sources */,
 				19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,
 				199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */,
@@ -444,6 +458,7 @@
 				19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */,
 				1947D589220AEEEE00C1D7D8 /* AsyncSafetyController.swift in Sources */,
 				19A1D916225F51300012B09E /* AmountLabel.swift in Sources */,
+				19B446BF226299160014121F /* DetailsView.swift in Sources */,
 				195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */,
 				194784E5220707C5000AE323 /* APIClient.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
@@ -456,6 +471,7 @@
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
 				194784ED2208C87B000AE323 /* PaymentModel.swift in Sources */,
 				19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */,
+				19B446BD226298FD0014121F /* DetailsModel.swift in Sources */,
 				19461BAD22391D8800D2E907 /* PayView.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */,
 				19461BAB22391D4B00D2E907 /* PayViewController.swift in Sources */,

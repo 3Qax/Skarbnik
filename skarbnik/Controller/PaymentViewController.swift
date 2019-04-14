@@ -123,6 +123,7 @@ extension PaymentViewController: PaymentCellDelegate {
     func didTapCell(sender: PaymentCellView) {
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
             print("Tapped cell at index: \(index)")
+            coordinator?.showDetails(of: paymentModel.payments[index])
         }
     }
     
