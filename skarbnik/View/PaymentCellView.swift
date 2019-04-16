@@ -228,6 +228,7 @@ class PaymentCellView: UITableViewCell {
 extension PaymentCellView {
     
     @objc func tapHandler() {
+        selectionFeedbackGenerator.selectionChanged()
         self.delegate?.didTapCell(sender: self)
     }
     

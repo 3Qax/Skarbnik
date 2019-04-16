@@ -132,7 +132,7 @@ extension DetailsView: Slidable {
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
         }
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion: { _ in completion()})
     }
@@ -142,7 +142,7 @@ extension DetailsView: Slidable {
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
         }
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion: { _ in completion()})
     }

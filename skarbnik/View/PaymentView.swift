@@ -348,11 +348,32 @@ class PaymentView: UIView {
 
 extension PaymentView: Slidable {
     func slideIn(completion: @escaping () -> ()) {
+        
+        
+        changeStudentIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalToSuperview().offset(5)
+        }
+        
+        searchIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.right.equalToSuperview().offset(-5)
+        }
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+            self.layoutIfNeeded()
+        })
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.firstNameLabel.alpha = 1.0
+            self.lastNameLabel.alpha = 1.0
+        })
+        
         tableViewTopOffset?.uninstall()
         tableView.snp.makeConstraints { (make) in
             tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
         }
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion: { _ in completion()})
     }
@@ -362,9 +383,27 @@ extension PaymentView: Slidable {
         tableView.snp.makeConstraints { (make) in
             tableViewTopOffset = make.top.equalTo(self.snp.bottom).constraint
         }
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()
         }, completion: { _ in completion()})
+        
+        changeStudentIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.right.equalTo(header.snp.left)
+        }
+        searchIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalTo(header.snp.right)
+        }
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+            self.layoutIfNeeded()
+        })
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.firstNameLabel.alpha = 0.0
+            self.lastNameLabel.alpha = 0.0
+        })
     }
     
     
