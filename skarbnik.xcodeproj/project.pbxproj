@@ -46,9 +46,17 @@
 		1988D795223F01C3006A6A22 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988D794223F01C3006A6A22 /* LoginCoordinator.swift */; };
 		1988D797223F1747006A6A22 /* PaymentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988D796223F1747006A6A22 /* PaymentCoordinator.swift */; };
 		199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F8F022201DB6700ABD4C2 /* OptionButton.swift */; };
+		19A1D916225F51300012B09E /* AmountLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A1D915225F51300012B09E /* AmountLabel.swift */; };
 		19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCellView.swift */; };
 		19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A1CC224045F4005B1818 /* StartViewController.swift */; };
 		19A6A1CF224045FC005B1818 /* StartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A6A1CE224045FC005B1818 /* StartView.swift */; };
+		19B446BB226296880014121F /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BA226296880014121F /* DetailsViewController.swift */; };
+		19B446BD226298FD0014121F /* DetailsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BC226298FD0014121F /* DetailsModel.swift */; };
+		19B446BF226299160014121F /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446BE226299160014121F /* DetailsView.swift */; };
+		19B446C12262A0A10014121F /* DetailWithDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C02262A0A10014121F /* DetailWithDescription.swift */; };
+		19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C222637F5D0014121F /* DetailsViewDelegate.swift */; };
+		19B446C5226528720014121F /* SlideInAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C4226528720014121F /* SlideInAnimationController.swift */; };
+		19B446C7226538C00014121F /* Slideable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19B446C6226538C00014121F /* Slideable.swift */; };
 		19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A6F2200DF890095D991 /* RaisedButton.swift */; };
 		19BA4A742201013F0095D991 /* LightTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BA4A732201013F0095D991 /* LightTextField.swift */; };
 		19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CA3D5A21C9B530009059B0 /* LoginView.swift */; };
@@ -110,8 +118,16 @@
 		1988D794223F01C3006A6A22 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		1988D796223F1747006A6A22 /* PaymentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCoordinator.swift; sourceTree = "<group>"; };
 		199F8F022201DB6700ABD4C2 /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		19A1D915225F51300012B09E /* AmountLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountLabel.swift; sourceTree = "<group>"; };
 		19A6A1CC224045F4005B1818 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		19A6A1CE224045FC005B1818 /* StartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartView.swift; sourceTree = "<group>"; };
+		19B446BA226296880014121F /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		19B446BC226298FD0014121F /* DetailsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsModel.swift; sourceTree = "<group>"; };
+		19B446BE226299160014121F /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		19B446C02262A0A10014121F /* DetailWithDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailWithDescription.swift; sourceTree = "<group>"; };
+		19B446C222637F5D0014121F /* DetailsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewDelegate.swift; sourceTree = "<group>"; };
+		19B446C4226528720014121F /* SlideInAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInAnimationController.swift; sourceTree = "<group>"; };
+		19B446C6226538C00014121F /* Slideable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slideable.swift; sourceTree = "<group>"; };
 		19BA4A6F2200DF890095D991 /* RaisedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaisedButton.swift; sourceTree = "<group>"; };
 		19BA4A732201013F0095D991 /* LightTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightTextField.swift; sourceTree = "<group>"; };
 		19CA3D5A21C9B530009059B0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -193,6 +209,7 @@
 				1900F2D8220F05180040612A /* ChangePasswordModel.swift */,
 				19DEFC012231147C00BEFF8D /* ReminderModel.swift */,
 				19461BAE223920A000D2E907 /* PayModel.swift */,
+				19B446BC226298FD0014121F /* DetailsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -207,6 +224,7 @@
 				19346238221E72F800EC6CBE /* ReminderView.swift */,
 				19461BAC22391D8800D2E907 /* PayView.swift */,
 				19A6A1CE224045FC005B1818 /* StartView.swift */,
+				19B446BE226299160014121F /* DetailsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -224,6 +242,8 @@
 				19484C3A220461C1006097CF /* ChangePasswordViewController.swift */,
 				19346236221E72A000EC6CBE /* ReminderViewController.swift */,
 				19461BAA22391D4B00D2E907 /* PayViewController.swift */,
+				19B446BA226296880014121F /* DetailsViewController.swift */,
+				19B446C4226528720014121F /* SlideInAnimationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -242,6 +262,8 @@
 				194E989A223971EC0039CA66 /* ProgressableSlider.swift */,
 				1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */,
 				1953FE12224782F300F91A9B /* LightSearchBar.swift */,
+				19A1D915225F51300012B09E /* AmountLabel.swift */,
+				19B446C02262A0A10014121F /* DetailWithDescription.swift */,
 			);
 			path = Controlls;
 			sourceTree = "<group>";
@@ -260,6 +282,8 @@
 				19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */,
 				19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */,
 				1988D790223ECEEC006A6A22 /* PayViewDelegate.swift */,
+				19B446C222637F5D0014121F /* DetailsViewDelegate.swift */,
+				19B446C6226538C00014121F /* Slideable.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -370,12 +394,14 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -423,6 +449,7 @@
 				1988D793223EFF20006A6A22 /* CoordinatorProtocol.swift in Sources */,
 				19346239221E72F800EC6CBE /* ReminderView.swift in Sources */,
 				19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */,
+				19B446C12262A0A10014121F /* DetailWithDescription.swift in Sources */,
 				1947D58D220AF99E00C1D7D8 /* AsyncSafetyProtocool.swift in Sources */,
 				1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */,
 				1988D797223F1747006A6A22 /* PaymentCoordinator.swift in Sources */,
@@ -430,6 +457,7 @@
 				194784E9220835C4000AE323 /* PickStudentAlertController.swift in Sources */,
 				19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */,
 				19461BAF223920A000D2E907 /* PayModel.swift in Sources */,
+				19B446BB226296880014121F /* DetailsViewController.swift in Sources */,
 				19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,
 				199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */,
@@ -437,7 +465,10 @@
 				1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */,
 				196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */,
 				19BA4A702200DF890095D991 /* RaisedButton.swift in Sources */,
+				19B446C5226528720014121F /* SlideInAnimationController.swift in Sources */,
 				1947D589220AEEEE00C1D7D8 /* AsyncSafetyController.swift in Sources */,
+				19A1D916225F51300012B09E /* AmountLabel.swift in Sources */,
+				19B446BF226299160014121F /* DetailsView.swift in Sources */,
 				195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */,
 				194784E5220707C5000AE323 /* APIClient.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
@@ -450,13 +481,16 @@
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
 				194784ED2208C87B000AE323 /* PaymentModel.swift in Sources */,
 				19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */,
+				19B446BD226298FD0014121F /* DetailsModel.swift in Sources */,
 				19461BAD22391D8800D2E907 /* PayView.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */,
 				19461BAB22391D4B00D2E907 /* PayViewController.swift in Sources */,
 				194784EB22083C53000AE323 /* PickStudentModel.swift in Sources */,
 				1988D791223ECEEC006A6A22 /* PayViewDelegate.swift in Sources */,
+				19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
+				19B446C7226538C00014121F /* Slideable.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
 				1988D795223F01C3006A6A22 /* LoginCoordinator.swift in Sources */,
 				19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */,
@@ -623,7 +657,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -645,7 +679,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -729,7 +763,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "https://www.stagingserverurl.com";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Staging Debug";
 		};
@@ -807,7 +841,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "https://www.stagingserverurl.com";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Staging Release";
 		};

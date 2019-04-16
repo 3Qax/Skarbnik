@@ -23,12 +23,12 @@ class PayViewController: UIViewController {
         view = payView
     }
     
-    init(for payment: Payment, currencyFormatter: NumberFormatter) {
+    init(for payment: Payment) {
         payModel = PayModel(of: payment)
         payView = PayView(totalAmount: payment.amount,
                           amountToPay: payment.amount - payment.contribution.reduce(0, +),
                           remittances: payment.contribution,
-                          amountFormatter: currencyFormatter)
+                          currencyCode: payment.currency)
         
         super.init(nibName: nil, bundle: nil)
         navigationItem.title = payModel.payment.name

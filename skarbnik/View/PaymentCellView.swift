@@ -11,61 +11,107 @@ import SnapKit
 
 
 
+enum PaymentCellStyle {
+    case paid
+    case pending
+}
+
+struct PaymentCellRatchet {
+    
+    let stickyValue: Float
+    let triggerValue: Float
+    let image: UIImage
+    let action: () -> ()
+    
+}
+
 class PaymentCellView: UITableViewCell {
     
-    private let background: UIView          = {
+    //UI components
+    private         let foreground: UIView                      = {
         let view = UIView()
-        view.backgroundColor = UIColor.backgroundGrey
+        view.backgroundColor = UIColor.white
         return view
     }()
-    private let content: UIView             = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        return view
-    }()
-    private let titleLabel: UILabel         = {
+    private         let titleLabel: UILabel                     = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textColor = UIColor.pacyficBlue
         label.textAlignment = .left
-        label.font = UIFont(name: "OpenSans-Light", size: 16.0)
+        label.font = UIFont(name: "OpenSans-Light", size: 24.0)
         return label
     }()
-    private let infoImage: UIImageView      = {
-        var imageView = UIImageView(image: UIImage(named: "info"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor.catchyPink
-        imageView.snp.makeConstraints({ (make) in
-            make.height.width.equalTo(25)
+    private         let amountLabel: AmountLabel                = {
+        let label = AmountLabel()
+        return label
+    }()
+    private         let currrencyCodeLabel: UILabel             = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Light", size: 12.0)
+        label.textColor = UIColor.lightGray
+        return label
+    }()
+    private         var previousPosition: CGPoint               = CGPoint()
+    
+    //Handling ratchet mechanisms
+    private         var leftRatchet: PaymentCellRatchet?        = nil {
+        didSet {
+            if let ratchet = leftRatchet {
+                let imageView = UIImageView()
+                imageView.image = ratchet.image
+                imageView.contentMode = .scaleAspectFit
+                imageView.isUserInteractionEnabled = true
+                
+                contentView.insertSubview(imageView, belowSubview: foreground)
+                let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapLeftRatchetImage))
+                imageView.addGestureRecognizer(imageViewTGR)
+                imageView.snp.makeConstraints { (make) in
+                    make.top.left.equalToSuperview().offset(14)
+                }
+            }
+        }
+    }
+    private lazy    var didVibrateLeft: Bool                    = false
+    private         var rightRatchet: PaymentCellRatchet?       = nil {
+        didSet {
+            if let ratchet = rightRatchet {
+                let imageView = UIImageView()
+                imageView.image = ratchet.image
+                imageView.contentMode = .scaleAspectFit
+                imageView.isUserInteractionEnabled = true
+                
+                contentView.insertSubview(imageView, belowSubview: foreground)
+                let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapRightRatchetImage))
+                imageView.addGestureRecognizer(imageViewTGR)
+                imageView.snp.makeConstraints { (make) in
+                    make.top.equalToSuperview().offset(26)
+                    make.right.equalToSuperview().offset(-24)
+                }
+            }
+        }
+    }
+    private lazy    var didVibrateRight: Bool                   = false
+    private lazy    var animateForegroundMove: () -> ()         = {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+            self.layoutIfNeeded()
         })
-        return imageView
-    }()
-    private let descriptionLabel: UILabel   = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont(name: "OpenSans-Light", size: 16.0)
-        label.textColor = UIColor.darkGrey
-        return label
-    }()
-    private let amountLabel: UILabel        = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = UIFont(name: "OpenSans-Light", size: 26.0)
-        label.textColor = UIColor.pacyficBlue
-        return label
-    }()
-    public  let amountFormatter             = NumberFormatter()
-    private let remindButton                = OptionButton("set_reminder_button_text", hight: 30)
-    private let payButton                   = RaisedButton("pay_button_text", hight: 30)
-    private let moreButton                  = OptionButton("show_photos_button_text", hight: 30)
-    private let startDateLabel: UILabel     = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = UIFont(name: "OpenSans-Light", size: 15.0)
-        label.textColor = UIColor.darkGrey
-        return label
-    }()
-    var style: PaymentCellStyle             = .unknown {
+    }
+    
+    //Handling cell swiping
+    private         var offset: Float                           = 0 {
+        didSet {
+            offsetConstraint?.updateOffset(amount: offset)
+            foreground.layer.cornerRadius   = CGFloat(min(abs(offset), 10))
+            if offset <= 0 {
+                foreground.layer.maskedCorners  = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
+            } else {
+                foreground.layer.maskedCorners  = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+            }
+        }
+    }
+    private         var offsetConstraint: Constraint?
+
+    var style: PaymentCellStyle?                                = nil {
         didSet {
             didChangeState()
         }
@@ -73,18 +119,10 @@ class PaymentCellView: UITableViewCell {
     var delegate: PaymentCellDelegate?
     
     
-    enum PaymentCellStyle {
-        case paid
-        case pending
-        case awaiting
-        case unknown
-    }
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
-        setupTargets()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -94,53 +132,46 @@ class PaymentCellView: UITableViewCell {
 
     func setupViews() {
         
+        //Background
         self.backgroundColor = UIColor.clear
-        self.contentView.backgroundColor = UIColor.clear
+        self.contentView.backgroundColor = UIColor.pacyficBlue
 
-        contentView.addSubview(background)
-        background.layer.cornerRadius = CGFloat(20.0)
-        background.dropShadow()
-        background.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10))
-        }
-        
-        contentView.addSubview(content)
-        content.isUserInteractionEnabled = true
-        content.snp.makeConstraints { (make) in
-            make.edges.equalTo(background)
-        }
-        
-        //Info button
-        content.addSubview(infoImage)
-        infoImage.setContentHuggingPriority(.required, for: .horizontal)
-        infoImage.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
-            make.right.equalToSuperview().offset(-10)
-        }
-        
-        //Title
-        content.addSubview(titleLabel)
-//        titleLabel.setContentHuggingPriority(.required, for: .vertical)
-//        titleLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(5)
-            make.left.equalToSuperview().offset(15)
-            make.right.equalTo(infoImage.snp.left).offset(-10)
+        //Foreground
+        contentView.addSubview(foreground)
+        let panGestureRecognizer        = UIPanGestureRecognizer(target: self, action: #selector(panHandler(_:)))
+        panGestureRecognizer.delegate   = self
+        foreground.addGestureRecognizer(panGestureRecognizer)
+        let tapGestureRecognizer        = UITapGestureRecognizer(target: self, action: #selector(tapHandler))
+        foreground.addGestureRecognizer(tapGestureRecognizer)
+        foreground.snp.makeConstraints { (make) in
+            make.width.top.bottom.equalToSuperview()
+            offsetConstraint = make.left.equalToSuperview().constraint
         }
         
         //Amount
-        content.addSubview(amountLabel)
-//        self.amountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-//        self.amountLabel.setContentHuggingPriority(.required, for: .horizontal)
-//        self.amountLabel.setContentHuggingPriority(.required, for: .vertical)
+        foreground.addSubview(amountLabel)
+        amountLabel.setContentHuggingPriority(.required, for: .horizontal)
         amountLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleLabel.snp.bottom)
-            make.left.right.equalTo(titleLabel)
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-15)
         }
         
-
+        //Title
+        foreground.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.left.equalToSuperview().offset(15)
+            make.right.equalTo(amountLabel.snp.left).offset(-10)
+        }
         
+        //Currency code
+        foreground.addSubview(currrencyCodeLabel)
+        currrencyCodeLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom)
+        }
         
+        contentView.bringSubviewToFront(foreground)
         
     }
     
@@ -150,119 +181,185 @@ class PaymentCellView: UITableViewCell {
         self.titleLabel.text = title.capitalizingFirstLetter()
         
         //Amount
-        amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == currency })
-        amountFormatter.numberStyle = .currency
-        self.amountLabel.text = amountFormatter.string(from: amount as NSNumber)
+        self.amountLabel.amount = amount
         
-        //Description
-        self.descriptionLabel.text = description.capitalizingFirstLetter()
+        //Currency code
+        self.currrencyCodeLabel.text = currency
         
-        //StartDate
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.locale = Locale.current
-        self.startDateLabel.text = "Płatne od: " + dateFormatter.string(from: startDate)
-    }
-    
-    func setupTargets() {
-        remindButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.remindButton, completion: {self.delegate?.didTapRemindButton(sender: self)} ) })
-        payButton.addAction(for: .touchUpInside, { self.animateButtonTap(self.payButton, completion: {self.delegate?.didTapPayButton(sender: self)} ) })
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCell))
-        content.addGestureRecognizer(tapGestureRecognizer)
-    }
-    
-    @objc func didTapCell() {
-        self.delegate?.didTapCell(sender: self)
     }
     
     func didChangeState() {
         switch style {
-        case .unknown:
-            
-            print("unknow")
-            
-            
-            
-        case .pending:
-            
-            amountLabel.textColor = UIColor.pacyficBlue
-            
-            content.addSubview(remindButton)
-            remindButton.snp.makeConstraints { (make) in
-                make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.equalToSuperview().offset(15)
-                make.right.equalTo(content.snp.centerX).offset(-5)
-            }
-            content.addSubview(payButton)
-            payButton.snp.makeConstraints { (make) in
-                make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.equalTo(content.snp.centerX).offset(5)
-                make.right.equalToSuperview().offset(-15)
-                make.bottom.equalTo(content).offset(-10)
-            }
-            
-            startDateLabel.removeFromSuperview()
+
+        case .pending?:
+            titleLabel.textColor    = UIColor.black
+            amountLabel.textColor   = UIColor.pacyficBlue
             
             
+            leftRatchet = PaymentCellRatchet(stickyValue: 80,
+                                             triggerValue: 150,
+                                             image: UIImage(named: "bell")!,
+                                             action: { self.didTapLeftRatchetImage() })
+
+            rightRatchet = PaymentCellRatchet(stickyValue: -80,
+                                              triggerValue: -150,
+                                              image: UIImage(named: "wallet")!,
+                                              action: { self.didTapRightRatchetImage() })
             
-        case .paid:
+        case .paid?:
+            titleLabel.textColor    = UIColor.darkGrey
+            amountLabel.textColor   = UIColor.darkGrey
             
-            amountLabel.textColor = UIColor.darkGrey
-            
-            amountLabel.snp.makeConstraints { (make) in
-                make.bottom.equalTo(content).offset(-5)
-            }
-            
-            remindButton.removeFromSuperview()
-            payButton.removeFromSuperview()
-            startDateLabel.removeFromSuperview()
-            
-            
-            
-        case .awaiting:
-            
-            amountLabel.textColor = UIColor.pacyficBlue
-            
-            content.addSubview(startDateLabel)
-            startDateLabel.setContentCompressionResistancePriority(.required, for: .vertical)
-            startDateLabel.snp.makeConstraints { (make) in
-                make.top.equalTo(amountLabel.snp.bottom).offset(5)
-                make.left.right.equalTo(amountLabel)
-                make.bottom.equalTo(content).offset(-5)
-            }
-            
-            remindButton.removeFromSuperview()
-            payButton.removeFromSuperview()
-            moreButton.removeFromSuperview()
-            
-            
-            
+        case .none:
+            fatalError("Cell have to have certain style")
         }
+        
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
+    }
+    
     
 
 }
 
-//Animations
+//MARK: Gesture recognizers handlers
 extension PaymentCellView {
-    func animateButtonTap(_ view: UIView, completion: @escaping () -> ()) {
-        
-        view.transform = CGAffineTransform(scaleX: 0.92, y: 0.92)
+    
+    @objc func tapHandler() {
         selectionFeedbackGenerator.selectionChanged()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.10) {
-            completion()
+        self.delegate?.didTapCell(sender: self)
+    }
+    
+    @objc func panHandler(_ panGestureRecognizer: UIPanGestureRecognizer) {
+        
+        if panGestureRecognizer.state == .began { previousPosition = CGPoint() }
+        
+  
+        
+//        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t State: \(panGestureRecognizer.state.rawValue)")
+        
+        if panGestureRecognizer.state == .changed {
+            
+            //Calculate translation and move the foreground accordingly
+            let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
+            offset += Float(translation)
+            
+            if let left = leftRatchet {
+                
+                //if users moves foreground near sticky range vibrate slightly
+                if abs(offset-left.stickyValue) < 5 && offset > 0 && !didVibrateLeft {
+                    selectionFeedbackGenerator.selectionChanged()
+                    didVibrateLeft = true
+                //make sure to vibrate again only if user leaves 10 points zone
+                } else if (abs(offset-left.stickyValue) >= 5 && offset > 0) { didVibrateLeft = false }
+                
+                //trigger action if triggerValue was exceeded
+                if offset > left.triggerValue && offset > 0 {
+                    left.action()
+                    notificationFeedbackGenerator.notificationOccurred(.success)
+                    panGestureRecognizer.cancel()
+                    offset = 0
+                }
+            }
+            
+            if let right = rightRatchet {
+                
+                //if users moves foreground near sticky range vibrate slightly
+                if abs(offset-right.stickyValue) < 5 && offset < 0 && !didVibrateRight {
+                    selectionFeedbackGenerator.selectionChanged()
+                    didVibrateRight = true
+                //make sure to vibrate again only if user leaves 10 points zone
+                } else if (abs(offset-right.stickyValue) >= 5 && offset < 0) { didVibrateRight = false }
+                
+                //trigger action if triggerValue was exceeded
+                if offset < right.triggerValue && offset < 0 {
+                    right.action()
+                    notificationFeedbackGenerator.notificationOccurred(.success)
+                    panGestureRecognizer.cancel()
+                    offset = 0
+                }
+            }
+            
+            //set previous position to current position so that
+            //next function call have integral data
+            previousPosition = panGestureRecognizer.translation(in: foreground)
+            return
         }
         
-        UIView.animate(withDuration: 0.25,
-                       delay: 0,
-                       usingSpringWithDamping: CGFloat(0.20),
-                       initialSpringVelocity: CGFloat(6.0),
-                       options:.allowUserInteraction,
-                       animations: {
-                        view.transform = CGAffineTransform.identity
-        })
-
+        if panGestureRecognizer.state == .ended {
+            
+            if leftRatchet != nil && offset > 0 {
+                
+                //if foreground doesn't reach stickyValue - 5 move it back to default positon
+                if offset < leftRatchet!.stickyValue - 5 {
+                    offset = 0
+                    animateForegroundMove()
+                }
+                
+                //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
+                //sticky postion (where IV is visible)
+                if offset >= leftRatchet!.stickyValue - 5 && offset < leftRatchet!.triggerValue {
+                    offset = leftRatchet!.stickyValue
+                    selectionFeedbackGenerator.selectionChanged()
+                    animateForegroundMove()
+                }
+            }
+            
+            if rightRatchet != nil && offset < 0 {
+                
+                //if foreground doesn't reach stickyValue - 5 move it back to default positon
+                if offset > rightRatchet!.stickyValue + 5 {
+                    offset = 0
+                    animateForegroundMove()
+                }
+                
+                //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
+                //sticky postion (where IV is visible)
+                if offset <= rightRatchet!.stickyValue + 5 && offset > rightRatchet!.triggerValue{
+                    offset = rightRatchet!.stickyValue
+                    selectionFeedbackGenerator.selectionChanged()
+                    animateForegroundMove()
+                }
+            }
+        }
+        
     }
+    
+    
+    
+}
+
+//MARK: Underneath icons taps handlers
+extension PaymentCellView {
+    
+    @objc func didTapRightRatchetImage() {
+        delegate?.didTapPay(sender: self)
+        offset = 0
+        previousPosition = CGPoint()
+    }
+    
+    @objc func didTapLeftRatchetImage() {
+        delegate?.didTapRemind(sender: self)
+        offset = 0
+        previousPosition = CGPoint()
+    }
+    
+}
+
+extension PaymentCellView {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            let translation = panGestureRecognizer.translation(in: superview)
+            if abs(translation.x) > abs(translation.y) {
+                if translation.x > 0 && rightRatchet != nil { return true }
+                if translation.x < 0 && leftRatchet != nil { return true }
+            }
+            return false
+        }
+        return false
+    }
+
 }

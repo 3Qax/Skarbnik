@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class PaymentCoordinator: Coordinator {
+class PaymentCoordinator: NSObject, Coordinator {
     
     weak var parentCoordinator: MainCoordinator?
     
@@ -18,20 +18,26 @@ class PaymentCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     let studentID, classID: Int
+    let studentName: String
     var paymentVC: PaymentViewController?
     
     
     
     
     
-    init(ofStudentWithID: Int, inClassWithID: Int, navigationController: UINavigationController) {
+    
+    init(ofStudentWithID: Int, andName name: String, inClassWithID: Int, navigationController: UINavigationController) {
         self.studentID = ofStudentWithID
+        self.studentName = name
         self.classID = inClassWithID
         self.navigationController = navigationController
+        super.init()
+        self.navigationController.delegate = self
+        
     }
     
     func start() {
-        paymentVC = PaymentViewController(of: studentID, in: classID)
+        paymentVC = PaymentViewController(of: studentName, studentID: studentID, in: classID)
         paymentVC!.coordinator = self
     }
     
@@ -57,8 +63,8 @@ class PaymentCoordinator: Coordinator {
         navigationController.popViewController(animated: true)
     }
     
-    func didRequestToPay(for payment: Payment, withCurrencyFormatter formatter: NumberFormatter) {
-        let payViewController = PayViewController(for: payment, currencyFormatter: formatter)
+    func didRequestToPay(for payment: Payment) {
+        let payViewController = PayViewController(for: payment)
         payViewController.coordinator = self
         navigationController.pushViewController(payViewController, animated: true)
         
@@ -73,5 +79,21 @@ class PaymentCoordinator: Coordinator {
         parentCoordinator?.didRequestStudentChange()
     }
     
+    func showDetails(of payment: Payment) {
+        let detailsVC = DetailsViewController(of: payment)
+        detailsVC.coordinator = self
+        navigationController.pushViewController(detailsVC, animated: true)
+    }
     
+    
+}
+
+extension PaymentCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        print("From: \(fromVC), to \(toVC)")
+        if fromVC is PaymentViewController && toVC is DetailsViewController
+            || (fromVC is DetailsViewController && toVC is PaymentViewController) {
+            return SlideInAnimationController()
+        } else { return nil }
+    }
 }

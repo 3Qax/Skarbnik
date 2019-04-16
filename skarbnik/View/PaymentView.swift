@@ -13,41 +13,96 @@ class PaymentView: UIView {
     
     var header: UIView                                  = {
         let view = UIView()
-        view.backgroundColor = UIColor.backgroundGrey
-        view.layer.cornerRadius                    = 20.0
-        view.layer.maskedCorners                   = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        view.backgroundColor = UIColor.clear
         return view
     }()
         var changeStudentIV: UIImageView                = {
-            var imageView = UIImageView(image: UIImage(named: "refresh"))
+            var imageView = UIImageView(image: UIImage(named: "users"))
             imageView.contentMode = .scaleAspectFit
-            imageView.tintColor = UIColor.catchyPink
+            imageView.tintColor = UIColor.white
             return imageView
-        }()
-        var titleLabel: UILabel                         = {
-            let label = UILabel()
-            label.font = UIFont(name: "OpenSans-Regular", size: 32)
-            label.text = "Skarbnik"
-            label.textColor = UIColor.pacyficBlue
-            label.textAlignment = .center
-            label.setContentHuggingPriority(.init(200), for: .horizontal)
-            return label
         }()
         let searchBar                                   = LightSearchBar()
         var searchIV: UIImageView                       = {
             var imageView = UIImageView(image: UIImage(named: "search"))
             imageView.contentMode = .scaleAspectFit
-            imageView.tintColor = UIColor.catchyPink
+            imageView.tintColor = UIColor.white
             return imageView
         }()
         var cancelIV: UIImageView                       = {
             var imageView = UIImageView(image: UIImage(named: "cancel"))
             imageView.contentMode = .scaleAspectFit
-            imageView.tintColor = UIColor.catchyPink
+            imageView.tintColor = UIColor.white
             return imageView
+        }()
+    var circle: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.catchyPink
+
+        return view
+    }()
+    
+    var firstNameLabel: UILabel                         = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Light", size: 16)
+        label.textColor = UIColor.white
+        return label
+    }()
+    var lastNameLabel: UILabel                          = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Regular", size: 18)
+        label.textColor = UIColor.white
+        return label
+    }()
+    
+    var statsView: UIView                               = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white
+        
+        let divider = UIView()
+        divider.backgroundColor = UIColor.lightViolet
+        view.addSubview(divider)
+        divider.snp.makeConstraints({ (make) in
+            make.width.equalTo(1)
+            make.height.centerX.equalToSuperview()
+        })
+        return view
+    }()
+        var statsLeftNumber: UILabel                    = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 48)
+            label.textAlignment = .center
+            label.textColor = UIColor.pacyficBlue
+            return label
+        }()
+        var statsLeftDescription: UILabel               = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 16)
+            label.textAlignment = .center
+            label.textColor = UIColor.black
+            label.baselineAdjustment = UIBaselineAdjustment.alignBaselines
+            label.text = "oczekujące"
+            return label
+        }()
+        var statsRightNumber: UILabel                   = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 48)
+            label.textAlignment = .center
+            label.textColor = UIColor.darkGrey
+            return label
+        }()
+        var statsRightDescription: UILabel              = {
+            let label = UILabel()
+            label.font = UIFont(name: "OpenSans-Light", size: 16)
+            label.textAlignment = .center
+            label.baselineAdjustment = UIBaselineAdjustment.alignBaselines
+            label.textColor = UIColor.black
+            label.text = "zapłacone"
+            return label
         }()
     
     var tableView                                       = UITableView()
+        var tableViewTopOffset: Constraint?
         let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
         
@@ -59,24 +114,16 @@ class PaymentView: UIView {
         return refresh
     }()
     
-    let gradientLayer: CAGradientLayer                  = {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.catchyPink.cgColor, UIColor.pacyficBlue.cgColor]
-        gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.startPoint = CGPoint(x: 1.0, y: 1.0)
-        gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.0)
-        return gradientLayer
-    }()
+
     var delegate: PaymentViewDelegate?
     
     
     
-    override init(frame: CGRect) {
+    init(firstName: String, lastName: String, frame: CGRect = .zero) {
         super.init(frame: frame)
+        self.backgroundColor = UIColor.pacyficBlue
         
         
-        layer.insertSublayer(gradientLayer, at: 0)
-        gradientLayer.frame = bounds
         
         self.addSubview(header)
         header.clipsToBounds = true
@@ -87,31 +134,86 @@ class PaymentView: UIView {
         }
         
         header.addSubview(changeStudentIV)
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapChangeStudentButton(sender:)))
+        let CSIVGRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapChangeStudentButton(sender:)))
         changeStudentIV.isUserInteractionEnabled = true
-        changeStudentIV.addGestureRecognizer(tapGestureRecognizer)
+        changeStudentIV.addGestureRecognizer(CSIVGRecognizer)
         changeStudentIV.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.left.equalToSuperview().offset(5)
         }
         
         header.addSubview(searchIV)
-        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(didTapSearchButton(sender:)))
+        let SIVGRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapSearchButton(sender:)))
         searchIV.isUserInteractionEnabled = true
-        searchIV.addGestureRecognizer(tapGestureRecognizer2)
+        searchIV.addGestureRecognizer(SIVGRecognizer)
         searchIV.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.right.equalToSuperview().offset(-5)
         }
         
-        header.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
+        self.addSubview(circle)
+        circle.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(-134)
+            make.left.equalToSuperview().offset(136)
+            make.height.width.equalTo(250)
+        }
+        circle.layer.cornerRadius = 250/2
+        
+        self.addSubview(firstNameLabel)
+        firstNameLabel.text = firstName
+        firstNameLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(30)
+            make.height.equalTo(20)
+            make.top.equalTo(safeAreaLayoutGuide).offset(96)
+        }
+        
+        self.addSubview(lastNameLabel)
+        lastNameLabel.text = lastName
+        lastNameLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(30)
+            make.height.equalTo(29)
+            make.top.equalTo(firstNameLabel.snp.bottom)
         }
         
 
+
+        self.addSubview(statsView)
+        statsView.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.height.equalTo(80)
+            make.top.equalTo(safeAreaLayoutGuide).offset(150)
+        }
+        statsView.layer.addShadow()
+        statsView.layer.roundCorners(radius: 10)
+        
+        statsView.addSubview(statsLeftNumber)
+        statsLeftNumber.snp.makeConstraints { (make) in
+            make.top.left.equalToSuperview()
+            make.right.equalTo(statsView.snp.centerX)
+            make.height.equalTo(59)
+        }
+        
+        statsView.addSubview(statsRightNumber)
+        statsRightNumber.snp.makeConstraints { (make) in
+            make.top.right.equalToSuperview()
+            make.left.equalTo(statsView.snp.centerX)
+            make.height.equalTo(59)
+        }
+        
+        statsView.addSubview(statsLeftDescription)
+        statsLeftDescription.snp.makeConstraints { (make) in
+            make.bottom.left.equalToSuperview()
+            make.right.equalTo(statsView.snp.centerX)
+            make.height.equalTo(26)
+        }
+        
+        statsView.addSubview(statsRightDescription)
+        statsRightDescription.snp.makeConstraints { (make) in
+            make.bottom.right.equalToSuperview()
+            make.left.equalTo(statsView.snp.centerX)
+            make.height.equalTo(26)
+        }
         
         
         
@@ -123,18 +225,17 @@ class PaymentView: UIView {
         
         
         
+        tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        //tableView.setContentOffset(CGPoint(x: 0, y: 20), animated: false)
         
-        tableView.setContentOffset(CGPoint(x: 0, y: 5), animated: false)
-        
-        tableView.rowHeight                             = UITableView.automaticDimension
-        tableView.estimatedRowHeight                    = 100
+        tableView.rowHeight                             = 90
         tableView.showsVerticalScrollIndicator          = false
         tableView.allowsSelection                       = false
         tableView.allowsMultipleSelection               = false
         tableView.allowsSelectionDuringEditing          = false
         tableView.allowsMultipleSelectionDuringEditing  = false
         
-        tableView.backgroundColor                       = UIColor.clear
+        tableView.backgroundColor                       = UIColor.backgroundGrey
         tableView.separatorStyle                        = .none
         tableView.refreshControl                        = self.refreshControl
         refreshControl.addAction(for: .valueChanged, { self.delegate?.didRequestDataRefresh() })
@@ -144,11 +245,11 @@ class PaymentView: UIView {
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(header.snp.bottom).offset(-5)
+            tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
         }
         
         self.bringSubviewToFront(header)
-        
+        self.bringSubviewToFront(statsView)
       
     }
     
@@ -162,17 +263,12 @@ class PaymentView: UIView {
     
     @objc func didTapSearchButton(sender: UITapGestureRecognizer) {
         
-        titleLabel.snp.remakeConstraints { (make) in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(header.snp.bottom)
-        }
         searchIV.snp.remakeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.left.equalTo(header.snp.right)
         }
 
         UIView.animate(withDuration: 0.25, animations: {
-            self.titleLabel.alpha = 0
             self.layoutIfNeeded()
         }, completion: { _ in
             
@@ -226,17 +322,11 @@ class PaymentView: UIView {
         }, completion: { _ in
             self.searchBar.removeFromSuperview()
             self.cancelIV.removeFromSuperview()
-            self.titleLabel.snp.remakeConstraints { (make) in
-                make.top.equalTo(self.safeAreaLayoutGuide)
-                make.bottom.equalToSuperview()
-                make.centerX.equalToSuperview()
-            }
             self.searchIV.snp.remakeConstraints { (make) in
                 make.top.equalTo(self.safeAreaLayoutGuide)
                 make.right.equalToSuperview().offset(-5)
             }
             UIView.animate(withDuration: 0.25, animations: {
-                self.titleLabel.alpha = 1.0
                 self.layoutIfNeeded()
             })
         })
@@ -247,9 +337,73 @@ class PaymentView: UIView {
         tableView.reloadData()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientLayer.frame = self.bounds
+    func updateStats(pending: Int, paid: Int) {
+        self.statsLeftNumber.text = String(pending)
+        self.statsRightNumber.text = String(paid)
+    }
+    
+
+    
+}
+
+extension PaymentView: Slidable {
+    func slideIn(completion: @escaping () -> ()) {
+        
+        
+        changeStudentIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalToSuperview().offset(5)
+        }
+        
+        searchIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.right.equalToSuperview().offset(-5)
+        }
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+            self.layoutIfNeeded()
+        })
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.firstNameLabel.alpha = 1.0
+            self.lastNameLabel.alpha = 1.0
+        })
+        
+        tableViewTopOffset?.uninstall()
+        tableView.snp.makeConstraints { (make) in
+            tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
+        }
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
+    }
+    
+    func slideOut(completion: @escaping () -> ()) {
+        tableViewTopOffset?.uninstall()
+        tableView.snp.makeConstraints { (make) in
+            tableViewTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
+        
+        changeStudentIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.right.equalTo(header.snp.left)
+        }
+        searchIV.snp.remakeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.left.equalTo(header.snp.right)
+        }
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+            self.layoutIfNeeded()
+        })
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.firstNameLabel.alpha = 0.0
+            self.lastNameLabel.alpha = 0.0
+        })
     }
     
     

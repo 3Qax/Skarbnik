@@ -17,9 +17,10 @@ class PaymentViewController: UIViewController {
     
     
     
-    init(of studentID: Int, in classID: Int) {
+    init(of name: String, studentID: Int, in classID: Int) {
         paymentModel = PaymentModel(of: studentID, in: classID)
-        paymentView = PaymentView(frame: .zero)
+        paymentView = PaymentView(firstName: name.components(separatedBy: " ").dropLast().reduce("", { $0=="" ? $1 : $0 + " " + $1 }),
+                                  lastName: name.components(separatedBy: " ").last ?? "")
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loadedData), name: .modelLoadedPayments, object: nil)
     }
@@ -44,6 +45,11 @@ class PaymentViewController: UIViewController {
         paymentView.delegate = self
         paymentView.tableView.dataSource = self
         paymentView.searchBar.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        paymentView.updateStats(pending: paymentModel.payments.filter({ $0.state == .pending }).count,
+                                paid: paymentModel.payments.filter({ $0.state == .paid }).count)
     }
     
     @objc func loadedData() {
@@ -100,13 +106,16 @@ extension PaymentViewController: UITableViewDataSource {
         case .pending:
             cell.style = .pending
         case .awaiting:
-            cell.style = .awaiting
+            cell.style = .paid
         case .paid:
             cell.style = .paid
         }
         
         cell.layoutSubviews()
         tableView.endUpdates()
+        
+        cell.layer.addShadow(Xoffset: 0, Yoffset: 4, blurRadius: 2)
+        
         return cell
         
     }
@@ -117,10 +126,11 @@ extension PaymentViewController: PaymentCellDelegate {
     func didTapCell(sender: PaymentCellView) {
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
             print("Tapped cell at index: \(index)")
+            coordinator?.showDetails(of: paymentModel.payments[index])
         }
     }
     
-    func didTapRemindButton(sender: PaymentCellView) {
+    func didTapRemind(sender: PaymentCellView) {
         
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
             coordinator?.didRequestReminder(about: paymentModel.payments[index])
@@ -128,18 +138,14 @@ extension PaymentViewController: PaymentCellDelegate {
         
     }
     
-    func didTapPayButton(sender: PaymentCellView) {
+    func didTapPay(sender: PaymentCellView) {
         
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
-            coordinator?.didRequestToPay(for: paymentModel.payments[index], withCurrencyFormatter: sender.amountFormatter)
+            coordinator?.didRequestToPay(for: paymentModel.payments[index])
         }
         
     }
     
-    func didTapMoreButton(sender: PaymentCellView) {
-        
-
-    }
 }
 
 extension PaymentViewController: UISearchBarDelegate {

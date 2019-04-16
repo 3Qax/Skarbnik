@@ -46,9 +46,9 @@ class MainCoordinator: Coordinator {
         navigationController.present(pickStudentVC, animated: true)
     }
     
-    func didChooseStudent(of studentID: Int, in classID: Int) {
+    func didChooseStudent(of studentID: Int, andName name: String, in classID: Int) {
         navigationController.dismiss(animated: true)
-        let child = PaymentCoordinator(ofStudentWithID: studentID, inClassWithID: classID, navigationController: navigationController)
+        let child = PaymentCoordinator(ofStudentWithID: studentID, andName: name, inClassWithID: classID, navigationController: navigationController)
         child.parentCoordinator = self
         children.append(child)
         child.start()
