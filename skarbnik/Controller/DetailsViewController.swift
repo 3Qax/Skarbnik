@@ -64,5 +64,16 @@ extension DetailsViewController: DetailsViewDelegate {
         coordinator?.goBack()
     }
     
+}
+
+extension DetailsViewController: Slidable {
+    func slideIn() {
+        
+    }
+    
+    func slideOut() {
+        
+    }
+    
     
 }

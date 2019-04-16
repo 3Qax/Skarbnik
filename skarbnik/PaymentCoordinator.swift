@@ -10,7 +10,7 @@ import UIKit
 
 
 
-class PaymentCoordinator: Coordinator {
+class PaymentCoordinator: NSObject, Coordinator {
     
     weak var parentCoordinator: MainCoordinator?
     
@@ -21,6 +21,8 @@ class PaymentCoordinator: Coordinator {
     let studentName: String
     var paymentVC: PaymentViewController?
     
+    let animator: SlideInAnimationController
+    
     
     
     
@@ -29,7 +31,11 @@ class PaymentCoordinator: Coordinator {
         self.studentID = ofStudentWithID
         self.studentName = name
         self.classID = inClassWithID
+        self.animator = SlideInAnimationController()
         self.navigationController = navigationController
+        super.init()
+        self.navigationController.delegate = self
+        
     }
     
     func start() {
@@ -82,4 +88,13 @@ class PaymentCoordinator: Coordinator {
     }
     
     
+}
+
+extension PaymentCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if fromVC is PaymentViewController && toVC is DetailsViewController {
+            print("returned animator")
+            return animator
+        } else { return nil }
+    }
 }

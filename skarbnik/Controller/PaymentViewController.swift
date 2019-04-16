@@ -155,3 +155,24 @@ extension PaymentViewController: UISearchBarDelegate {
         paymentView.tableView.reloadData()
     }
 }
+
+extension PaymentViewController: Slidable {
+    func slideIn() {
+        
+    }
+    
+    func slideOut() {
+        
+    }
+    
+    
+}
+
+//extension PaymentViewController: UIViewControllerTransitioningDelegate {
+//    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        return animator
+//    }
+//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        return nil
+//    }
+//}
