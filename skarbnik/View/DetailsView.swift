@@ -48,6 +48,7 @@ class DetailsView: UIView {
         view.backgroundColor = UIColor.catchyPink
         return view
     }()
+    var startingPoint: CGPoint      = CGPoint()
     var delegate: DetailsViewDelegate?
     
     init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String) {
@@ -79,12 +80,21 @@ class DetailsView: UIView {
             make.right.equalToSuperview()
         }
         
+        
+        card.frame = CGRect(x: 0, y: self.safeAreaInsets.top + 127, width: 375, height: 500)
         self.addSubview(card)
-        card.snp.makeConstraints { (make) in
-            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
-            make.left.bottom.right.equalToSuperview()
-        }
+        let cardPGR = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
+        card.addGestureRecognizer(cardPGR)
+        card.isUserInteractionEnabled = true
+//        card.snp.makeConstraints { (make) in
+//            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
+//            make.left.bottom.right.equalToSuperview()
+//        }
+
         card.layer.addShadow(Xoffset: -4, Yoffset: 0, blurRadius: 2)
+        card.setAnchorPoint(CGPoint(x: 0.5, y: 1))
+//        card.transform = CGAffineTransform.init(translationX: 0, y: card.bounds.height * -0.5)
+        
         
         for detail in details {
                     let detailLabel = DetailWithDescription(title: detail.title,
@@ -120,22 +130,57 @@ class DetailsView: UIView {
 
 }
 
+extension DetailsView {
+    //returns point in Cartesian coordinate system with origin
+    //at the center bottom of card
+    func normalized(_ point: CGPoint) -> CGPoint {
+        let origin = CGPoint(x: card.frame.width/2.0, y: card.frame.height)
+        return CGPoint(x: point.x - origin.x, y: origin.y - point.y)
+    }
+    
+    //returns angle between two lines, which have common point in origin
+    func calculateAngleBetweenLinesComingThrough(firstPoint p1: CGPoint, secondPoint p2: CGPoint) -> CGFloat {
+        return atan((p1.x/p1.y)-(p2.x/p2.y))
+    }
+    
+    @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
+        switch gestureRecognizer.state {
+
+        case .began:
+            startingPoint = normalized(gestureRecognizer.translation(in: card))
+        case .changed:
+            let currentPoint = normalized(gestureRecognizer.translation(in: card))
+            print(calculateAngleBetweenLinesComingThrough(firstPoint: startingPoint, secondPoint: currentPoint) * 180 / CGFloat.pi)
+            card.transform = CGAffineTransform.init(rotationAngle: calculateAngleBetweenLinesComingThrough(firstPoint: startingPoint, secondPoint: currentPoint) * -1.0)
+        case .ended:
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 7, options: .curveEaseInOut, animations: {
+                self.card.transform = CGAffineTransform(rotationAngle: 0)
+            })
+        case .cancelled:
+            print("canceled")
+        case .failed, .possible:
+            print("failed/possible")
+        }
+    }
+}
+
 extension DetailsView: Slidable {
     
     func slideIn(completion: @escaping () -> ()) {
-        cardTopOffset?.uninstall()
-        card.snp.makeConstraints { (make) in
-            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
-        }
-        self.layoutIfNeeded()
-        
-        cardTopOffset?.uninstall()
-        card.snp.makeConstraints { (make) in
-            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
-        }
-        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-            self.layoutIfNeeded()
-        }, completion: { _ in completion()})
+//        cardTopOffset?.uninstall()
+//        card.snp.makeConstraints { (make) in
+//            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
+//        }
+//        self.layoutIfNeeded()
+//
+//        cardTopOffset?.uninstall()
+//        card.snp.makeConstraints { (make) in
+//            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
+//        }
+//        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+//            self.layoutIfNeeded()
+//        }, completion: { _ in completion()})
+        completion()
     }
     
     func slideOut(completion: @escaping () -> ()) {
