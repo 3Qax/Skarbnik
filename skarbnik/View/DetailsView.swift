@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 
 
@@ -41,6 +42,7 @@ class DetailsView: UIView {
         view.layer.zPosition = 5
         return view
     }()
+    var cardTopOffset: Constraint?
     let circle: UIView              = {
         let view = UIView()
         view.backgroundColor = UIColor.catchyPink
@@ -79,7 +81,7 @@ class DetailsView: UIView {
         
         self.addSubview(card)
         card.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaLayoutGuide).offset(127)
+            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
             make.left.bottom.right.equalToSuperview()
         }
         card.layer.addShadow(Xoffset: -4, Yoffset: 0, blurRadius: 2)
@@ -114,4 +116,38 @@ class DetailsView: UIView {
     @objc func didTapBack() {
         delegate?.didTapBack()
     }
+    
+
+}
+
+extension DetailsView: Slidable {
+    
+    func slideIn(completion: @escaping () -> ()) {
+        cardTopOffset?.uninstall()
+        card.snp.makeConstraints { (make) in
+            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+        self.layoutIfNeeded()
+        
+        cardTopOffset?.uninstall()
+        card.snp.makeConstraints { (make) in
+            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
+        }
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
+    }
+    
+    func slideOut(completion: @escaping () -> ()) {
+        cardTopOffset?.uninstall()
+        card.snp.makeConstraints { (make) in
+            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
+    }
+    
+    
+    
 }

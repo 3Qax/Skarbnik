@@ -75,5 +75,4 @@ extension DetailsViewController: DetailsViewDelegate {
         coordinator?.goBack()
     }
     
-    
 }
