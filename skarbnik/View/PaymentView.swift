@@ -64,7 +64,7 @@ class PaymentView: UIView {
         view.addSubview(divider)
         divider.snp.makeConstraints({ (make) in
             make.width.equalTo(1)
-            make.height.centerX.equalToSuperview()
+            make.top.bottom.centerX.equalToSuperview()
         })
         return view
     }()
