@@ -106,10 +106,10 @@ class PaymentView: UIView {
         let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
         
-        refresh.tintColor = UIColor.white
+        refresh.tintColor = UIColor.pacyficBlue
         refresh.attributedTitle = NSAttributedString(string: NSLocalizedString("waiting_while_refreshing_data_text",
                                                                                 comment:""),
-                                                     attributes: [.foregroundColor: UIColor.white] )
+                                                     attributes: [.foregroundColor: UIColor.pacyficBlue] )
         
         return refresh
     }()
@@ -177,43 +177,7 @@ class PaymentView: UIView {
         
 
 
-        self.addSubview(statsView)
-        statsView.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview().offset(-20)
-            make.height.equalTo(80)
-            make.top.equalTo(safeAreaLayoutGuide).offset(150)
-        }
-        statsView.layer.addShadow()
-        statsView.layer.roundCorners(radius: 10)
-        
-        statsView.addSubview(statsLeftNumber)
-        statsLeftNumber.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview()
-            make.right.equalTo(statsView.snp.centerX)
-            make.height.equalTo(59)
-        }
-        
-        statsView.addSubview(statsRightNumber)
-        statsRightNumber.snp.makeConstraints { (make) in
-            make.top.right.equalToSuperview()
-            make.left.equalTo(statsView.snp.centerX)
-            make.height.equalTo(59)
-        }
-        
-        statsView.addSubview(statsLeftDescription)
-        statsLeftDescription.snp.makeConstraints { (make) in
-            make.bottom.left.equalToSuperview()
-            make.right.equalTo(statsView.snp.centerX)
-            make.height.equalTo(26)
-        }
-        
-        statsView.addSubview(statsRightDescription)
-        statsRightDescription.snp.makeConstraints { (make) in
-            make.bottom.right.equalToSuperview()
-            make.left.equalTo(statsView.snp.centerX)
-            make.height.equalTo(26)
-        }
+
         
         
         
@@ -246,6 +210,44 @@ class PaymentView: UIView {
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
             tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
+        }
+        
+        self.addSubview(statsView)
+        statsView.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.height.equalTo(80)
+            make.bottom.equalTo(tableView.snp.top).offset(30)
+        }
+        statsView.layer.addShadow()
+        statsView.layer.roundCorners(radius: 10)
+        
+        statsView.addSubview(statsLeftNumber)
+        statsLeftNumber.snp.makeConstraints { (make) in
+            make.top.left.equalToSuperview()
+            make.right.equalTo(statsView.snp.centerX)
+            make.height.equalTo(59)
+        }
+        
+        statsView.addSubview(statsRightNumber)
+        statsRightNumber.snp.makeConstraints { (make) in
+            make.top.right.equalToSuperview()
+            make.left.equalTo(statsView.snp.centerX)
+            make.height.equalTo(59)
+        }
+        
+        statsView.addSubview(statsLeftDescription)
+        statsLeftDescription.snp.makeConstraints { (make) in
+            make.bottom.left.equalToSuperview()
+            make.right.equalTo(statsView.snp.centerX)
+            make.height.equalTo(26)
+        }
+        
+        statsView.addSubview(statsRightDescription)
+        statsRightDescription.snp.makeConstraints { (make) in
+            make.bottom.right.equalToSuperview()
+            make.left.equalTo(statsView.snp.centerX)
+            make.height.equalTo(26)
         }
         
         self.bringSubviewToFront(header)

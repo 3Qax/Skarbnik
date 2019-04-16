@@ -29,6 +29,7 @@ class SlideInAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         fromView.slideOut(completion: {
             containerView.addSubview(toView)
             toView.slideIn(completion: {
+                selectionFeedbackGenerator.selectionChanged()
                 transitionContext.completeTransition(true)
             })
         })
