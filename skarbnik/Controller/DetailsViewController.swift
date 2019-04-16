@@ -65,15 +65,3 @@ extension DetailsViewController: DetailsViewDelegate {
     }
     
 }
-
-extension DetailsViewController: Slidable {
-    func slideIn() {
-        detailsView.slideIn()
-    }
-    
-    func slideOut() {
-        
-    }
-    
-    
-}

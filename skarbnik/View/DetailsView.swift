@@ -116,7 +116,12 @@ class DetailsView: UIView {
         delegate?.didTapBack()
     }
     
-    func slideIn() {
+
+}
+
+extension DetailsView: Slidable {
+    
+    func slideIn(completion: @escaping () -> ()) {
         cardTopOffset?.uninstall()
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
@@ -127,6 +132,21 @@ class DetailsView: UIView {
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
         }
-        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
     }
+    
+    func slideOut(completion: @escaping () -> ()) {
+        cardTopOffset?.uninstall()
+        card.snp.makeConstraints { (make) in
+            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
+    }
+    
+    
+    
 }

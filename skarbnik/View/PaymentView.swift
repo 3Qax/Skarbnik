@@ -342,12 +342,30 @@ class PaymentView: UIView {
         self.statsRightNumber.text = String(paid)
     }
     
-    func slideOut() {
+
+    
+}
+
+extension PaymentView: Slidable {
+    func slideIn(completion: @escaping () -> ()) {
+        tableViewTopOffset?.uninstall()
+        tableView.snp.makeConstraints { (make) in
+            tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
+        }
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
+    }
+    
+    func slideOut(completion: @escaping () -> ()) {
         tableViewTopOffset?.uninstall()
         tableView.snp.makeConstraints { (make) in
             tableViewTopOffset = make.top.equalTo(self.snp.bottom).constraint
         }
-        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion()})
     }
+    
     
 }

@@ -21,7 +21,6 @@ class PaymentCoordinator: NSObject, Coordinator {
     let studentName: String
     var paymentVC: PaymentViewController?
     
-    let animator: SlideInAnimationController
     
     
     
@@ -31,7 +30,6 @@ class PaymentCoordinator: NSObject, Coordinator {
         self.studentID = ofStudentWithID
         self.studentName = name
         self.classID = inClassWithID
-        self.animator = SlideInAnimationController()
         self.navigationController = navigationController
         super.init()
         self.navigationController.delegate = self
@@ -92,9 +90,10 @@ class PaymentCoordinator: NSObject, Coordinator {
 
 extension PaymentCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if fromVC is PaymentViewController && toVC is DetailsViewController {
-            print("returned animator")
-            return animator
+        print("From: \(fromVC), to \(toVC)")
+        if fromVC is PaymentViewController && toVC is DetailsViewController
+            || (fromVC is DetailsViewController && toVC is PaymentViewController) {
+            return SlideInAnimationController()
         } else { return nil }
     }
 }

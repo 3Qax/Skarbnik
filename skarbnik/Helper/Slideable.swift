@@ -11,7 +11,7 @@ import UIKit
 
 
 
-protocol Slidable where Self: UIViewController{
-    func slideIn()
-    func slideOut()
+protocol Slidable where Self: UIView{
+    func slideIn(completion: @escaping () -> ())
+    func slideOut(completion: @escaping () -> ())
 }

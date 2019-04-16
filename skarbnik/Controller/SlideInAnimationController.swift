@@ -19,30 +19,20 @@ class SlideInAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         
         let containerView = transitionContext.containerView
         
-        guard   let toVC = transitionContext.viewController(forKey: .to) as? Slidable,
-                let fromVC = transitionContext.viewController(forKey: .from) as? Slidable else {
+        guard let toView = transitionContext.view(forKey: .to) as? Slidable,
+            let fromView = transitionContext.view(forKey: .from) as? Slidable else {
                     containerView.addSubview(transitionContext.view(forKey: .to)!)
                     print("Used slide transition on ViewController that doesn't conforms to Slidable protocool.")
                     return
         }
         
-        fromVC.slideOut()
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-            fromVC.view.layoutIfNeeded()
-        }, completion: { succeed  in
-            containerView.addSubview(toVC.view)
-            
-            toVC.slideIn()
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-                toVC.view.layoutIfNeeded()
-            }, completion: { succeed  in
+        fromView.slideOut(completion: {
+            containerView.addSubview(toView)
+            toView.slideIn(completion: {
                 transitionContext.completeTransition(true)
             })
         })
-            
-        
     }
-    
     
     
 }
