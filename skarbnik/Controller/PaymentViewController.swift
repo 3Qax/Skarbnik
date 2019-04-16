@@ -162,7 +162,7 @@ extension PaymentViewController: Slidable {
     }
     
     func slideOut() {
-        
+        paymentView.slideOut()
     }
     
     

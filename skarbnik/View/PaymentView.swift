@@ -104,6 +104,7 @@ class PaymentView: UIView {
         }()
     
     var tableView                                       = UITableView()
+        var tableViewTopOffset: Constraint?
         let refreshControl: UIRefreshControl            = {
         var refresh = UIRefreshControl()
         
@@ -244,7 +245,7 @@ class PaymentView: UIView {
         self.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalToSuperview()
-            make.top.equalTo(safeAreaLayoutGuide).offset(205)
+            tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
         }
         
         self.bringSubviewToFront(header)
@@ -341,6 +342,12 @@ class PaymentView: UIView {
         self.statsRightNumber.text = String(paid)
     }
     
-    
+    func slideOut() {
+        tableViewTopOffset?.uninstall()
+        tableView.snp.makeConstraints { (make) in
+            tableViewTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+        
+    }
     
 }

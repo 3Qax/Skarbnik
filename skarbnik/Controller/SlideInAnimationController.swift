@@ -27,8 +27,18 @@ class SlideInAnimationController: NSObject, UIViewControllerAnimatedTransitionin
         }
         
         fromVC.slideOut()
-        containerView.addSubview(toVC.view)
-        toVC.slideIn()
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            fromVC.view.layoutIfNeeded()
+        }, completion: { succeed  in
+            containerView.addSubview(toVC.view)
+            
+            toVC.slideIn()
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                toVC.view.layoutIfNeeded()
+            }, completion: { succeed  in
+                transitionContext.completeTransition(true)
+            })
+        })
             
         
     }
