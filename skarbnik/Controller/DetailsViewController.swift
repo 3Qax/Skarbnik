@@ -42,7 +42,7 @@ class DetailsViewController: UIViewController {
             if payment.contribution.reduce(0, +) != 0.0 { detailsToShow.append(Detail(title: "wpłacono", value: amountFormatter.string(from: payment.contribution.reduce(0, +) as NSNumber)!)) }
         case .paid:
             detailsToShow.append(Detail(title: "utworzona przez", value: "Anna Król"))
-            detailsToShow.append(Detail(title: "zapłacone", value: amountFormatter.string(from: payment.amount as NSNumber)!))//["utworzona przez"] = ""
+            detailsToShow.append(Detail(title: "zapłacone", value: amountFormatter.string(from: payment.amount as NSNumber)!))
         }
         detailsView = DetailsView(showing: detailsToShow, ofPaymentNamed: payment.name, withDescription: payment.description)
         detailsModel = DetailsModel()

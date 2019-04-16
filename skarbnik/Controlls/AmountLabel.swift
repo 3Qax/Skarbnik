@@ -52,11 +52,15 @@ class AmountLabel: UIView {
         super.init(frame: frame)
         
         addSubview(integersLabel)
-        integersLabel.snp.makeConstraints { (make) in
-            make.top.left.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
         addSubview(decimalLabel)
+        
+        integersLabel.setContentHuggingPriority(.required, for: .horizontal)
+        integersLabel.snp.makeConstraints { (make) in
+            make.top.bottom.left.equalToSuperview()
+            make.right.equalTo(decimalLabel.snp.left)
+        }
+        
+        decimalLabel.setContentHuggingPriority(.required, for: .horizontal)
         decimalLabel.snp.makeConstraints { (make) in
             make.top.equalTo(integersLabel).offset(3)
             make.left.equalTo(integersLabel.snp.right)
