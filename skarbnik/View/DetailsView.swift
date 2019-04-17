@@ -42,7 +42,8 @@ class DetailsView: UIView {
         view.layer.zPosition = 5
         return view
     }()
-    var cardTopOffset: Constraint?
+    let cardWrapper: UIView         = UIView()
+    var cardWrapperTopOffset: Constraint?  = nil
     let circle: UIView              = {
         let view = UIView()
         view.backgroundColor = UIColor.catchyPink
@@ -72,6 +73,12 @@ class DetailsView: UIView {
         }
         circle.layer.cornerRadius = 400 / 2
         
+        self.addSubview(cardWrapper)
+        cardWrapper.snp.makeConstraints { (make) in
+            cardWrapperTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
+            make.left.bottom.right.equalToSuperview()
+        }
+        
         card.addSubview(descriptionLabel)
         descriptionLabel.text = paymentDescription
         descriptionLabel.snp.makeConstraints { (make) in
@@ -82,18 +89,16 @@ class DetailsView: UIView {
         
         
         card.frame = CGRect(x: 0, y: self.safeAreaInsets.top + 127, width: 375, height: 500)
-        self.addSubview(card)
+        cardWrapper.addSubview(card)
         let cardPGR = UIPanGestureRecognizer(target: self, action: #selector(handlePan(gestureRecognizer:)))
         card.addGestureRecognizer(cardPGR)
         card.isUserInteractionEnabled = true
-//        card.snp.makeConstraints { (make) in
-//            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
-//            make.left.bottom.right.equalToSuperview()
-//        }
+
 
         card.layer.addShadow(Xoffset: -4, Yoffset: 0, blurRadius: 2)
         card.setAnchorPoint(CGPoint(x: 0.5, y: 1))
-//        card.transform = CGAffineTransform.init(translationX: 0, y: card.bounds.height * -0.5)
+        
+
         
         
         for detail in details {
@@ -125,6 +130,16 @@ class DetailsView: UIView {
     
     @objc func didTapBack() {
         delegate?.didTapBack()
+    }
+    
+    override func layoutSubviews() {
+//        print("Called layoutSubviews in detailsView")
+//        print("cardWrapper bounds: \(cardWrapper.bounds)")
+//        print("initial card frame: \(card.frame)")
+        card.frame = cardWrapper.bounds
+//        print("card frame after: \(card.frame)")
+        super.layoutSubviews()
+        
     }
     
 
@@ -167,29 +182,37 @@ extension DetailsView {
 extension DetailsView: Slidable {
     
     func slideIn(completion: @escaping () -> ()) {
-//        cardTopOffset?.uninstall()
-//        card.snp.makeConstraints { (make) in
-//            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
-//        }
-//        self.layoutIfNeeded()
-//
-//        cardTopOffset?.uninstall()
-//        card.snp.makeConstraints { (make) in
-//            cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
-//        }
-//        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
-//            self.layoutIfNeeded()
-//        }, completion: { _ in completion()})
-        completion()
-    }
-    
-    func slideOut(completion: @escaping () -> ()) {
-        cardTopOffset?.uninstall()
-        card.snp.makeConstraints { (make) in
-            cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        cardWrapperTopOffset?.uninstall()
+        cardWrapper.snp.makeConstraints { (make) in
+            cardWrapperTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+        self.layoutIfNeeded()
+
+        cardWrapperTopOffset?.uninstall()
+        cardWrapper.snp.makeConstraints { (make) in
+            cardWrapperTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
         }
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()
+            self.card.frame = self.cardWrapper.bounds
+        }, completion: { _ in
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+            completion()
+            
+        })
+        
+    }
+    
+    func slideOut(completion: @escaping () -> ()) {
+        cardWrapperTopOffset?.uninstall()
+        card.snp.makeConstraints { (make) in
+            cardWrapperTopOffset = make.top.equalTo(self.snp.bottom).constraint
+        }
+
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+            self.card.frame = self.cardWrapper.bounds
         }, completion: { _ in completion()})
     }
     

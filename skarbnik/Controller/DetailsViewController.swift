@@ -68,6 +68,11 @@ class DetailsViewController: UIViewController {
         return true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        detailsView.setNeedsLayout()
+        detailsView.layoutIfNeeded()
+    }
+    
 }
 
 extension DetailsViewController: DetailsViewDelegate {
