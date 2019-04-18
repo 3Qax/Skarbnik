@@ -42,6 +42,12 @@ class DetailsView: UIView {
         view.layer.zPosition = 5
         return view
     }()
+    let cardBottomMask: UIView                = {
+        let view = UIView()
+        view.backgroundColor = UIColor.backgroundGrey
+        view.layer.zPosition = 4
+        return view
+    }()
     let cardWrapper: UIView         = UIView()
     var cardWrapperTopOffset: Constraint?  = nil
     let circle: UIView              = {
@@ -79,6 +85,14 @@ class DetailsView: UIView {
             make.left.bottom.right.equalToSuperview()
         }
         
+        cardWrapper.addSubview(cardBottomMask)
+        cardBottomMask.snp.makeConstraints { (make) in
+            make.centerX.equalTo(cardWrapper)
+            make.centerY.equalTo(cardWrapper.snp.bottom)
+            make.width.equalToSuperview()
+            make.height.equalTo(cardBottomMask.snp.width)
+        }
+        
         card.addSubview(descriptionLabel)
         descriptionLabel.text = paymentDescription
         descriptionLabel.snp.makeConstraints { (make) in
@@ -95,7 +109,7 @@ class DetailsView: UIView {
         card.isUserInteractionEnabled = true
 
 
-        card.layer.addShadow(Xoffset: -4, Yoffset: 0, blurRadius: 2)
+        card.layer.addShadow(Xoffset: 0, Yoffset: -4, blurRadius: 2)
         card.setAnchorPoint(CGPoint(x: 0.5, y: 1))
         
 
@@ -139,6 +153,8 @@ class DetailsView: UIView {
         card.frame = cardWrapper.bounds
 //        print("card frame after: \(card.frame)")
         super.layoutSubviews()
+        
+        cardBottomMask.layer.cornerRadius = cardBottomMask.bounds.width / 2
         
     }
     
