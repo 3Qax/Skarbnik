@@ -153,9 +153,9 @@ extension DetailsView {
         return CGPoint(x: point.x - origin.x, y: origin.y - point.y)
     }
     
-    //returns angle between two lines, which have common point in origin
+    //returns angle in radians between two lines, which have common point in origin
     func calculateAngleBetweenLinesComingThrough(firstPoint p1: CGPoint, secondPoint p2: CGPoint) -> CGFloat {
-        return atan((p1.x/p1.y)-(p2.x/p2.y))
+        return atan((p2.x/p2.y) - (p1.x/p1.y))
     }
     
     @objc func handlePan(gestureRecognizer: UIPanGestureRecognizer) {
@@ -165,8 +165,10 @@ extension DetailsView {
             startingPoint = normalized(gestureRecognizer.translation(in: card))
         case .changed:
             let currentPoint = normalized(gestureRecognizer.translation(in: card))
-            print(calculateAngleBetweenLinesComingThrough(firstPoint: startingPoint, secondPoint: currentPoint) * 180 / CGFloat.pi)
-            card.transform = CGAffineTransform.init(rotationAngle: calculateAngleBetweenLinesComingThrough(firstPoint: startingPoint, secondPoint: currentPoint) * -1.0)
+            
+            let angle = calculateAngleBetweenLinesComingThrough(firstPoint: startingPoint, secondPoint: currentPoint)
+            
+            card.transform = CGAffineTransform(rotationAngle: angle)
         case .ended:
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 7, options: .curveEaseInOut, animations: {
                 self.card.transform = CGAffineTransform(rotationAngle: 0)
