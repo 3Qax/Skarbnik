@@ -39,7 +39,7 @@ class PaymentModel {
     
     func loadData() {
         NotificationCenter.default.post(name: .setStatus, object: nil, userInfo: ["status":"Pobieranie danych..."])
-        apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: Result<[PaymentPacket]>) in
+        apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: ResultWithData<[PaymentPacket]>) in
             switch result {
             case .success(let recivedPaymentsPacket):
                 for recivedPayment in recivedPaymentsPacket {
@@ -49,7 +49,7 @@ class PaymentModel {
                     self.dispatchGroup.enter()
                     let queryItems = [URLQueryItem(name: "payment", value: String(payment.id_field)),
                                       URLQueryItem(name: "student", value: String(self.studentID))]
-                    self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: Result<[PaymentDetailPacket]>) in
+                    self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[PaymentDetailPacket]>) in
                         switch result {
                         case .success(let recivedDetails):
                             for detail in recivedDetails { payment.contribution.append(Float(detail.amount_paid) ?? 0) }

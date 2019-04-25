@@ -8,8 +8,13 @@
 
 import Foundation
 
-enum Result<T> {
+enum ResultWithData<T> {
     case success(T)
+    case failure(Error)
+}
+
+enum Result {
+    case success
     case failure(Error)
 }
 
@@ -92,7 +97,7 @@ class APIClient {
     }
     
     //POST
-    func post<T: Decodable>(_ data: Data, to endpoint: Endpoint, adding queryItems: [URLQueryItem]? = nil, handler: @escaping (Result<T>) -> ()) {
+    func post<T: Decodable>(_ data: Data, to endpoint: Endpoint, adding queryItems: [URLQueryItem]? = nil, handler: @escaping (ResultWithData<T>) -> ()) {
         var request: URLRequest?
         
         switch endpoint {
@@ -110,7 +115,16 @@ class APIClient {
         task.resume()
     }
     
-    func put<T: Decodable>(_ data: Data, to endpoint: Endpoint, addingQueryItems queryItems: [URLQueryItem]? = nil, handler: @escaping (Result<T>) -> ()) {
+    //PUT
+    func put<T: Decodable>(_ data: Data, to endpoint: Endpoint, addingQueryItems queryItems: [URLQueryItem]? = nil, handler: @escaping (ResultWithData<T>) -> ()) {
+        let request = createRequest(.put, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            self.taskCompletionHandler(data: data, response: response, error: error, requestSenderCompletion: handler)
+        }
+        task.resume()
+    }
+    func put(_ data: Data, to endpoint: Endpoint, addingQueryItems queryItems: [URLQueryItem]? = nil, handler: @escaping (Result) -> ()) {
         let request = createRequest(.put, from: fullURL(of: endpoint, queryItems: queryItems), addingData: data)
         
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -120,7 +134,7 @@ class APIClient {
     }
     
     //GET
-    func get<T: Decodable>(from endpoint: Endpoint, adding queryItems: [URLQueryItem]? = nil, handler: @escaping (Result<T>) -> ()) {
+    func get<T: Decodable>(from endpoint: Endpoint, adding queryItems: [URLQueryItem]? = nil, handler: @escaping (ResultWithData<T>) -> ()) {
         
         let request = createRequest(.get, from: fullURL(of: endpoint, queryItems: queryItems))
         
@@ -132,11 +146,12 @@ class APIClient {
     }
     
     
-    func taskCompletionHandler<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: (Result<T>) -> () ) {
+    func taskCompletionHandler<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: (ResultWithData<T>) -> () ) {
         if let error = error {
             requestSenderCompletion(.failure(error))
         } else {
             if let data = data, let response = response as? HTTPURLResponse {
+                
                 
                 do {
                     let encodedData = try decode(T.self, from: data)
@@ -146,10 +161,9 @@ class APIClient {
                         requestSenderCompletion(.success(encodedData))
                     case 201:
                         requestSenderCompletion(.success(encodedData))
-                    case 204:
-                        requestSenderCompletion(.success(encodedData))
+                        
                     default:
-                        print("HTTP StatusCode: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
+                        print("Unknown HTTP StatusCode: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
                         requestSenderCompletion(.success(encodedData))
                     }
                     
@@ -157,6 +171,24 @@ class APIClient {
                     return requestSenderCompletion(.failure(error))
                 }
                 
+                
+            }
+        }
+    }
+    
+    func taskCompletionHandler(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: (Result) -> () ) {
+        if let error = error {
+            requestSenderCompletion(.failure(error))
+        } else {
+            if let response = response as? HTTPURLResponse {
+                    
+                    switch response.statusCode {
+                    case 204:
+                        requestSenderCompletion(.success)
+                    default:
+                        print("Unknown HTTP StatusCode: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
+                        requestSenderCompletion(.success)
+                    }
                 
             }
         }

@@ -36,7 +36,7 @@ class AsyncSafetyModel {
                                    URLQueryItem(name: "page_size", value: "2"),
                                    URLQueryItem(name: "ordering", value: "-login_datetime")]
 
-            apiClient.get(from: .activity, adding: queryParameters) { (result: Result<[Activity]>) in
+            apiClient.get(from: .activity, adding: queryParameters) { (result: ResultWithData<[Activity]>) in
                 switch result {
                 case .success(let recivedActivities):
                     self.activities = recivedActivities

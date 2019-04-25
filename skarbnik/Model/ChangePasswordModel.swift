@@ -74,15 +74,11 @@ class ChangePasswordModel {
         
         let changePasswordPacket = ChangePasswordPacket(old_password: oldPassword!, new_password: newPassword!)
 
-        class tmp: Codable {
-            
-        }
-
-        apiClient.put(encode(changePasswordPacket), to: .changePassword) { (result: Result<tmp>) in
+        apiClient.put(encode(changePasswordPacket), to: .changePassword) { (result: Result) in
             switch result {
-            case .success(_):
+            case .success:
                 completion(.success)
-            case .failure(_):
+            case .failure:
                 completion(.failure(.incorrectOldPassword))
             }
         }

@@ -35,7 +35,7 @@ class PickStudentModel {
         switch TokenManager.shared.get(.user_id) {
         case .success(let user_id):
             NotificationCenter.default.post(name: .setStatus, object: nil, userInfo: ["status":"Aktualizowanie listy..."])
-            apiClient.get(from: .student, adding: [URLQueryItem(name: "user", value: String(user_id))]) { (result: Result<[Child]>) in
+            apiClient.get(from: .student, adding: [URLQueryItem(name: "user", value: String(user_id))]) { (result: ResultWithData<[Child]>) in
                 switch result {
                 case .success(let students):
                     DispatchQueue.main.async { NotificationCenter.default.post(name: .removeStatus, object: nil) }
