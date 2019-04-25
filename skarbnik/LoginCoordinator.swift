@@ -68,9 +68,9 @@ class LoginCoordinator: Coordinator {
     func shouldLogOut() {
         TokenManager.shared.deauthorise()
         navigationController.popToRootViewController(animated: true)
-        let loginVC = LoginViewController()
-        loginVC.coordinator = self
-        navigationController.pushViewController(loginVC, animated: false)
+        loginVC = LoginViewController()
+        loginVC!.coordinator = self
+        loginVC!.tryToLogin()
     }
     
     func safetyCheckEnded() {
