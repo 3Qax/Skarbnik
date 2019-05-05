@@ -13,28 +13,14 @@ import SnapKit
 
 class DetailsView: UIView {
     
-    let backIV: UIImageView         = {
-        let imageView = UIImageView(image: UIImage(named: "back"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.tintColor = UIColor.white
-        imageView.isUserInteractionEnabled = true
-        return imageView
-    }()
-    let titleLabel: UILabel         = {
+    let titleLabel: UILabel                     = {
         let label = UILabel()
         label.font = UIFont(name: "OpenSans-Regular", size: 36)
         label.textColor = UIColor.white
         return label
     }()
-    let descriptionLabel: UILabel   = {
-        let label = UILabel()
-        label.font = UIFont(name: "OpenSans-Regular", size: 22)
-        label.numberOfLines = 0
-        label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.textColor = UIColor.pacyficBlue
-        return label
-    }()
-    let card: UIView                = {
+    
+    let card: UIView                            = {
        let view = UIView()
         view.layer.cornerRadius = 15
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
@@ -42,34 +28,93 @@ class DetailsView: UIView {
         view.layer.zPosition = 5
         return view
     }()
-    let cardBottomMask: UIView                = {
+    let cardWrapper: UIView                     = UIView()
+    var cardWrapperTopOffset: Constraint?       = nil
+    let descriptionLabel: UILabel               = {
+        let label = UILabel()
+        label.font = UIFont(name: "OpenSans-Regular", size: 22)
+        label.numberOfLines = 0
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
+        label.textColor = UIColor.pacyficBlue
+        return label
+    }()
+    let cardBottomMask: UIView                  = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
         view.layer.zPosition = 4
         return view
     }()
-    let cardWrapper: UIView         = UIView()
-    var cardWrapperTopOffset: Constraint?  = nil
-    let circle: UIView              = {
+
+    let circle: UIView                          = {
         let view = UIView()
+        view.tag = 41
         view.backgroundColor = UIColor.catchyPink
         return view
     }()
-    var startingPoint: CGPoint      = CGPoint()
+    var startingPoint: CGPoint                  = CGPoint()
+    
+    let menuCard: UIStackView                   = {
+        let stackView = UIStackView()
+        stackView.distribution = UIStackView.Distribution.equalCentering
+        
+        let background = UIView()
+        background.backgroundColor = UIColor(rgb: 0xFBFBFB)
+        background.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        background.layer.cornerRadius = 15.0
+        
+        stackView.addSubview(background)
+        background.snp.makeConstraints({ (make) in
+            make.edges.equalToSuperview()
+        })
+        
+        background.layer.addShadow(Xoffset: 0, Yoffset: -4, opacity: 0.25, blurRadius: 2)
+        
+        return stackView
+    }()
+    let backIV: UIImageView                     = {
+        let imageView = UIImageView(image: UIImage(named: "back"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = UIColor.catchyPink
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    lazy var walletIV: UIImageView              = {
+        let imageView = UIImageView(image: UIImage(named: "wallet-outline"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.tintColor = UIColor.catchyPink
+        return imageView
+    }()
+    lazy var bellIV: UIImageView                = {
+        let imageView = UIImageView(image: UIImage(named: "bell-outline"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.tintColor = UIColor.catchyPink
+        return imageView
+    }()
+    lazy var imagesIV: UIImageView              = {
+        let imageView = UIImageView(image: UIImage(named: "images-outline"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.tintColor = UIColor.catchyPink
+        return imageView
+    }()
+    lazy var listIV: UIImageView                = {
+        let imageView = UIImageView(image: UIImage(named: "list-outline"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        imageView.tintColor = UIColor.catchyPink
+        return imageView
+    }()
+    
     var delegate: DetailsViewDelegate?
     
-    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String) {
+    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String, inState state: Payment.PaymentState) {
         super.init(frame: .zero)
         
         self.backgroundColor = UIColor.pacyficBlue
         
-        self.addSubview(backIV)
-        let backTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBack))
-        backIV.addGestureRecognizer(backTGR)
-        backIV.snp.makeConstraints { (make) in
-            make.top.left.equalTo(safeAreaLayoutGuide)
-            make.height.width.equalTo(50)
-        }
+        
         
         self.addSubview(circle)
         circle.snp.makeConstraints { (make) in
@@ -81,7 +126,7 @@ class DetailsView: UIView {
         
         self.addSubview(cardWrapper)
         cardWrapper.snp.makeConstraints { (make) in
-            cardWrapperTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
+            cardWrapperTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(70).constraint
             make.left.bottom.right.equalToSuperview()
         }
         
@@ -136,6 +181,40 @@ class DetailsView: UIView {
             make.left.equalToSuperview().offset(15)
         }
         
+        self.addSubview(menuCard)
+        menuCard.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        menuCard.isLayoutMarginsRelativeArrangement = true
+        menuCard.snp.makeConstraints { (make) in
+            make.bottom.left.right.equalToSuperview()
+            make.height.equalTo(100)
+        }
+        
+        menuCard.addArrangedSubview(backIV)
+        let backTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBack))
+        backIV.addGestureRecognizer(backTGR)
+        
+        switch state {
+        case .awaiting:
+            fatalError()
+        case .pending:
+            menuCard.addArrangedSubview(walletIV)
+            let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
+            walletIV.addGestureRecognizer(walletTGR)
+            menuCard.addArrangedSubview(bellIV)
+            let bellTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBell))
+            bellIV.addGestureRecognizer(bellTGR)
+        case .paid:
+            menuCard.addArrangedSubview(imagesIV)
+            let imagesTGR = UITapGestureRecognizer(target: self, action: #selector(didTapImages))
+            imagesIV.addGestureRecognizer(imagesTGR)
+            menuCard.addArrangedSubview(listIV)
+            let listTGR = UITapGestureRecognizer(target: self, action: #selector(didTapList))
+            listIV.addGestureRecognizer(listTGR)
+        }
+        
+
+
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -144,6 +223,22 @@ class DetailsView: UIView {
     
     @objc func didTapBack() {
         delegate?.didTapBack()
+    }
+    
+    @objc func didTapWallet() {
+        delegate?.didTapWallet()
+    }
+    
+    @objc func didTapBell() {
+        delegate?.didTapBell()
+    }
+    
+    @objc func didTapImages() {
+        
+    }
+    
+    @objc func didTapList() {
+        
     }
     
     override func layoutSubviews() {
@@ -208,7 +303,7 @@ extension DetailsView: Slidable {
 
         cardWrapperTopOffset?.uninstall()
         cardWrapper.snp.makeConstraints { (make) in
-            cardWrapperTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(127).constraint
+            cardWrapperTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(70).constraint
         }
         UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
             self.layoutIfNeeded()

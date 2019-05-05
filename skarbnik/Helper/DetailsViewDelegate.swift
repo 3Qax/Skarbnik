@@ -12,6 +12,8 @@ import Foundation
 
 protocol DetailsViewDelegate {
     func didTapBack()
+    func didTapWallet()
+    func didTapBell()
     //func didTapPay()
     //func didTapShowPhotos()
 }
