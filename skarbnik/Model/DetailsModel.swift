@@ -15,5 +15,9 @@ struct Detail {
     let value: String
 }
 class DetailsModel {
+    let payment: Payment
     
+    init(of payment: Payment) {
+        self.payment = payment
+    }
 }

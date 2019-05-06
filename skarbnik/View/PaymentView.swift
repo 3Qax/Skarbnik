@@ -37,8 +37,8 @@ class PaymentView: UIView {
         }()
     var circle: UIView = {
         let view = UIView()
+        view.tag = 41
         view.backgroundColor = UIColor.catchyPink
-
         return view
     }()
     
