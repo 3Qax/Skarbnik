@@ -170,7 +170,9 @@ class DetailsView: UIView {
         
         switch state {
         case .awaiting:
-            fatalError()
+            menuCard.addArrangedSubview(bellIV)
+            let bellTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBell))
+            bellIV.addGestureRecognizer(bellTGR)
         case .pending:
             menuCard.addArrangedSubview(walletIV)
             let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
