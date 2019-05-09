@@ -81,7 +81,7 @@ extension DetailsViewController: DetailsViewDelegate {
     }
     
     func didTapBell() {
-        coordinator?.didRequestToPay(for: detailsModel.payment)
+        coordinator?.didRequestReminder(about: detailsModel.payment)
     }
     
     func didTapBack() {
