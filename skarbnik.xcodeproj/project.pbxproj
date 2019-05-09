@@ -33,9 +33,9 @@
 		19484C372204594A006097CF /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C362204594A006097CF /* MainCoordinator.swift */; };
 		19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3A220461C1006097CF /* ChangePasswordViewController.swift */; };
 		19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3C220466CA006097CF /* ChangePasswordView.swift */; };
+		194D5EA72284BF4B008B3FF2 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D5EA62284BF4B008B3FF2 /* SearchField.swift */; };
 		194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E989A223971EC0039CA66 /* ProgressableSlider.swift */; };
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
-		1953FE13224782F300F91A9B /* LightSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1953FE12224782F300F91A9B /* LightSearchBar.swift */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
@@ -104,9 +104,9 @@
 		19484C362204594A006097CF /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		19484C3A220461C1006097CF /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19484C3C220466CA006097CF /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		194D5EA62284BF4B008B3FF2 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		194E989A223971EC0039CA66 /* ProgressableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressableSlider.swift; sourceTree = "<group>"; };
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
-		1953FE12224782F300F91A9B /* LightSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LightSearchBar.swift; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
@@ -261,9 +261,9 @@
 				19E38E1F22307161006DE37B /* SegmentedControl.swift */,
 				194E989A223971EC0039CA66 /* ProgressableSlider.swift */,
 				1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */,
-				1953FE12224782F300F91A9B /* LightSearchBar.swift */,
 				19A1D915225F51300012B09E /* AmountLabel.swift */,
 				19B446C02262A0A10014121F /* DetailWithDescription.swift */,
+				194D5EA62284BF4B008B3FF2 /* SearchField.swift */,
 			);
 			path = Controlls;
 			sourceTree = "<group>";
@@ -438,7 +438,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1953FE13224782F300F91A9B /* LightSearchBar.swift in Sources */,
 				19484C372204594A006097CF /* MainCoordinator.swift in Sources */,
 				19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */,
 				19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */,
@@ -458,6 +457,7 @@
 				19A6A1CD224045F4005B1818 /* StartViewController.swift in Sources */,
 				19461BAF223920A000D2E907 /* PayModel.swift in Sources */,
 				19B446BB226296880014121F /* DetailsViewController.swift in Sources */,
+				194D5EA72284BF4B008B3FF2 /* SearchField.swift in Sources */,
 				19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */,
 				197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */,
 				199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */,

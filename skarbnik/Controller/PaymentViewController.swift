@@ -44,7 +44,6 @@ class PaymentViewController: UIViewController {
         
         paymentView.delegate = self
         paymentView.tableView.dataSource = self
-        paymentView.searchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +72,17 @@ class PaymentViewController: UIViewController {
 }
 
 extension PaymentViewController: PaymentViewDelegate {
+    
+    func shouldCancelSearch(in searchBar: SearchField) {
+        paymentModel.setFilter(to: "")
+        searchBar.text = ""
+        paymentView.tableView.reloadData()
+    }
+    
+    func searchTermDidChanged(term: String) {
+        paymentModel.setFilter(to: term)
+        paymentView.tableView.reloadData()
+    }
     
     func didTappedClass() {
         selectionFeedbackGenerator.prepare()
@@ -146,15 +156,4 @@ extension PaymentViewController: PaymentCellDelegate {
         
     }
     
-}
-
-extension PaymentViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        paymentModel.setFilter(to: searchText)
-        paymentView.tableView.reloadData()
-    }
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        paymentModel.setFilter(to: "")
-        paymentView.tableView.reloadData()
-    }
 }

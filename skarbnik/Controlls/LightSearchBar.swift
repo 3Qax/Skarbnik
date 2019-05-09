@@ -35,17 +35,21 @@ class LightSearchBar: UISearchBar {
         textField.backgroundColor = UIColor.clear
         textField.clipsToBounds = true
         textField.layer.borderWidth = 0.0
-        textField.textColor = UIColor.catchyPink
+        textField.textColor = UIColor.white
         
-        textField.font = UIFont(name: "PingFangTC-Light", size: 18.0)
+        textField.font = UIFont(name: "OpenSans-Light", size: 18.0)
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
         textField.returnKeyType = .search
         
         textField.leftView = nil
-        textField.tintColor = UIColor.white
+        self.tintColor = UIColor.white
         
         textField.clearButtonMode = .never
+        
+        textField.contentMode = .redraw
+        
+        self.text = ""
         
         self.setContentHuggingPriority(.init(200), for: .horizontal)
         
@@ -55,6 +59,8 @@ class LightSearchBar: UISearchBar {
             make.bottom.equalTo(textField).offset(-5)
             make.height.equalTo(1)
         }
+        print("will move")
     }
+    
     
 }

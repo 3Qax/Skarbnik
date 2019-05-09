@@ -22,7 +22,7 @@ class PaymentView: UIView {
             imageView.tintColor = UIColor.white
             return imageView
         }()
-        let searchBar                                   = LightSearchBar()
+        let searchBar                                   = SearchField(frame: .zero)
         var searchIV: UIImageView                       = {
             var imageView = UIImageView(image: UIImage(named: "search"))
             imageView.contentMode = .scaleAspectFit
@@ -35,7 +35,7 @@ class PaymentView: UIView {
             imageView.tintColor = UIColor.white
             return imageView
         }()
-    var circle: UIView = {
+    var circle: UIView                                  = {
         let view = UIView()
         view.tag = 41
         view.backgroundColor = UIColor.catchyPink
@@ -175,6 +175,8 @@ class PaymentView: UIView {
             make.top.equalTo(firstNameLabel.snp.bottom)
         }
         
+        
+        searchBar.addTarget(self, action: #selector(didChangeSearchTerm(sender:)), for: .editingChanged)
 
 
 
@@ -307,9 +309,14 @@ class PaymentView: UIView {
         })
     }
     
+    @objc func didChangeSearchTerm(sender: UITextField) {
+        delegate?.searchTermDidChanged(term: sender.text ?? "")
+    }
+    
     @objc func didTapCancelButton() {
         searchBar.resignFirstResponder()
-        searchBar.delegate?.searchBarCancelButtonClicked!(searchBar)
+        delegate?.shouldCancelSearch(in: searchBar)
+
         searchBar.snp.remakeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide)
             make.bottom.centerX.equalToSuperview()
