@@ -11,4 +11,6 @@ import Foundation
 protocol PaymentViewDelegate {
     func didTappedClass()
     func didRequestDataRefresh()
+    func searchTermDidChanged(term: String)
+    func shouldCancelSearch(in searchBar: SearchField)
 }
