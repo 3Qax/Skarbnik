@@ -296,8 +296,8 @@ class PaymentView: UIView {
             self.layoutIfNeeded()
             
             self.searchBar.snp.makeConstraints { (make) in
-                make.left.equalTo(self.changeStudentIV.snp.right)
-                make.right.equalTo(self.cancelIV.snp.left)
+                make.left.equalTo(self.changeStudentIV.snp.right).offset(10)
+                make.right.equalTo(self.cancelIV.snp.left).offset(-10)
             }
             UIView.animate(withDuration: 0.25, animations: {
                 self.cancelIV.alpha = 1.0

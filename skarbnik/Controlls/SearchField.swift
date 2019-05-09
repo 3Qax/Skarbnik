@@ -30,7 +30,7 @@ class SearchField: UITextField {
         self.layer.borderWidth = 0.0
         self.textColor = UIColor.white
         
-        self.font = UIFont(name: "OpenSans-Light", size: 18.0)
+        self.font = UIFont(name: "OpenSans-Light", size: 20.0)
         self.autocorrectionType = .no
         self.autocapitalizationType = .none
         self.returnKeyType = .search
