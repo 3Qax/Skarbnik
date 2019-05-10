@@ -27,13 +27,13 @@ enum ImageState {
 
 struct Image: Codable {
     let id: Int
-    let imageURL: String
-    var image: Data?
+    let URL: String
+    var data: Data?
     var state: ImageState = .notLoaded
     
     enum CodingKeys: String, CodingKey {
         case id = "id_field"
-        case imageURL = "image"
+        case URL = "image"
     }
 }
 
@@ -48,7 +48,7 @@ final class Payment {
     let currency: String
     let creation_date, start_date, end_date: Date
     var contribution: [Float] = [Float]()
-    let images: [Image]
+    var images: [Image]
     var state: PaymentState {
         get {
             if contribution.reduce(0, +) == amount { return .paid }

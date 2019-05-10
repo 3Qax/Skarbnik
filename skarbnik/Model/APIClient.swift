@@ -18,6 +18,10 @@ enum Result {
     case failure(Error)
 }
 
+enum ImageGettingErrors: Error {
+    case incorrectURL
+}
+
 class APIClient {
     
     private let baseURL: URLComponents
@@ -144,7 +148,28 @@ class APIClient {
         task.resume()
         
     }
-    
+
+    func getImageData(from url: String, handler: @escaping (ResultWithData<Data>) -> ()) {
+        
+        guard let url = URL(string: url) else {
+            handler(.failure(ImageGettingErrors.incorrectURL))
+            return
+        }
+        
+        let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20000)
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                handler(.failure(error))
+            } else {
+                if let data = data, let response = response as? HTTPURLResponse {
+                    handler(.success(data))
+                }
+            }
+        }
+        task.resume()
+        
+    }
     
     func taskCompletionHandler<T: Decodable>(data: Data?, response: URLResponse?, error: Error?, requestSenderCompletion: (ResultWithData<T>) -> () ) {
         if let error = error {
