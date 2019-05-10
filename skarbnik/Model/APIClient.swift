@@ -149,9 +149,10 @@ class APIClient {
         
     }
 
-    func getImageData(from url: String, handler: @escaping (ResultWithData<Data>) -> ()) {
+    //GET
+    func getImageData(from path: String, handler: @escaping (ResultWithData<Data>) -> ()) {
         
-        guard let url = URL(string: url) else {
+        guard let url = URL(string: path) else {
             handler(.failure(ImageGettingErrors.incorrectURL))
             return
         }

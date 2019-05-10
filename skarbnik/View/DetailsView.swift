@@ -102,7 +102,7 @@ class DetailsView: UIView {
     
     var delegate: DetailsViewDelegate?
     
-    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String, inState state: Payment.PaymentState) {
+    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String, inState state: Payment.PaymentState, havingPhotos: Bool) {
         super.init(frame: .zero)
         
         self.backgroundColor = UIColor.pacyficBlue
@@ -170,7 +170,9 @@ class DetailsView: UIView {
         
         switch state {
         case .awaiting:
-            fatalError()
+            menuCard.addArrangedSubview(bellIV)
+            let bellTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBell))
+            bellIV.addGestureRecognizer(bellTGR)
         case .pending:
             menuCard.addArrangedSubview(walletIV)
             let walletTGR = UITapGestureRecognizer(target: self, action: #selector(didTapWallet))
@@ -182,6 +184,8 @@ class DetailsView: UIView {
             menuCard.addArrangedSubview(imagesIV)
             let imagesTGR = UITapGestureRecognizer(target: self, action: #selector(didTapImages))
             imagesIV.addGestureRecognizer(imagesTGR)
+            if !havingPhotos { imagesIV.tintColor = UIColor.darkGrey }
+            
             menuCard.addArrangedSubview(listIV)
             let listTGR = UITapGestureRecognizer(target: self, action: #selector(didTapList))
             listIV.addGestureRecognizer(listTGR)
@@ -209,7 +213,7 @@ class DetailsView: UIView {
     }
     
     @objc func didTapImages() {
-        
+        delegate?.didTapImages()
     }
     
     @objc func didTapList() {

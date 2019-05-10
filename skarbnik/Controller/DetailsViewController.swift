@@ -44,7 +44,11 @@ class DetailsViewController: UIViewController {
             detailsToShow.append(Detail(title: "utworzona przez", value: "Anna Król"))
             detailsToShow.append(Detail(title: "zapłacone", value: amountFormatter.string(from: payment.amount as NSNumber)!))
         }
-        detailsView = DetailsView(showing: detailsToShow, ofPaymentNamed: payment.name, withDescription: payment.description, inState: payment.state)
+        detailsView = DetailsView(showing: detailsToShow,
+                                  ofPaymentNamed: payment.name,
+                                  withDescription: payment.description,
+                                  inState: payment.state,
+                                  havingPhotos: payment.images.count != 0)
         detailsModel = DetailsModel(of: payment)
         
         super.init(nibName: nil, bundle: nil)
@@ -76,6 +80,21 @@ class DetailsViewController: UIViewController {
 }
 
 extension DetailsViewController: DetailsViewDelegate {
+    
+    func didTapImages() {
+        if detailsModel.payment.images.count != 0 {
+            print(detailsModel.payment.images)
+            //go to gallery
+        } else {
+            notificationFeedbackGenerator.notificationOccurred(.error)
+            //show alert build from alert builder
+        }
+    }
+    
+    func didTapList() {
+        
+    }
+    
     func didTapWallet() {
         coordinator?.didRequestToPay(for: detailsModel.payment)
     }
