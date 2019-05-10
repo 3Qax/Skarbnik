@@ -15,7 +15,26 @@ struct PaymentPacket: Codable {
     let creation_date, start_date, end_date: String
     let amount, currency: String
     let name, description: String
-    let image: String?
+    let images: [Image]
+}
+
+enum ImageState {
+    case notLoaded
+    case loading
+    case loaded
+    case error
+}
+
+struct Image: Codable {
+    let id: Int
+    let imageURL: String
+    var image: Data?
+    var state: ImageState = .notLoaded
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "id_field"
+        case imageURL = "image"
+    }
 }
 
 struct PaymentDetailPacket: Codable {
@@ -29,7 +48,7 @@ final class Payment {
     let currency: String
     let creation_date, start_date, end_date: Date
     var contribution: [Float] = [Float]()
-    var image: Data?
+    let images: [Image]
     var state: PaymentState {
         get {
             if contribution.reduce(0, +) == amount { return .paid }
@@ -57,6 +76,7 @@ final class Payment {
         self.description = data.description
         self.amount = Float(data.amount)!
         self.currency = data.currency
+        self.images = data.images
         
         let longDateFormatter = ISO8601DateFormatter()
         self.creation_date = longDateFormatter.date(from: data.creation_date)!
