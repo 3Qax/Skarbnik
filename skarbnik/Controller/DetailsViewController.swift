@@ -87,7 +87,11 @@ extension DetailsViewController: DetailsViewDelegate {
             //go to gallery
         } else {
             notificationFeedbackGenerator.notificationOccurred(.error)
-            //show alert build from alert builder
+            
+            AlertBuilder()
+                .setMessage("Ta zbiórka nie ma dodanych żadnych zdjęć, więc nie możemy ich wyświetlić 🧐")
+                .addAction(withStyle: .default, text: "OK")
+                .show(in: self)
         }
     }
     

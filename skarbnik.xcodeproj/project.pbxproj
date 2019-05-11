@@ -38,6 +38,7 @@
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
+		196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DF59122869F8700C32C45 /* AlertBuilder.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
 		197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */; };
 		198583562203112C00630FCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 198583582203112C00630FCE /* Localizable.strings */; };
@@ -109,6 +110,7 @@
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
+		196DF59122869F8700C32C45 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
 		197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewProtocol.swift; sourceTree = "<group>"; };
 		198583572203112C00630FCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				19461BAA22391D4B00D2E907 /* PayViewController.swift */,
 				19B446BA226296880014121F /* DetailsViewController.swift */,
 				19B446C4226528720014121F /* SlideInAnimationController.swift */,
+				196DF59122869F8700C32C45 /* AlertBuilder.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				194784EB22083C53000AE323 /* PickStudentModel.swift in Sources */,
 				1988D791223ECEEC006A6A22 /* PayViewDelegate.swift in Sources */,
 				19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */,
+				196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
 				19B446C7226538C00014121F /* Slideable.swift in Sources */,
