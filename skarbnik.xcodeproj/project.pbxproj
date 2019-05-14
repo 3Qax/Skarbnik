@@ -37,6 +37,8 @@
 		194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E989A223971EC0039CA66 /* ProgressableSlider.swift */; };
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
+		195FC3B1228B4680008BF80A /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B0228B4680008BF80A /* ImagesViewController.swift */; };
+		195FC3B3228B46DE008BF80A /* ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B2228B46DE008BF80A /* ImagesView.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
 		196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DF59122869F8700C32C45 /* AlertBuilder.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
@@ -109,6 +111,8 @@
 		194E989A223971EC0039CA66 /* ProgressableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressableSlider.swift; sourceTree = "<group>"; };
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
+		195FC3B0228B4680008BF80A /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
+		195FC3B2228B46DE008BF80A /* ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesView.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		196DF59122869F8700C32C45 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
@@ -227,6 +231,7 @@
 				19461BAC22391D8800D2E907 /* PayView.swift */,
 				19A6A1CE224045FC005B1818 /* StartView.swift */,
 				19B446BE226299160014121F /* DetailsView.swift */,
+				195FC3B2228B46DE008BF80A /* ImagesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -247,6 +252,7 @@
 				19B446BA226296880014121F /* DetailsViewController.swift */,
 				19B446C4226528720014121F /* SlideInAnimationController.swift */,
 				196DF59122869F8700C32C45 /* AlertBuilder.swift */,
+				195FC3B0228B4680008BF80A /* ImagesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -481,9 +487,11 @@
 				19DF9F1622369CAB006CE8FA /* UIColorExtensions.swift in Sources */,
 				194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
+				195FC3B1228B4680008BF80A /* ImagesViewController.swift in Sources */,
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
 				194784ED2208C87B000AE323 /* PaymentModel.swift in Sources */,
 				19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */,
+				195FC3B3228B46DE008BF80A /* ImagesView.swift in Sources */,
 				19B446BD226298FD0014121F /* DetailsModel.swift in Sources */,
 				19461BAD22391D8800D2E907 /* PayView.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */,

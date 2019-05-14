@@ -83,8 +83,7 @@ extension DetailsViewController: DetailsViewDelegate {
     
     func didTapImages() {
         if detailsModel.payment.images.count != 0 {
-            print(detailsModel.payment.images)
-            //go to gallery
+            coordinator?.showImages(detailsModel.payment.images)
         } else {
             notificationFeedbackGenerator.notificationOccurred(.error)
             
