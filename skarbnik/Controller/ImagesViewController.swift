@@ -29,5 +29,18 @@ class ImagesViewController: UIViewController {
     
     override func loadView() {
         view = imagesView
+        imagesView.delegate = self
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+}
+
+extension ImagesViewController: ImagesViewDelegate {
+    
+    func didTapBack() {
+        coordinator?.goBack()
+    }
+    
 }
