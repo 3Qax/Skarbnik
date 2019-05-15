@@ -7,39 +7,42 @@
 //
 
 import UIKit
+import SnapKit
 
 
 
 class ImagesView: UIView {
     
-    let topBar: UIView                  = {
+    let topBar: UIView                      = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
         view.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         view.layer.cornerRadius = 15.0
         return view
     }()
-    let backIV: UIImageView             = {
+    var topBarBottomConstraint: Constraint? = nil
+    let backIV: UIImageView                 = {
         let imageView = UIImageView(image: UIImage(named: "back"))
         imageView.contentMode = .scaleAspectFit
         imageView.tintColor = UIColor.catchyPink
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
-    let scrollView: UIScrollView        = {
+    let scrollView: UIScrollView            = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.isUserInteractionEnabled = false
         return scrollView
     }()
-    let bottomBar: UIView               = {
+    let bottomBar: UIView                   = {
         let view = UIView()
         view.backgroundColor = UIColor.backgroundGrey
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.layer.cornerRadius = 15.0
         return view
     }()
-    let dotsStackView: UIStackView      = {
+    var bottomBarTopConstraint: Constraint? = nil
+    let dotsStackView: UIStackView          = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
         stackView.alignment = .center
@@ -59,7 +62,7 @@ class ImagesView: UIView {
         self.addSubview(topBar)
         topBar.snp.makeConstraints { (make) in
             make.top.left.right.equalToSuperview()
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.top).offset(60)
+            topBarBottomConstraint = make.bottom.equalTo(self.safeAreaLayoutGuide.snp.top).offset(60).constraint
         }
         
         topBar.addSubview(backIV)
@@ -75,7 +78,7 @@ class ImagesView: UIView {
         self.addSubview(bottomBar)
         bottomBar.snp.makeConstraints { (make) in
             make.bottom.left.right.equalToSuperview()
-            make.height.equalTo(100)
+            bottomBarTopConstraint = make.height.equalTo(100).constraint
         }
         
         bottomBar.addSubview(dotsStackView)
@@ -141,4 +144,52 @@ class ImagesView: UIView {
     @objc func didTapBack() {
         delegate?.didTapBack()
     }
+}
+
+extension ImagesView: Slidable {
+    
+    func slideIn(completion: @escaping () -> ()) {
+        
+        topBarBottomConstraint?.deactivate()
+        topBar.snp.makeConstraints { (make) in
+            topBarBottomConstraint = make.bottom.equalTo(self.safeAreaLayoutGuide.snp.top).constraint
+        }
+        bottomBarTopConstraint?.deactivate()
+        bottomBar.snp.makeConstraints { (make) in
+            bottomBarTopConstraint = make.height.equalTo(0).constraint
+        }
+        self.layoutIfNeeded()
+        
+        topBarBottomConstraint?.deactivate()
+        topBar.snp.makeConstraints { (make) in
+            topBarBottomConstraint = make.bottom.equalTo(self.safeAreaLayoutGuide.snp.top).offset(60).constraint
+        }
+        bottomBarTopConstraint?.deactivate()
+        bottomBar.snp.makeConstraints { (make) in
+            bottomBarTopConstraint = make.height.equalTo(100).constraint
+        }
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion() })
+        
+    }
+    
+    func slideOut(completion: @escaping () -> ()) {
+        
+        topBarBottomConstraint?.deactivate()
+        topBar.snp.makeConstraints { (make) in
+            topBarBottomConstraint = make.bottom.equalTo(self.safeAreaLayoutGuide.snp.top).constraint
+        }
+        bottomBarTopConstraint?.deactivate()
+        bottomBar.snp.makeConstraints { (make) in
+            bottomBarTopConstraint = make.height.equalTo(0).constraint
+        }
+        
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in completion() })
+        
+    }
+    
 }

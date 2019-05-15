@@ -100,6 +100,9 @@ extension PaymentCoordinator: UINavigationControllerDelegate {
         if fromVC is PaymentViewController && toVC is DetailsViewController
             || (fromVC is DetailsViewController && toVC is PaymentViewController) {
             return SlideInAnimationController()
+        } else if fromVC is DetailsViewController && toVC is ImagesViewController
+            || (fromVC is ImagesViewController && toVC is DetailsViewController)  {
+            return SlideInAnimationController()
         } else { return nil }
     }
 }
