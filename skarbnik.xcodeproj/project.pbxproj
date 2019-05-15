@@ -39,6 +39,7 @@
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
 		195FC3B1228B4680008BF80A /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B0228B4680008BF80A /* ImagesViewController.swift */; };
 		195FC3B3228B46DE008BF80A /* ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B2228B46DE008BF80A /* ImagesView.swift */; };
+		195FC3B5228C6404008BF80A /* Dot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B4228C6404008BF80A /* Dot.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
 		196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DF59122869F8700C32C45 /* AlertBuilder.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
@@ -113,6 +114,7 @@
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
 		195FC3B0228B4680008BF80A /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
 		195FC3B2228B46DE008BF80A /* ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesView.swift; sourceTree = "<group>"; };
+		195FC3B4228C6404008BF80A /* Dot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dot.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
 		196DF59122869F8700C32C45 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				19A1D915225F51300012B09E /* AmountLabel.swift */,
 				19B446C02262A0A10014121F /* DetailWithDescription.swift */,
 				194D5EA62284BF4B008B3FF2 /* SearchField.swift */,
+				195FC3B4228C6404008BF80A /* Dot.swift */,
 			);
 			path = Controlls;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */,
 				19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */,
 				19A6A1CF224045FC005B1818 /* StartView.swift in Sources */,
+				195FC3B5228C6404008BF80A /* Dot.swift in Sources */,
 				193357ED221072B1000D922C /* TokenManager.swift in Sources */,
 				1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
