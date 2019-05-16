@@ -98,7 +98,11 @@ class ImagesView: UIView {
             }
             
             dotsStackView.addArrangedSubview(UIView())
-            dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot }).first?.state = .filled
+            var selectedOption: Int = 0
+            if scrollView.bounds.width != 0 {
+                selectedOption = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+            }
+            dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot })[selectedOption].state = .filled
             
         }
     }
