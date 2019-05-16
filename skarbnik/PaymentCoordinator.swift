@@ -85,6 +85,12 @@ class PaymentCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(detailsVC, animated: true)
     }
     
+    func showImages(_ images: inout [Image]) {
+        let imagesVC = ImagesViewController(of: &images)
+        imagesVC.coordinator = self
+        navigationController.pushViewController(imagesVC, animated: true)
+    }
+    
     
 }
 
@@ -93,6 +99,9 @@ extension PaymentCoordinator: UINavigationControllerDelegate {
         print("From: \(fromVC), to \(toVC)")
         if fromVC is PaymentViewController && toVC is DetailsViewController
             || (fromVC is DetailsViewController && toVC is PaymentViewController) {
+            return SlideInAnimationController()
+        } else if fromVC is DetailsViewController && toVC is ImagesViewController
+            || (fromVC is ImagesViewController && toVC is DetailsViewController)  {
             return SlideInAnimationController()
         } else { return nil }
     }

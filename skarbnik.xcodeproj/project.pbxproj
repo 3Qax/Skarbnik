@@ -37,7 +37,12 @@
 		194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E989A223971EC0039CA66 /* ProgressableSlider.swift */; };
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
 		195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */; };
+		195FC3B1228B4680008BF80A /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B0228B4680008BF80A /* ImagesViewController.swift */; };
+		195FC3B3228B46DE008BF80A /* ImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B2228B46DE008BF80A /* ImagesView.swift */; };
+		195FC3B5228C6404008BF80A /* Dot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B4228C6404008BF80A /* Dot.swift */; };
+		195FC3B7228CBADB008BF80A /* ImagesViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 195FC3B6228CBADB008BF80A /* ImagesViewDelegate.swift */; };
 		196A37C6220A4B4A00288808 /* NotificationNameExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */; };
+		196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DF59122869F8700C32C45 /* AlertBuilder.swift */; };
 		1973B1F2220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */; };
 		197F583621D042CA0098F17B /* ClassPickViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */; };
 		198583562203112C00630FCE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 198583582203112C00630FCE /* Localizable.strings */; };
@@ -108,7 +113,12 @@
 		194E989A223971EC0039CA66 /* ProgressableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressableSlider.swift; sourceTree = "<group>"; };
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		195A09CE220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastLoginAttemptFailedAlertControler.swift; sourceTree = "<group>"; };
+		195FC3B0228B4680008BF80A /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
+		195FC3B2228B46DE008BF80A /* ImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesView.swift; sourceTree = "<group>"; };
+		195FC3B4228C6404008BF80A /* Dot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dot.swift; sourceTree = "<group>"; };
+		195FC3B6228CBADB008BF80A /* ImagesViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewDelegate.swift; sourceTree = "<group>"; };
 		196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNameExtensions.swift; sourceTree = "<group>"; };
+		196DF59122869F8700C32C45 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		1973B1F1220EDD1500EFB7AA /* CompulsoryPasswordChangeAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompulsoryPasswordChangeAlertController.swift; sourceTree = "<group>"; };
 		197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassPickViewProtocol.swift; sourceTree = "<group>"; };
 		198583572203112C00630FCE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -225,6 +235,7 @@
 				19461BAC22391D8800D2E907 /* PayView.swift */,
 				19A6A1CE224045FC005B1818 /* StartView.swift */,
 				19B446BE226299160014121F /* DetailsView.swift */,
+				195FC3B2228B46DE008BF80A /* ImagesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -244,6 +255,8 @@
 				19461BAA22391D4B00D2E907 /* PayViewController.swift */,
 				19B446BA226296880014121F /* DetailsViewController.swift */,
 				19B446C4226528720014121F /* SlideInAnimationController.swift */,
+				196DF59122869F8700C32C45 /* AlertBuilder.swift */,
+				195FC3B0228B4680008BF80A /* ImagesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -264,6 +277,7 @@
 				19A1D915225F51300012B09E /* AmountLabel.swift */,
 				19B446C02262A0A10014121F /* DetailWithDescription.swift */,
 				194D5EA62284BF4B008B3FF2 /* SearchField.swift */,
+				195FC3B4228C6404008BF80A /* Dot.swift */,
 			);
 			path = Controlls;
 			sourceTree = "<group>";
@@ -284,6 +298,7 @@
 				1988D790223ECEEC006A6A22 /* PayViewDelegate.swift */,
 				19B446C222637F5D0014121F /* DetailsViewDelegate.swift */,
 				19B446C6226538C00014121F /* Slideable.swift */,
+				195FC3B6228CBADB008BF80A /* ImagesViewDelegate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -441,7 +456,9 @@
 				19484C372204594A006097CF /* MainCoordinator.swift in Sources */,
 				19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */,
 				19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */,
+				195FC3B7228CBADB008BF80A /* ImagesViewDelegate.swift in Sources */,
 				19A6A1CF224045FC005B1818 /* StartView.swift in Sources */,
+				195FC3B5228C6404008BF80A /* Dot.swift in Sources */,
 				193357ED221072B1000D922C /* TokenManager.swift in Sources */,
 				1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
@@ -478,9 +495,11 @@
 				19DF9F1622369CAB006CE8FA /* UIColorExtensions.swift in Sources */,
 				194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
+				195FC3B1228B4680008BF80A /* ImagesViewController.swift in Sources */,
 				19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */,
 				194784ED2208C87B000AE323 /* PaymentModel.swift in Sources */,
 				19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */,
+				195FC3B3228B46DE008BF80A /* ImagesView.swift in Sources */,
 				19B446BD226298FD0014121F /* DetailsModel.swift in Sources */,
 				19461BAD22391D8800D2E907 /* PayView.swift in Sources */,
 				19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */,
@@ -488,6 +507,7 @@
 				194784EB22083C53000AE323 /* PickStudentModel.swift in Sources */,
 				1988D791223ECEEC006A6A22 /* PayViewDelegate.swift in Sources */,
 				19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */,
+				196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
 				19B446C7226538C00014121F /* Slideable.swift in Sources */,
