@@ -13,12 +13,14 @@ import UIKit
 class ImagesViewController: UIViewController {
     
     let imagesView: ImagesView
+    var images: [Image]
     var coordinator: PaymentCoordinator?
     
     
-    init(of images: [Image]) {
+    init(of images: inout [Image]) {
         
-        //TODO: handle images that still can be loading
+        self.images = images
+        
         var convertedImages = Dictionary<Int, Data?>()
         images.forEach { (image) in
             convertedImages[image.id]=image.data
@@ -40,20 +42,26 @@ class ImagesViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(forName: .loadedImage, object: <#T##Any?#>, queue: .main) { (notification) in
+            self.shouldUpdate(ImageWithId: notification.userInfo!["image_id"] as! Int)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: .loadedImage, object: nil)
+    }
+    
+    func shouldUpdate(ImageWithId id: Int) {
+        imagesView.imagesData[id] = images.first(where: {$0.id == id})?.data
+    }
 }
 
 extension ImagesViewController: ImagesViewDelegate {
     
     func didTapBack() {
         coordinator?.goBack()
-    }
-    
-}
-
-extension ImagesViewController: ImagesModelDelegate {
-    
-    func shouldUpdate(ImageHavingId id: Int, withData data: Data?) {
-        imagesView.imagesData[id] = data
     }
     
 }

@@ -27,6 +27,7 @@ class DetailsModel {
                 case .success(let data):
                     payment.images[i].data = data
                     payment.images[i].state = .loaded
+                    NotificationCenter.default.post(name: .loadedImage, object: nil, userInfo: ["image_id" : payment.images[i].id])
                 case .failure(let error):
                     print(error.localizedDescription)
                     switch error {

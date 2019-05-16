@@ -85,8 +85,8 @@ class PaymentCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(detailsVC, animated: true)
     }
     
-    func showImages(_ images: [Image]) {
-        let imagesVC = ImagesViewController(of: images)
+    func showImages(_ images: inout [Image]) {
+        let imagesVC = ImagesViewController(of: &images)
         imagesVC.coordinator = self
         navigationController.pushViewController(imagesVC, animated: true)
     }
