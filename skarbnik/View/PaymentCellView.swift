@@ -35,7 +35,7 @@ class PaymentCellView: UITableViewCell {
     }()
     private         let titleLabel: UILabel                     = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.textColor = UIColor.pacyficBlue
         label.textAlignment = .left
         label.font = UIFont(name: "OpenSans-Light", size: 24.0)
