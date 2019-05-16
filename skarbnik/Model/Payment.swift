@@ -25,10 +25,10 @@ enum ImageState {
     case error
 }
 
-struct Image: Codable {
+@objc class Image: NSObject, Codable {
     let id: Int
     let URL: String
-    var data: Data?
+    @objc dynamic var data: Data?
     var state: ImageState = .notLoaded
     
     enum CodingKeys: String, CodingKey {

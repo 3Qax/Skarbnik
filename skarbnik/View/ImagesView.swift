@@ -48,12 +48,62 @@ class ImagesView: UIView {
         stackView.alignment = .center
         return stackView
     }()
+    
+    var imagesData                          = Dictionary<Int, Data?>() {
+        didSet {
+            
+            scrollView.subviews.forEach({ $0.removeFromSuperview() })
+            dotsStackView.subviews.forEach({ $0.removeFromSuperview() })
+            dotsStackView.addArrangedSubview(UIView())
+            
+            for imageData in imagesData {
+                
+                var image = UIImage()
+                
+                if let data = imageData.value {
+                    image = UIImage(data: data) ?? UIImage(named: "corupted data image")!
+                } else { image = UIImage(named: "loading...")! }//loading
+                    
+                let imageView = UIImageView(image: image)
+                imageView.contentMode = .scaleAspectFit
+                scrollView.addSubview(imageView)
+                imageView.snp.makeConstraints({ (make) in
+                    make.width.height.equalToSuperview()
+                    make.top.equalToSuperview()
+                    if let last = self.scrollView.subviews.dropLast().last {
+                        make.left.equalTo(last.snp.right)
+                    } else { make.left.equalToSuperview() }
+                    
+                })
+                
+                let dot = Dot()
+                dot.tapHandler = {
+                    self.scrollView.setContentOffset(imageView.frame.origin, animated: true)
+                    selectionFeedbackGenerator.selectionChanged()
+                    self.dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot }).forEach({ $0.state = .empty })
+                    dot.state = .filled
+                }
+                dotsStackView.addArrangedSubview(dot)
+                
+            }
+            
+            if let last = scrollView.subviews.last {
+                last.snp.makeConstraints({ (make) in
+                    make.right.equalToSuperview()
+                })
+            }
+            
+            dotsStackView.addArrangedSubview(UIView())
+            dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot }).first?.state = .filled
+            
+        }
+    }
     var delegate: ImagesViewDelegate?
     
     
     
     
-    init(imagesData: [Data]) {
+    init(imagesData: [Int: Data?]) {
         
         super.init(frame: .zero)
         self.backgroundColor = UIColor.black
@@ -82,7 +132,6 @@ class ImagesView: UIView {
         }
         
         bottomBar.addSubview(dotsStackView)
-        dotsStackView.addArrangedSubview(UIView())
         dotsStackView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(15)
             make.left.right.equalToSuperview()
@@ -97,43 +146,9 @@ class ImagesView: UIView {
             make.bottom.equalTo(bottomBar.snp.top)
         }
         
-        
-        
-        imagesData.forEach { (data) in
-            //TODO: handle corrupted data by showing corrupted data image and a little note below
-            let image: UIImage = UIImage(data: data) ?? UIImage(named: "corupted data image")!
-            
-            let imageView = UIImageView(image: image)
-            imageView.contentMode = .scaleAspectFit
-            scrollView.addSubview(imageView)
-            imageView.snp.makeConstraints({ (make) in
-                make.width.height.equalToSuperview()
-                make.top.equalToSuperview()
-                if let last = self.scrollView.subviews.dropLast().last {
-                    make.left.equalTo(last.snp.right)
-                } else { make.left.equalToSuperview() }
-                
-            })
-            
-            let dot = Dot()
-            dot.tapHandler = {
-                self.scrollView.setContentOffset(imageView.frame.origin, animated: true)
-                selectionFeedbackGenerator.selectionChanged()
-                self.dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot }).forEach({ $0.state = .empty })
-                dot.state = .filled
-            }
-            dotsStackView.addArrangedSubview(dot)
+        defer {
+            self.imagesData = imagesData
         }
-        
-        if let last = scrollView.subviews.last {
-            last.snp.makeConstraints({ (make) in
-                make.right.equalToSuperview()
-            })
-        }
-        
-        dotsStackView.addArrangedSubview(UIView())
-        dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot }).first?.state = .filled
-        
         
     }
     

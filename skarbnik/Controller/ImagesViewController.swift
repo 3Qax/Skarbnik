@@ -17,8 +17,13 @@ class ImagesViewController: UIViewController {
     
     
     init(of images: [Image]) {
+        
         //TODO: handle images that still can be loading
-        imagesView = ImagesView(imagesData: images.compactMap({$0.data}))
+        var convertedImages = Dictionary<Int, Data?>()
+        images.forEach { (image) in
+            convertedImages[image.id]=image.data
+        }
+        imagesView = ImagesView(imagesData: convertedImages)
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -41,6 +46,14 @@ extension ImagesViewController: ImagesViewDelegate {
     
     func didTapBack() {
         coordinator?.goBack()
+    }
+    
+}
+
+extension ImagesViewController: ImagesModelDelegate {
+    
+    func shouldUpdate(ImageHavingId id: Int, withData data: Data?) {
+        imagesView.imagesData[id] = data
     }
     
 }
