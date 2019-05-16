@@ -44,7 +44,7 @@ class ImagesViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(forName: .loadedImage, object: <#T##Any?#>, queue: .main) { (notification) in
+        NotificationCenter.default.addObserver(forName: .loadedImage, object: nil, queue: .main) { (notification) in
             self.shouldUpdate(ImageWithId: notification.userInfo!["image_id"] as! Int)
         }
     }
@@ -59,6 +59,14 @@ class ImagesViewController: UIViewController {
 }
 
 extension ImagesViewController: ImagesViewDelegate {
+    
+    func foundCorruptedImageData() {
+        AlertBuilder()
+            .setTitle("Coś jest nie tak...")
+            .setMessage("Wygląda na to że jedno z dołączonych zdjęć jest uszkodzone lub ma nie obsługiwany format. W razie takiej potrzeby skontaktuj się z administratorem.")
+            .addAction(withStyle: .default, text: "OK")
+            .show(in: self)
+    }
     
     func didTapBack() {
         coordinator?.goBack()
