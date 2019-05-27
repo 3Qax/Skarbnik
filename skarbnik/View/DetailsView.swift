@@ -217,7 +217,7 @@ class DetailsView: UIView {
     }
     
     @objc func didTapList() {
-        
+        delegate?.didTapList()
     }
     
 

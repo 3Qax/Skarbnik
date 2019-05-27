@@ -1,5 +1,5 @@
 //
-//  HistoryViewController.swift
+//  ContributionView.swift
 //  skarbnik
 //
 //  Created by Jakub Towarek on 25/05/2019.
@@ -10,21 +10,16 @@ import UIKit
 
 
 
-class HistoryViewController: UIViewController {
-    let historyView: HistoryView
-    
+class ContributionView: UIView {
     
     init() {
-        historyView = HistoryView()
-        super.init(nibName: nil, bundle: nil)
+        super.init(frame: .zero)
+        
+        self.backgroundColor = .red
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func loadView() {
-        view = historyView
     }
     
 }
