@@ -26,8 +26,8 @@ class PayViewController: UIViewController {
     init(for payment: Payment) {
         payModel = PayModel(of: payment)
         payView = PayView(totalAmount: payment.amount,
-                          amountToPay: payment.amount - payment.contribution.reduce(0, +),
-                          remittances: payment.contribution,
+                          amountToPay: payment.amount - payment.contribution.map({ $0.amount }).reduce(0, +),
+                          remittances: payment.contribution.map({ $0.amount }),
                           currencyCode: payment.currency)
         
         super.init(nibName: nil, bundle: nil)

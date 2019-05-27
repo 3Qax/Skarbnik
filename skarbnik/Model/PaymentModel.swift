@@ -52,7 +52,7 @@ class PaymentModel {
                     self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[PaymentDetailPacket]>) in
                         switch result {
                         case .success(let recivedDetails):
-                            for detail in recivedDetails { payment.contribution.append(Float(detail.amount_paid) ?? 0) }
+                            for detail in recivedDetails { payment.contribution.append(Contribution(data: detail)) }
                             self.dispatchGroup.leave()
                         case .failure(let error):
                             fatalError(error.localizedDescription)

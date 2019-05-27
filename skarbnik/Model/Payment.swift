@@ -39,6 +39,20 @@ class Image: NSObject, Codable {
 
 struct PaymentDetailPacket: Codable {
     let amount_paid: String
+    let created: String
+}
+
+struct Contribution {
+    let amount: Float
+    let date: Date
+    
+    init(data: PaymentDetailPacket) {
+        
+        let longDateFormatter = ISO8601DateFormatter()
+        self.date = longDateFormatter.date(from: data.created)!
+        
+        self.amount = Float(data.amount_paid)!
+    }
 }
 
 final class Payment {
@@ -47,18 +61,18 @@ final class Payment {
     let amount: Float
     let currency: String
     let creation_date, start_date, end_date: Date
-    var contribution: [Float] = [Float]()
+    var contribution: [Contribution] = [Contribution]()
     var images: [Image]
     var state: PaymentState {
         get {
-            if contribution.reduce(0, +) == amount { return .paid }
+            if contribution.map({ $0.amount }).reduce(0, +) == amount { return .paid }
             if Date() < start_date { return .awaiting }
             return .pending
         }
     }
     var leftToPay: Float {
         get {
-            return amount - contribution.reduce(0, +)
+            return amount - contribution.map({ $0.amount }).reduce(0, +)
         }
     }
     

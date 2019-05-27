@@ -17,7 +17,7 @@ class PayModel {
     
     var amountLeftToPay: Float {
         get {
-            return payment.amount - payment.contribution.reduce(0, +)
+            return payment.amount - payment.contribution.map({ $0.amount }).reduce(0, +)
         }
     }
     

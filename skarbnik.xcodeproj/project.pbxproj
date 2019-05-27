@@ -33,6 +33,8 @@
 		19484C372204594A006097CF /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C362204594A006097CF /* MainCoordinator.swift */; };
 		19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3A220461C1006097CF /* ChangePasswordViewController.swift */; };
 		19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3C220466CA006097CF /* ChangePasswordView.swift */; };
+		194C18D42298A8AA00065D3F /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C18D32298A8AA00065D3F /* HistoryViewController.swift */; };
+		194C18D62298A98400065D3F /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C18D52298A98400065D3F /* HistoryView.swift */; };
 		194D5EA72284BF4B008B3FF2 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D5EA62284BF4B008B3FF2 /* SearchField.swift */; };
 		194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E989A223971EC0039CA66 /* ProgressableSlider.swift */; };
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
@@ -109,6 +111,8 @@
 		19484C362204594A006097CF /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		19484C3A220461C1006097CF /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19484C3C220466CA006097CF /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		194C18D32298A8AA00065D3F /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		194C18D52298A98400065D3F /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		194D5EA62284BF4B008B3FF2 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		194E989A223971EC0039CA66 /* ProgressableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressableSlider.swift; sourceTree = "<group>"; };
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
@@ -236,6 +240,7 @@
 				19A6A1CE224045FC005B1818 /* StartView.swift */,
 				19B446BE226299160014121F /* DetailsView.swift */,
 				195FC3B2228B46DE008BF80A /* ImagesView.swift */,
+				194C18D52298A98400065D3F /* HistoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 				19B446C4226528720014121F /* SlideInAnimationController.swift */,
 				196DF59122869F8700C32C45 /* AlertBuilder.swift */,
 				195FC3B0228B4680008BF80A /* ImagesViewController.swift */,
+				194C18D32298A8AA00065D3F /* HistoryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -486,6 +492,7 @@
 				1947D589220AEEEE00C1D7D8 /* AsyncSafetyController.swift in Sources */,
 				19A1D916225F51300012B09E /* AmountLabel.swift in Sources */,
 				19B446BF226299160014121F /* DetailsView.swift in Sources */,
+				194C18D42298A8AA00065D3F /* HistoryViewController.swift in Sources */,
 				195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */,
 				194784E5220707C5000AE323 /* APIClient.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
@@ -509,6 +516,7 @@
 				19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */,
 				196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
+				194C18D62298A98400065D3F /* HistoryView.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
 				19B446C7226538C00014121F /* Slideable.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
