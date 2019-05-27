@@ -59,7 +59,9 @@ class ContributionsView: UIView {
             make.height.equalTo(100)
         }
         
+        menuCard.addArrangedSubview(UIView())
         menuCard.addArrangedSubview(backIV)
+        menuCard.addArrangedSubview(UIView())
         let backTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBack))
         backIV.addGestureRecognizer(backTGR)
         
@@ -93,7 +95,7 @@ class ContributionsView: UIView {
         self.addSubview(labels)
         labels.tag = 123
         labels.snp.makeConstraints { (make) in
-            make.centerY.equalTo(self.safeAreaLayoutGuide.snp.top).offset(72)
+            make.top.equalTo(self.safeAreaLayoutGuide).offset(15)
             make.left.equalToSuperview().offset(79)
             make.right.equalToSuperview()
         }

@@ -25,7 +25,7 @@ class ContributionsViewController: UIViewController {
         //insert start day of the payment into the view
         contributionsView.insertCreation(date: payment.creation_date)
         //sort contributions so that they appear in right order (from top to bottom)
-        payment.contributions.sort(by: { return $0.date > $1.date })
+        payment.contributions.sort(by: { return $0.date < $1.date })
         //for each contribution except last one insert contribution view into the view
         payment.contributions.dropLast().forEach({ self.contributionsView.insertContribution(amount: $0.amount, date: $0.date) })
         //for last one insert a final contribution view into the view
