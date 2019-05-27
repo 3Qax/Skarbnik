@@ -17,10 +17,14 @@ class ContributionViewController: UIViewController {
     var coordinator: PaymentCoordinator?
     
     
-    init(list: [Contribution]) {
-        self.contributionView = ContributionView()
+    init(list: [Contribution], in currencyCode: String) {
+        self.contributionView = ContributionView(paymentCurrencyCode: currencyCode)
         self.list = list
         super.init(nibName: nil, bundle: nil)
+        
+        contributionView.insertCreation(date: Date())
+        contributionView.insertContribution(amount: 250.0, date: Date())
+        contributionView.insertContribution(amount: 400.20, date: Date(), isFinal: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,6 +33,14 @@ class ContributionViewController: UIViewController {
     
     override func loadView() {
         view = contributionView
+    }
+    
+}
+
+extension ContributionViewController: ContributionViewDelegate {
+    
+    func didTapBack() {
+        coordinator?.goBack()
     }
     
 }

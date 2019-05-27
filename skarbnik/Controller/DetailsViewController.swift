@@ -95,7 +95,8 @@ extension DetailsViewController: DetailsViewDelegate {
     }
     
     func didTapList() {
-        coordinator?.showContribution(list: detailsModel.payment.contribution)
+        coordinator?.showContribution(list: detailsModel.payment.contribution,
+                                      in: detailsModel.payment.currency)
     }
     
     func didTapWallet() {

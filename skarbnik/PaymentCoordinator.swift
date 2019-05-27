@@ -91,8 +91,8 @@ class PaymentCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(imagesVC, animated: true)
     }
     
-    func showContribution(list: [Contribution]) {
-        let contributionVC = ContributionViewController(list: list)
+    func showContribution(list: [Contribution], in currency: String) {
+        let contributionVC = ContributionViewController(list: list, in: currency)
         contributionVC.coordinator = self
         navigationController.pushViewController(contributionVC, animated: true)
     }
