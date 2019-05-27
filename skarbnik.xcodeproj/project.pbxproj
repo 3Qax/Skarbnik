@@ -11,6 +11,7 @@
 		190026BB2252A7790009F6F5 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */; };
 		1900F2D9220F05180040612A /* ChangePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1900F2D8220F05180040612A /* ChangePasswordModel.swift */; };
 		190EC502223D9D510082E4AA /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 190EC501223D9D510082E4AA /* Payment.swift */; };
+		191BD561229C58B600032B45 /* ContributionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 191BD560229C58B600032B45 /* ContributionViewDelegate.swift */; };
 		1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */; };
 		193357ED221072B1000D922C /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193357EC221072B1000D922C /* TokenManager.swift */; };
 		19346237221E72A000EC6CBE /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19346236221E72A000EC6CBE /* ReminderViewController.swift */; };
@@ -33,6 +34,8 @@
 		19484C372204594A006097CF /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C362204594A006097CF /* MainCoordinator.swift */; };
 		19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3A220461C1006097CF /* ChangePasswordViewController.swift */; };
 		19484C3D220466CA006097CF /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19484C3C220466CA006097CF /* ChangePasswordView.swift */; };
+		194C18D42298A8AA00065D3F /* ContributionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C18D32298A8AA00065D3F /* ContributionsViewController.swift */; };
+		194C18D62298A98400065D3F /* ContributionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194C18D52298A98400065D3F /* ContributionsView.swift */; };
 		194D5EA72284BF4B008B3FF2 /* SearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194D5EA62284BF4B008B3FF2 /* SearchField.swift */; };
 		194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194E989A223971EC0039CA66 /* ProgressableSlider.swift */; };
 		19533A122241A2B80091095E /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19533A112241A2B80091095E /* OpenSans-Light.ttf */; };
@@ -84,6 +87,7 @@
 		190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
 		190EC501223D9D510082E4AA /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
+		191BD560229C58B600032B45 /* ContributionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionViewDelegate.swift; sourceTree = "<group>"; };
 		1924039C21D0F16100F29E7E /* PaymentViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewDelegate.swift; sourceTree = "<group>"; };
 		193357EC221072B1000D922C /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		19346236221E72A000EC6CBE /* ReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 		19484C362204594A006097CF /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		19484C3A220461C1006097CF /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		19484C3C220466CA006097CF /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		194C18D32298A8AA00065D3F /* ContributionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsViewController.swift; sourceTree = "<group>"; };
+		194C18D52298A98400065D3F /* ContributionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContributionsView.swift; sourceTree = "<group>"; };
 		194D5EA62284BF4B008B3FF2 /* SearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchField.swift; sourceTree = "<group>"; };
 		194E989A223971EC0039CA66 /* ProgressableSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressableSlider.swift; sourceTree = "<group>"; };
 		19533A112241A2B80091095E /* OpenSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Light.ttf"; sourceTree = "<group>"; };
@@ -236,6 +242,7 @@
 				19A6A1CE224045FC005B1818 /* StartView.swift */,
 				19B446BE226299160014121F /* DetailsView.swift */,
 				195FC3B2228B46DE008BF80A /* ImagesView.swift */,
+				194C18D52298A98400065D3F /* ContributionsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -257,6 +264,7 @@
 				19B446C4226528720014121F /* SlideInAnimationController.swift */,
 				196DF59122869F8700C32C45 /* AlertBuilder.swift */,
 				195FC3B0228B4680008BF80A /* ImagesViewController.swift */,
+				194C18D32298A8AA00065D3F /* ContributionsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -299,6 +307,7 @@
 				19B446C222637F5D0014121F /* DetailsViewDelegate.swift */,
 				19B446C6226538C00014121F /* Slideable.swift */,
 				195FC3B6228CBADB008BF80A /* ImagesViewDelegate.swift */,
+				191BD560229C58B600032B45 /* ContributionViewDelegate.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -462,6 +471,7 @@
 				193357ED221072B1000D922C /* TokenManager.swift in Sources */,
 				1924039D21D0F16100F29E7E /* PaymentViewDelegate.swift in Sources */,
 				1941528E21A96A8300D0A7A3 /* LoginViewController.swift in Sources */,
+				191BD561229C58B600032B45 /* ContributionViewDelegate.swift in Sources */,
 				1988D793223EFF20006A6A22 /* CoordinatorProtocol.swift in Sources */,
 				19346239221E72F800EC6CBE /* ReminderView.swift in Sources */,
 				19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */,
@@ -486,6 +496,7 @@
 				1947D589220AEEEE00C1D7D8 /* AsyncSafetyController.swift in Sources */,
 				19A1D916225F51300012B09E /* AmountLabel.swift in Sources */,
 				19B446BF226299160014121F /* DetailsView.swift in Sources */,
+				194C18D42298A8AA00065D3F /* ContributionsViewController.swift in Sources */,
 				195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */,
 				194784E5220707C5000AE323 /* APIClient.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,
@@ -509,6 +520,7 @@
 				19B446C322637F5D0014121F /* DetailsViewDelegate.swift in Sources */,
 				196DF59222869F8700C32C45 /* AlertBuilder.swift in Sources */,
 				1947D58B220AF2BB00C1D7D8 /* AsyncSafetyModel.swift in Sources */,
+				194C18D62298A98400065D3F /* ContributionsView.swift in Sources */,
 				194784E7220793E7000AE323 /* LoginModel.swift in Sources */,
 				19B446C7226538C00014121F /* Slideable.swift in Sources */,
 				19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */,
