@@ -32,17 +32,17 @@
 "change_password_button" = "Change password...";
 
 //MARK: ChangePasswordViewController
-"failure_incorrectOldPassword_title" = "Error";
-"failure_incorrectOldPassword_description" = "Your current password is incorrect. Make sure you typed it correctly and try again!";
+"failure_incorrect_old_password_title" = "Error";
+"failure_incorrect_old_password_description" = "Your current password is incorrect. Make sure you typed it correctly and try again!";
 
-"failure_passwordsDontMatch_title" = "Error";
-"failure_passwordsDontMatch_description" = "New passwords don't match each other. They definitely should. Maybe you missclicked? Check it!";
+"failure_passwords_dont_match_title" = "Error";
+"failure_passwords_dont_match_description" = "New passwords don't match each other. They definitely should. Maybe you missclicked? Check it!";
 
-"failure_passwordDoesntSatisfyRequirements_title" = "New password doesn't meet requirements";
-"failure_passwordDoesntSatisfyRequirements_description" = "Use strong password - it have to consist of at least of 8 characters including one big and small letter, digit and a special character like #, @ or !";
+"failure_password_doesnt_satisfy_requirements_title" = "New password doesn't meet requirements";
+"failure_password_doesnt_satisfy_requirements_description" = "Use strong password - it have to consist of at least of 8 characters including one big and small letter, digit and a special character like #, @ or !";
 
-"failure_passwordCanNotBeEmpty_title" = "Empty field";
-"failure_passwordCanNotBeEmpty_description" = "Fill all of the fileds. We know that's borring, but it is required!";
+"failure_password_can_not_be_empty_title" = "Empty field";
+"failure_password_can_not_be_empty_description" = "Fill all of the fileds. We know that's borring, but it is required!";
 
 //MARK: Payments page strings
 "waiting_while_refreshing_data_text" = "Refreshing data...";
