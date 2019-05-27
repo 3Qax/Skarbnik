@@ -39,7 +39,7 @@ class DetailsViewController: UIViewController {
             detailsToShow.append(Detail(title: "rozpoczeła się", value: dateFormatter.string(from: payment.start_date)))
             detailsToShow.append(Detail(title: "zakończy się", value: dateFormatter.string(from: payment.end_date)))
             detailsToShow.append(Detail(title: "do zapłaty", value: amountFormatter.string(from: payment.leftToPay as NSNumber)!))
-            if payment.contribution.map({ $0.amount }).reduce(0, +) != 0.0 { detailsToShow.append(Detail(title: "wpłacono", value: amountFormatter.string(from: payment.contribution.map({ $0.amount }).reduce(0, +) as NSNumber)!)) }
+            if payment.contributions.map({ $0.amount }).reduce(0, +) != 0.0 { detailsToShow.append(Detail(title: "wpłacono", value: amountFormatter.string(from: payment.contributions.map({ $0.amount }).reduce(0, +) as NSNumber)!)) }
         case .paid:
             detailsToShow.append(Detail(title: "utworzona przez", value: "Anna Król"))
             detailsToShow.append(Detail(title: "zapłacone", value: amountFormatter.string(from: payment.amount as NSNumber)!))
@@ -95,8 +95,7 @@ extension DetailsViewController: DetailsViewDelegate {
     }
     
     func didTapList() {
-        coordinator?.showContribution(list: detailsModel.payment.contribution,
-                                      in: detailsModel.payment.currency)
+        coordinator?.showContribution(of: detailsModel.payment)
     }
     
     func didTapWallet() {

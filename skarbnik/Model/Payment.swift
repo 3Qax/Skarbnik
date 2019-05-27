@@ -61,18 +61,18 @@ final class Payment {
     let amount: Float
     let currency: String
     let creation_date, start_date, end_date: Date
-    var contribution: [Contribution] = [Contribution]()
+    var contributions: [Contribution] = [Contribution]()
     var images: [Image]
     var state: PaymentState {
         get {
-            if contribution.map({ $0.amount }).reduce(0, +) == amount { return .paid }
+            if contributions.map({ $0.amount }).reduce(0, +) == amount { return .paid }
             if Date() < start_date { return .awaiting }
             return .pending
         }
     }
     var leftToPay: Float {
         get {
-            return amount - contribution.map({ $0.amount }).reduce(0, +)
+            return amount - contributions.map({ $0.amount }).reduce(0, +)
         }
     }
     

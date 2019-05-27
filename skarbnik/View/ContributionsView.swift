@@ -1,5 +1,5 @@
 //
-//  ContributionView.swift
+//  ContributionsView.swift
 //  skarbnik
 //
 //  Created by Jakub Towarek on 25/05/2019.
@@ -11,7 +11,7 @@ import SnapKit
 
 
 
-class ContributionView: UIView {
+class ContributionsView: UIView {
     
     let menuCard: UIStackView                   = {
         let stackView = UIStackView()
@@ -135,8 +135,8 @@ class ContributionView: UIView {
         imageIV.snp.makeConstraints { (make) in
             make.centerX.equalTo(self.snp.left).offset(41)
             make.centerY.equalTo(labels)
-            isFinal ? make.width.equalTo(32) : make.width.equalTo(40)
-            isFinal ? make.height.equalTo(32) : make.height.equalTo(32)
+            let _ = isFinal ? make.width.equalTo(32) : make.width.equalTo(40)
+            make.height.equalTo(32)
         }
         
         if !isFinal { insertSpacer() }
