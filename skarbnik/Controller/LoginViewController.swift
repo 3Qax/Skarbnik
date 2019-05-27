@@ -10,13 +10,6 @@ class LoginViewController: UIViewController {
     var coordinator: LoginCoordinator?
     let loginModel: LoginModel
     let loginView: LoginView
-    let incorrectCredentialsAlert: UIAlertController = {
-        var alert = UIAlertController(title: NSLocalizedString("incorrect_credentials_header", comment: ""),
-                                      message: NSLocalizedString("incorrect_credentials_description", comment: ""),
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default))
-        return alert
-    }()
     
     
     
@@ -78,7 +71,11 @@ extension LoginViewController: LoginViewDelegate {
             guard successful else {
                 DispatchQueue.main.async {
                     (self.view as! LoginView).stopLoginAnimation()
-                    self.present(self.incorrectCredentialsAlert, animated: true)
+                    AlertBuilder()
+                        .basicAlert(withTitle: NSLocalizedString("incorrect_credentials_header", comment: ""))
+                        .setMessage(NSLocalizedString("incorrect_credentials_description", comment: ""))
+                        .addAction(withStyle: .default, text: "OK")
+                        .show(in: self)
                     notificationFeedbackGenerator.notificationOccurred(.error)
                 }
                 return

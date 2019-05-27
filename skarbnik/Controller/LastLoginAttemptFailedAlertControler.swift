@@ -12,27 +12,32 @@ import UIKit
 
 
 class LastLoginAttemptFailedAlertControler: UIViewController {
-    let lastLoginUnsuccessfulAlert: UIAlertController
+    let lastLoginUnsuccessfulAlert: AlertBuilder
     var coordinator: LoginCoordinator?
     
     
     init(when date: String, from ip: String) {
-        self.lastLoginUnsuccessfulAlert = UIAlertController(title: NSLocalizedString("last_login_failed_header", comment: ""),
-                                                            message: NSLocalizedString("last_login_failed_description_before", comment: "")
-                                                                + date.description
-                                                                + NSLocalizedString("last_login_failed_description_from", comment: "")
-                                                                + ip
-                                                                + NSLocalizedString("last_login_failed_description_end", comment: ""),
-                                                            preferredStyle: .alert)
+
+        let alertMessage = NSLocalizedString("last_login_failed_description_before", comment: "")
+                            + date.description
+                            + NSLocalizedString("last_login_failed_description_from", comment: "")
+                            + ip
+                            + NSLocalizedString("last_login_failed_description_end", comment: "")
+        self.lastLoginUnsuccessfulAlert = AlertBuilder()
+            .basicAlert(withTitle: NSLocalizedString("last_login_failed_header", comment: ""))
+            .setMessage(alertMessage)
+        
+        
         super.init(nibName: nil, bundle: nil)
-        self.lastLoginUnsuccessfulAlert.addAction(UIAlertAction(title: NSLocalizedString("last_login_failed_change_password_button_text", comment: ""), style: .default, handler: { _ in
+        
+        self.lastLoginUnsuccessfulAlert.addAction(withStyle: .default, text: NSLocalizedString("last_login_failed_change_password_button_text", comment: ""), handler: { _ in
             self.coordinator?.didRequestPasswordChange()
             self.coordinator?.navigationController.dismiss(animated: true)
-        }))
-        self.lastLoginUnsuccessfulAlert.addAction(UIAlertAction(title: "OK", style: .destructive, handler: { _ in
+        })
+        self.lastLoginUnsuccessfulAlert.addAction(withStyle: .destructive, text: "OK", handler: { _ in
             self.coordinator?.navigationController.dismiss(animated: true)
             self.coordinator?.safetyCheckEnded()
-        }))
+        })
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,7 +51,7 @@ class LastLoginAttemptFailedAlertControler: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         notificationFeedbackGenerator.notificationOccurred(.warning)
-        self.present(lastLoginUnsuccessfulAlert, animated: true)
+        lastLoginUnsuccessfulAlert.show(in: self, animated: true)
     }
     
     

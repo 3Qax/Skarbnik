@@ -11,19 +11,22 @@ import UIKit
 
 
 class CompulsoryPasswordChangeAlertController: UIViewController {
-    let compulsoryPasswordChangeAlert: UIAlertController
+    let compulsoryPasswordChangeAlert: AlertBuilder
     var coordinator: LoginCoordinator?
     
     
     init() {
-        self.compulsoryPasswordChangeAlert = UIAlertController(title: NSLocalizedString("compulsory_password_change_title", comment: ""),
-                                                               message: NSLocalizedString("compulsory_password_change_description", comment: ""),
-                                                               preferredStyle: .alert)
+        self.compulsoryPasswordChangeAlert = AlertBuilder()
+                                                .basicAlert(withTitle: NSLocalizedString("compulsory_password_change_title", comment: ""))
+                                                .setMessage(NSLocalizedString("compulsory_password_change_description", comment: ""))
+        
         super.init(nibName: nil, bundle: nil)
-        self.compulsoryPasswordChangeAlert.addAction(UIAlertAction(title: NSLocalizedString("compulsory_password_change_button_text", comment: ""), style: .default, handler: { _ in
+        
+        self.compulsoryPasswordChangeAlert.addAction(withStyle: .default, text: NSLocalizedString("compulsory_password_change_button_text", comment: ""), handler: { _ in
             self.coordinator?.navigationController.dismiss(animated: true)
             self.coordinator?.didRequestPasswordChange()
-        }))
+        })
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,6 +40,6 @@ class CompulsoryPasswordChangeAlertController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         notificationFeedbackGenerator.notificationOccurred(.warning)
-        self.present(compulsoryPasswordChangeAlert, animated: true)
+        self.compulsoryPasswordChangeAlert.show(in: self, animated: true)
     }
 }
