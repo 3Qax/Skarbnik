@@ -99,7 +99,6 @@ class PaymentCellView: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 
     func setupViews() {
         
@@ -193,6 +192,14 @@ class PaymentCellView: UITableViewCell {
             fatalError("Cell have to have certain style")
         }
         
+    }
+    
+    override func prepareForReuse() {
+        offset = 0
+        backgroundLeftImageView.image = nil
+        didVibrateLeft = false
+        backgroundRightImageView.image = nil
+        didVibrateRight = false
     }
     
     override func layoutSubviews() {
