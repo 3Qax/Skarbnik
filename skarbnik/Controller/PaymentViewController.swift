@@ -133,27 +133,39 @@ extension PaymentViewController: UITableViewDataSource {
 }
 
 extension PaymentViewController: PaymentCellDelegate {
-    func didTapCell(sender: PaymentCellView) {
+    
+    func didTapCellsForeground(sender: PaymentCellView) {
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
-            print("Tapped cell at index: \(index)")
             coordinator?.showDetails(of: paymentModel.payments[index])
         }
     }
     
-    func didTapRemind(sender: PaymentCellView) {
-        
+    func didTriggerLeftAction(sender: PaymentCellView) {
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
-            coordinator?.didRequestReminder(about: paymentModel.payments[index])
+            switch paymentModel.payments[index].state {
+            case .awaiting:
+                fatalError("Left swipe action for awaiting payments has not been implemented yet.")
+            case .pending:
+                coordinator?.didRequestReminder(about: paymentModel.payments[index])
+            case .paid:
+                coordinator?.showImages(&paymentModel.payments[index].images)
+            }
         }
-        
     }
     
-    func didTapPay(sender: PaymentCellView) {
-        
+    func didTriggerRightAction(sender: PaymentCellView) {
         if let index = paymentView.tableView.indexPath(for: sender as UITableViewCell)?.item {
-            coordinator?.didRequestToPay(for: paymentModel.payments[index])
+            switch paymentModel.payments[index].state {
+            case .awaiting:
+                fatalError("Right swipe action for awaiting payments has not been implemented yet.")
+            case .pending:
+                coordinator?.didRequestToPay(for: paymentModel.payments[index])
+            case .paid:
+                coordinator?.showContribution(of: paymentModel.payments[index])
+            }
         }
-        
     }
+
+    
     
 }

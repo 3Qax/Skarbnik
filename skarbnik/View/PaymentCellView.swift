@@ -50,7 +50,7 @@ class PaymentCellView: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapLeftRatchetImage))
+        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundLeftIV))
         imageView.addGestureRecognizer(imageViewTGR)
         return imageView
     }()
@@ -58,7 +58,7 @@ class PaymentCellView: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapRightRatchetImage))
+        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundRightIV))
         imageView.addGestureRecognizer(imageViewTGR)
         return imageView
     }()
@@ -87,7 +87,7 @@ class PaymentCellView: UITableViewCell {
             didChangeState()
         }
     }
-    var delegate: PaymentCellDelegate?
+    weak var delegate: PaymentCellDelegate?
     
     
     
@@ -222,7 +222,7 @@ extension PaymentCellView {
     
     @objc func tapHandler() {
         selectionFeedbackGenerator.selectionChanged()
-        self.delegate?.didTapCell(sender: self)
+        self.delegate?.didTapCellsForeground(sender: self)
     }
     
     @objc func panHandler(_ panGestureRecognizer: UIPanGestureRecognizer) {
@@ -256,11 +256,11 @@ extension PaymentCellView {
                 
                 //trigger action if triggerValue was exceeded
                 if offset > PaymentCellView.triggerValue {
-//                    left.action()
-                    print("should trigger left action")
+                    delegate?.didTriggerLeftAction(sender: self)
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     panGestureRecognizer.cancel()
                     offset = 0
+                    previousPosition = CGPoint()
                 }
             }
             
@@ -275,11 +275,11 @@ extension PaymentCellView {
                 
                 //trigger action if triggerValue was exceeded
                 if abs(offset) > PaymentCellView.triggerValue && offset < 0 {
-//                    right.action()
-                    print("should trigger right action")
+                    delegate?.didTriggerRightAction(sender: self)
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     panGestureRecognizer.cancel()
                     offset = 0
+                    previousPosition = CGPoint()
                 }
             }
             
@@ -335,14 +335,14 @@ extension PaymentCellView {
 //MARK: Underneath icons taps handlers
 extension PaymentCellView {
     
-    @objc func didTapRightRatchetImage() {
-        delegate?.didTapPay(sender: self)
+    @objc func didTapBackgroundLeftIV() {
+        delegate?.didTriggerLeftAction(sender: self)
         offset = 0
         previousPosition = CGPoint()
     }
     
-    @objc func didTapLeftRatchetImage() {
-        delegate?.didTapRemind(sender: self)
+    @objc func didTapBackgroundRightIV() {
+        delegate?.didTriggerRightAction(sender: self)
         offset = 0
         previousPosition = CGPoint()
     }

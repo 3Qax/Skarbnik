@@ -10,8 +10,8 @@ import Foundation
 
 
 
-protocol PaymentCellDelegate {
-    func didTapRemind(sender: PaymentCellView)
-    func didTapPay(sender: PaymentCellView)
-    func didTapCell(sender: PaymentCellView)
+protocol PaymentCellDelegate: AnyObject {
+    func didTapCellsForeground(sender: PaymentCellView)
+    func didTriggerLeftAction(sender: PaymentCellView)
+    func didTriggerRightAction(sender: PaymentCellView)
 }
