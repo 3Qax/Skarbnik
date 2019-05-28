@@ -13,6 +13,7 @@ import UIKit
 class ImagesViewController: UIViewController {
     
     let imagesView: ImagesView
+    let imagesModel: ImagesModel
     var images: [Image]
     var coordinator: PaymentCoordinator?
     
@@ -26,8 +27,13 @@ class ImagesViewController: UIViewController {
             convertedImages[image.id]=image.data
         }
         imagesView = ImagesView(imagesData: convertedImages)
-        
+        imagesModel = ImagesModel(images: &images)
         super.init(nibName: nil, bundle: nil)
+        NotificationCenter.default.addObserver(forName: .loadedImage, object: nil, queue: .main) { (notification) in
+            self.shouldUpdate(ImageWithId: notification.userInfo!["image_id"] as! Int)
+        }
+        
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,9 +50,7 @@ class ImagesViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(forName: .loadedImage, object: nil, queue: .main) { (notification) in
-            self.shouldUpdate(ImageWithId: notification.userInfo!["image_id"] as! Int)
-        }
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -54,7 +58,7 @@ class ImagesViewController: UIViewController {
     }
     
     func shouldUpdate(ImageWithId id: Int) {
-        imagesView.imagesData[id] = images.first(where: {$0.id == id})?.data
+        imagesView.imagesData[id] = imagesModel.images.first(where: {$0.id == id})?.data
     }
 }
 

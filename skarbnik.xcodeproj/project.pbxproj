@@ -53,6 +53,7 @@
 		1988D793223EFF20006A6A22 /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */; };
 		1988D795223F01C3006A6A22 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988D794223F01C3006A6A22 /* LoginCoordinator.swift */; };
 		1988D797223F1747006A6A22 /* PaymentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1988D796223F1747006A6A22 /* PaymentCoordinator.swift */; };
+		199C2022229DBF0C00CE4216 /* ImagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199C2021229DBF0C00CE4216 /* ImagesModel.swift */; };
 		199F8F032201DB6700ABD4C2 /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 199F8F022201DB6700ABD4C2 /* OptionButton.swift */; };
 		19A1D916225F51300012B09E /* AmountLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A1D915225F51300012B09E /* AmountLabel.swift */; };
 		19A4ADEB21E62AF100CC2E42 /* PaymentCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1943528021E6259900F84F41 /* PaymentCellView.swift */; };
@@ -133,6 +134,7 @@
 		1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		1988D794223F01C3006A6A22 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		1988D796223F1747006A6A22 /* PaymentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCoordinator.swift; sourceTree = "<group>"; };
+		199C2021229DBF0C00CE4216 /* ImagesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesModel.swift; sourceTree = "<group>"; };
 		199F8F022201DB6700ABD4C2 /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		19A1D915225F51300012B09E /* AmountLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountLabel.swift; sourceTree = "<group>"; };
 		19A6A1CC224045F4005B1818 /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				19DEFC012231147C00BEFF8D /* ReminderModel.swift */,
 				19461BAE223920A000D2E907 /* PayModel.swift */,
 				19B446BC226298FD0014121F /* DetailsModel.swift */,
+				199C2021229DBF0C00CE4216 /* ImagesModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 				19A1D916225F51300012B09E /* AmountLabel.swift in Sources */,
 				19B446BF226299160014121F /* DetailsView.swift in Sources */,
 				194C18D42298A8AA00065D3F /* ContributionsViewController.swift in Sources */,
+				199C2022229DBF0C00CE4216 /* ImagesModel.swift in Sources */,
 				195A09CF220BA600003A9CC2 /* LastLoginAttemptFailedAlertControler.swift in Sources */,
 				194784E5220707C5000AE323 /* APIClient.swift in Sources */,
 				19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */,

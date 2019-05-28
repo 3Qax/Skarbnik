@@ -21,6 +21,9 @@ class DetailsModel {
     init(of payment: Payment) {
         self.payment = payment
         for i in payment.images.indices {
+            guard payment.images[i].state == .notLoaded else {
+                continue
+            }
             payment.images[i].state = .loading
             apiClient.getImageData(from: payment.images[i].URL) { result in
                 switch result {
