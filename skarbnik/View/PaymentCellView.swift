@@ -50,16 +50,12 @@ class PaymentCellView: UITableViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundLeftIV))
-        imageView.addGestureRecognizer(imageViewTGR)
         return imageView
     }()
     private         let backgroundRightImageView: UIImageView   = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.isUserInteractionEnabled = true
-        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundRightIV))
-        imageView.addGestureRecognizer(imageViewTGR)
         return imageView
     }()
     
@@ -145,10 +141,14 @@ class PaymentCellView: UITableViewCell {
         
         //Ratchet's images
         contentView.insertSubview(backgroundLeftImageView, belowSubview: foreground)
+        let leftImageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundLeftIV))
+        backgroundLeftImageView.addGestureRecognizer(leftImageViewTGR)
         backgroundLeftImageView.snp.makeConstraints { (make) in
             make.top.left.equalToSuperview().offset(14)
         }
         contentView.insertSubview(backgroundRightImageView, belowSubview: foreground)
+        let rightImageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBackgroundRightIV))
+        backgroundRightImageView.addGestureRecognizer(rightImageViewTGR)
         backgroundRightImageView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(26)
             make.right.equalToSuperview().offset(-24)
