@@ -16,16 +16,11 @@ enum PaymentCellStyle {
     case pending
 }
 
-struct PaymentCellRatchet {
-    
-    let stickyValue: Float
-    let triggerValue: Float
-    let image: UIImage
-    let action: () -> ()
-    
-}
-
 class PaymentCellView: UITableViewCell {
+    
+    //Static constant variables for sliding with ratchet mechanisms
+    private static  let stickyValue: Float                      = 80
+    private static  let triggerValue: Float                     = 150
     
     //UI components
     private         let foreground: UIView                      = {
@@ -51,53 +46,29 @@ class PaymentCellView: UITableViewCell {
         label.textColor = UIColor.lightGray
         return label
     }()
-    private         var previousPosition: CGPoint               = CGPoint()
+    private         let backgroundLeftImageView: UIImageView    = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapLeftRatchetImage))
+        imageView.addGestureRecognizer(imageViewTGR)
+        return imageView
+    }()
+    private         let backgroundRightImageView: UIImageView   = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = true
+        let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapRightRatchetImage))
+        imageView.addGestureRecognizer(imageViewTGR)
+        return imageView
+    }()
     
-    //Handling ratchet mechanisms
-    private         var leftRatchet: PaymentCellRatchet?        = nil {
-        didSet {
-            if let ratchet = leftRatchet {
-                let imageView = UIImageView()
-                imageView.image = ratchet.image
-                imageView.contentMode = .scaleAspectFit
-                imageView.isUserInteractionEnabled = true
-                
-                contentView.insertSubview(imageView, belowSubview: foreground)
-                let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapLeftRatchetImage))
-                imageView.addGestureRecognizer(imageViewTGR)
-                imageView.snp.makeConstraints { (make) in
-                    make.top.left.equalToSuperview().offset(14)
-                }
-            }
-        }
-    }
+    //Indicators of being in sticky range
     private lazy    var didVibrateLeft: Bool                    = false
-    private         var rightRatchet: PaymentCellRatchet?       = nil {
-        didSet {
-            if let ratchet = rightRatchet {
-                let imageView = UIImageView()
-                imageView.image = ratchet.image
-                imageView.contentMode = .scaleAspectFit
-                imageView.isUserInteractionEnabled = true
-                
-                contentView.insertSubview(imageView, belowSubview: foreground)
-                let imageViewTGR = UITapGestureRecognizer(target: self, action: #selector(didTapRightRatchetImage))
-                imageView.addGestureRecognizer(imageViewTGR)
-                imageView.snp.makeConstraints { (make) in
-                    make.top.equalToSuperview().offset(26)
-                    make.right.equalToSuperview().offset(-24)
-                }
-            }
-        }
-    }
     private lazy    var didVibrateRight: Bool                   = false
-    private lazy    var animateForegroundMove: () -> ()         = {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
-            self.layoutIfNeeded()
-        })
-    }
     
     //Handling cell swiping
+    private         var previousPosition: CGPoint               = CGPoint()
     private         var offset: Float                           = 0 {
         didSet {
             offsetConstraint?.updateOffset(amount: offset)
@@ -173,6 +144,17 @@ class PaymentCellView: UITableViewCell {
         
         contentView.bringSubviewToFront(foreground)
         
+        //Ratchet's images
+        contentView.insertSubview(backgroundLeftImageView, belowSubview: foreground)
+        backgroundLeftImageView.snp.makeConstraints { (make) in
+            make.top.left.equalToSuperview().offset(14)
+        }
+        contentView.insertSubview(backgroundRightImageView, belowSubview: foreground)
+        backgroundRightImageView.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(26)
+            make.right.equalToSuperview().offset(-24)
+        }
+        
     }
     
     func setupContent(title: String, description: String, amount: Float, currency: String, startDate: Date) {
@@ -195,29 +177,17 @@ class PaymentCellView: UITableViewCell {
             titleLabel.textColor    = UIColor.black
             amountLabel.textColor   = UIColor.pacyficBlue
             //Add reminder
-            leftRatchet = PaymentCellRatchet(stickyValue: 80,
-                                             triggerValue: 150,
-                                             image: UIImage(named: "bell")!,
-                                             action: { self.didTapLeftRatchetImage() })
+            backgroundLeftImageView.image = UIImage(named: "bell")!
             //Pay
-            rightRatchet = PaymentCellRatchet(stickyValue: -80,
-                                              triggerValue: -150,
-                                              image: UIImage(named: "wallet")!,
-                                              action: { self.didTapRightRatchetImage() })
+            backgroundRightImageView.image = UIImage(named: "wallet")!
             
         case .paid?:
             titleLabel.textColor    = UIColor.darkGrey
             amountLabel.textColor   = UIColor.darkGrey
             //Images
-            leftRatchet = PaymentCellRatchet(stickyValue: 80,
-                                             triggerValue: 150,
-                                             image: UIImage(named: "images")!,
-                                             action: { self.didTapLeftRatchetImage() })
+            backgroundLeftImageView.image = UIImage(named: "images")!
             //List of contributions
-            rightRatchet = PaymentCellRatchet(stickyValue: -80,
-                                              triggerValue: -150,
-                                              image: UIImage(named: "list")!,
-                                              action: { self.didTapRightRatchetImage() })
+            backgroundRightImageView.image = UIImage(named: "list")!
             
         case .none:
             fatalError("Cell have to have certain style")
@@ -230,8 +200,14 @@ class PaymentCellView: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0))
     }
     
+    private func animateForegroundMove() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 5, options: .allowUserInteraction, animations: {
+            self.layoutIfNeeded()
+        })
+    }
     
 
+    
 }
 
 //MARK: Gesture recognizers handlers
@@ -247,8 +223,14 @@ extension PaymentCellView {
         if panGestureRecognizer.state == .began { previousPosition = CGPoint() }
         
   
-        
-//        print("Previous position: \(previousPosition)\t Current position: \(panGestureRecognizer.translation(in: foreground))\t Current offset: \(offset)\t State: \(panGestureRecognizer.state.rawValue)")
+        #if DEBUG
+        print("""
+            Previous position: \(previousPosition)\t
+            Current position: \(panGestureRecognizer.translation(in: foreground))\t
+            Current offset: \(offset)\t
+            State: \(panGestureRecognizer.state.rawValue)
+        """)
+        #endif
         
         if panGestureRecognizer.state == .changed {
             
@@ -256,36 +238,38 @@ extension PaymentCellView {
             let translation = panGestureRecognizer.translation(in: foreground).x - previousPosition.x
             offset += Float(translation)
             
-            if let left = leftRatchet {
+            if offset > 0 {
                 
                 //if users moves foreground near sticky range vibrate slightly
-                if abs(offset-left.stickyValue) < 5 && offset > 0 && !didVibrateLeft {
+                if abs(offset-PaymentCellView.stickyValue) < 5 && !didVibrateLeft {
                     selectionFeedbackGenerator.selectionChanged()
                     didVibrateLeft = true
                 //make sure to vibrate again only if user leaves 10 points zone
-                } else if (abs(offset-left.stickyValue) >= 5 && offset > 0) { didVibrateLeft = false }
+                } else if (abs(offset-PaymentCellView.stickyValue) >= 5) { didVibrateLeft = false }
                 
                 //trigger action if triggerValue was exceeded
-                if offset > left.triggerValue && offset > 0 {
-                    left.action()
+                if offset > PaymentCellView.triggerValue {
+//                    left.action()
+                    print("should trigger left action")
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     panGestureRecognizer.cancel()
                     offset = 0
                 }
             }
             
-            if let right = rightRatchet {
+            if offset < 0 {
                 
                 //if users moves foreground near sticky range vibrate slightly
-                if abs(offset-right.stickyValue) < 5 && offset < 0 && !didVibrateRight {
+                if abs(offset+PaymentCellView.stickyValue) < 5 && offset < 0 && !didVibrateRight {
                     selectionFeedbackGenerator.selectionChanged()
                     didVibrateRight = true
                 //make sure to vibrate again only if user leaves 10 points zone
-                } else if (abs(offset-right.stickyValue) >= 5 && offset < 0) { didVibrateRight = false }
+                } else if (abs(offset+PaymentCellView.stickyValue) >= 5 && offset < 0) { didVibrateRight = false }
                 
                 //trigger action if triggerValue was exceeded
-                if offset < right.triggerValue && offset < 0 {
-                    right.action()
+                if abs(offset) > PaymentCellView.triggerValue && offset < 0 {
+//                    right.action()
+                    print("should trigger right action")
                     notificationFeedbackGenerator.notificationOccurred(.success)
                     panGestureRecognizer.cancel()
                     offset = 0
@@ -300,35 +284,35 @@ extension PaymentCellView {
         
         if panGestureRecognizer.state == .ended {
             
-            if leftRatchet != nil && offset > 0 {
+            if offset > 0 {
                 
                 //if foreground doesn't reach stickyValue - 5 move it back to default positon
-                if offset < leftRatchet!.stickyValue - 5 {
+                if offset < PaymentCellView.stickyValue - 5 {
                     offset = 0
                     animateForegroundMove()
                 }
                 
                 //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
                 //sticky postion (where IV is visible)
-                if offset >= leftRatchet!.stickyValue - 5 && offset < leftRatchet!.triggerValue {
-                    offset = leftRatchet!.stickyValue
+                if offset >= PaymentCellView.stickyValue - 5 && offset < PaymentCellView.triggerValue {
+                    offset = PaymentCellView.stickyValue
                     selectionFeedbackGenerator.selectionChanged()
                     animateForegroundMove()
                 }
             }
             
-            if rightRatchet != nil && offset < 0 {
+            if offset < 0 {
                 
                 //if foreground doesn't reach stickyValue - 5 move it back to default positon
-                if offset > rightRatchet!.stickyValue + 5 {
+                if abs(offset) < PaymentCellView.stickyValue + 5 {
                     offset = 0
                     animateForegroundMove()
                 }
                 
                 //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
                 //sticky postion (where IV is visible)
-                if offset <= rightRatchet!.stickyValue + 5 && offset > rightRatchet!.triggerValue{
-                    offset = rightRatchet!.stickyValue
+                if abs(offset) >= PaymentCellView.stickyValue + 5 && abs(offset) < PaymentCellView.triggerValue{
+                    offset = PaymentCellView.stickyValue * -1
                     selectionFeedbackGenerator.selectionChanged()
                     animateForegroundMove()
                 }
@@ -363,8 +347,7 @@ extension PaymentCellView {
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
             let translation = panGestureRecognizer.translation(in: superview)
             if abs(translation.x) > abs(translation.y) {
-                if translation.x > 0 && rightRatchet != nil { return true }
-                if translation.x < 0 && leftRatchet != nil { return true }
+                return true
             }
             return false
         }
