@@ -311,14 +311,14 @@ extension PaymentCellView {
             if offset < 0 {
                 
                 //if foreground doesn't reach stickyValue - 5 move it back to default positon
-                if abs(offset) < PaymentCellView.stickyValue + 5 {
+                if abs(offset) < PaymentCellView.stickyValue - 5 {
                     offset = 0
                     animateForegroundMove()
                 }
                 
                 //if it exceeds stickyValue - 5, but doesn't reach triggerValue move it to
                 //sticky postion (where IV is visible)
-                if abs(offset) >= PaymentCellView.stickyValue + 5 && abs(offset) < PaymentCellView.triggerValue{
+                if abs(offset) >= PaymentCellView.stickyValue - 5 && abs(offset) < PaymentCellView.triggerValue{
                     offset = PaymentCellView.stickyValue * -1
                     selectionFeedbackGenerator.selectionChanged()
                     animateForegroundMove()
