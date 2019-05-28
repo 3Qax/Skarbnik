@@ -148,7 +148,16 @@ extension PaymentViewController: PaymentCellDelegate {
             case .pending:
                 coordinator?.didRequestReminder(about: paymentModel.payments[index])
             case .paid:
-                coordinator?.showImages(&paymentModel.payments[index].images)
+                //check if payment has images
+                if paymentModel.payments[index].images.count != 0 {
+                    coordinator?.showImages(&paymentModel.payments[index].images)
+                } else {
+                    AlertBuilder()
+                        .setMessage("Ta zbiórka nie ma dodanych żadnych zdjęć, więc nie możemy ich wyświetlić 🧐")
+                        .addAction(withStyle: .default, text: "OK")
+                        .show(in: self)
+                    notificationFeedbackGenerator.notificationOccurred(.error)
+                }
             }
         }
     }

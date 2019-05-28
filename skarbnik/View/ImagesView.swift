@@ -102,7 +102,6 @@ class ImagesView: UIView {
             if scrollView.bounds.width != 0 {
                 selectedOption = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             }
-            //TODO: if there aren't any images index of 0 is not valid
             dotsStackView.arrangedSubviews.compactMap({ $0 as? Dot })[selectedOption].state = .filled
             
         }
