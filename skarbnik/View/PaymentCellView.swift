@@ -194,13 +194,12 @@ class PaymentCellView: UITableViewCell {
         case .pending?:
             titleLabel.textColor    = UIColor.black
             amountLabel.textColor   = UIColor.pacyficBlue
-            
-            
+            //Add reminder
             leftRatchet = PaymentCellRatchet(stickyValue: 80,
                                              triggerValue: 150,
                                              image: UIImage(named: "bell")!,
                                              action: { self.didTapLeftRatchetImage() })
-
+            //Pay
             rightRatchet = PaymentCellRatchet(stickyValue: -80,
                                               triggerValue: -150,
                                               image: UIImage(named: "wallet")!,
@@ -209,6 +208,16 @@ class PaymentCellView: UITableViewCell {
         case .paid?:
             titleLabel.textColor    = UIColor.darkGrey
             amountLabel.textColor   = UIColor.darkGrey
+            //Images
+            leftRatchet = PaymentCellRatchet(stickyValue: 80,
+                                             triggerValue: 150,
+                                             image: UIImage(named: "images")!,
+                                             action: { self.didTapLeftRatchetImage() })
+            //List of contributions
+            rightRatchet = PaymentCellRatchet(stickyValue: -80,
+                                              triggerValue: -150,
+                                              image: UIImage(named: "list")!,
+                                              action: { self.didTapRightRatchetImage() })
             
         case .none:
             fatalError("Cell have to have certain style")
