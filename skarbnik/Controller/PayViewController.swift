@@ -31,7 +31,7 @@ class PayViewController: UIViewController {
                           currencyCode: payment.currency)
         
         super.init(nibName: nil, bundle: nil)
-        navigationItem.title = payModel.payment.name
+        navigationItem.title = payModel.payment.title
         navigationItem.largeTitleDisplayMode = .never
     }
     

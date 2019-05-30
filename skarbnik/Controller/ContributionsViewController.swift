@@ -23,7 +23,7 @@ class ContributionsViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         //insert start day of the payment into the view
-        contributionsView.insertCreation(date: payment.creation_date)
+        contributionsView.insertCreation(date: payment.creationDate)
         //sort contributions so that they appear in right order (from top to bottom)
         payment.contributions.sort(by: { return $0.date < $1.date })
         //for each contribution except last one insert contribution view into the view

@@ -47,7 +47,7 @@ class PaymentModel {
                 }
                 self.recivedPayments.forEach({ (payment) in
                     self.dispatchGroup.enter()
-                    let queryItems = [URLQueryItem(name: "payment", value: String(payment.id_field)),
+                    let queryItems = [URLQueryItem(name: "payment", value: String(payment.id)),
                                       URLQueryItem(name: "student", value: String(self.studentID))]
                     self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[PaymentDetailPacket]>) in
                         switch result {
@@ -83,7 +83,7 @@ class PaymentModel {
             filter = { _ in return true }
             return
         }
-        filter = { return $0.name.localizedCaseInsensitiveContains(phrase) || $0.description.localizedCaseInsensitiveContains(phrase) }
+        filter = { return $0.title.localizedCaseInsensitiveContains(phrase) || $0.description.localizedCaseInsensitiveContains(phrase) }
     }
     
 }

@@ -10,63 +10,18 @@ import Foundation
 
 
 
-struct PaymentPacket: Codable {
-    let id_field: Int
-    let creation_date, start_date, end_date: String
-    let amount, currency: String
-    let name, description: String
-    let images: [Image]
-}
-
-enum ImageState {
-    case notLoaded
-    case loading
-    case loaded
-    case error
-}
-
-class Image: NSObject, Codable {
+final class Payment: Decodable {
     let id: Int
-    let URL: String
-    var data: Data?
-    var state: ImageState = .notLoaded
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "id_field"
-        case URL = "image"
-    }
-}
-
-struct PaymentDetailPacket: Codable {
-    let amount_paid: String
-    let created: String
-}
-
-struct Contribution {
+    let title, description: String
     let amount: Float
-    let date: Date
-    
-    init(data: PaymentDetailPacket) {
-        
-        let longDateFormatter = ISO8601DateFormatter()
-        self.date = longDateFormatter.date(from: data.created)!
-        
-        self.amount = Float(data.amount_paid)!
-    }
-}
-
-final class Payment {
-    let id_field: Int
-    let name, description: String
-    let amount: Float
-    let currency: String
-    let creation_date, start_date, end_date: Date
-    var contributions: [Contribution] = [Contribution]()
-    var images: [Image]
-    var state: PaymentState {
+    let amountLocale: Locale
+    let creationDate, startDate, endDate: Date
+    let images: [Image]
+    var contributions = [Contribution]()
+    var state: State {
         get {
             if contributions.map({ $0.amount }).reduce(0, +) == amount { return .paid }
-            if Date() < start_date { return .awaiting }
+            if Date() < startDate { return .awaiting }
             return .pending
         }
     }
@@ -76,29 +31,92 @@ final class Payment {
         }
     }
     
-    enum PaymentState: Int {
+    enum State: Int {
         case awaiting = 2
         case pending = 1
         case paid = 3
     }
     
-    
-    
-    init(data: PaymentPacket) {
-        self.id_field = data.id_field
-        self.name = data.name
-        self.description = data.description
-        self.amount = Float(data.amount)!
-        self.currency = data.currency
-        self.images = data.images
+    //Payment's Image Data Model
+    final class Image: Codable {
+        let id: Int
+        let url: URL
+        var data: Data?
+        var state: State = .notLoaded
         
-        let longDateFormatter = ISO8601DateFormatter()
-        self.creation_date = longDateFormatter.date(from: data.creation_date)!
+        enum State {
+            case notLoaded
+            case loading
+            case loaded
+            case error
+        }
         
-        let shortDateFormater = DateFormatter()
-        shortDateFormater.dateFormat = "yyyy-MM-dd"
-        self.start_date = shortDateFormater.date(from: data.start_date)!
-        self.end_date = shortDateFormater.date(from: data.end_date)!
+        enum CodingKeys: String, CodingKey {
+            case id = "id_field"
+            case url = "image"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(Int.self, forKey: .id)
+            url = URL(string: try container.decode(String.self, forKey: .url))!
+        }
+        
+    }
+    
+    //Payment's Contribution Data Model
+    struct Contribution: Codable {
+        let amount: Float
+        let date: Date
+        
+        enum CodingKeys: String, CodingKey {
+            case amount = "amount_paid"
+            case date = "created"
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            amount = Float(try container.decode(String.self, forKey: .amount))!
+            date = ISO8601DateFormatter().date(from: (try container.decode(String.self, forKey: .date)))!
+        }
+        
+    }
+    
+
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "id_field"
+        case title = "name"
+        case description = "description"
+        case amount = "amount"
+        case amountLocale = "currency"
+        case creationDate = "creation_date"
+        case startDate = "start_date"
+        case endDate = "end_date"
+        case images = "images"
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        description = try container.decode(String.self, forKey: .description)
+        
+        amount = Float(try container.decode(String.self, forKey: .amount))!
+        let amountCurrencyCode = try container.decode(String.self, forKey: .amountLocale)
+        amountLocale = Locale.availableIdentifiers
+                                .lazy
+                                .map({Locale(identifier: $0)})
+                                .first(where: { $0.currencyCode == amountCurrencyCode })!
+        
+        creationDate = ISO8601DateFormatter().date(from: try container.decode(String.self, forKey: .creationDate))!
+        let shortDateFormatter = DateFormatter()
+        shortDateFormatter.dateFormat = "yyyy-MM-dd"
+        startDate = shortDateFormatter.date(from: (try container.decode(String.self, forKey: .startDate)))!
+        endDate = shortDateFormatter.date(from: (try container.decode(String.self, forKey: .endDate)))!
+        
+        images = try container.decode([Image].self, forKey: .images)
     }
     
 }

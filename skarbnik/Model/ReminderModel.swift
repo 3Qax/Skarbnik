@@ -35,8 +35,8 @@ class ReminderModel {
     }
     
     init(for payment: Payment) {
-        self.paymentName = payment.name
-        self.endDate = payment.end_date
+        self.paymentName = payment.title
+        self.endDate = payment.endDate
         
         //calculate how many days left before end of payment
         possibleDaysBeforeEnd = Calendar.current.dateComponents([.day], from: Date(), to: endDate).day ?? 0

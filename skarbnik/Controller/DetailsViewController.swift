@@ -32,12 +32,12 @@ class DetailsViewController: UIViewController {
             
         case .awaiting:
             detailsToShow.append(Detail(title: "utworzona przez", value: "Anna Król"))
-            detailsToShow.append(Detail(title: "rozpoczynie się", value: dateFormatter.string(from: payment.start_date)))
-            detailsToShow.append(Detail(title: "zakończy się", value: dateFormatter.string(from: payment.end_date)))
+            detailsToShow.append(Detail(title: "rozpoczynie się", value: dateFormatter.string(from: payment.startDate)))
+            detailsToShow.append(Detail(title: "zakończy się", value: dateFormatter.string(from: payment.endDate)))
         case .pending:
             detailsToShow.append(Detail(title: "utworzona przez", value: "Anna Król"))
-            detailsToShow.append(Detail(title: "rozpoczeła się", value: dateFormatter.string(from: payment.start_date)))
-            detailsToShow.append(Detail(title: "zakończy się", value: dateFormatter.string(from: payment.end_date)))
+            detailsToShow.append(Detail(title: "rozpoczeła się", value: dateFormatter.string(from: payment.startDate)))
+            detailsToShow.append(Detail(title: "zakończy się", value: dateFormatter.string(from: payment.endDate)))
             detailsToShow.append(Detail(title: "do zapłaty", value: amountFormatter.string(from: payment.leftToPay as NSNumber)!))
             if payment.contributions.map({ $0.amount }).reduce(0, +) != 0.0 { detailsToShow.append(Detail(title: "wpłacono", value: amountFormatter.string(from: payment.contributions.map({ $0.amount }).reduce(0, +) as NSNumber)!)) }
         case .paid:
@@ -45,7 +45,7 @@ class DetailsViewController: UIViewController {
             detailsToShow.append(Detail(title: "zapłacone", value: amountFormatter.string(from: payment.amount as NSNumber)!))
         }
         detailsView = DetailsView(showing: detailsToShow,
-                                  ofPaymentNamed: payment.name,
+                                  ofPaymentNamed: payment.title,
                                   withDescription: payment.description,
                                   inState: payment.state,
                                   havingPhotos: payment.images.count != 0)

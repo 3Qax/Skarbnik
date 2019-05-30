@@ -106,11 +106,11 @@ extension PaymentViewController: UITableViewDataSource {
         cell.delegate = self
         
         let payment = paymentModel.payments[indexPath.row]
-        cell.setupContent(title: payment.name,
+        cell.setupContent(title: payment.title,
                           description: payment.description,
                           amount: payment.leftToPay == 0.0 ? payment.amount : payment.leftToPay,
                           currency: payment.currency,
-                          startDate: payment.start_date)
+                          startDate: payment.startDate)
         tableView.beginUpdates()
         switch payment.state {
         case .pending:
