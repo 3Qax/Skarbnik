@@ -25,7 +25,7 @@ class DetailsViewController: UIViewController {
         dateFormatter.dateStyle = .long
         
         let amountFormatter = NumberFormatter()
-        amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == payment.currency })
+        amountFormatter.locale = payment.amountLocale
         amountFormatter.numberStyle = .currency
         
         switch payment.state {
@@ -83,7 +83,7 @@ extension DetailsViewController: DetailsViewDelegate {
     
     func didTapImages() {
         if detailsModel.payment.images.count != 0 {
-            coordinator?.showImages(&detailsModel.payment.images)
+            coordinator?.showImages(detailsModel.payment.images)
         } else {
             notificationFeedbackGenerator.notificationOccurred(.error)
             

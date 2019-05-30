@@ -18,7 +18,7 @@ class ContributionsViewController: UIViewController {
     
     
     init(of payment: Payment) {
-        self.contributionsView = ContributionsView(paymentCurrencyCode: payment.currency)
+        self.contributionsView = ContributionsView(amountLocale: payment.amountLocale)
         self.payment = payment
         super.init(nibName: nil, bundle: nil)
         

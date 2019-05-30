@@ -57,9 +57,9 @@ class PayView: UIView {
     
     
     
-    init(totalAmount: Float, amountToPay: Float, remittances: [Float], currencyCode: String) {
+    init(totalAmount: Float, amountToPay: Float, remittances: [Float], amountLocale: Locale) {
         slider = ProgressableSlider(progressionPoints: remittances, maxValue: totalAmount)
-        self.amountFormatter.locale = Locale.availableIdentifiers.lazy.map({Locale(identifier: $0)}).first(where: { $0.currencyCode == currencyCode })
+        self.amountFormatter.locale = amountLocale
         self.amountFormatter.numberStyle = .currency
         self.amountToPay = amountToPay
         super.init(frame: .zero)

@@ -39,20 +39,18 @@ class PaymentModel {
     
     func loadData() {
         NotificationCenter.default.post(name: .setStatus, object: nil, userInfo: ["status":"Pobieranie danych..."])
-        apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: ResultWithData<[PaymentPacket]>) in
+        apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: ResultWithData<[Payment]>) in
             switch result {
-            case .success(let recivedPaymentsPacket):
-                for recivedPayment in recivedPaymentsPacket {
-                    self.recivedPayments.append(Payment(data: recivedPayment))
-                }
+            case .success(let recivedPayments):
+                self.recivedPayments = recivedPayments
                 self.recivedPayments.forEach({ (payment) in
                     self.dispatchGroup.enter()
                     let queryItems = [URLQueryItem(name: "payment", value: String(payment.id)),
                                       URLQueryItem(name: "student", value: String(self.studentID))]
-                    self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[PaymentDetailPacket]>) in
+                    self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[Payment.Contribution]>) in
                         switch result {
-                        case .success(let recivedDetails):
-                            for detail in recivedDetails { payment.contributions.append(Contribution(data: detail)) }
+                        case .success(let recivedContributions):
+                            payment.contributions.append(contentsOf: recivedContributions)
                             self.dispatchGroup.leave()
                         case .failure(let error):
                             fatalError(error.localizedDescription)

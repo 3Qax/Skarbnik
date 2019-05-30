@@ -13,10 +13,10 @@ import Foundation
 
 class ImagesModel {
     private let apiClient = APIClient()
-    var images: [Image]
+    var images: [Payment.Image]
     
     
-    init(images: inout [Image]) {
+    init(images: [Payment.Image]) {
         self.images = images
         
         for i in images.indices {
@@ -24,21 +24,15 @@ class ImagesModel {
                 continue
             }
             images[i].state = .loading
-            apiClient.getImageData(from: images[i].URL) { result in
+            apiClient.getImageData(from: images[i].url) { result in
                 switch result {
                 case .success(let data):
                     self.images[i].data = data
                     self.images[i].state = .loaded
                     NotificationCenter.default.post(name: .loadedImage, object: nil, userInfo: ["image_id" : self.images[i].id])
                 case .failure(let error):
-                    print(error.localizedDescription)
-                    switch error {
-                    case ImageGettingErrors.incorrectURL:
-                        self.images[i].state = .error
-                        print("Can not load image from incorrect URL: \(self.images[i].URL)")
-                    default:
-                        self.images[i].state = .error
-                    }
+                    print("Encountered error while tring to GET image, with id = \(images[i].id), data: \(error.localizedDescription)!")
+                    self.images[i].state = .error
                 }
             }
         }

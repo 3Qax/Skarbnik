@@ -102,7 +102,7 @@ class DetailsView: UIView {
     
     var delegate: DetailsViewDelegate?
     
-    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String, inState state: Payment.PaymentState, havingPhotos: Bool) {
+    init(showing details: [Detail], ofPaymentNamed paymentTitle: String, withDescription paymentDescription: String, inState state: Payment.State, havingPhotos: Bool) {
         super.init(frame: .zero)
         
         self.backgroundColor = UIColor.pacyficBlue

@@ -14,11 +14,11 @@ class ImagesViewController: UIViewController {
     
     let imagesView: ImagesView
     let imagesModel: ImagesModel
-    var images: [Image]
+    var images: [Payment.Image]
     var coordinator: PaymentCoordinator?
     
     
-    init(of images: inout [Image]) {
+    init(of images: [Payment.Image]) {
         
         self.images = images
         
@@ -27,7 +27,7 @@ class ImagesViewController: UIViewController {
             convertedImages[image.id]=image.data
         }
         imagesView = ImagesView(imagesData: convertedImages)
-        imagesModel = ImagesModel(images: &images)
+        imagesModel = ImagesModel(images: images)
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(forName: .loadedImage, object: nil, queue: .main) { (notification) in
             self.shouldUpdate(ImageWithId: notification.userInfo!["image_id"] as! Int)

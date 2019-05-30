@@ -109,7 +109,7 @@ extension PaymentViewController: UITableViewDataSource {
         cell.setupContent(title: payment.title,
                           description: payment.description,
                           amount: payment.leftToPay == 0.0 ? payment.amount : payment.leftToPay,
-                          currency: payment.currency,
+                          currency: payment.amountLocale.currencyCode!.localizedUppercase,
                           startDate: payment.startDate)
         tableView.beginUpdates()
         switch payment.state {
@@ -150,7 +150,7 @@ extension PaymentViewController: PaymentCellDelegate {
             case .paid:
                 //check if payment has images
                 if paymentModel.payments[index].images.count != 0 {
-                    coordinator?.showImages(&paymentModel.payments[index].images)
+                    coordinator?.showImages(paymentModel.payments[index].images)
                 } else {
                     AlertBuilder()
                         .setMessage("Ta zbiórka nie ma dodanych żadnych zdjęć, więc nie możemy ich wyświetlić 🧐")

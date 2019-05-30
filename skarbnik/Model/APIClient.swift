@@ -18,10 +18,6 @@ enum Result {
     case failure(Error)
 }
 
-enum ImageGettingErrors: Error {
-    case incorrectURL
-}
-
 class APIClient {
     
     private let baseURL: URLComponents
@@ -150,12 +146,7 @@ class APIClient {
     }
 
     //GET
-    func getImageData(from path: String, handler: @escaping (ResultWithData<Data>) -> ()) {
-        
-        guard let url = URL(string: path) else {
-            handler(.failure(ImageGettingErrors.incorrectURL))
-            return
-        }
+    func getImageData(from url: URL, handler: @escaping (ResultWithData<Data>) -> ()) {
         
         let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad, timeoutInterval: 20000)
         

@@ -25,21 +25,15 @@ class DetailsModel {
                 continue
             }
             payment.images[i].state = .loading
-            apiClient.getImageData(from: payment.images[i].URL) { result in
+            apiClient.getImageData(from: payment.images[i].url) { result in
                 switch result {
                 case .success(let data):
                     payment.images[i].data = data
                     payment.images[i].state = .loaded
                     NotificationCenter.default.post(name: .loadedImage, object: nil, userInfo: ["image_id" : payment.images[i].id])
                 case .failure(let error):
-                    print(error.localizedDescription)
-                    switch error {
-                    case ImageGettingErrors.incorrectURL:
-                        payment.images[i].state = .error
-                        print("Can not load image from incorrect URL: \(payment.images[i].URL)")
-                    default:
-                        payment.images[i].state = .error
-                    }
+                    print("Encountered error while tring to GET image, with id = \(payment.images[i].id), data: \(error.localizedDescription)!")
+                    payment.images[i].state = .error
                 }
             }
         }

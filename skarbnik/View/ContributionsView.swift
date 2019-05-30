@@ -46,7 +46,7 @@ class ContributionsView: UIView {
     }()
     var delegate: ContributionViewDelegate?
     
-    init(paymentCurrencyCode currencyCode: String) {
+    init(amountLocale: Locale) {
         super.init(frame: .zero)
         
         self.backgroundColor = .backgroundGrey
@@ -65,10 +65,7 @@ class ContributionsView: UIView {
         let backTGR = UITapGestureRecognizer(target: self, action: #selector(didTapBack))
         backIV.addGestureRecognizer(backTGR)
         
-        amountFormatter.locale = Locale.availableIdentifiers
-                                    .lazy
-                                    .map({Locale(identifier: $0)})
-                                    .first(where: { $0.currencyCode == currencyCode })
+        amountFormatter.locale = amountLocale
         amountFormatter.numberStyle = .currency
     }
     
