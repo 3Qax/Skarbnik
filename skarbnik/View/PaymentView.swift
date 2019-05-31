@@ -190,9 +190,8 @@ class PaymentView: UIView {
         
         
         
-        
+        tableView.contentInsetAdjustmentBehavior = .never
         tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-        //tableView.setContentOffset(CGPoint(x: 0, y: 20), animated: false)
         
         tableView.rowHeight                             = 90
         tableView.showsVerticalScrollIndicator          = false

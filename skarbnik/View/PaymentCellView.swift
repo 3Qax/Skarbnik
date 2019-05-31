@@ -124,6 +124,7 @@ class PaymentCellView: UITableViewCell {
         
         //Title
         foreground.addSubview(titleLabel)
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         titleLabel.snp.makeConstraints { (make) in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(15)

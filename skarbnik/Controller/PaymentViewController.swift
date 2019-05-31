@@ -31,6 +31,7 @@ class PaymentViewController: UIViewController {
     
     override func loadView() {
         view = paymentView
+        paymentView.tableView.setContentOffset(CGPoint(x: 0, y: -50), animated: false)
     }
     
     override func viewDidLoad() {
