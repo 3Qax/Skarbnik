@@ -18,6 +18,10 @@ enum Result {
     case failure(Error)
 }
 
+enum ImageGettingErrors: Error {
+    case unknown
+}
+
 class APIClient {
     
     private let baseURL: URLComponents
@@ -155,7 +159,14 @@ class APIClient {
                 handler(.failure(error))
             } else {
                 if let data = data, let response = response as? HTTPURLResponse {
-                    handler(.success(data))
+                    switch response.statusCode {
+                    case 200:
+                        handler(.success(data))
+                    default:
+                        print("Unknown HTTP StatusCode: \(response.statusCode) - \(HTTPURLResponse.localizedString(forStatusCode: response.statusCode))")
+                        handler(.failure(ImageGettingErrors.unknown))
+                    }
+                    
                 }
             }
         }

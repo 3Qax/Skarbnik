@@ -81,6 +81,11 @@ class ReminderViewController: UIViewController {
                                 self.coordinator?.didCancelAddingReminder()
                             })
                             .show(in: self)
+                    
+                    case .unknown:
+                        AlertBuilder()
+                            .basicAlert(withTitle: "unknown error")
+                            .show(in: self)
                 }
         }
     }

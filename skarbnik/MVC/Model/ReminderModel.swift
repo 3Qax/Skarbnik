@@ -32,6 +32,7 @@ class ReminderModel {
     enum FailureReason {
         case permissionDenied
         case permissionRestricted
+        case unknown
     }
     
     init(for payment: Payment) {
@@ -63,6 +64,8 @@ class ReminderModel {
                 reminder.calendar = eventStore.calendars(for: .reminder).first
                 try! eventStore.save(reminder, commit: true)
                 handler(.succeed)
+        @unknown default:
+            handler(.failure(.unknown))
         }
     }
     
