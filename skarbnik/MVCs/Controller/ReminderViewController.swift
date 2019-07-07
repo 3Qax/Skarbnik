@@ -106,13 +106,13 @@ extension ReminderViewController: ReminderDelegate {
         
         //selected days before end
         if reminderView.whenControl.indexOfSelectedOption == 0 {
-            reminderModel.addReminder(withTitle: reminderView.reminderTextField.text!,
+            reminderModel.addReminder(withTitle: reminderView.reminderTextView.text,
                                       daysBeforeEnd: reminderView.daysBeforeEndPicker.selectedRow(inComponent: 0),
                                       handler: reminderAddingHandler)
             
         //selected date
         } else if reminderView.whenControl.indexOfSelectedOption == 1 {
-            reminderModel.addReminder(withTitle: reminderView.reminderTextField.text!,
+            reminderModel.addReminder(withTitle: reminderView.reminderTextView.text,
                                       on: reminderView.datePicker.date,
                                       handler: reminderAddingHandler)
         }

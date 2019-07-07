@@ -34,6 +34,6 @@ class StartViewController: UIViewController {
     }
     
     func removeStatus(notification: Notification) {
-        startView.setStatus("")
+        startView.hideStatus()
     }
 }

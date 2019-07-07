@@ -65,16 +65,19 @@ class StartView: UIView {
     }
     
     func setStatus(_ text: String) {
+        self.activityLabel.text = text
+        self.activityLabel.alpha = 1
+        self.activityLabel.layer.add(self.animationGroup, forKey: "pulse")
+    }
+    
+    func hideStatus() {
         activityLabel.layer.removeAllAnimations()
         UIView.animate(withDuration: 0.5, animations: {
             self.activityLabel.alpha = 0.0
-        }) { (_) in
-            self.activityLabel.text = text
-            UIView.animate(withDuration: 0.5, delay: 0.5, animations: {
-                self.activityLabel.alpha = 1
-            }, completion: { _ in self.activityLabel.layer.add(self.animationGroup, forKey: "pulse") })
-        }
-
+        }, completion: { _ in
+            self.activityLabel.text = ""
+        })
+        
     }
     
 }
