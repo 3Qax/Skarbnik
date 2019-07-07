@@ -376,7 +376,7 @@ extension PaymentView: Slidable {
             self.lastNameLabel.alpha = 1.0
         })
         
-        tableViewTopOffset?.uninstall()
+        tableViewTopOffset?.deactivate()
         tableView.snp.makeConstraints { (make) in
             tableViewTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(205).constraint
         }
@@ -387,7 +387,7 @@ extension PaymentView: Slidable {
     }
     
     func slideOut(completion: @escaping () -> ()) {
-        tableViewTopOffset?.uninstall()
+        tableViewTopOffset?.deactivate()
         tableView.snp.makeConstraints { (make) in
             tableViewTopOffset = make.top.equalTo(self.snp.bottom).constraint
         }

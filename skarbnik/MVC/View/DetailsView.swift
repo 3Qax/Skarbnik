@@ -226,13 +226,13 @@ class DetailsView: UIView {
 extension DetailsView: Slidable {
     
     func slideIn(completion: @escaping () -> ()) {
-        cardTopOffset?.uninstall()
+        cardTopOffset?.deactivate()
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
         }
         self.layoutIfNeeded()
 
-        cardTopOffset?.uninstall()
+        cardTopOffset?.deactivate()
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(safeAreaLayoutGuide).offset(70).constraint
         }
@@ -243,7 +243,7 @@ extension DetailsView: Slidable {
     }
     
     func slideOut(completion: @escaping () -> ()) {
-        cardTopOffset?.uninstall()
+        cardTopOffset?.deactivate()
         card.snp.makeConstraints { (make) in
             cardTopOffset = make.top.equalTo(self.snp.bottom).constraint
         }

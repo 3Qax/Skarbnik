@@ -67,7 +67,7 @@ class PaymentCellView: UITableViewCell {
     private         var previousPosition: CGPoint               = CGPoint()
     private         var offset: Float                           = 0 {
         didSet {
-            offsetConstraint?.updateOffset(amount: offset)
+            offsetConstraint?.update(offset: offset)
             foreground.layer.cornerRadius   = CGFloat(min(abs(offset), 10))
             if offset <= 0 {
                 foreground.layer.maskedCorners  = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]

@@ -72,18 +72,17 @@
 		19D7065A21AFC38E00AE2546 /* PaymentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19D7065921AFC38E00AE2546 /* PaymentView.swift */; };
 		19DEFC022231147C00BEFF8D /* ReminderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC012231147C00BEFF8D /* ReminderModel.swift */; };
 		19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */; };
-		19DF9F1622369CAB006CE8FA /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF9F1522369CAB006CE8FA /* UIColorExtensions.swift */; };
+		19DF9F1622369CAB006CE8FA /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF9F1522369CAB006CE8FA /* Colors.swift */; };
 		19DF9F182236A41A006CE8FA /* LoginViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19DF9F172236A41A006CE8FA /* LoginViewDelegate.swift */; };
 		19E38E1E223062F9006DE37B /* BigLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1D223062F9006DE37B /* BigLabel.swift */; };
 		19E38E2022307161006DE37B /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E38E1F22307161006DE37B /* SegmentedControl.swift */; };
 		19E5E6422235E8C90084A026 /* PaymentCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */; };
 		19E5E6442235E9B00084A026 /* ChangePasswordProtocool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */; };
 		19FC746021A9CAAD0019F1A5 /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */; };
-		3174D6575B0DAE65272192F9 /* Pods_skarbnik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E30F5B34FB551F25545D8E6 /* Pods_skarbnik.framework */; };
+		43F0A2B8610B4914B4800D68 /* Pods_skarbnik.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5F1389B9AD1D4BF99FD023F /* Pods_skarbnik.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		057D5E9F630CB27DA4C323B9 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
 		190026B82252A76F0009F6F5 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		1900F2D8220F05180040612A /* ChangePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordModel.swift; sourceTree = "<group>"; };
@@ -152,17 +151,18 @@
 		19D7065921AFC38E00AE2546 /* PaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentView.swift; sourceTree = "<group>"; };
 		19DEFC012231147C00BEFF8D /* ReminderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderModel.swift; sourceTree = "<group>"; };
 		19DEFC0322312C4400BEFF8D /* ReminderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDelegate.swift; sourceTree = "<group>"; };
-		19DF9F1522369CAB006CE8FA /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		19DF9F1522369CAB006CE8FA /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		19DF9F172236A41A006CE8FA /* LoginViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewDelegate.swift; sourceTree = "<group>"; };
 		19E38E1D223062F9006DE37B /* BigLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLabel.swift; sourceTree = "<group>"; };
 		19E38E1F22307161006DE37B /* SegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		19E5E6412235E8C90084A026 /* PaymentCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCellDelegate.swift; sourceTree = "<group>"; };
 		19E5E6432235E9B00084A026 /* ChangePasswordProtocool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordProtocool.swift; sourceTree = "<group>"; };
 		19FC745F21A9CAAD0019F1A5 /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
-		2CBF680440CCE5CBDA7F805F /* Pods-skarbnik.staging debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.staging debug.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.staging debug.xcconfig"; sourceTree = "<group>"; };
-		9E30F5B34FB551F25545D8E6 /* Pods_skarbnik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_skarbnik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A2BC1FB130ECB23CB86B48F2 /* Pods-skarbnik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.release.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.release.xcconfig"; sourceTree = "<group>"; };
-		E3FEE6D5B71C0D48C9735324 /* Pods-skarbnik.staging release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.staging release.xcconfig"; path = "Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik.staging release.xcconfig"; sourceTree = "<group>"; };
+		6ED4E869809E44796B5D1CD1 /* Pods-skarbnik.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.release.xcconfig"; path = "Target Support Files/Pods-skarbnik/Pods-skarbnik.release.xcconfig"; sourceTree = "<group>"; };
+		A5F1389B9AD1D4BF99FD023F /* Pods_skarbnik.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_skarbnik.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B58605E1C0B2A887AE84C825 /* Pods-skarbnik.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.debug.xcconfig"; path = "Target Support Files/Pods-skarbnik/Pods-skarbnik.debug.xcconfig"; sourceTree = "<group>"; };
+		D0055C6879AAB7A52157876A /* Pods-skarbnik.staging debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.staging debug.xcconfig"; path = "Target Support Files/Pods-skarbnik/Pods-skarbnik.staging debug.xcconfig"; sourceTree = "<group>"; };
+		EF8F8F4EEBB57FF5E66DEEE9 /* Pods-skarbnik.staging release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-skarbnik.staging release.xcconfig"; path = "Target Support Files/Pods-skarbnik/Pods-skarbnik.staging release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,7 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3174D6575B0DAE65272192F9 /* Pods_skarbnik.framework in Frameworks */,
+				43F0A2B8610B4914B4800D68 /* Pods_skarbnik.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,8 +182,8 @@
 			children = (
 				1941528A21A96A8300D0A7A3 /* skarbnik */,
 				1941528921A96A8300D0A7A3 /* Products */,
-				9AF11F5B63647BA6059A57C7 /* Pods */,
-				485429CB77F618863CA9DDEA /* Frameworks */,
+				D43A8DF3AA797157C8B54838 /* Pods */,
+				DAA368B98DB403DEC64ECEF4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -198,15 +198,12 @@
 		1941528A21A96A8300D0A7A3 /* skarbnik */ = {
 			isa = PBXGroup;
 			children = (
-				19BA4A6E2200DF490095D991 /* Controlls */,
+				19761C7422D21EBA005A4F6A /* Resources */,
+				19BA4A6E2200DF490095D991 /* Controls */,
 				19FC745C21A992170019F1A5 /* Helper */,
-				1941529D21A96CDC00D0A7A3 /* Model */,
-				1941529E21A96CE200D0A7A3 /* View */,
-				1941529F21A96CEC00D0A7A3 /* Controller */,
+				19761C7622D21FFF005A4F6A /* Coordinators */,
+				19761C7322D21E7A005A4F6A /* MVC */,
 				1941528B21A96A8300D0A7A3 /* AppDelegate.swift */,
-				19484C362204594A006097CF /* MainCoordinator.swift */,
-				1988D794223F01C3006A6A22 /* LoginCoordinator.swift */,
-				1988D796223F1747006A6A22 /* PaymentCoordinator.swift */,
 				1941529221A96A8400D0A7A3 /* Assets.xcassets */,
 				1941529421A96A8400D0A7A3 /* LaunchScreen.storyboard */,
 				1941529721A96A8400D0A7A3 /* Info.plist */,
@@ -272,31 +269,66 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		19BA4A6E2200DF490095D991 /* Controlls */ = {
+		19761C7322D21E7A005A4F6A /* MVC */ = {
+			isa = PBXGroup;
+			children = (
+				1941529D21A96CDC00D0A7A3 /* Model */,
+				1941529E21A96CE200D0A7A3 /* View */,
+				1941529F21A96CEC00D0A7A3 /* Controller */,
+			);
+			path = MVC;
+			sourceTree = "<group>";
+		};
+		19761C7422D21EBA005A4F6A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				19761C7522D21EC9005A4F6A /* Fonts */,
+				19DF9F1522369CAB006CE8FA /* Colors.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		19761C7522D21EC9005A4F6A /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				19533A112241A2B80091095E /* OpenSans-Light.ttf */,
 				190026B82252A76F0009F6F5 /* OpenSans-Regular.ttf */,
 				190026BA2252A7790009F6F5 /* OpenSans-Bold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		19761C7622D21FFF005A4F6A /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				19484C362204594A006097CF /* MainCoordinator.swift */,
+				1988D794223F01C3006A6A22 /* LoginCoordinator.swift */,
+				1988D796223F1747006A6A22 /* PaymentCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		19BA4A6E2200DF490095D991 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
 				19BA4A6F2200DF890095D991 /* RaisedButton.swift */,
 				19BA4A732201013F0095D991 /* LightTextField.swift */,
 				199F8F022201DB6700ABD4C2 /* OptionButton.swift */,
 				19E38E1D223062F9006DE37B /* BigLabel.swift */,
 				19E38E1F22307161006DE37B /* SegmentedControl.swift */,
 				194E989A223971EC0039CA66 /* ProgressableSlider.swift */,
-				1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */,
 				19A1D915225F51300012B09E /* AmountLabel.swift */,
 				19B446C02262A0A10014121F /* DetailWithDescription.swift */,
 				194D5EA62284BF4B008B3FF2 /* SearchField.swift */,
 				195FC3B4228C6404008BF80A /* Dot.swift */,
 			);
-			path = Controlls;
+			path = Controls;
 			sourceTree = "<group>";
 		};
 		19FC745C21A992170019F1A5 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				19DF9F1522369CAB006CE8FA /* UIColorExtensions.swift */,
+				1988D792223EFF20006A6A22 /* CoordinatorProtocol.swift */,
 				196A37C5220A4B4A00288808 /* NotificationNameExtensions.swift */,
 				19DF9F172236A41A006CE8FA /* LoginViewDelegate.swift */,
 				197F583521D042CA0098F17B /* ClassPickViewProtocol.swift */,
@@ -315,23 +347,24 @@
 			path = Helper;
 			sourceTree = "<group>";
 		};
-		485429CB77F618863CA9DDEA /* Frameworks */ = {
+		D43A8DF3AA797157C8B54838 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9E30F5B34FB551F25545D8E6 /* Pods_skarbnik.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		9AF11F5B63647BA6059A57C7 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				057D5E9F630CB27DA4C323B9 /* Pods-skarbnik.debug.xcconfig */,
-				2CBF680440CCE5CBDA7F805F /* Pods-skarbnik.staging debug.xcconfig */,
-				A2BC1FB130ECB23CB86B48F2 /* Pods-skarbnik.release.xcconfig */,
-				E3FEE6D5B71C0D48C9735324 /* Pods-skarbnik.staging release.xcconfig */,
+				B58605E1C0B2A887AE84C825 /* Pods-skarbnik.debug.xcconfig */,
+				D0055C6879AAB7A52157876A /* Pods-skarbnik.staging debug.xcconfig */,
+				6ED4E869809E44796B5D1CD1 /* Pods-skarbnik.release.xcconfig */,
+				EF8F8F4EEBB57FF5E66DEEE9 /* Pods-skarbnik.staging release.xcconfig */,
 			);
 			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DAA368B98DB403DEC64ECEF4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A5F1389B9AD1D4BF99FD023F /* Pods_skarbnik.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,11 +374,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1941529A21A96A8400D0A7A3 /* Build configuration list for PBXNativeTarget "skarbnik" */;
 			buildPhases = (
-				E0BB3ADCC4D92F937110383A /* [CP] Check Pods Manifest.lock */,
+				888C5091299CDCD964D6415C /* [CP] Check Pods Manifest.lock */,
 				1941528421A96A8300D0A7A3 /* Sources */,
 				1941528521A96A8300D0A7A3 /* Frameworks */,
 				1941528621A96A8300D0A7A3 /* Resources */,
-				200EE0A6D2FBDE9868DEB341 /* [CP] Embed Pods Frameworks */,
+				CB54659F6323342738247CD1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -368,6 +401,7 @@
 				TargetAttributes = {
 					1941528721A96A8300D0A7A3 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 0;
@@ -412,31 +446,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		200EE0A6D2FBDE9868DEB341 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E0BB3ADCC4D92F937110383A /* [CP] Check Pods Manifest.lock */ = {
+		888C5091299CDCD964D6415C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -456,6 +466,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB54659F6323342738247CD1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-skarbnik/Pods-skarbnik-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -507,7 +534,7 @@
 				19484C3B220461C1006097CF /* ChangePasswordViewController.swift in Sources */,
 				19DEFC0422312C4400BEFF8D /* ReminderDelegate.swift in Sources */,
 				19CA3D5B21C9B530009059B0 /* LoginView.swift in Sources */,
-				19DF9F1622369CAB006CE8FA /* UIColorExtensions.swift in Sources */,
+				19DF9F1622369CAB006CE8FA /* Colors.swift in Sources */,
 				194E989B223971EC0039CA66 /* ProgressableSlider.swift in Sources */,
 				19BA4A742201013F0095D991 /* LightTextField.swift in Sources */,
 				195FC3B1228B4680008BF80A /* ImagesViewController.swift in Sources */,
@@ -677,7 +704,7 @@
 		};
 		1941529B21A96A8400D0A7A3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 057D5E9F630CB27DA4C323B9 /* Pods-skarbnik.debug.xcconfig */;
+			baseConfigurationReference = B58605E1C0B2A887AE84C825 /* Pods-skarbnik.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -692,14 +719,14 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		1941529C21A96A8400D0A7A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A2BC1FB130ECB23CB86B48F2 /* Pods-skarbnik.release.xcconfig */;
+			baseConfigurationReference = 6ED4E869809E44796B5D1CD1 /* Pods-skarbnik.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -714,7 +741,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -783,7 +810,7 @@
 		};
 		19A7402F21EE8918009BC735 /* Staging Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2CBF680440CCE5CBDA7F805F /* Pods-skarbnik.staging debug.xcconfig */;
+			baseConfigurationReference = D0055C6879AAB7A52157876A /* Pods-skarbnik.staging debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -798,7 +825,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "https://www.stagingserverurl.com";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Staging Debug";
@@ -861,7 +888,7 @@
 		};
 		19A7403121EE8933009BC735 /* Staging Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E3FEE6D5B71C0D48C9735324 /* Pods-skarbnik.staging release.xcconfig */;
+			baseConfigurationReference = EF8F8F4EEBB57FF5E66DEEE9 /* Pods-skarbnik.staging release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -876,7 +903,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SERVER_URL = "https://www.stagingserverurl.com";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Staging Release";
