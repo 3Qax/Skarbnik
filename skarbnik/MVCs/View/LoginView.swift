@@ -109,9 +109,6 @@ class LoginView: UIView {
             self.loginInput.alpha = 0.0
             self.passwordInput.alpha = 0.0
         })
-//        UIView.animate(withDuration: 0.5, delay: 0, options: [.repeat, .autoreverse, .curveEaseInOut], animations: {
-//            self.loginButton.backgroundColor = UIColor(rgb: 0x78c1e5)
-//        })
         loginButton.startLoadingAnimation()
     }
     func stopLoginAnimation() {
@@ -119,9 +116,6 @@ class LoginView: UIView {
             self.loginInput.alpha = 1.0
             self.passwordInput.alpha = 1.0
         })
-//        loginButton.layer.removeAllAnimations()
-//        loginButton.backgroundColor = UIColor.catchyPink
-        print("stoppping")
         loginButton.removeLoadingAnimation()
     }
     

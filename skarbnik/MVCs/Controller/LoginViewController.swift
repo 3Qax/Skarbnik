@@ -31,9 +31,9 @@ class LoginViewController: UIViewController {
 
         super.viewDidLoad()
         
-        (self.view as! LoginView).delegate = self
-        (self.view as! LoginView).loginInput.delegate = self
-        (self.view as! LoginView).passwordInput.delegate = self
+        loginView.delegate = self
+        loginView.loginInput.delegate = self
+        loginView.passwordInput.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -59,22 +59,21 @@ class LoginViewController: UIViewController {
 extension LoginViewController: LoginViewDelegate {
     
     func didTappedOutside() {
-        (self.view as! LoginView).shouldResignAnyResponder()
+        loginView.shouldResignAnyResponder()
     }
     
     func tryToLoginWith(login: String?, pass: String?) {
         notificationFeedbackGenerator.prepare()
-        (self.view as! LoginView).startLoginAnimation()
-        (self.view as! LoginView).shouldResignAnyResponder()
+        loginView.startLoginAnimation()
+        loginView.shouldResignAnyResponder()
         
         loginModel.login(login: login, password: pass) { (successful) in
             guard successful else {
                 DispatchQueue.main.async {
-                    (self.view as! LoginView).stopLoginAnimation()
+                    self.loginView.stopLoginAnimation()
                     AlertBuilder()
                         .basicAlert(withTitle: NSLocalizedString("incorrect_credentials_header", comment: ""))
                         .setMessage(NSLocalizedString("incorrect_credentials_description", comment: ""))
-                        .addAction(withStyle: .default, text: "OK")
                         .show(in: self)
                     notificationFeedbackGenerator.notificationOccurred(.error)
                 }
@@ -91,11 +90,11 @@ extension LoginViewController: LoginViewDelegate {
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == (self.view as! LoginView).loginInput as UITextField {
-            _ = (self.view as! LoginView).passwordInput.becomeFirstResponder()
+        if textField == loginView.loginInput as UITextField {
+            _ = loginView.passwordInput.becomeFirstResponder()
             return false
         }
-        (self.view as! LoginView).loginButton.sendActions(for: .touchUpInside)
+        loginView.loginButton.sendActions(for: .touchUpInside)
         return false
     }
 }

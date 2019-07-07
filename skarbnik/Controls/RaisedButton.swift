@@ -38,6 +38,14 @@ class RaisedButton: UIButton {
             make.height.equalTo(hight)
         }
         
+        self.addSubview(animation)
+        animation.alpha = 0.0
+        animation.snp.makeConstraints({ (make) in
+            make.centerX.centerY.equalToSuperview()
+            make.height.equalToSuperview().offset(-10)
+            make.width.equalToSuperview()
+        })
+        
     }
     
     convenience init(_ localizedTitle: String, hight: CGFloat = 40.0) {
@@ -50,41 +58,36 @@ class RaisedButton: UIButton {
     
     func startLoadingAnimation() {
         titleLabel!.alpha = 0.0
+        
         background.snp.remakeConstraints { (make) in
             make.top.bottom.centerX.equalToSuperview()
             make.width.equalTo(self.bounds.height)
         }
         UIView.animate(withDuration: 0.25, animations: {
             self.layoutIfNeeded()
-        }, completion: { _ in
-            
-            self.addSubview(self.animation)
-            self.animation.alpha = 1.0
-            self.animation.snp.makeConstraints({ (make) in
-                make.centerX.centerY.equalToSuperview()
-                make.height.equalToSuperview().offset(-10)
-                make.width.equalToSuperview()
-            })
-            self.animation.startAnimating()
         })
-    }
-    
-    func removeLoadingAnimation() {
-        self.animation.alpha = 0.0
-        self.background.snp.remakeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
-        UIView.animate(withDuration: 0.20, animations: {
-            self.layoutIfNeeded()
-        }, completion: { _ in
-            self.animation.stopAnimating()
-            self.animation.removeFromSuperview()
-            self.titleLabel!.alpha = 1.0
+            
+        animation.startAnimating()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.animation.alpha = 1.0
         })
         
     }
     
-    func stopLoadingAnimationByShowing(image: UIImage) {
+    func removeLoadingAnimation() {
+        
+        animation.stopAnimating()
+        animation.alpha = 0.0
+        
+        self.layer.removeAllAnimations()
+        self.background.snp.remakeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+        UIView.animate(withDuration: 0.25, animations: {
+            self.layoutIfNeeded()
+        }, completion: { _ in
+            self.titleLabel!.alpha = 1.0
+        })
         
     }
     
