@@ -14,7 +14,7 @@ class RaisedButton: UIButton {
     private let background: UIView
     lazy var animation = NVActivityIndicatorView(frame: .zero, type: .circleStrokeSpin, color: .white)
     
-    init(title: String = "Button", hight: CGFloat = 40.0) {
+    init(title: String = "Button", height: CGFloat = 40.0) {
         self.background = UIView()
         self.background.isUserInteractionEnabled = false
         self.background.backgroundColor = UIColor.catchyPink
@@ -31,17 +31,17 @@ class RaisedButton: UIButton {
         titleLabel!.textColor = UIColor.white
         
         self.clipsToBounds = true
-        self.layer.cornerRadius = hight / 2.0
-        self.background.layer.cornerRadius = hight / 2.0
+        self.layer.cornerRadius = height / 2.0
+        self.background.layer.cornerRadius = height / 2.0
         
         snp.makeConstraints { (make) in
-            make.height.equalTo(hight)
+            make.height.equalTo(height)
         }
         
     }
     
-    convenience init(_ localizedTitle: String, hight: CGFloat = 40.0) {
-        self.init(title: NSLocalizedString(localizedTitle, comment: ""), hight: hight)
+    convenience init(_ localizedTitle: String, height: CGFloat = 40.0) {
+        self.init(title: NSLocalizedString(localizedTitle, comment: ""), height: height)
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 
 
@@ -20,15 +21,15 @@ class ReminderView: UIView {
     }()
     //About section
     let remindMeLabel = BigLabel(text: NSLocalizedString("remind_about", comment: ""))
-    let reminderTextField: UITextField = {
-        let textfield = UITextField()
+    let reminderTextView: UITextView = {
+        let textview = UITextView()
         
-        textfield.backgroundColor = UIColor.clear
-        textfield.textColor = UIColor.catchyPink
-        textfield.placeholder = NSLocalizedString("reminder_placeholder", comment: "")
-        textfield.font = UIFont(name: "PingFangTC-Light", size: 20.0)
+        textview.backgroundColor = UIColor.clear
+        textview.textColor = UIColor.catchyPink
+        textview.font = UIFont(name: "PingFangTC-Light", size: 20.0)
+        textview.isScrollEnabled = false
         
-        return textfield
+        return textview
     }()
     //When section
     let whenLabel = BigLabel(text: NSLocalizedString("remind_when", comment: ""))
@@ -39,6 +40,7 @@ class ReminderView: UIView {
     
     //Action section
     let addReminderButton = RaisedButton(title: NSLocalizedString("reminder_add_button_text", comment: ""))
+    var addReminderButtonTopConstraint: Constraint?
     let cancelButton = OptionButton(title: NSLocalizedString("reminder_cancel_button_text", comment: ""))
     
     var delegate: ReminderDelegate?
@@ -66,20 +68,20 @@ class ReminderView: UIView {
             make.left.equalToSuperview().offset(20)
         }
         
-        reminderTextField.text = initialText
-        self.addSubview(reminderTextField)
-        reminderTextField.delegate = self
-        reminderTextField.setContentCompressionResistancePriority(.required, for: .vertical)
-        reminderTextField.snp.makeConstraints { (make) in
+        reminderTextView.text = initialText
+        self.addSubview(reminderTextView)
+        reminderTextView.delegate = self
+        reminderTextView.setContentCompressionResistancePriority(.required, for: .vertical)
+        reminderTextView.snp.makeConstraints { (make) in
             make.top.equalTo(remindMeLabel.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
-            make.right.equalToSuperview()
+            make.right.equalToSuperview().offset(-5)
         }
-        reminderTextField.becomeFirstResponder()
+        reminderTextView.becomeFirstResponder()
         
         self.addSubview(whenLabel)
         whenLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(reminderTextField.snp.bottom).offset(10)
+            make.top.equalTo(reminderTextView.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(20)
         }
         
@@ -123,7 +125,7 @@ class ReminderView: UIView {
         self.addSubview(addReminderButton)
         addReminderButton.addTarget(self, action: #selector(didTapAddReminderButton), for: .touchUpInside)
         addReminderButton.snp.makeConstraints { (make) in
-            make.top.equalTo(datePicker.snp.bottom).offset(10)
+            addReminderButtonTopConstraint = make.top.equalTo(datePicker.snp.bottom).offset(10).constraint
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
         }
@@ -149,10 +151,9 @@ class ReminderView: UIView {
                 make.top.equalTo(whenControl.snp.bottom).offset(10)
                 make.right.equalTo(self.snp.left)
             }
-            addReminderButton.snp.remakeConstraints { (make) in
-                make.top.equalTo(daysBeforeEndPickerContainer.snp.bottom).offset(10)
-                make.left.equalToSuperview().offset(20)
-                make.right.equalToSuperview().offset(-20)
+            addReminderButtonTopConstraint?.deactivate()
+            addReminderButton.snp.makeConstraints { (make) in
+                addReminderButtonTopConstraint = make.top.equalTo(daysBeforeEndPickerContainer.snp.bottom).offset(10).constraint
             }
             UIView.animate(withDuration: 0.25) {
                 self.layoutIfNeeded()
@@ -163,10 +164,9 @@ class ReminderView: UIView {
                 make.left.equalToSuperview().offset(20)
                 make.right.equalToSuperview().offset(-20)
             }
-            addReminderButton.snp.remakeConstraints { (make) in
-                make.top.equalTo(datePicker.snp.bottom).offset(10)
-                make.left.equalToSuperview().offset(20)
-                make.right.equalToSuperview().offset(-20)
+            addReminderButtonTopConstraint?.deactivate()
+            addReminderButton.snp.makeConstraints { (make) in
+                addReminderButtonTopConstraint = make.top.equalTo(datePicker.snp.bottom).offset(10).constraint
             }
             UIView.animate(withDuration: 0.25) {
                 self.layoutIfNeeded()
@@ -185,7 +185,7 @@ class ReminderView: UIView {
     }
     
     @objc func didTappedOutside() {
-        reminderTextField.resignFirstResponder()
+        reminderTextView.resignFirstResponder()
     }
     
     @objc func didTapBackButton() {
@@ -193,11 +193,16 @@ class ReminderView: UIView {
     }
 }
 
-extension ReminderView: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+extension ReminderView: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if(text == "\n") {
+            textView.resignFirstResponder()
+            return false
+        }
         return true
     }
+    
 }
 
 //Animations
