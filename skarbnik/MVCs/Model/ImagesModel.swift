@@ -12,7 +12,6 @@ import Foundation
 
 
 class ImagesModel {
-    private let apiClient = APIClient()
     var images: [Payment.Image]
     
     
@@ -24,7 +23,7 @@ class ImagesModel {
                 continue
             }
             images[i].state = .loading
-            apiClient.getImageData(from: images[i].url) { result in
+            NetworkManager.shared.getImageData(from: images[i].url) { result in
                 switch result {
                 case .success(let data):
                     self.images[i].data = data

@@ -11,7 +11,6 @@ import Foundation
 
 
 class AsyncSafetyModel {
-    let apiClient = APIClient()
     var delegate: AsyncSafetyProtocool?
     private var activities: [Activity] = [Activity]()
     
@@ -36,7 +35,7 @@ class AsyncSafetyModel {
                                    URLQueryItem(name: "page_size", value: "2"),
                                    URLQueryItem(name: "ordering", value: "-login_datetime")]
 
-            apiClient.get(from: .activity, adding: queryParameters) { (result: ResultWithData<[Activity]>) in
+            NetworkManager.shared.get(from: .activity, adding: queryParameters) { (result: ResultWithData<[Activity]>) in
                 switch result {
                 case .success(let recivedActivities):
                     self.activities = recivedActivities

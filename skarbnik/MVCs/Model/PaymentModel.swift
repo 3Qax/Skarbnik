@@ -12,7 +12,6 @@ class PaymentModel {
     private let classID: Int
     private let studentID: Int
     
-    private let apiClient                       = APIClient()
     private let dispatchGroup                   = DispatchGroup()
     
     private var recivedPayments                 = [Payment]()
@@ -39,7 +38,7 @@ class PaymentModel {
     
     func loadData() {
         NotificationCenter.default.post(name: .setStatus, object: nil, userInfo: ["status":"Pobieranie danych..."])
-        apiClient.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: ResultWithData<[Payment]>) in
+        NetworkManager.shared.get(from: .payment, adding: [URLQueryItem(name: "class_field", value: String(classID))]) { (result: ResultWithData<[Payment]>) in
             switch result {
             case .success(let recivedPayments):
                 self.recivedPayments = recivedPayments
@@ -47,7 +46,7 @@ class PaymentModel {
                     self.dispatchGroup.enter()
                     let queryItems = [URLQueryItem(name: "payment", value: String(payment.id)),
                                       URLQueryItem(name: "student", value: String(self.studentID))]
-                    self.apiClient.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[Payment.Contribution]>) in
+                    NetworkManager.shared.get(from: .paymentDetail, adding: queryItems) { (result: ResultWithData<[Payment.Contribution]>) in
                         switch result {
                         case .success(let recivedContributions):
                             payment.contributions.append(contentsOf: recivedContributions)

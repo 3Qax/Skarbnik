@@ -22,9 +22,11 @@ enum ImageGettingErrors: Error {
     case unknown
 }
 
-class APIClient {
+class NetworkManager {
     
     private let baseURL: URLComponents
+    
+    static let shared = NetworkManager()
     
     enum Endpoint: String {
         case login          = "/api/users/login"
@@ -44,7 +46,7 @@ class APIClient {
     }
     
 
-    init() {
+    private init() {
         #if targetEnvironment(simulator)
         baseURL = URLComponents(string: "http://localhost:8000")!
         #else

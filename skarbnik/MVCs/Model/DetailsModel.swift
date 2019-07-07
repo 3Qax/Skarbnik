@@ -16,7 +16,6 @@ struct Detail {
 }
 class DetailsModel {
     let payment: Payment
-    private let apiClient = APIClient()
     
     init(of payment: Payment) {
         self.payment = payment
@@ -25,7 +24,7 @@ class DetailsModel {
                 continue
             }
             payment.images[i].state = .loading
-            apiClient.getImageData(from: payment.images[i].url) { result in
+            NetworkManager.shared.getImageData(from: payment.images[i].url) { result in
                 switch result {
                 case .success(let data):
                     payment.images[i].data = data

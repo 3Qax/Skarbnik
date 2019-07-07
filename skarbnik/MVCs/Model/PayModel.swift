@@ -13,7 +13,6 @@ import Foundation
 
 class PayModel {
     let payment: Payment
-    let apiClient = APIClient()
     
     var amountLeftToPay: Float {
         get {

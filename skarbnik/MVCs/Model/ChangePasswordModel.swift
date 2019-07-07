@@ -22,7 +22,6 @@ enum PasswordChangingResult {
 }
 
 class ChangePasswordModel {
-    private let apiClient = APIClient()
     private let semaphore = DispatchSemaphore(value: 0)
     private struct ChangePasswordPacket: Codable {
         let old_password: String
@@ -74,7 +73,7 @@ class ChangePasswordModel {
         
         let changePasswordPacket = ChangePasswordPacket(old_password: oldPassword!, new_password: newPassword!)
 
-        apiClient.put(encode(changePasswordPacket), to: .changePassword) { (result: Result) in
+        NetworkManager.shared.put(encode(changePasswordPacket), to: .changePassword) { (result: Result) in
             switch result {
             case .success:
                 completion(.success)

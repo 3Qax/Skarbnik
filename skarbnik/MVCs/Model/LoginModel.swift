@@ -9,7 +9,6 @@
 import Foundation
 
 class LoginModel {
-    let apiClient = APIClient()
     var isLoggedIn = false
     struct LoginPacket: Codable {
         let username: String
@@ -43,7 +42,7 @@ class LoginModel {
         
         let loginPacket = LoginWithTokenPacket(token: token)
 
-        apiClient.post(encode(loginPacket), to: .refresh) { (result: ResultWithData<ResponsePacket>) in
+        NetworkManager.shared.post(encode(loginPacket), to: .refresh) { (result: ResultWithData<ResponsePacket>) in
             switch result {
             case .success(let recivedToken):
                 TokenManager.shared.authorise(with: recivedToken.token)
@@ -67,7 +66,7 @@ class LoginModel {
             return
         }
         
-        apiClient.post(encode(LoginPacket(username: login, password: password)), to: .login) { (result: ResultWithData<ResponsePacket>) in
+        NetworkManager.shared.post(encode(LoginPacket(username: login, password: password)), to: .login) { (result: ResultWithData<ResponsePacket>) in
             switch result {
             case .success(let recivedToken):
                 TokenManager.shared.authorise(with: recivedToken.token)
