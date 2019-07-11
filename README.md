@@ -1,5 +1,10 @@
 # Skarbnik
 
+### Walkthrough
+
+[Click to watch short video on youtube](http://www.youtube.com/watch?v=tpFRrJR6GSA)
+
+
 ### ENG:
 This is a repo for "Skarbnik" - the project that I, [@danieljurczak]( https://github.com/danieljurczak ), [@Fifciuu]( https://github.com/FilipJedrasik ) and [@fferauu]( https://github.com/fferauu ) have hacked at HackYeah 2018. It aims to change the way how money is collected in schools, therefore let the students focus on education. It do that by enabling educators to create payments (kittys), then every parent whos kid should pay the payment recives notification on their smartphones. Using the mobile app or web app they can pay by any modern payment method like BLIK. There wasn't enough time on a hackathon and we really liked the idea, so we decided to take it further and finish the platform on our own.
 
